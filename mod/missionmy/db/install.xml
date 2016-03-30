@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ -->
+<XMLDB PATH="mod/missionmy/db" VERSION="20111002" COMMENT="XMLDB file for missionmy"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+
+    <TABLES>
+
+        <TABLE NAME="mission_my" COMMENT="mission define">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id of the mission"/>
+                <FIELD NAME="mission_name" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"  COMMENT="the name of the mission" />
+                <FIELD NAME="required_course_num" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the num of the requires course" />
+                <FIELD NAME="required_course_id" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the requires course" />
+                <FIELD NAME="optional_course_num" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the num of the optional course" />
+                <FIELD NAME="optional_course_id" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the optional course" />
+                <FIELD NAME="time_start" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the time of the mission" />
+                <FIELD NAME="time_end" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the mission" />
+                <FIELD NAME="enable" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the enable of the mission" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for mission"/>
+            </KEYS>
+        </TABLE>
+
+        <TABLE NAME="mission_user_my" COMMENT="mission link to user" >
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id of the mission_user"/>
+                <FIELD NAME="mission_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the mission" />
+                <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the user" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for mission_user"/>
+            </KEYS>
+        </TABLE>
+
+    </TABLES>
+
+</XMLDB>

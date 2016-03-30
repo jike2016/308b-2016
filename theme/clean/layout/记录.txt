@@ -1,0 +1,12 @@
+columns4首页模版
+columns3其他包括课程页面
+
+columns1登陆界面
+columns2管理内容页
+
+columns5课程页面
+原本没有cloumn4,只有cloumn3。
+
+
+http://localhost/moodle/mod/tagmy/index.php
+用的是columns1

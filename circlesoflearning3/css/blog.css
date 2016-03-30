@@ -1,0 +1,47 @@
+html,body {font-family: "微软雅黑"; background-color: #F0F0F0;}
+.main {background-color: #FFFFFF; width: 60%; height: 1000px; margin: auto; margin-top: 50px;}
+			
+/*************左边菜单**************/
+.left-menu{width: 20%;float: left;border-bottom: 0px solid #eee; background-color: #FFFFFF; border-radius: 5px;}
+.menubtn {border-radius: 5px;height: 60px; background-color: #FFFFFF;cursor:pointer; border: 1px solid #eee; color: #777;}
+.menubtn:hover{background-color: #85d1f7; color: #FFFFFF;}
+.menubtn:hover h4 .glyphicon{color: #FFFFFF; }
+.menubtn-active {background-color: #2cace6; color: #FFFFFF;}
+.menubtn-active h4 .glyphicon{color: #FFFFFF; }			
+.menubtn h4 .glyphicon{ top: 2px;}
+.menubtn h4 {margin: 17px 0px 0px 26%;}
+/*************@end左边菜单**************/
+			
+			
+.banner_right {width: 75%; margin-left: 5%; float: right;}
+			
+/************右边板块*   此处以下样式为页面，以上的代码为辅助，可删除   ***********/
+			
+/****关注的人***/
+.concerned-list {width: 100%; padding: 10px 0% 15px 1.5%; }
+.concerned-list .people-box {width:18.8%;float: left; height: 80px; margin-right: 1.1%;  margin-bottom: 10px; border-radius: 5px;background-image:url(../images/back3.jpg);background-size:100%;}/*修改了圆角属性*/
+.concerned-list .people-box .Learnerimg-box {width: 50px;height: 50px;border-radius: 25px;overflow: hidden;float: left;margin-top: 15px; margin-left: 8%; }
+.concerned-list .people-box .line {float: left; height: 40px; width: 1px; background-color: #FFFFFF; margin: 20px 5%;}
+.concerned-list .people-box .Learnerimg-box img {height: 100%;}
+.concerned-list .people-box p{color: #FFFFFF; font-size: 16px; margin: 15px 0px 0px 50%; font-weight: 600;}
+			
+/*****名字拼音排序****/
+.name-box {width: 100%; padding: 10px 0px;}
+.name-box .A-name {border-bottom: 2px solid #10ADF3; width: 98.5%; height: 36px; margin-bottom: 15px;}
+.name-box .A-name p {color: #10ADF3; font-size: 20px; font-weight: 600;}
+/*****名字拼音排序 @end****/
+			
+/****关注的人 end***/
+			
+/****与我相关* background-color: #85d1f7; **/
+.about-myself {width: 100%; padding: 20px 3% 20px 3%;}
+.about-myself .info { width: 100%; border-radius: 10px; padding: 13px 15px 13px 15px; margin-bottom: 20px; -moz-box-shadow: 5px 5px 5px #888888; /* 老的 Firefox */box-shadow: 5px 5px 5px #888888;background-image:url(../images/back3.jpg);background-size:100%;}
+.about-myself .last {border-bottom: 0px;}
+.about-myself .info .usename { color: #0077B3; font-size: 18px; font-weight: 600; margin: 0px;}
+.about-myself .info .divison_line {width: 100%; height: 1px; background-color: #F0F0F0;margin-bottom: 7px;}
+.about-myself .info .time { color: #FFFFFF; font-size: 12px;}/*修改了颜色*/
+.about-myself .info a {text-decoration: none;font-size: 16px; color: #FFFFFF;}
+.about-myself .info a:hover {color: #0077B3;}
+/****与我相关 end***/
+			
+/************右边板块 @end************/

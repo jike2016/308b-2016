@@ -1,0 +1,120 @@
+.course-info-main {  margin-top: 40px;}
+.course-info-main .content-wrap {  padding-right: 320px;  margin-bottom: 29px;}
+.course-info-main .info-bar {  position: relative;  margin-bottom: 65px;}
+.course-info-main .info-bar .start-study-btn {  width: 240px;  margin-bottom: -60px;}
+.course-info-main .info-bar .start-study-title {  position: absolute;  right: 0;  top: 70px;  width: 240px;  text-align: center;  color: #787D82;  font-size: 12px;}
+.course-info-main .info-bar.multiple .start-study-btn {  margin-bottom: 0;}
+.course-info-main .aside {  margin-right: -320px;  padding-top: 98px;  width: 240px;}
+.course-info-main .aside .hd {  margin-bottom: 38px;}
+.course-info-main .aside h4 {  padding-bottom: 18px;  font-weight: bold;  font-size: 16px;  border-bottom: 1px solid #d0d6d9;}
+.course-info-main .aside h4 small {  margin-left: 4px;  font-size: 12px;  font-weight: normal;}
+.course-info-main .aside .refresh {  margin-top: 4px;  font-size: 12px;  color: #787d82;}
+.course-info-main .aside .refresh:hover {  color: #f01400;}
+.course-info-main .aside .teacher-info {  padding: 20px 0 20px 90px;  overflow: hidden;  *zoom: 1;}
+.course-info-main .aside .teacher-info img {  float: left;  margin-left: -90px;  width: 80px;  height: 80px;  border-radius: 100%;}
+.course-info-main .aside .teacher-info .tit { display: block; margin: 20px 0 6px;}
+.course-info-main .aside .teacher-info .tit a {  font-weight: bold;  color: #14191e;}
+.course-info-main .aside .teacher-info .tit a:hover {  color: #f01400;}
+.course-info-main .aside .teacher-info .job { font-size: 12px;  color: #787d82;}
+.course-info-main .aside .teacher-info .icon-imooc {  color: #f01400;  font-size: 16px;  margin: 0 0 0 10px;  vertical-align: -2px;}
+.course-info-main.has-progress .aside {  padding-top: 14px;}
+.course-info-main .content { float: left;  width: 100%;  overflow: hidden;  *zoom: 1;}
+.course-info-main .content .ctit {  margin-bottom: 6px;  font-weight: bold;  font-size: 18px;  color: #f01400;}
+.course-info-main .content .course-brief {  margin-bottom: 38px;  padding: 20px 0 30px 0;  border-bottom: 1px solid #d0d6d9;}
+.course-info-main .content .course-brief p {  line-height: 28px;}
+.course-info-main .content .course-outline .bar {  margin-bottom: 39px;}
+.course-info-main .content .course-outline .tools {  margin: 7px 0 0 18px;}
+.course-info-main .content .course-outline .tools li {  display: block;  padding: 0 32px 0 20px;  height: 20px;  line-height: 20px;  font-size: 16px;  font-weight: bold;  color: #787d82;  border-left: 1px solid #d0d6d9;  cursor: default;}
+.course-info-main .content .course-outline .tools li i {  margin-left: 8px;  font-weight: normal;  vertical-align: -2px;}
+.course-info-main .content .course-outline .tools li span {  display: none;  margin-left: 8px;  font-size: 12px;}
+.course-info-main .content .course-outline .tools li:hover span { display: inline;}
+.course-info-main .content .course-outline .tools li:hover i {  display: none;}
+
+.clearfix:after{content:'\0020';display:block;height:0;clear:both;visibility:hidden; }
+.clearfix{*zoom:1;}
+
+.w { max-width: 1200px;  margin: 0 auto;}
+.course-infos .w {  height: 240px;  z-index: 1;}
+
+@media screen and (max-width: 1200px) {
+.w {    margin-left: 5%;    margin-right: 5%; }
+}
+.evaluation-list {  margin-top: 0px;  padding-top: 20px;}
+.evaluation-list .no-data { text-align: center;  font-size: 14px;  color: #b5b9bc;  line-height: 210px;}
+.evaluation-list h3 {  font-size: 18px;  font-weight: 600;  line-height: 20px;  color: #f01400;  margin-bottom: 20px;}
+.evaluation-list .evaluation-info {  padding: 0 20px;  background-color: #f6f6f6;  height: 40px;}
+.evaluation-list .evaluation-info p {  float: left;  font-size: 12px;  color: #787d82;  line-height: 40px;  margin-right: 25px;}
+.evaluation-list .evaluation-info .satisfaction {  margin-right: 5px;}
+.evaluation-list .evaluation-info .satisfaction em { font-weight: 600;}
+.evaluation-list .evaluation-info .star-box {  float: left;  height: 40px;  line-height: 44px;  margin-right: 25px;}
+.evaluation-list .evaluation-info .person_num {  float: right; color: #b5b9bc;  margin-right: 0;}
+.evaluation-list .evaluation-info .person_num em {  font-weight: 600;  margin-right: 3px;}
+
+
+.evaluation-list .evaluation {  border-bottom: 1px solid #edf1f2;  padding-bottom: 30px;}
+.evaluation-list .evaluation-con {  position: relative;  padding: 24px 0 0 60px;}
+.evaluation-list .evaluation-con .img-box {  position: absolute;  top: 26px;  left: 0;  background-color: #f01400;  width: 40px;  height: 40px;  border-radius: 20px;  overflow: hidden;}
+.evaluation-list .evaluation-con .img-box img { display: block;  height: 100%;}
+.evaluation-list .evaluation-con .content-box .user-info .username { float: left; margin-right: 10px; color: #787d82; font-size: 12px; text-align: left; line-height: 20px;}
+.evaluation-list .evaluation-con .content-box .user-info .username:hover {  color: #f01400;}
+.evaluation-list .evaluation-con .content-box .user-info .star-box {  float: left;}
+.evaluation-list .evaluation-con .content-box .content {  line-height: 28px;  font-size: 14px;  color: #14191e; text-align: left; margin-top: 8px; word-break: break-all;}
+.evaluation-list .evaluation-con .content-box .info { margin-top: 10px;  color: #b5b9bc;  font-size: 12px;  line-height: 20px;}
+.evaluation-list .evaluation-con .content-box .info .time { margin-right: 30px;}
+.evaluation-list .evaluation-con .content-box .info .show-reply-btn {  cursor: pointer;}
+
+
+.evaluation-list .do-reply {  display: none;  margin-top: 30px;  padding: 30px 30px 20px 30px;  background-color: #f6f6f6;  margin-left: 60px;}
+.evaluation-list .do-reply .textarea-box { margin-top: 20px;  position: relative; padding: 8px 10px; border: 1px solid #d0d6d9; background-color: #ffffff;}
+.evaluation-list .do-reply .textarea-box textarea {  display: block;  width: 100%;  height: 62px; resize: none;}
+.evaluation-list .do-reply .textarea-box .num-tip {  position: absolute;  right: 10px;  bottom: 6px;  font-size: 12px; color: #b5b9bc; line-height: 20px;}
+.evaluation-list .do-reply .textarea-box .num-tip.err em { color: #f01400;}
+.evaluation-list .do-reply .ctrl {  margin-top: 20px;}
+.evaluation-list .do-reply .ctrl p.errtip {  float: left; color: #f01400; font-size: 14px; line-height: 30px; text-align: left;}
+.evaluation-list .do-reply .ctrl .btn-box { float: right;}
+.evaluation-list .do-reply .ctrl .btn-box .btn { width: 80px;height: 30px;line-height: 30px; font-size: 12px;}
+.evaluation-list .do-reply .ctrl .btn-box .cancel { float: left; color: #787d82;}
+.evaluation-list .do-reply .ctrl .btn-box .cancel:hover {  color: #14191e;}
+.evaluation-list .do-reply .ctrl .btn-box .sure {  float: right;  color: #ffffff;  background-color: #f01400;}
+.evaluation-list .do-reply .ctrl .btn-box .sure:hover { background-color: #ff6464;}
+.evaluation-list .teacher-reply {  background-color: #f6f6f6;  color: #787d82;  padding: 20px; margin-top: 15px; word-break: break-all; margin-left: 60px;}
+.evaluation-list .teacher-reply span { color: #f01400;}
+
+
+/*************自定义样式*************/
+.course-list .course-one {width: 22%;padding-left: 1.5%;padding-right: 1.5%;margin-left: 4%;}
+.course-list ul {margin-left: 0;}
+.course-list ul {margin: 0;}
+.course-list .linefrist {	margin-left: 0;}
+
+.course-content {margin-top: 80px;}
+.course-content {font-size: 18px;}
+.course-content a {	font-size: 14px;}
+.line-p p {display: inline-block;}
+.fr {float: right;}
+.fl {float: left;}
+
+.scoreinfo {width: 100%; height: 20px;}
+.scoreinfo p {font-size: 16px; color: #777777; float: left; margin-right: 10px;}
+.scoreinfo .star-box {color: #D5D5D5;} 
+.scoreinfo .star-active {color: #E38D13;}  
+
+.navbar-nav {margin: 0px -15px 7.5px 0px;}
+.mycomment {width: 100%; height: 160px; margin-bottom: 20px; border-bottom: 1px solid #edf1f2;}
+.mycomment textarea {width: 100%; height:80px;}
+.mycomment button {float: right; width: 100px; height: 36px; margin: 15px 0px;}
+.paginationbox {width: 100%; height: 80px;}
+.paginationbox .pagination{margin:30px 26%;}
+.paginationbox .pagination a {color: #B30000;}
+.pagination > li > a:hover,.pagination > li > span:hover,.pagination > li > a:focus,.pagination > li > span:focus {color: #FFFFFF; background-color: #B30000;}
+
+.course-infos {background-color: #5b5b5a;}
+
+/**********评分*********/
+.score-box {width: 100%; height: 160px; border: 1px solid #ddd; padding: 15px; margin-bottom: 20px;}
+.score-box .score-title {color: #777777; font-size: 14px;}
+.score-box .score-num {color: #777777; font-size: 30px;}
+.score-box  .star-box {width: 100%; margin: auto; border-bottom: 1px solid #ddd; margin-bottom: 10px; height: 40px;}
+.score-box  .star-box p{color: #E38D13;font-size: 20px;}
+/**********评分 @end*********/
+/*************自定义样式 @end*********/

@@ -1,0 +1,11 @@
+indexpage
+
+coursecategory
+
+courseforstudent.php
+
+incourseforstudent
+
+lessonvideoforstud
+
+pageforstud

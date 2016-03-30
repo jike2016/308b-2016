@@ -1,0 +1,101 @@
+body {background-color: #F0F0F0;font-family: "微软雅黑";}
+.trends-block {width: 1100px; margin: auto; margin-top: 20px;}
+
+.trends-block > li{background-color: #fff;box-shadow: 0 0 2px rgba(0,0,0,0.2); border-radius: 2px; margin-bottom: 15px;}
+.trends-top{padding: 10px 16px 10px 10px;overflow: hidden;}
+.trends-top > div {padding: 0;}
+
+/*头像*/
+.trends-block .portarit{display: block;width: 60px;height:60px;text-decoration: none;border-radius: 50%; overflow: hidden;}
+.trends-block .portarit > img {width: 100%;height:100%;}
+
+/* 加关注 */
+#add-attendtion{margin: 10px 0 0;}
+#add-attendtion > a {
+	display: block;
+	width: 60px;
+	height: 25px;
+	line-height: 22px;
+	background-color: #fff;
+	border: solid 1px #d9d9d9;
+	border-radius: 3px;
+	color: #333;
+	font-size: 12px;
+	padding: 0px 5px;
+	text-align: center;
+	text-decoration: none;
+	box-shadow: 0px 1px 2px rgba(0,0,0,0.1);
+}
+#add-attendtion > a:hover {background-color: #5BC0DE;color: #FFFFFF;box-shadow: 0px 1px 1px rgba(0,0,0,0.15);}
+
+/* 加号图标 */
+#add-attendtion > a > .glyphicon {color: #eb7350;font-size: 80%;}
+#add-attendtion > a:hover > .glyphicon {color: #FFFFFF;}
+
+/* 用户信息部分 */
+.trends-block .user-info{margin-top: 5px;margin-bottom: 8px;}
+
+/* 昵称 */
+.trends-block .nickname{color: #333;font-family: Arial, 'Microsoft YaHei';font-weight: bold;text-decoration: none;}
+.trends-block .nickname:hover{color: #eb7350;}
+
+
+/* 内容部分 */
+
+/* 缩略图 */
+.trends-content > .thumb {margin-top: 10px;height: 120px; display: inline-block;}
+.trends-content > .thumb > img {cursor: url('../images/zoom-in.cur'), auto;height: 100%;}
+
+/* 大图 */
+.trends-content > .pic-big {margin-top: 10px;width: 650px; height:100%}
+.trends-content > .pic-big > img {cursor: url('../images/zoom-out.cur'), auto;width: 100%;}
+
+/* 时间 */
+.trends-date {color: #808080;font-size: 12px;margin: 5px 0;}
+
+/* 底部 */
+.trends-bottom {
+	border-top: solid 1px #eeeeee;
+	overflow: hidden;
+	height: 38px;
+	border-bottom: solid 1px #eeeeee;
+}
+
+.trends-bottom > li {
+	border-left: solid 1px #d9d9d9;
+	float: left;
+	font-size: 12px;
+	height: 22px;
+	line-height: 22px;
+	margin: 7px 0;
+	width: 25%;
+}
+
+.nodelete > li {
+	width: 33.3%;
+}
+
+.trends-bottom > li:first-child {border-left:none;}
+.trends-bottom > li > a {color: #808080;display: block;text-align: center;text-decoration: none;}
+.trends-bottom > li:hover > a {color: #5bc0de;}
+.trends-bottom > .a-active > a {color: #2CACE6;}
+
+.comment-banner {width: 100%; padding:0px 20px; margin-top: 15px; display: none;}
+.commentbox {width: 100%;}
+.comment {width: 100%; height: 100px; border-top: 1px solid #EEEEEE; padding: 10px 0px 0px 0px ;}
+.comment-l {float:left; width: 5%; height: 100%; margin-right: 1%;}
+.comment-r {float:right; width: 94%; height: 100%; padding: 10px 0px;}
+.comment-r .name{font-size: 12px; font-weight: 600; color: #555; margin: 0;}	
+.mycomment {width: 100%; height: 150px; margin-bottom: 20px;}
+.mycomment textarea {width: 100%; height:80px;}
+.mycomment button {float: right; width: 120px; height: 40px; margin: 15px 0px;}
+.comment-r .commentinfo {color: #000000; margin-bottom: 8px;}
+.comment-r .time {color: #b5b9bc; font-size: 12px;}
+	
+.Learnerimg-box {width: 40px;height: 40px;border-radius: 30px;overflow: hidden;float: left;margin-top: 10px; margin-bottom: 10px;}
+.Learnerimg-box img {height: 100%;}
+	
+.paginationbox {width: 100%; height: 80px; border-top: 1px solid #EEEEEE;}
+.paginationbox .pagination{margin:20px 35%;}
+.paginationbox .pagination a {color: #337AB7;}
+.pagination > li > a:hover,.pagination > li > span:hover,.pagination > li > a:focus,.pagination > li > span:focus {color: #FFFFFF; background-color: #5bc0de;}

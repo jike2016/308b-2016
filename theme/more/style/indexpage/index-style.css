@@ -1,0 +1,95 @@
+#banner_tabs {margin-top: 70px;}
+
+.bline {color: #fff;padding: 28px 0px 0px 0px;}
+.bs-docs-nav .navbar-toggle .icon-bar {background-color: #CCC;}
+
+.top10 {height: 80px;font-size: 16px;}
+.top10 nav ul li {height: 80px;text-align: center;color: #fff;background-color: #333;}
+.top10 nav ul li a:hover {background-color: #999;}
+.top10 nav ul li a {padding: 28px 15px 0px 15px;height: 80px;width: 100px;}
+.top10_input p {margin: 3px 0px 0px 0px;}
+.top10 nav ul .top10_input a {height: 14px;font-size: 14px;padding: 0px 0px 0px 0px;}
+.top10_input input {margin: 23px 10px 0px 0px;width: 180px;height: 30px;float: left;}
+
+.searchbtn {margin: 23px 0px 0px 0px;float: right;width: 20px;height: 15px;background-color: #333;border: 1px solid #C0C0C0;}
+
+.course-list .course-one {width: 22%;padding-left: 1.5%;padding-right: 1.5%;margin-left: 4%;}
+.course-list ul {margin-left: 0;}
+.course-list ul {	margin: 0;}
+.course-list .linefrist {margin-left: 0;}
+.course-content {margin-top: 80px;}
+.course-nav-hd {width: 100%;padding: 10px 0px;height: 50px;}
+.course-nav-hd p {font-size: 20px;}
+.js-course-lists a {text-decoration: none;}
+
+.searchclass {width: 100%;height: 30px;margin: 15px 0px;}
+.searchclass input {width: 200px;	float: left;}
+.searchclass button {float: left;margin-left: 10px;background-color: #FFFFFF;color: #999999;border: 1px solid #c0c0c0;}
+
+.course-content {font-size: 18px;}
+.course-content a {font-size: 14px;}
+
+.line-p p {display: inline-block;}
+.fr {float: right;}
+.fl {float: left;}
+
+.navbar-nav {
+	margin: 0px -15px 7.5px 0px;
+}
+
+/*------主体------*/
+.catagory {width: 1200px;padding: 30px 0;margin: auto;}
+.catagory a {text-decoration: none;}
+.catagory-item {width: 280px;height: 325px;background: #fff;box-shadow: 0 2px 3px #d5d5d5;float: left;margin-right: 26.66666667px;position: relative;}
+
+
+/*------漂浮的图标+标题------*/
+.catagory-title {width: 280px;height: 30px;display: block;padding: 110px 0 0 0;position: absolute;z-index: 9;top: -54px;}
+.catagory-title h3 {height: 30px;font-size: 24px;color: #555;text-align: center;display: block;}
+.catagory-title:hover h3 {color: #2aabe6;}
+.catagory-icon {width: 72px;background: url(../../pix/Home_Logo.png) no-repeat 0 -194px;overflow: hidden;display: block;position: absolute;top: 0;left: 104px;transition: top .5s;-webkit-transition: top .5s;}
+.catagory-title:hover .catagory-icon {top: 10px;}
+
+
+/*------分类列表------*/
+.catagory-list {width: 260px;margin-left: 15px;margin-top: 110px;}
+.catagory-list a {width: 120px;height: 32px;line-height: 32px;color: #888;white-space: nowrap;text-align: center;border: #ddd 1px solid;border-radius: 5px;overflow: hidden;display: block;float: left;margin-right: 10px;margin-top: 12px;}
+.catagory-list a:hover {color: #fff;background: #2aabe6;border: #088ecb 1px solid;-webkit-transition: all 0.2s ease-out;-moz-transition: all 0.3s ease-out;-ms-transition: all 0.2s ease-out;-o-transition: all 0.2s ease-out;transition: all 0.2s ease-out;}
+
+.clr {width: 100%;height: 0;background: #ededed;display: block;clear: both;}
+.divison {height: 180px;width: 100%;text-align: center;}
+.divison2 {height: 50px;width: 100%;}
+.divison h1 {font-size: 36px;margin: 30px 0px;}
+.divison p {font-size: 16px;color: #737373;}
+
+.course-content {width: 1200px;margin: auto;}
+
+
+/*------学习排行榜------*/
+.Learningcharts {width: 1200px;margin: auto;background-color: #FFFFFF;height: 180px;margin-bottom: 50px;}
+.lc-title {border-top: 1px solid #d0d6d9;height: 50px;width: 100%;background-color: #f9f9f9;padding: 13px 15px;}
+.lc-title h2 {color: #C0C0C0;font-size: 24px;font-weight: 500;}
+/*------学习排行榜  前三名样式------*/
+
+.num {text-shadow: 4px 2px 2px #888888;}
+.num-1 {width: 12%;float: left;height: 100%;margin-left: 8%;}
+.num-1 .num {font-size: 36px;color: #ff0719;font-weight: 600;}
+.num-1 .left {float: left;}
+.num-1 .right {float: right;}
+.num-1 .right p {margin-top: 15px;text-align: center;}
+.num-2 {margin-left: 4%;width: 12%;}
+.num-2 .num {font-size: 30px;color: #68e929;font-weight: 600;}
+.num-2 .left p {margin: 55px 0px 0px 15px;}
+.num-3 {margin-left: 4%;width: 15%;}
+.num-3 .num {font-size: 24px;color: #fef502;font-weight: 600;}
+.num-3 .left p {margin: 62px 0px 0px 15px;}
+.normal {margin-left: 4%;width: 12%;}
+.normal .num {font-size: 50px;color: #C0C0C0;font-weight: 600;text-shadow: 1px 1px 2px #888888;}
+.normal .left p {margin: 30px 0px 0px 20px;}
+
+/*------学习排行榜  前三名样式end------*/
+
+.Learnerimg-box {width: 60px;height: 60px;border-radius: 30px;overflow: hidden;float: left;margin-top: 10px;}
+.Learnerimg-box img {height: 100%;}
+.learnername {color: #B7BCC0;}
+/*------学习排行榜@end------*/

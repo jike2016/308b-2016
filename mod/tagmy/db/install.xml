@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ -->
+<XMLDB PATH="mod/tagmy/db" VERSION="20111002" COMMENT="XMLDB file for tagmy"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>	
+    <TABLE NAME="tag_my" COMMENT="tag define">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  COMMENT="id of the tag"/>
+        <FIELD NAME="tagname" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"  COMMENT="the name of the tag" />
+        <FIELD NAME="num" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" UNSIGNED="true" COMMENT="the number of the tag are referenced" />
+	  </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for tag"/>
+      </KEYS>
+    </TABLE>
+	
+	<TABLE NAME="tag_table_my" COMMENT="tags link to table and content">
+      <FIELDS>
+		<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  COMMENT="id"/>
+        <FIELD NAME="tagid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" COMMENT="id of the tag link to table tag_my"/>
+        <FIELD NAME="table" TYPE="char" LENGTH="30" NOTNULL="true" SEQUENCE="false"  COMMENT="the corresponding table name to tag" />
+        <FIELD NAME="table_id" TYPE="int" LENGTH="10" NOTNULL="true"  SEQUENCE="false" UNSIGNED="true" COMMENT="the corresponding record id of the table" />
+	  </FIELDS>  
+	  <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for tag"/>
+      </KEYS>	  
+    </TABLE>
+  </TABLES>
+</XMLDB>

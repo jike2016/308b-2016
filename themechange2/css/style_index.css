@@ -1,0 +1,45 @@
+
+html, body {
+	font-family: '微软雅黑', sans-serif;
+	font-size: 100%;
+}
+
+
+.inline {
+	display:block;
+}
+
+.agreen {
+	color:#333;
+	text-decoration:none;
+}
+.agreen:hover {
+	color:#5cb85c;
+	text-decoration:none;
+}
+
+.awhite {
+	color:#333;
+	text-decoration:none;
+}
+.awhite:hover {
+	color:#fff;
+	text-decoration:none;
+}
+
+.teacherphoto {
+	margin:10px auto
+}
+.teacherphoto img{
+	border-radius:50%
+}
+#bg {
+	background:url(images/banner1.jpg);
+	background-position:center; 
+	background-repeat:no-repeat;
+	background-color:#201c1b;
+}
+
+.smbtn {
+	background-color:#666; height:4px; width:20px; float:left; margin:0px 10px;
+}

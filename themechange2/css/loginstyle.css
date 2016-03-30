@@ -1,0 +1,24 @@
+.label {
+	background-color:#ffffff;
+	color:#666;				
+	float:left;
+	height:40px;
+	padding:10px 0px;
+	}
+.nloginform {
+	height:100px; 
+	width:300px; 
+	margin:auto;
+	}
+
+.p24 {
+	font-size:22px;
+}
+.fr {
+	float:right;
+}
+.inputstyle {
+	height:40px; 
+	width:200px;
+	float:right;
+	}

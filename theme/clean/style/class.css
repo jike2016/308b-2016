@@ -1,0 +1,173 @@
+html,
+body {
+	font-family: "微软雅黑";
+	background-color: #ffffff;
+}
+
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus {
+	background-color: #999;
+	color: #fff;
+}
+
+.navbar-header img {
+	margin: 10px 0px 0px 0px;
+}
+
+.bline {
+	color: #fff;
+	padding: 28px 0px 0px 0px;
+}
+
+.bs-docs-nav .navbar-toggle .icon-bar {
+	background-color: #CCC;
+}
+
+.navstyle {
+	background-color: #333;
+	height: 80px;
+}
+
+.li_active a {
+	background-color: #999;
+}
+
+.navstyle_li li:hover {
+	background-color: #999;
+}
+
+.navstyle_li li {
+	background-color: #333;
+}
+
+.navstyle a {
+	color: #FFF;
+}
+
+.top10 {
+	height: 80px;
+	font-size: 16px;
+}
+
+.top10 nav ul li {
+	height: 80px;
+	text-align: center;
+	color: #fff;
+	background-color: #333;
+}
+
+.top10 nav ul li a:hover {
+	background-color: #999;
+}
+
+.top10 nav ul li a {
+	padding: 28px 15px 0px 15px;
+	height: 80px;
+	width: 100px;
+}
+
+.top10_input p {
+	margin: 3px 0px 0px 0px;
+}
+
+.top10 nav ul .top10_input a {
+	height: 14px;
+	font-size: 14px;
+	padding: 0px 0px 0px 0px;
+}
+
+.top10_input input {
+	margin: 23px 10px 0px 0px;
+	width: 180px;
+	height: 30px;
+	float: left;
+}
+
+.searchbtn {
+	margin: 23px 0px 0px 0px;
+	float: right;
+	width: 20px;
+	height: 15px;
+	background-color: #333;
+	border: 1px solid #C0C0C0;
+}
+
+.course-list .course-one {
+	width: 22%;
+	padding-left: 1.5%;
+	padding-right: 1.5%;
+	margin-left: 4%;
+}
+
+.course-list ul {
+	margin-left: 0;
+}
+
+.course-list ul {
+	margin: 0;
+}
+
+.course-list .linefrist {
+	margin-left: 0;
+}
+
+.course-content {
+	margin-top: 80px;
+}
+
+.course-nav-hd {
+	width: 100%;
+	padding: 10px 0px;
+	height: 50px;
+}
+
+.course-nav-hd p {
+	font-size: 20px;
+}
+
+.js-course-lists a {
+	text-decoration: none;
+}
+
+.searchclass {
+	width: 100%;
+	height: 30px;
+	margin: 15px 0px;
+}
+
+.searchclass input {
+	width: 200px;
+	float: left;
+}
+
+.searchclass button {
+	float: left;
+	margin-left: 10px;
+	background-color: #FFFFFF;
+	color: #999999;
+	border: 1px solid #c0c0c0;
+}
+
+.course-content {
+	font-size: 18px;
+}
+
+.course-content a {
+	font-size: 14px;
+}
+
+.line-p p {
+	display: inline-block;
+}
+
+.fr {
+	float: right;
+}
+
+.fl {
+	float: left;
+}
+
+.navbar-nav {
+	margin: 0px -15px 7.5px 0px;
+}

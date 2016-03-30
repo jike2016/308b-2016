@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ -->
+<XMLDB PATH="mod/notemy/db" VERSION="20111002" COMMENT="XMLDB file for notemy"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>	
+    <TABLE NAME="note_my" COMMENT="note define">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  COMMENT="id of the note"/>
+		<FIELD NAME="userid" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the user" />
+        <FIELD NAME="title" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"  COMMENT="the title of the note" />
+		 <FIELD NAME="content" TYPE="char" LENGTH="1332" NOTNULL="true" SEQUENCE="false"  COMMENT="the content of the note" />
+        <FIELD NAME="time" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"  COMMENT="the time of the note created" />
+	  </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for note"/>
+      </KEYS>
+    </TABLE>
+ </TABLES>
+</XMLDB>

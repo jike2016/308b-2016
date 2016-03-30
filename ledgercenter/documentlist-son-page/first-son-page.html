@@ -1,0 +1,79 @@
+<script>
+	$('.dropdown-menu li').on('click', function(){   //下拉菜单动作
+		$(this).parent().parent().parent().children('.classkinds').val($(this).text());
+	});	
+
+	var documentlist_first_son_id;
+	var documentlist_second_son_id;
+	var documentlist_third_son_id;
+	
+	$('#documentlist-first-son li').on('click', function(){   //文档_子类型下拉表单 1 动作
+		documentlist_first_son_id = $(this).attr("id");       //获取文档_子类型下拉菜单 1选择项的id
+	});	
+	$('#documentlist-second-son li').on('click', function(){   //文档_子类型下拉表单 2 动作
+		documentlist_second_son_id = $(this).attr("id");       //获取文档_子类型下拉菜单 2选择项的id
+	});
+	$('#documentlist-third-son li').on('click', function(){   //文档_子类型下拉表单 3动作
+		documentlist_third_son_id = $(this).attr("id");       //获取文档_子类型下拉菜单 3选择项的id
+	});
+	
+	
+	$(".search").on('click', function(){   //搜索按钮动作
+		var treenodeactiveid = $(".curSelectedNode").attr("id");  //获取激活的树节点的id	
+		var documentlistactive_id = $("#documentlist .li_active").attr("id"); //获取文档类型下拉菜单选择项的id		
+		$(".table-box").load('table/table-1.html');	
+		
+		alert("激活的树节点:  "+treenodeactiveid+"\r文档类型:  "+documentlistactive_id+"\r文档_子类型1:  "+documentlist_first_son_id+"\r文档_子类型2:  "+documentlist_second_son_id+"\r文档_子类型3:  "+documentlist_third_son_id);
+	});
+</script>
+<div class="dropdownlist-box">
+	<!--文档_子类型下拉菜单 1-->
+	<div class="dropdownlist">
+		<div class="input-group">
+			<input type="text" class="form-control classkinds" value=" ">
+			<div class="input-group-btn">
+				<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+				<ul id="documentlist-first-son" class="dropdown-menu dropdown-menu-right">
+					<li id="documentlist-first-son-1" value="1"><a>政治教育</a></li>
+					<li id="documentlist-first-son-2" value="2"><a>思想教育</a></li>
+					<li id="documentlist-first-son-3" value="3"><a>先进思想</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--文档子类型下拉菜单 1end-->
+
+	<!--文档_子类型下拉菜单 2-->
+	<div class="dropdownlist">
+		<div class="input-group">
+			<input type="text" class="form-control classkinds" value=" ">
+			<div class="input-group-btn">
+				<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+				<ul id="documentlist-second-son" class="dropdown-menu dropdown-menu-right">
+					<li id="documentlist-second-son-1" value="1"><a>政治教育</a></li>
+					<li id="documentlist-second-son-2" value="2"><a>思想教育</a></li>
+					<li id="documentlist-second-son-3" value="3"><a>先进思想</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--文档_子类型下拉菜单 2end-->
+
+	<!--文档_子类型下拉菜单 3-->
+	<div class="dropdownlist">
+		<div class="input-group">
+			<input type="text" class="form-control classkinds" value=" ">
+			<div class="input-group-btn">
+				<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+				<ul id="documentlist-third-son" class="dropdown-menu dropdown-menu-right">
+					<li id="documentlist-third-son-1" value="1"><a>政治教育</a></li>
+					<li id="documentlist-third-son-2" value="2"><a>思想教育</a></li>
+					<li id="documentlist-third-son-3" value="3"><a>先进思想</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--文档_子类型下拉菜单 3end-->
+
+	<button class="btn btn-primary search">搜索</button>
+</div>

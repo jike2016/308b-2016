@@ -1,0 +1,59 @@
+#page-admin-local-getkey-index .area {
+  fill: steelblue;
+  clip-path: url(#clip);
+}
+#page-admin-local-getkey-index .axis path, .axis line {
+  fill: none;
+   stroke: rgba(0, 0, 0, 0.2);
+  shape-rendering: crispEdges;
+}
+#page-admin-local-getkey-index .brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
+}
+#page-admin-local-getkey-index .grid .tick {
+    stroke: rgba(0, 0, 0, 0.2);
+    stroke-dasharray: 1, 1;
+    stroke-width: 1px;
+    z-index: -1;
+}
+#page-admin-local-getkey-index .dot {
+    fill: white;
+    stroke: steelblue;
+    /*opacity:0.01;*/
+    opacity:0;
+    stroke-width: 2px;
+}
+#page-admin-local-getkey-index .dot:hover {
+    opacity:1;
+}
+#page-admin-local-getkey-index div.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 12px;
+    font: 12px sans-serif;
+    background: #f7f7f7;    
+    border-radius: 2px;
+    pointer-events: none;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+#page-admin-local-getkey-index #usergraph{
+    margin-top:50px;
+}
+#page-admin-local-getkey-index .aGraph{
+        margin-left: 50px;
+        margin-top:20px;
+}
+#page-admin-local-getkey-index .text{
+    font: 10px sans-serif;
+    text-stroke: red;
+}
+#page-admin-local-getkey-index .msggraphheading{
+    font: 20px sans-serif;
+}
+#page-admin-local-getkey-index div#option .btnhighlight{
+    color: red;
+}

@@ -1,0 +1,89 @@
+/**************导航条****************/
+.Learnerimg-box {width: 60px;height: 60px;border-radius: 30px;overflow: hidden;float: left;margin-top: 10px;}
+.Learnerimg-box img {height: 100%;}
+/**************@end 导航条****************/
+
+html,body {font-family: "微软雅黑";background-color: #eee;}
+/**********导航条**********/
+.nav-style {height: 80px; width: 100%;}
+.personal-main{width: 1200px; height: 100px; margin: auto; background-color: #FFFFFF;border: 1px solid #ccc; margin-top: 80px; padding: 8px 20px;}
+.navbar-inverse {border-color: #18bbed;background-image:url(../img/个人中心导航条.jpg);background-size:100% 80px;}
+.nav-return {position: absolute; z-index: 1000;padding: 10px 0px;}
+.nav-return a{color: #FFFFFF; font-size: 16px; font-weight: 500; margin-left: 40px;}
+
+/**********导航条左边**********/	
+.nav-main-left .outbox ,.myword{float: left;}
+.outbox {width: 5%; height:80px;}
+.Learnerimg-box {width: 60px;height: 60px;border-radius: 30px;overflow: hidden;float: left;margin-top: 10px; margin-bottom: 10px; border: 4px solid #F0F0F0;}
+.Learnerimg-box img {height: 100%;}
+.myword {width: 40%;height: 80px; margin-left: 20px;}
+.hello p{display: inline-block; font-size: 20px; color: #777777; margin-top: 10px;}
+.words {color: #777777;overflow: hidden; /*自动隐藏文字*/text-overflow: ellipsis;/*文字隐藏后添加省略号*/white-space: nowrap;/*强制不换行*/width: 16em;/*不允许出现半汉字截断*/}
+/**********@end导航条左边**********/
+	
+/**********导航条右边**********/
+.nav-main-right div{float: right;}
+.nav-main-right-block {text-align: center; height: 62px; width: 9%; margin-top: 14px;}
+.nav-main-right-block p {font-size: 16px; color: #777777;}
+.nav-main-right-block a {font-size: 16px; color: #777777; margin-top: 30px; text-decoration: none;}
+.a-box {padding: 30px 0px 0px 0px ;}
+.nav-main-right-block a:hover{color: #F0F0F0;}
+.vline {height: 50px; background-color: #CCCCCC; width: 1px; margin: 16px 0px;}
+
+/**********导航条右边**********/
+/**********@end 导航条**********/
+
+/*************主体内容**************/
+.main {width: 1200px; margin: auto; margin-top: 20px;}
+
+/*************左边菜单************#18BBED**/
+.left-menu{width: 20%;float: left; border: 1px solid #ccc; height: 665px; background-color: #FFFFFF;}
+.menubtn {height: 60px; background-color: #FFFFFF;cursor:pointer; border-bottom: 2px solid #eee; padding: 10px 65px;color: #000000;}
+.menubtn h4 .glyphicon {color: #777777;}
+.menubtn:hover{color: #FFFFFF; background-color:#5BC0DE;}
+.menubtn:hover h4 .glyphicon{color: #FFFFFF; }
+.menubtn-active {background-color: #2cace6; color: #FFFFFF;}
+.menubtn-active h4 .glyphicon{color: #FFFFFF; }
+
+.menubtn h4 .glyphicon{ top: 2px;}
+.l-menubtn {height: 173px; padding: 40px 10px; }
+/*************@end左边菜单**************/
+	
+/*************右边内容**************/
+	
+/*************我的课程**************/
+.right-banner {width: 78%; float: right;}
+.kinds {height: 50px; background-color: #FFFFFF; color: #000000; padding: 13px 10px; margin-bottom: 15px; border: 1px solid #ccc;}
+.kinds a{ text-decoration: none; }
+.kinds-a {color: #000000;margin: 5px 10px; font-size: 16px;}
+.kinds-a:hover,.kinds-a:active,.kinds-a:focus {color:#10adf3;} 
+
+.kinds-son { height: 50px; padding: 5px 0px;font-size: 14px;}
+.kinds-son-a {color: #000000;margin: 5px 10px;}
+.kinds-son-a:hover,.kinds-son-a:active,.kinds-son-a:focus {color: #10adf3;}
+.kinds-son a { text-decoration: none;}
+.kinds-son-abox {display: none;}
+.a-active {color: #10adf3;}
+
+.kinds-son .left {padding: 8px 0px;float: left;}
+.kinds-son .btn {float: right;}
+	
+.classinfo-box {width: 100%;  background-color: #FFFFFF; padding: 0px 3%; border: 1px solid #ccc;}
+.classinfo {width: 100%; height: 100px; border-bottom: 1px solid #eee; margin-top: 20px;}
+.imgbox {float: left; width: 150px; margin-right: 15px;}
+.imgbox img {width: 100%;}
+.img-info {float: left;}
+.img-info a {color: #777777;}
+.img-info-title {font-size: 16px; font-weight: 600;}
+.img-info-article {font-size: 14px; color: #777777;}
+.img-info-article-sin {overflow: hidden; /*自动隐藏文字*/text-overflow: ellipsis;/*文字隐藏后添加省略号*/white-space: nowrap;/*强制不换行*/width: 11em;/*不允许出现半汉字截断*/}
+
+.img-info-tech {float: right; text-align: center; padding: 10px 0px 10px 15px;}
+.img-info-tech p {font-weight: 700;color: #777777;}
+.img-info-tech .img-info-tech-title {color: #000000;}
+.img-info-tech .img-info-tech-100 {color: #5CB85C;}
+	
+.classinfo-box .myclassbtn {height: 50px; width: 120px; float: right;margin: 10px 0px 10px 15px;}
+/*************@end我的课程**************/
+	
+/*************@end主体内容**************/

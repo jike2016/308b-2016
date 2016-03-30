@@ -1,0 +1,26 @@
+body {background-color: #f0f0f0; font-family: "微软雅黑";}
+#ad_board_main { background-color: #FFFFFF; width: 1200px; margin: auto;margin-top: 80px; padding: 5px 20px;}
+#ad_board_main .title {width: 100%; height: 50px;}
+#ad_board_main .title h3 {color: #337AB7; margin-bottom: 20px; float: left;}
+#ad_board_main .title h3 .glyphicon {top: 3px;}
+#ad_board_main .title h5 {float: left; margin-left: 15px; margin-top: 30px; color: #777777;}
+#ad_board_main .table {width: 1160px;}
+#ad_board_main .table thead td{font-weight: bold;}
+#ad_board_main .table tr td {text-align: center;  vertical-align:middle}
+#ad_board_main .table tr .td2 .btn{margin: 17px 0px; position: relative;cursor: pointer; }
+#ad_board_main .table tr .td2 input{margin: 0px 0px 17px 15px; width:80px;display:inline;cursor: pointer;}
+#ad_board_main .table tr td .bannerimg-box {width: 150px;float: left;}
+#ad_board_main .table tr td .bannerimg-box img{width: 100%;}
+.btn input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    border: solid transparent;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+}
+.btn span {
+    cursor: pointer;
+}

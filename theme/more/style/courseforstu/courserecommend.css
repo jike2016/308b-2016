@@ -1,0 +1,60 @@
+.courserecommend {
+	border: 1px solid #edf1f2;
+	width: 100%;
+	height: 263px;
+}
+
+.courserecommend-title {
+	background-color: #edf1f2;
+	height: 45px;
+	width: 100%;
+}
+
+.courserecommend-title span {
+	margin: 0px 0px 0px 0px;
+}
+
+.courserecommend-title h2 {
+	font-size: 20px;
+	color: #8C8C8C;
+	font-weight: 500;
+	height: 45px;
+	width: 100%;
+	padding: 10px 17px;
+}
+
+.courserecommend-title h2 p {
+	display: inline-block;
+	margin: 0px;
+}
+
+.courserecommend-table tr {
+	height: 42.5px;
+}
+
+.courserecommend-table tr a {
+	font-size: 16px;
+	text-decoration: none;
+	margin-left: 13px;
+	color: #777;
+}
+
+.courserecommend-table tr a:hover {
+	color: #f01400;
+}
+
+.jianli_apply {
+	display: block; 
+	width: 100px;
+	height: 30px;
+	border: 1px solid #CCC;
+	background: #2a92e6;
+	margin-top: 20px;
+}
+
+.jianli_apply a {
+	font-size: 14px;
+	padding: 2px 6px;
+	display: block;
+	color: #ffffff;
+}

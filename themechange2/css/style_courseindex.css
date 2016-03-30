@@ -1,0 +1,58 @@
+html, body {
+	font-family: '微软雅黑', sans-serif;
+	font-size: 100%;
+	background-color:#f5f5f5;
+}
+
+
+.greenbutton {
+	color:#666;
+	border-radius:4px;
+	border-color:#c9c9c9;
+	background-color:#e5e5e5;
+}
+.greenbutton:hover {
+	color:#fff;
+	border-radius:4px;
+	border-color:#c9c9c9;
+	background-color:#5cb85c;
+}
+.agreen {
+	color:#999;
+	text-decoration:none;
+	font-size:14px;
+}
+.agreen:hover {
+	color:#5cb85c;
+	text-decoration:none;
+}
+.week {
+	float:right;
+	border-radius:20px;
+	height:30px;
+}
+.week p {
+	display:inline-block;
+}
+.bgreen {
+	background-color:#fafafa;	
+	border-top:1px solid #ccc;
+	color:#999;
+}
+.bgreen:active { 
+	background-color:#5cb85c;
+	color:#fff;
+}
+.bgreen:hover {
+	background-color:#5cb85c;
+	color:#fff;
+}
+.morebutton {
+	color:#0C3;
+	background-color:#fff;
+}
+.morebutton:hover {
+	color:#fff;
+	background-color:#999;
+}
+

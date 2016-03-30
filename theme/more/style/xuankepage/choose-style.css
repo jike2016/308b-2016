@@ -1,0 +1,16 @@
+html,body {font-family: "微软雅黑";background-color: #eee;}
+	
+/*************主体内容**************/
+.main {background-color: #FFFFFF; width: 1100px;margin: auto; padding: 25px; margin-bottom:100px; margin-top:50px}
+.main .coursetitle {text-decoration: none; font-size: 24px;}
+.choosetips {color: #D43F3A;float: right; margin-top: 10px;}
+.choosetips .glyphicon {top: 2px;}
+.coursetitle .glyphicon {top: 5px;}
+.cooursehead {width: 100%; height: 50px;}
+.courseimg {width: 40%; float: left; padding: 10px; border: 1px solid #EEEEEE;}
+.courseimg img {width: 100%;}
+.courseinfo {width: 52% ; float: right;}
+.choosebtnbox {width: 100%; border-top: 1px solid #EEEEEE; height: 60px; padding: 20px; margin-top: 20px;}
+.choosebtnbox {text-align: center;}	
+.choosebtnbox .btn{width: 100px; height: 40px;font-size: 16px;}
+/*************@end主体内容**************/

@@ -1,0 +1,13 @@
+Release Notes
+Version 2.9.1 (Build Build - 2015060701)
+CONTRIB-5389 - Added index to questionnaire_quest_choice - credit Chris Follin.
+CONTRIB-5736 - Fixed incorrect use of checking activity group mode.
+CONTRIB-5856 - Fixed SQL query causing error downloading summary responses file.
+CONTRIB-5872 - Added ->set_cm(), but not sure why its needed.
+CONTRIB-5909 Fix syntax to improve cross-db compatibility when deleting questions.
+
+Version 2.9.0 (Build Build - 2015060701)
+CONTRIB-5613 - Made "maxsections" configurable.
+CONTRIB-5738 mod-questionnaire: Fixing questionnaire codechecker reports.
+CONTRIB-5737 mod-questionnaire: Switching cron to use new scheduler.
+CONTRIB-5778 - Changed 'usergraph' setting from a global config to a plugin config.

@@ -1,0 +1,37 @@
+html,body {font-family: "微软雅黑";background-color: #eee;}
+
+#main{width: 1000px; margin: auto; background-color: #FFFFFF; margin-top: 100px; padding: 30px;}
+#main .select-box {width: 30%; float: left;}
+#main .select-box select{width: 200px;}
+
+
+/*******重置密码弹出窗体*******/
+.header {width: 100%;height:50px; background-color:#66AFE9;border-radius: 10px 10px 0px 0px;}
+.header p {color: #FFFFFF; float: left; font-size: 14px; margin: 15px 0px 0px 15px;}
+.close {float: right; text-decoration: none; margin: 10px 15px 0px 0px;}
+.mask {z-index: 10000;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: #000;opacity: 0.4;filter: alpha(opacity=40);display: none;}
+.reset{width: 300px; height:380px;top: 120px;left:58%; z-index:10000;position:fixed;border-radius: 3px; #FF99CC;background-color: #FFFFFF;display: none;border-radius: 10px}
+.reset .button-box {width: 100%; padding: 10px 10px;}
+.info-banner .input-group{ width: 150px; margin-bottom: 15px;}
+.dropdownlist .dropdown-menu {min-width: 150px;}
+.info-banner .info { margin-bottom:15px ;}
+.info-banner textarea { height:60px;margin-bottom: 15px;}
+.info-banner {padding: 15px;}
+/*******@end重置密码弹出窗体*******/
+
+/***********文件树样式**********/
+li {list-style: circle;font-size: 12px;}
+li.title {list-style: none;}
+ul.list {margin-left: 17px;}
+#treeDemo a {color:#777777;}
+#treeDemo a:hover{background-color:#F0F0F0;}
+#treeDemo .tree-a-active{background-color:#F0F0F0;}
+.zTreeDemoBackground {width:100%;height:275px;text-align:left;}
+ul.ztree {border: 1px solid #CCCCCC;background: #FFFFFF;width:100%;height:100%;overflow-y:scroll;overflow-x:auto;}
+.main .right table thead tr td{color: #737373;font-weight: 600; background-color: #F0F0F0; text-align: center;}
+.td1, .td3{text-align: center;}
+#treeDemo a .delete {height: 16px; width: 30px; font-size: 12px; background-color: #FFFFFF; color: #FFFFFF;}
+.delete:hover { background-color:#f0f0f0;color: #737373;}
+.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+.nullwidth {height: 12px; width: 50px;}
+/***********文件树样式 @end**********/

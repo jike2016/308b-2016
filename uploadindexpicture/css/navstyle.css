@@ -1,0 +1,80 @@
+html, body {font-family: '微软雅黑', sans-serif;background-color:#eee;}
+
+/*****新导航条样式*****/
+.navstyle{background-color: #10adf3;height: 70px;}
+@media screen and (min-width:1200px ) {.nav-main{width:63%}} 
+@media screen and (max-width:1190px ) {.nav-main {width:960px}} 
+.navstyle .nav-main { margin: auto;}
+.navstyle a {text-decoration: none;}
+.navstyle #logo {height: 54px; float: left; margin: 8px 10px 8px 0px;}
+.navstyle .nav-main .nav-main-li{float: left;}
+.navstyle .nav-main .nav-main-li .li-normol {display:inline-block;width: 85px; height: 70px;color: #FFFFFF;font-size: 18px;padding: 23px 23px;}
+.navstyle .nav-main .nav-main-li .li-normol:hover{border-bottom: 3px solid #EEEEEE;}
+			
+.navstyle .search-box{float: right; padding: 25px 0px 0px 0px;}
+.navstyle .search-box input {float: left; width: 150px; margin-right: 10px; height: 35px;}
+.navstyle .search-box button {float: right;}
+.navstyle .search-box button span {color: #10adf3;}
+			
+/****改变登录后的下拉菜单颜色*****/
+.navstyle .usertext {color: #FFFFFF;}
+.navstyle .usermenu-box{float: right; padding: 10px 0px 0px 0px;}
+.jsenabled .usermenu .moodle-actionmenu.show {background-color: #10adf3;}
+/****改变登录后的下拉菜单颜色 @end*****/
+
+/****新底部导航条*****/
+.navstyle-bottom {background-color: #10adf3;height: 60px; margin-top: 60px;}
+/****新底部导航条 @end*****/
+
+/*****新导航条样式 @end*****/
+
+/****右下角悬浮按钮*****/
+.elevator {
+  position: fixed;
+  right: 15px;
+  bottom: 10px;
+  z-index: 1030;
+}
+.elevator a {
+  display: block;
+  position: relative;
+  margin: 1px 0;
+  outline: none;
+  height: 52px;
+  width: 52px;
+  -webkit-transition: background-position 0.15s;
+  -moz-transition: background-position 0.15s;
+  transition: background-position 0.15s;
+  background: url(../pix/elevator.png) no-repeat;
+}
+.elevator .elevator-app {
+  background-position: 0 -550px;
+}
+.elevator .elevator-app:hover {
+  background-position: 0 -612px;
+}
+.elevator .elevator-weixin {
+  background-position: 0 -860px;
+}
+.elevator .elevator-weixin:hover {
+  background-position: 0 -922px;
+}
+.elevator .elevator-msg {
+  background-position: 0 -426px;
+}
+.elevator .elevator-msg:hover {
+  background-position: 0 -488px;
+}
+.elevator .elevator-top {
+  background-position: 0 -674px;
+}
+.elevator .elevator-top:hover {
+  background-position: 0 -736px;
+}
+.elevator .elevator-diaocha {
+  background-position: 0 -798px;
+}
+.elevator .elevator-diaocha:hover {
+  background-position: 0 -984px;
+}
+/****右下角悬浮按钮 @end*****/	

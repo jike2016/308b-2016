@@ -1,0 +1,280 @@
+html,
+body {
+	background-color: #eee;
+}
+
+
+/*------主体------*/
+
+.catagory {
+	width: 1200px;
+	padding: 30px 0;
+	margin: auto;
+}
+
+.catagory a {
+	text-decoration: none;
+}
+
+.catagory-item {
+	width: 280px;
+	height: 325px;
+	background: #fff;
+	box-shadow: 0 2px 3px #d5d5d5;
+	float: left;
+	margin-right: 26.66666667px;
+	position: relative;
+}
+
+
+/*------漂浮的图标+标题------*/
+
+.catagory-title {
+	width: 280px;
+	height: 30px;
+	display: block;
+	padding: 110px 0 0 0;
+	position: absolute;
+	z-index: 9;
+	top: -54px;
+}
+
+.catagory-title h3 {
+	height: 30px;
+	font-size: 24px;
+	color: #555;
+	text-align: center;
+	display: block;
+}
+
+.catagory-title:hover h3 {
+	color: #2aabe6;
+}
+
+.catagory-icon {
+	width: 72px;
+	height: 86px;
+	background: url(img/Home_Logo.png) no-repeat 0 -194px;
+	overflow: hidden;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 104px;
+	transition: top .5s;
+	-webkit-transition: top .5s;
+}
+
+.catagory-title:hover .catagory-icon {
+	top: 10px;
+}
+
+
+/*------分类列表------*/
+
+.catagory-list {
+	width: 260px;
+	margin-left: 15px;
+	margin-top: 110px;
+}
+
+.catagory-list a {
+	width: 120px;
+	height: 32px;
+	line-height: 32px;
+	color: #888;
+	white-space: nowrap;
+	text-align: center;
+	border: #ddd 1px solid;
+	border-radius: 5px;
+	overflow: hidden;
+	display: block;
+	float: left;
+	margin-right: 10px;
+	margin-top: 12px;
+}
+
+.catagory-list a:hover {
+	color: #fff;
+	background: #2aabe6;
+	border: #088ecb 1px solid;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+}
+
+.clr {
+	width: 100%;
+	height: 0;
+	background: #ededed;
+	display: block;
+	clear: both;
+}
+
+.divison {
+	height: 180px;
+	width: 100%;
+	text-align: center;
+}
+
+.divison2 {
+	height: 50px;
+	width: 100%;
+}
+
+.divison h1 {
+	font-size: 36px;
+	margin: 30px 0px;
+}
+
+.divison p {
+	font-size: 16px;
+	color: #737373;
+}
+
+.course-content {
+	width: 1200px;
+	margin: auto;
+}
+
+
+/*------学习排行榜------*/
+
+.Learningcharts {
+	width: 1200px;
+	margin: auto;
+	background-color: #FFFFFF;
+	height: 180px;
+	margin-bottom: 50px;
+}
+
+.lc-title {
+	border-top: 1px solid #d0d6d9;
+	height: 50px;
+	width: 100%;
+	background-color: #f9f9f9;
+	padding: 13px 15px;
+}
+
+.lc-title h2 {
+	color: #C0C0C0;
+	font-size: 24px;
+	font-weight: 500;
+}
+
+
+/*------学习排行榜  前三名样式------*/
+
+.num {
+	text-shadow: 4px 2px 2px #888888;
+}
+
+.num-1 {
+	width: 16%;
+	float: left;
+	height: 100%;
+	margin-left: 5%;
+}
+
+.num-1 .num {
+	font-size: 36px;
+	color: #ff0719;
+	font-weight: 600;
+}
+
+.num-1 .left {
+	float: left;
+}
+
+.num-1 .headimg {
+	width: 90px;
+	margin-top: 5px;
+}
+
+.num-1 .headimg img {
+	width: 100%;
+	margin-top: 5px;
+}
+
+.num-1 .left p {
+	margin: 0px 0px 0px 15px;
+}
+
+.num-1 .right {
+	float: right;
+}
+
+.num-1 .right p {
+	margin-top: 15px;
+	text-align: center;
+}
+
+.num-2 {
+	margin-left: 4%;
+	width: 15%;
+}
+
+.num-2 .num {
+	font-size: 30px;
+	color: #68e929;
+	font-weight: 600;
+}
+
+.num-2 .left p {
+	margin: 55px 0px 0px 15px;
+}
+
+.num-3 {
+	margin-left: 4%;
+	width: 14%;
+}
+
+.num-3 .num {
+	font-size: 24px;
+	color: #fef502;
+	font-weight: 600;
+}
+
+.num-3 .left p {
+	margin: 62px 0px 0px 15px;
+}
+
+.normal {
+	margin-left: 4%;
+	width: 13%;
+}
+
+.normal .num {
+	font-size: 18px;
+	color: #C0C0C0;
+	font-weight: 600;
+	text-shadow: 1px 1px 2px #888888;
+}
+
+.normal .left p {
+	margin: 70px 0px 0px 15px;
+}
+
+
+/*------学习排行榜  前三名样式end------*/
+
+.Learnerimg-box {
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+	overflow: hidden;
+	float: left;
+	margin-top: 10px;
+}
+
+.Learnerimg-box img {
+	height: 100%;
+}
+
+.learnername {
+	color: #B7BCC0;
+}
+
+
+/*------学习排行榜@end------*/

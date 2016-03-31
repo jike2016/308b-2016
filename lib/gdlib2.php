@@ -267,22 +267,6 @@ function process_new_icon($context, $component, $filearea, $itemid, $originalfil
     $icon['filename'] = 'f3'.$imageext;
     $fs->create_file_from_string($icon, $data);
 
-    /**Start 勋章原图的保存 徐东威 20160329 */
-    //如果是勋章图片的话
-    if($component == 'badges' && $filearea == 'badgeimage'){
-        ob_start();
-        if (!$imagefnc($im, NULL, $quality, $filters)) {
-            ob_end_clean();
-            $fs->delete_area_files($context->id, $component, $filearea, $itemid);
-            return false;
-        }
-        $data = ob_get_clean();
-        imagedestroy($im);
-        $icon['filename'] = 'f4'.$imageext;
-        $fs->create_file_from_string($icon, $data);
-    }
-    /** End */
-
     return $file1->get_id();
 }
 

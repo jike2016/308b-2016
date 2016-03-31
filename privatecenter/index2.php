@@ -165,13 +165,12 @@ $old= '
 function get_mymadle(){
 	
 	global $USER;
-	global $DB;
-
-	$mymadles = $DB->get_records_sql("select bi.badgeid from mdl_badge_issued bi where bi.userid = $USER->id");//获取用户的勋章
-	if($mymadles){
-		return count($mymadles);//返回勋章数
-	}
-	return 0;//没有勋章
+	
+	$records = badges_get_badges(1, 0, 'name', 'DESC', 0, 100, $USER->id);//备注：这里的参数有些写死了
+	$badges             = new badge_collection($records);
+	$medalcount = $badges->badges;//勋章记录数组
+	
+	return count($medalcount);
 }
 /**End */
 

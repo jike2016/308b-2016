@@ -31,7 +31,6 @@ require_once($CFG->dirroot . "/course/renderer.php");
 require_once($CFG->libdir. '/coursecatlib.php');
 require_once($CFG->libdir. '/modinfolib.php');
 require_once($CFG->libdir.'/outputrenderers.php');
-require_once($CFG->dirroot.'/enrol/locallib.php');
 
 
 /**
@@ -373,8 +372,6 @@ class format_studtopics_renderer extends format_section_renderer_base {
 
         $modinfo = get_fast_modinfo($course);//获取课程的全部信息
 
-        $test = $this->my_get_rank($course);//获取学生的课程进度排名
-
         echo '<!--新html静态页面 body 内容--><div id="main">';
         //输出course_infos
         $this->my_print_course_infos($course);
@@ -470,7 +467,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 						<div class="bd">
 							<div class="box mb40">';
 		$this->my_get_continue_video($course);
-		
+
         $this->my_print_teamlearn($course);
         echo '
 
@@ -519,11 +516,56 @@ class format_studtopics_renderer extends format_section_renderer_base {
 								<tbody>';
 
         echo $this->my_get_similar_course($course);//获取推荐的课程
-        global $CFG;
+        global $USER;
+        $rankResult = $this->rankCourse($course->id,$USER->id);//获取课程的排名
+        $courseRank = $rankResult->showRank;//前几名
+        $numberMy = $rankResult->myRank;//我的名次
+        $numberOne = '';
+        $numberTow = '';
+        $numberThree = '';
+
+        if($courseRank['1']){
+            $numberOne = $courseRank['1']->firstname;
+        }
+        if($courseRank['2']){
+            $numberTow = $courseRank['2']->firstname;
+        }
+        if($courseRank['3']){
+            $numberThree = $courseRank['3']->firstname;
+        }
+
+
         echo '
 								</tbody>
 							</table>
 						</div>
+
+						<!--排行榜-->
+						<div class="ranking-list">
+							<div class="ranking-list-title">
+								<h2><span class="glyphicon glyphicon-user"></span><p>&nbsp;排行榜</p></h2>
+							</div>
+							<table class="ranking-list-table">
+								<tbody>
+									<tr>
+										<td><a class="NO1" href="#" ><span class="glyphicon glyphicon-user"></span>&nbsp;NO.1 '.$numberOne.'</a></td>
+									</tr>
+									<tr>
+										<td><a class="NO2" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;NO.2 '.$numberTow.'</a></td>
+									</tr>
+									<tr>
+										<td><a class="NO3" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;NO.3 '.$numberThree.'</a></td>
+									</tr>
+									<tr>
+										<td><a href="#">&nbsp;......</a></td>
+									</tr>
+									<tr>
+										<td><a class="me" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;no.'.$numberMy.' 我</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
 					</div>
 				</div>
 
@@ -692,98 +734,37 @@ class format_studtopics_renderer extends format_section_renderer_base {
 	}
 	/*End */
 
-    /** Start 获取课程的学习排名 徐东威 20160327
-     * @param $course 课程
-     * @param
+    /** Start 课程排名 徐东威 20160407
+     * @param $courseid 课程ID
+     * @return
      */
-    function my_get_rank($course){
+    function rankCourse($courseid,$userID){
 
-        $search  = optional_param('search', '', PARAM_RAW);
-        $role    = optional_param('role', 0, PARAM_INT);
-        $fgroup  = optional_param('filtergroup', 0, PARAM_INT);
-        $status  = optional_param('status', -1, PARAM_INT);
-        $filter  = optional_param('ifilter', 0, PARAM_INT);
+        global $DB;
 
-        global $PAGE;
-        global $USER;
-        $manager = new course_enrolment_manager($PAGE, $course, $filter, $role, $search, $fgroup, $status);
-        $users = $manager->get_users('lastname', 'ASC', 0, 10000);//获取选课的所有学生
-        $rankcomplete = array();//用户的课程完成进度、完成时间
-
-        if(count($users)){
-            $num1 = array();//进度
-            $num2 = array();//登录课程时间
-            foreach($users as $user){
-                $state = $this->my_get_courseCompeleteRate($course->id,$user);//获取用户的课程完成进度
-                $time = $this->my_get_loginCourseTime($course->id,$user);//获取用户最近登录课程的时间
-                $rankcomplete[] = array('userid'=>$user->id,'state'=>$state,'time'=>$time);
-                $num1[$user->id] = $state;
-                $num2[$user->id] = $time;
-                if($time==null){
-                    $num2[$user->id] = '未登录过';
-                }
+        $records = $DB->get_records_sql("select * from mdl_course_complete_rank_my c where c.courseid = $courseid ORDER BY c.complete_count desc,c.complete_time asc ");
+        $num = 1;//名次
+        $showRank =  array();
+        $myRank = 0;
+        foreach($records as $record){
+            if($num < 4){//前三名
+                $user = $DB->get_record_sql("select * from mdl_user where id = $record->userid");
+                $showRank[$num] = $user;
+            }elseif($myRank != 0){//如果当前用户在前三名中
+                break;
             }
-            array_multisort($num1, SORT_DESC, $num2, SORT_ASC, $rankcomplete);//排名
-            $countUser = count($rankcomplete);//当前学习此课程的用户数量
-            $currentUserRank = 0;//当前用户的排名
-            for($i=0;$i<count($rankcomplete);$i++){
-                if($USER->id == $rankcomplete[$i]['userid']){
-                    $currentUserRank = $i;
+            if($userID == $record->userid){
+                $myRank = $num;//当前用户的名次
+                if($num >= 3){
                     break;
                 }
             }
-
+            $num++;
         }
-        return $rankcomplete;
-
+        $rankResult = new stdClass();
+        $rankResult->showRank = $showRank;
+        $rankResult->myRank = $myRank;
+        return $rankResult;
     }
-    /** End */
-
-    /**Start 获取用户最近登录该课程的时间 徐东威 20160327     */
-    function my_get_loginCourseTime($courseID,$user){
-        global $DB;
-        $logintime = $DB->get_record_sql("select ul.timeaccess from mdl_user_lastaccess ul where ul.userid = $user->id and ul.courseid = $courseID ");
-        return $logintime->timeaccess;
-    }
-    /** End */
-
-
-    /**Start 课程完成率 徐东威 20160310
-     * @param	$courseID 课程
-     * @return  $completeRate 完成进度
-     */
-    function my_get_courseCompeleteRate($courseID,$USER){
-
-        global $DB;
-
-        $completeRate = '0';//课程完成率,这里是台账任务，默认都会设置进度跟踪，所以这里初始为‘0%’
-        //获取课程的进度跟踪启停状态 enablecompletion = 1 为开启状态
-        $openState = $DB->get_record_sql("select c.enablecompletion from mdl_course c where c.id = $courseID ");
-        //如果课程开启了活动
-        if($openState->enablecompletion == 1 ){
-            //开启了进度的活动数，其中除去那些不设为进度跟踪的活动（处理方式：如果该课程有活动，但没有一个是设置为进度跟踪的，那么就让其显示为‘无统计’）
-            $activeCount = $DB->get_record_sql("select count(*) as count from mdl_course_modules cm  where cm.course = $courseID and cm.`completion` in (1,2) ");
-            //如果设置有开启进度的活动，则求完成率
-            if($activeCount->count != 0){
-                //完成的活动数
-                $completeCount = $DB->get_record_sql("select  count(*) as count from mdl_course_modules_completion cmc
-												where cmc.userid = $USER->id
-												and cmc.coursemoduleid in (select cm.id from mdl_course_modules cm  where cm.course = $courseID and cm.`completion` in (1,2) )
-												and cmc.completionstate = 1");
-                $completeRate = round($completeCount->count / $activeCount->count, 2) * 100;//求完成率
-//                $completeRate .= '%';
-            }
-        }
-
-        $completeState = $DB->get_record_sql("select c.id,c.timecompleted from mdl_course_completion_crit_compl c where c.userid = $USER->id and c.course = $courseID");
-        if($completeState){//如果有记录,（即活动没有完成，但由管理员手工设为完成的情况）
-//            $completeRate = '100%';
-            $completeRate = '100';
-        }
-
-        return $completeRate;
-    }
-    /** End */
-
 
 }

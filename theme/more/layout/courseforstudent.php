@@ -62,6 +62,9 @@ echo $OUTPUT->doctype() ?>
     
     <link rel="stylesheet" href="../theme/more/style/courseforstu/layer.css" type="text/css" />
     <link rel="stylesheet" href="../theme/more/style/courseforstu/courserecommend.css" type="text/css" />
+
+    <link rel="stylesheet" href="../theme/more/style/courseforstu/rankinglist.css" type="text/css" />
+
 <style>
 	.mycomment {width: 100%; height: 160px; margin-bottom: 20px; border-bottom: 1px solid #edf1f2;}
 	.mycomment textarea {width: 100%; height:80px;}

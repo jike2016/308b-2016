@@ -71,6 +71,11 @@ if (!empty($CFG->cronremotepassword)) {
     }
 }
 
+/**Start 课程排名:定时更新数据库中的信息 徐东威 20160407 */
+require_once(dirname(__FILE__).'/my_course_complete_rank.php');
+course_rank();
+/** End */
+
 // send mime type and encoding
 @header('Content-Type: text/plain; charset=utf-8');
 
@@ -79,3 +84,6 @@ if (!empty($CFG->cronremotepassword)) {
 
 // execute the cron
 cron_run();
+
+
+

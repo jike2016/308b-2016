@@ -534,12 +534,39 @@ class format_studtopics_renderer extends format_section_renderer_base {
             $numberThree = $courseRank['3']->firstname;
         }
 
-
         echo '
 								</tbody>
 							</table>
-						</div>
+						</div>';
 
+        //如果当前用户的名次在前三名
+        if($numberMy <= 3){
+            echo '
+						<!--排行榜-->
+						<div class="ranking-list">
+							<div class="ranking-list-title">
+								<h2><span class="glyphicon glyphicon-user"></span><p>&nbsp;排行榜</p></h2>
+							</div>
+							<table class="ranking-list-table">
+								<tbody>
+									<tr>
+										<td><a class="NO1" href="#" ><span class="glyphicon glyphicon-user"></span>&nbsp;NO.1 '.$numberOne.'</a></td>
+									</tr>
+									<tr>
+										<td><a class="NO2" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;NO.2 '.$numberTow.'</a></td>
+									</tr>
+									<tr>
+										<td><a class="NO3" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;NO.3 '.$numberThree.'</a></td>
+									</tr>
+									<tr>
+										<td><a href="#">&nbsp;......</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>';
+        }
+        else{
+            echo '
 						<!--排行榜-->
 						<div class="ranking-list">
 							<div class="ranking-list-title">
@@ -564,8 +591,11 @@ class format_studtopics_renderer extends format_section_renderer_base {
 									</tr>
 								</tbody>
 							</table>
-						</div>
+						</div>';
+        }
 
+
+        echo '
 					</div>
 				</div>
 

@@ -516,6 +516,11 @@ class format_studtopics_renderer extends format_section_renderer_base {
 								<tbody>';
 
         echo $this->my_get_similar_course($course);//获取推荐的课程
+        echo '
+								</tbody>
+							</table>
+						</div>';
+
         global $USER;
         $rankResult = $this->rankCourse($course->id,$USER->id);//获取课程的排名
         $courseRank = $rankResult->showRank;//前几名
@@ -524,24 +529,20 @@ class format_studtopics_renderer extends format_section_renderer_base {
         $numberTow = '';
         $numberThree = '';
 
-        if($courseRank['1']){
-            $numberOne = $courseRank['1']->firstname;
-        }
-        if($courseRank['2']){
-            $numberTow = $courseRank['2']->firstname;
-        }
-        if($courseRank['3']){
-            $numberThree = $courseRank['3']->firstname;
-        }
+        if($courseRank){//如果有记录再显示排名
+            if($courseRank['1']){
+                $numberOne = $courseRank['1']->firstname;
+            }
+            if($courseRank['2']){
+                $numberTow = $courseRank['2']->firstname;
+            }
+            if($courseRank['3']){
+                $numberThree = $courseRank['3']->firstname;
+            }
 
-        echo '
-								</tbody>
-							</table>
-						</div>';
-
-        //如果当前用户的名次在前三名
-        if($numberMy <= 3){
-            echo '
+            //如果当前用户的名次在前三名
+            if($numberMy <= 3){
+                echo '
 						<!--排行榜-->
 						<div class="ranking-list">
 							<div class="ranking-list-title">
@@ -564,9 +565,9 @@ class format_studtopics_renderer extends format_section_renderer_base {
 								</tbody>
 							</table>
 						</div>';
-        }
-        else{
-            echo '
+            }
+            else{
+                echo '
 						<!--排行榜-->
 						<div class="ranking-list">
 							<div class="ranking-list-title">
@@ -592,8 +593,8 @@ class format_studtopics_renderer extends format_section_renderer_base {
 								</tbody>
 							</table>
 						</div>';
+            }
         }
-
 
         echo '
 					</div>

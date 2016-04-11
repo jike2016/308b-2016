@@ -9,12 +9,13 @@ require_once($CFG->dirroot.'/enrol/locallib.php');
 function course_rank(){
     global $DB;
 
-    $courses = $DB->get_records_sql("select * from mdl_course");
+    $courses = $DB->get_records_sql("select * from mdl_course where id != 1");
 
     foreach($courses as $course){
 
         $rankcomplete = my_get_rank($course);//获取课程中选课学生的课程活动完成数
 
+        $userNow = array();//当前选课的用户
         foreach($rankcomplete as $rank){
             $info = new stdClass();
             $info->userid = $rank['userid'];
@@ -22,6 +23,7 @@ function course_rank(){
             $info->complete_count = $rank['completeNum'];
             $info->complete_time = $rank['time'];
             //$info->grede = ;
+            $userNow[] = $rank['userid'];
 
             $record = $DB->get_record_sql("select * from mdl_course_complete_rank_my where userid = $info->userid and courseid = $info->courseid");
             if($record){
@@ -33,10 +35,27 @@ function course_rank(){
             }
 
         }
+
+        del_record($userNow,$course->id);//删除退课的学生记录
+
     }
 }
 /** End */
 
+/**Start 删除退课的学生记录  */
+function del_record($userNow,$courseID){
+
+    global $DB;
+    if(count($userNow)==0){
+        $select = "courseid = $courseID";
+        $result = $DB->delete_records_select("course_complete_rank_my",$select);
+    }else{
+        $user = implode(',',$userNow);
+        $select = "courseid = $courseID and userid not in ($user)";
+        $result = $DB->delete_records_select("course_complete_rank_my",$select);
+    }
+}
+/**End  */
 
 /** Start 获取课程的学习排名
  * @param $course 课程
@@ -56,8 +75,9 @@ function my_get_rank($course){
 
     if(count($users)){
         foreach($users as $user){
-            $completeNum = my_get_courseCompeleteRate($course->id,$user);//获取用户的课程完成活动数量
-            $time = my_get_loginCourseTime($course->id,$user);//获取用户最近登录课程的时间
+            $completeResult = my_get_courseCompeleteRate($course->id,$user);//获取用户的课程完成活动情况
+            $completeNum = $completeResult->completeNum;//完成数量
+            $time = $completeResult->time;//时间
             $rankcomplete[] = array('userid'=>$user->id,'completeNum'=>$completeNum,'time'=>$time);
         }
     }
@@ -66,25 +86,26 @@ function my_get_rank($course){
 }
 /** End */
 
-/**Start 获取用户最近登录该课程的时间 徐东威 20160327     */
-function my_get_loginCourseTime($courseID,$user){
-    global $DB;
-    $logintime = $DB->get_record_sql("select ul.timeaccess from mdl_user_lastaccess ul where ul.userid = $user->id and ul.courseid = $courseID ");
-    return $logintime->timeaccess;
-}
-/** End */
+///**Start 获取用户最近登录该课程的时间 徐东威 20160327     */
+//function my_get_loginCourseTime($courseID,$user){
+//    global $DB;
+//    $logintime = $DB->get_record_sql("select ul.timeaccess from mdl_user_lastaccess ul where ul.userid = $user->id and ul.courseid = $courseID ");
+//    return $logintime->timeaccess;
+//}
+///** End */
 
 
-/**Start 课程完成率 徐东威 20160310
+/**Start 课程完成数量 徐东威 20160310
  * @param	$courseID 课程
  * @param  $user 学生
- * @return  $completeNum 课程活动完成数量
+ * @return  $completeResult 课程活动完成情况
  */
 function my_get_courseCompeleteRate($courseID,$USER){
 
     global $DB;
 
     $completeNum = 0;//课程活动完成数量
+    $completeTime = 0;//最新活动的完成时间
     //获取课程的进度跟踪启停状态 enablecompletion = 1 为开启状态
     $openState = $DB->get_record_sql("select c.enablecompletion from mdl_course c where c.id = $courseID ");
     //如果课程开启了活动
@@ -97,13 +118,24 @@ function my_get_courseCompeleteRate($courseID,$USER){
             $completeCount = $DB->get_records_sql("select  * from mdl_course_modules_completion cmc
 												where cmc.userid = $USER->id
 												and cmc.coursemoduleid in (select cm.id from mdl_course_modules cm  where cm.course = $courseID and cm.`completion` in (1,2) )
-												and cmc.completionstate = 1");
+												and cmc.completionstate = 1
+												order by cmc.timemodified desc");
+
             $completeNum = count($completeCount);//求完成活动数量
+            if($completeNum){
+                foreach($completeCount as $complete){
+                    $completeTime = $complete->timemodified;
+                    break;
+                }
+            }
         }
     }
     //不考虑由管理员手动设置完成的情况
+    $completeResult = new stdClass();
+    $completeResult->completeNum = $completeNum;
+    $completeResult->time = $completeTime;
 
-    return $completeNum;
+    return $completeResult;
 }
 /** End */
 

@@ -177,8 +177,8 @@ class format_studtopics_renderer extends format_section_renderer_base {
     //输出课程的简介图片栏
     public function my_print_course_infos($course){
 
-        echo '<div class="course-infos"  style="background-color: #5b5b5a;">
-				<div class="w pr">
+        echo '<div class="course-infos"  style="background-color: #f0f0f0;">
+				<div class="w pr" style="background-color: #5b5b5a;">
 
 					<div class="banner-left">
                         <img '.$this->my_get_course_formatted_summary_pix(new course_in_list($course)).' />

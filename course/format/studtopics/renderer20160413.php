@@ -32,6 +32,7 @@ require_once($CFG->libdir. '/coursecatlib.php');
 require_once($CFG->libdir. '/modinfolib.php');
 require_once($CFG->libdir.'/outputrenderers.php');
 
+
 /**
  * Basic renderer for topics format.
  *
@@ -176,8 +177,8 @@ class format_studtopics_renderer extends format_section_renderer_base {
     //输出课程的简介图片栏
     public function my_print_course_infos($course){
 
-        echo '<div class="course-infos"  style="background-color: #5b5b5a;">
-				<div class="w pr">
+        echo '<div class="course-infos"  style="background-color: #f0f0f0;">
+				<div class="w pr" style="background-color: #5b5b5a;">
 
 					<div class="banner-left">
                         <img '.$this->my_get_course_formatted_summary_pix(new course_in_list($course)).' />
@@ -400,10 +401,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 						<!--mod-chapters 的 div end-->
 						<div class="evaluation-list" style="display: none">
 							<div class="mycomment">
-								<!-- 2016.3.25 毛英东 添加表情-->
-								<textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
-                                <img src="../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
-                                <!-- end  2016.3.25 毛英东 添加表情 -->
+								<textarea class="form-control" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
 								<button id="comment-btn" class="btn btn-success">发表评论</button>
 							</div>
 
@@ -425,10 +423,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 						<!--mod-chapters 的 div end-->
 						<div class="evaluation-list" style="display: block">
 							<div class="mycomment">
-								<!-- 2016.3.25 毛英东 添加表情-->
-								<textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
-                                <img src="../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
-                                <!-- end  2016.3.25 毛英东 添加表情 -->
+								<textarea class="form-control" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
 								<button id="comment-btn" class="btn btn-success">发表评论</button>
 							</div>
 
@@ -450,9 +445,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 
                                           <a href="../course/view.php?id='.$course->id.'&page='.($current_page <= 1 ? 1: $current_page - 1).'">上一页</a>
                                         </li>';
-        /**  Start 修改翻页函数 朱子武 20160327*/
-        $this->my_get_course_evaluation_current_count($count_page, $course,$current_page);
-        /**  End 修改翻页函数 朱子武 20160327*/
+        $this->my_get_course_evaluation_current_count($count_page, $course);
         echo'
                                         <li>
                                           <a href="../course/view.php?id='.$course->id.'&page='.($current_page < $count_page ? ($current_page + 1): $count_page).'">下一页</a>
@@ -474,7 +467,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 						<div class="bd">
 							<div class="box mb40">';
 		$this->my_get_continue_video($course);
-		
+
         $this->my_print_teamlearn($course);
         echo '
 
@@ -595,7 +588,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 										<td><a href="#">&nbsp;......</a></td>
 									</tr>
 									<tr>
-										<td><a class="me" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;no.'.$numberMy.fullname($USER).' </a></td>
+										<td><a class="me" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;no.'.$numberMy.' 我</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -603,9 +596,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
             }
         }
 
-
-
-        echo'
+        echo '
 					</div>
 				</div>
 
@@ -666,32 +657,11 @@ class format_studtopics_renderer extends format_section_renderer_base {
     }
     /** --- my_get_glyphicon_star END ---*/
 //    输出页码
-    public function my_get_course_evaluation_current_count($count_page, $course,$current_page)
+    public function my_get_course_evaluation_current_count($count_page, $course)
     {
-        /** Start 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
-        $numstart = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page - 2):1):($count_page - 4)):1;
-        $numend = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page + 2):5):($count_page)):$count_page;
-        /** End 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
-        for($num = $numstart; $num <= $numend; $num ++)
+        for($num = 1; $num <= $count_page; $num ++)
         {
-//            if($num == $current_page)
-//            {
-//                //  这里需要修改样式标示当前页
-//                echo'<li><a href="../course/view.php?id='.$course->id.'&page='.$num.'">'.$num.'</a></li>';
-//            }
-//            else
-//            {
-//                echo'<li><a href="../course/view.php?id='.$course->id.'&page='.$num.'">'.$num.'</a></li>';
-//            }
-            if($num == $current_page)
-            {
-                //  这里需要修改样式标示当前页
-                echo'<li><a class="pagination_li_active" href="../course/view.php?id='.$course->id.'&page='.$num.'">'.$num.'</a></li>';
-            }
-            else
-            {
-                echo'<li><a href="../course/view.php?id='.$course->id.'&page='.$num.'">'.$num.'</a></li>';
-            }
+            echo'<li><a href="../course/view.php?id='.$course->id.'&page='.$num.'">'.$num.'</a></li>';
         }
     }
 
@@ -827,6 +797,5 @@ class format_studtopics_renderer extends format_section_renderer_base {
         $rankResult->myRank = $myRank;
         return $rankResult;
     }
-    /**End */
 
 }

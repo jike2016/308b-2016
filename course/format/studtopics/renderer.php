@@ -528,6 +528,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 							</table>
 						</div>';
 
+        global $CFG;
         global $USER;
         $rankResult = $this->rankCourse($course->id,$USER->id);//获取课程的排名
         $courseRank = $rankResult->showRank;//前几名
@@ -558,16 +559,16 @@ class format_studtopics_renderer extends format_section_renderer_base {
 							<table class="ranking-list-table">
 								<tbody>
 									<tr>
-										<td><a class="NO1" href="#" ><span class="glyphicon glyphicon-user"></span>&nbsp;NO.1 '.$numberOne.'</a></td>
+										<td><img src="'.$CFG->wwwroot.'/theme/more/pix/courseforstu/no1.png"><p class="NO1 king" href="#" >&nbsp;NO.1 '.$numberOne.'</p></td>
 									</tr>
 									<tr>
-										<td><a class="NO2" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;NO.2 '.$numberTow.'</a></td>
+										<td><img src="'.$CFG->wwwroot.'/theme/more/pix/courseforstu/no2.png"><p class="NO2 silver" href="#">&nbsp;NO.2 '.$numberTow.'</p></td>
 									</tr>
 									<tr>
-										<td><a class="NO3" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;NO.3 '.$numberThree.'</a></td>
+										<td><img src="'.$CFG->wwwroot.'/theme/more/pix/courseforstu/no3.png"><p class="NO3 copper" href="#">&nbsp;NO.3  '.$numberThree.'</p></td>
 									</tr>
 									<tr>
-										<td><a href="#">&nbsp;......</a></td>
+										<td><a class="more"  href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;............</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -583,19 +584,19 @@ class format_studtopics_renderer extends format_section_renderer_base {
 							<table class="ranking-list-table">
 								<tbody>
 									<tr>
-										<td><a class="NO1" href="#" ><span class="glyphicon glyphicon-user"></span>&nbsp;NO.1 '.$numberOne.'</a></td>
+										<td><img src="'.$CFG->wwwroot.'/theme/more/pix/courseforstu/no1.png"><p class="NO1 king" href="#" >&nbsp;NO.1 '.$numberOne.'</p></td>
 									</tr>
 									<tr>
-										<td><a class="NO2" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;NO.2 '.$numberTow.'</a></td>
+										<td><img src="'.$CFG->wwwroot.'/theme/more/pix/courseforstu/no2.png"><p class="NO2 silver" href="#">&nbsp;NO.2 '.$numberTow.'</p></td>
 									</tr>
 									<tr>
-										<td><a class="NO3" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;NO.3 '.$numberThree.'</a></td>
+										<td><img src="'.$CFG->wwwroot.'/theme/more/pix/courseforstu/no3.png"><p class="NO3 copper" href="#">&nbsp;NO.3  '.$numberThree.'</p></td>
 									</tr>
 									<tr>
-										<td><a href="#">&nbsp;......</a></td>
+										<td><a class="more"  href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;............</a></td>
 									</tr>
 									<tr>
-										<td><a class="me" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;no.'.$numberMy.fullname($USER).' </a></td>
+										<td><a class="who" href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;no.'.$numberMy.' '.fullname($USER).' </a></td>
 									</tr>
 								</tbody>
 							</table>

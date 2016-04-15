@@ -554,7 +554,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 						<!--排行榜-->
 						<div class="ranking-list">
 							<div class="ranking-list-title">
-								<h2><span class="glyphicon glyphicon-user"></span><p>&nbsp;排行榜</p></h2>
+								<h2>&nbsp;<span class="glyphicon glyphicon-signal"></span><p>&nbsp;&nbsp;排行榜</p></h2>
 							</div>
 							<table class="ranking-list-table">
 								<tbody>

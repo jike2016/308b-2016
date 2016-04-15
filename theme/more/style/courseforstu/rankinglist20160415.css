@@ -36,7 +36,6 @@
 
 .ranking-list-table tr td img{
 	margin:0px 0px 0px 20px;
-	float:left;
 }
 
 .ranking-list-table tr a:hover {
@@ -62,7 +61,7 @@
 }
 .ranking-list-table tr p {
 	font-size: 18px;
-    float:left;
+    float:right;
 	margin-top:6px;
 	cursor:pointer;
 }

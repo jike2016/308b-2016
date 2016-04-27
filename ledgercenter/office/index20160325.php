@@ -5,9 +5,7 @@ $missions = $DB -> get_records_sql('select id,mission_name from mdl_mission_my o
 $output1 = '';
 $output2 = '';
 $firstmissionname='';
-/** START20160325 赋初值，否则js嵌套代码输出会出错 岑霄*/
-$firstmissionid='0';
-/* End */
+$firstmissionid='';
 foreach ($missions as $mission){
 	if($output2 == ''){
 		$firstmissionname=$mission->mission_name;

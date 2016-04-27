@@ -59,8 +59,7 @@ $index = 0;
 $noData = 0;//是否有数据的标志
 foreach($missions as $mission){
 	//获取具体的任务，（在此筛选查看时间内的任务）
-//	$missionDetail = $DB->get_record_sql("select mm.id,mm.mission_name,mm.required_course_id,mm.optional_course_id,mm.time_start,mm.time_end from mdl_mission_my mm where mm.id = $mission->mission_id  ".$sql);
-	$missionDetail = $DB->get_record_sql("select * from mdl_mission_my mm where mm.id = $mission->mission_id  ".$sql);
+	$missionDetail = $DB->get_record_sql("select mm.id,mm.mission_name,mm.required_course_id,mm.optional_course_id,mm.time_start,mm.time_end from mdl_mission_my mm where mm.id = $mission->mission_id  ".$sql);
 	if($index){
 		echo '<hr style="height:3px;border:none;border-top:3px ridge #000000;" />';
 	}
@@ -89,21 +88,15 @@ function show_complete($missionDetail,$personid){
 	$missionEndTime = $missionDetail->time_end;//任务截止时间
 	$requiredCouresID = $missionDetail->required_course_id;//必修课
 	$optionalCouresID = $missionDetail->optional_course_id;//选修课
-	$optionalNeedCompleteCount = $missionDetail->optional_choice_compeltions;//选修课应完成数量
 
 	$requiredCoures = $DB->get_records_sql("select c.id,c.fullname from mdl_course c where c.id in ($requiredCouresID)");//必修课程
 	$optionalCoures = $DB->get_records_sql("select c.id,c.fullname from mdl_course c where c.id in ($optionalCouresID)");//选修课程
 
 	$html1 = echo_courseStateTable($requiredCoures,$personid,$missionEndTime);//必修课任务分析
 	$html2 = echo_courseStateTable($optionalCoures,$personid,$missionEndTime);//选修课任务分析
-	//判断是否满足选修课的最小要求
-	$optionalstate = true;
-	if($html2["flag3"] < $missionDetail->optional_choice_compeltions ){
-		$optionalstate = false;
-	}
 
 	$missionState = '未完成';
-	if($html1["flag"] && $optionalstate) {
+	if($html1["flag"] && $html2["flag"]) {
 		$missionState = '已完成';
 	}
 	echo "<h3>$missionName( $missionState)</h3>";
@@ -120,11 +113,11 @@ function show_complete($missionDetail,$personid){
 
 	//START 输出选修课任务状态
 	$state2 = '未完成';
-	if($optionalstate){
+	if($html2["flag"] ){
 		$state2 = '已完成';
 	}
 	echo '<div>
-			<h5 style="color: ;">选修课明细(需完成数量：'.$optionalNeedCompleteCount.'&nbsp;&nbsp;&nbsp;&nbsp;'.$state2.')</h5>
+			<h5 style="color: ;">选修课明细('.$state2.')</h5>
 	   </div>';
 	echo $html2["htmltable"];
 	//END 输出选修课任务状态
@@ -138,7 +131,7 @@ function show_complete($missionDetail,$personid){
  * @param  $courses  课程任务
  * @param 	$personid  任务人员id
  * @param 	$missionEndTime 任务截止时间
- * @return 	$html 数组，包含：$htmltable 表格数据html；$flag 完成状态: 0  未完成，1 完成 ；'flag3' 选修课的完成数量
+ * @return 	$html 数组，包含：$htmltable 表格数据html；$flag 完成状态: 0  未完成，1 完成
  */
 function echo_courseStateTable($courses,$personid,$missionEndTime){
 
@@ -158,7 +151,6 @@ function echo_courseStateTable($courses,$personid,$missionEndTime){
 	global $DB;
 
 	$no = 1;//序号
-	$flag3 = 0;//统计完成课程的数量
 	foreach($courses as $course){
 
 		$courseName = $course->fullname;
@@ -175,7 +167,6 @@ function echo_courseStateTable($courses,$personid,$missionEndTime){
 			if($time < $missionEndTime){ //如果课程完成时间 < 任务截止时间
 				$state = '完成';
 				$flag2 = 1;//将完成状态赋值1
-				$flag3 = $flag3 + 1;//主要用于选修课完成情况的判断
 			}
 		}
 
@@ -189,7 +180,7 @@ function echo_courseStateTable($courses,$personid,$missionEndTime){
 
 	$htmltable = html_writer::table($table);//表格数据html
 
-	$html = array('htmltable'=>$htmltable,'flag'=>$flag,'flag3'=>$flag3);
+	$html = array('htmltable'=>$htmltable,'flag'=>$flag);
 
 	return $html;//完成状态的返回值
 }

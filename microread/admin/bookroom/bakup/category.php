@@ -59,9 +59,9 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" href="bookroom/category_add.php" target="dialog"><span>添加</span></a></li>
+			<li><a class="add" href="bookroom/category_add.php" target="navTab"><span>添加</span></a></li>
 			<li><a class="delete" href="bookroom/category_post_handler.php?title=delete&categoryid={categoryid}" target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
-			<li><a class="edit" href="bookroom/category_edit.php?categoryid={categoryid}" target="dialog"><span>修改</span></a></li>
+			<li><a class="edit" href="bookroom/category_edit.php?categoryid={categoryid}" target="navTab"><span>修改</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
 		</ul>
@@ -71,7 +71,6 @@
 			<tr align="center">
 				<th width="80">序号</th>
 				<th width="120">分类名称</th>
-				<th width="120">上级分类</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -79,23 +78,14 @@
 			<?php
 			require_once("../../../config.php");
 			global $DB;
-			$categories=$DB->get_records_sql('select * from mdl_ebook_categories_my');
+			$categories=$DB->get_records_sql('select *from mdl_ebook_categories_my');
 			foreach($categories as $category){
-			$showstr= '
+				echo '
 				<tr target="categoryid" rel="'.$category->id.'" align="center">
 				<td>'.$category->id.'</td>
 				<td>'.$category->name.'</td>
+				</tr>
 				';
-				if(!$category->parent)
-				{
-					$showstr=$showstr.'<td>（顶级分类）</td></tr>';
-				}
-				else
-				{
-					$parentcategories=$DB->get_records_sql('select * from mdl_ebook_categories_my where id='.$category->parent);
-					$showstr=$showstr.'<td>'.$parentcategories[$category->parent]->name.'</td></tr>';
-				}
-				echo $showstr;
 			}
 			?>
 

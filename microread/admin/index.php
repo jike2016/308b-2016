@@ -101,6 +101,7 @@ $(function(){
 							<li><a href="sidebar_2.html">深圳</a></li>
 							<li><a href="sidebar_2.html">广州</a></li>
 							<li><a href="sidebar_2.html">天津</a></li>
+							<li><a href="sidebar_2.html">南宁</a></li>
 							<li><a href="sidebar_2.html">杭州</a></li>
 						</ul>
 					</li>
@@ -145,6 +146,15 @@ $(function(){
 									<li><a href="bookroom/category.php" target="navTab" rel="category" fresh="false">分类管理</a></li>
 									<li><a href="bookroom/tag.php" target="navTab" rel="tag" fresh="false">标签管理</a></li>
 									<li><a href="bookroom/recommendlist.php" target="navTab" rel="recommendlist" fresh="false">推荐榜管理</a></li>
+								</ul>
+							</li>
+
+							<li><a href="tabsPage.html" target="navTab">文库管理test</a>
+								<ul>
+									<li><a href="docroom/doclibrary.php" target="navTab" rel="doclibrary" fresh="false">文档管理</a></li>
+									<li><a href="docroom/category.php" target="navTab" rel="category" fresh="false">分类管理</a></li>
+									<li><a href="docroom/tag.php" target="navTab" rel="tag" fresh="false">标签管理</a></li>
+									<li><a href="docroom/recommendlist.php" target="navTab" rel="recommendlist" fresh="false">推荐榜管理</a></li>
 								</ul>
 							</li>
 							

@@ -1,5 +1,7 @@
 <?php 
 /** Start CX 处理电子书CURD*/
+require_once('../lib/lib.php');
+require_once("../../tagmylib.php");
 /**获取上传的文件，并转存路径 */
 if(isset($_GET['title']) && $_GET['title']){
 	require_once('../../../config.php');
@@ -11,13 +13,20 @@ if(isset($_GET['title']) && $_GET['title']){
 			edit_ebook();
 			break;
 		case "delete"://删除
-			$DB->delete_records("ebook_my", array("id" =>$_GET['ebookid']));
-			success('删除成功','');
+			delete_ebook();
 			break;
 	}
 }
 else{
 	failure('操作失败');
+}
+
+function delete_ebook(){
+	//先删除标签
+	global $DB;
+	update_delete_tagmy('mdl_ebook_my',$_GET['ebookid']);
+	$DB->delete_records("ebook_my", array("id" =>$_GET['ebookid']));
+	success('删除成功','ebook','');
 }
 function edit_ebook(){
 	$newebook=new stdClass();
@@ -52,7 +61,14 @@ function edit_ebook(){
 	}
 	global $DB;
 	$DB->update_record('ebook_my', $newebook);
-	success('添加成功','closeCurrent');
+	//处理标签
+	if(isset($_POST['tagmy'])){
+		update_edit_tagmy($_POST['tagmy'],'mdl_ebook_my',$_GET['ebookid']);
+	}
+	else{
+		update_edit_tagmy(array(),'mdl_ebook_my',$_GET['ebookid']);
+	}
+	success('添加成功','ebook','closeCurrent');
 }
 function add_ebook(){
 	if(isset($_FILES['pictrueurl'])){//上传图片
@@ -81,8 +97,12 @@ function add_ebook(){
 				$newebook->suffix= $_FILES["url"]["type"];
 				$newebook->size= number_format(($_FILES["url"]["size"] / 1048576),1).'MB';
 				global $DB;
-				$DB->insert_record('ebook_my',$newebook,true);
-				success('添加成功','closeCurrent');
+				$ebookid=$DB->insert_record('ebook_my',$newebook,true);
+				//处理标签
+				if(isset($_POST['tagmy'])){
+					update_add_tagmy($_POST['tagmy'],'mdl_ebook_my',$ebookid);
+				}
+				success('添加成功','ebook','closeCurrent');
 			}
 		}
 	}
@@ -91,28 +111,6 @@ function add_ebook(){
 		failure('没有上传图片');
 	}
 	
-}
-function success($message,$callbackType){
-	echo '{
-		"statusCode":"200",
-		"message":"'.$message.'",
-		"navTabId":"ebook",
-		"rel":"",
-		"callbackType":"'.$callbackType.'",
-		"forwardUrl":"",
-		"confirmMsg":""
-	}';
-}
-function failure($message){
-	echo '{
-		"statusCode":"300",
-		"message":"'.$message.'",
-		"navTabId":"",
-		"rel":"",
-		"callbackType":"",
-		"forwardUrl":"",
-		"confirmMsg":""
-	}';
 }
 ?>
 

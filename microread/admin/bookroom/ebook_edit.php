@@ -64,6 +64,26 @@ $ebook = $DB->get_record_sql('select * from mdl_ebook_my where id='.$ebookid.';'
 				<label>上传电子书：</label>
 				<input name="url" type="file" class=""/>
 			</p>
+			<p class="pageFormContent" style="margin: 20px 20px">
+			<label>标签选择：</label>
+				<?php 
+					require_once("../../tagmylib.php");
+					$alltags = gettagmylist();
+					$tag_selecteds = gettagmy_selected('mdl_ebook_my',$ebookid);
+					foreach($alltags as $tagmy){
+						$n=false;
+						foreach($tag_selecteds as $tag_selected){
+							if($tagmy->id==$tag_selected->tagid){
+								echo '<label><input type="checkbox" name="tagmy[]" value="'.$tagmy->id.'" checked="checked" s/>'.$tagmy->tagname.'</label>';
+								$n=true;
+							}
+						}
+						if($n==false){
+							echo '<label><input type="checkbox" name="tagmy[]" value="'.$tagmy->id.'" />'.$tagmy->tagname.'</label>';
+						}
+					}
+				?>			
+			</p>
 		</div>
 		<div class="formBar">
 			<ul>

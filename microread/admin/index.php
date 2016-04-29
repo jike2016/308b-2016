@@ -142,15 +142,22 @@ $(function(){
 							<li><a href="tabsPage.html" target="navTab">书库管理</a>
 								<ul>
 									<li><a href="bookroom/ebook.php" target="navTab" rel="ebook" fresh="false">电子书管理</a></li>
-									<li><a href="bookroom/category.php" target="navTab" rel="category" fresh="false">分类管理</a></li>
-									<li><a href="bookroom/author.php" target="navTab" rel="author" fresh="false">作者管理</a></li>
-									<li><a href="bookroom/tag.php" target="navTab" rel="tag" fresh="false">标签管理</a></li>
-									<li><a href="bookroom/recommendlist.php" target="navTab" rel="recommendlist" fresh="false">推荐榜管理</a></li>
+									<li><a href="bookroom/category.php" target="navTab" rel="ebookcategory" fresh="false">分类管理</a></li>
+									<li><a href="bookroom/author.php" target="navTab" rel="ebookauthor" fresh="false">作者管理</a></li>
+									<li><a href="bookroom/recommendlist.php" target="navTab" rel="ebookrecommendlist" fresh="false">推荐榜管理</a></li>
 								</ul>
 							</li>
-							
-							<li><a>文库管理</a>
+							<li><a href="tabsPage.html" target="navTab">文库管理</a>
 								<ul>
+									<li><a href="docroom/doclibrary.php" target="navTab" rel="doclibrary" fresh="false">文档管理</a></li>
+									<li><a href="docroom/category.php" target="navTab" rel="doclibrarycategory" fresh="false">分类管理</a></li>
+									<li><a href="docroom/tag.php" target="navTab" rel="doclibrarytag" fresh="false">标签管理</a></li>
+									<li><a href="docroom/recommendlist.php" target="navTab" rel="doclibraryrecommendlist" fresh="false">推荐榜管理</a></li>
+								</ul>
+							</li>
+							<li><a>源码例子</a>
+								<ul>
+																		
 									<li><a href="w_panel.html" target="navTab" rel="w_panel">面板</a></li>
 									<li><a href="w_tabs.html" target="navTab" rel="w_tabs">选项卡面板</a></li>
 									<li><a href="w_dialog.html" target="navTab" rel="w_dialog">弹出窗口</a></li>

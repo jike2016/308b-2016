@@ -53,6 +53,16 @@
 				<label>上传电子书：</label>
 				<input name="url" type="file" class="required"/>
 			</p>
+			<p class="pageFormContent" style="margin: 20px 20px">
+			<label>标签选择：</label>
+				<?php 
+					require_once("../../tagmylib.php");
+					$alltags = gettagmylist();
+					foreach($alltags as $tagmy){
+						echo '<label><input type="checkbox" name="tagmy[]" value="'.$tagmy->id.'" />'.$tagmy->tagname.'</label>';
+					}
+				?>			
+			</p>
 		</div>
 		<div class="formBar">
 			<ul>

@@ -173,6 +173,7 @@ $errorebooks = $DB->get_records_sql('select * from mdl_ebook_my where authorid=0
 					<td>'.$ebook->suffix.'</td>
 					<td>'.$ebook->wordcount.'</td>
 					<td>'.$ebook->size.'</td>
+					
 				</tr>
 				';
 				$offset++;

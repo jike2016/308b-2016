@@ -8,7 +8,7 @@
 
 
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="demo_page1.html" method="post">
+	<form onsubmit="return navTabSearch(this);" action="" method="post">
 	<div class="searchBar">
 		<!--<ul class="searchContent">
 			<li>
@@ -27,32 +27,7 @@
 			</li>
 		</ul>
 		-->
-		<table class="searchContent">
-			<tr>
-				<td>
-					我的客户：<input type="text" name="keyword" />
-				</td>
-				<td>
-					<select class="combox" name="province">
-						<option value="">所有省市</option>
-						<option value="北京">北京</option>
-						<option value="上海">上海</option>
-						<option value="天津">天津</option>
-						<option value="重庆">重庆</option>
-						<option value="广东">广东</option>
-					</select>
-				</td>
-				<td>
-					建档日期：<input type="text" class="date" readonly="true" />
-				</td>
-			</tr>
-		</table>
-		<div class="subBar">
-			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
-				<li><a class="button" href="demo_page6.html" target="dialog" mask="true" title="查询框"><span>高级检索</span></a></li>
-			</ul>
-		</div>
+		
 	</div>
 	</form>
 </div>
@@ -62,11 +37,11 @@
 			<li><a class="add" href="bookroom/category_add.php" target="dialog"><span>添加</span></a></li>
 			<li><a class="delete" href="bookroom/category_post_handler.php?title=delete&categoryid={categoryid}" target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
 			<li><a class="edit" href="bookroom/category_edit.php?categoryid={categoryid}" target="dialog"><span>修改</span></a></li>
-			<li class="line">line</li>
-			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
+		
+			
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="138">
+	<table class="table" width="30%" layoutH="138">
 		<thead>
 			<tr align="center">
 				<th width="80">序号</th>
@@ -80,10 +55,11 @@
 			require_once("../../../config.php");
 			global $DB;
 			$categories=$DB->get_records_sql('select * from mdl_ebook_categories_my');
+			$n=1;
 			foreach($categories as $category){
 			$showstr= '
 				<tr target="categoryid" rel="'.$category->id.'" align="center">
-				<td>'.$category->id.'</td>
+				<td>'.$n.'</td>
 				<td>'.$category->name.'</td>
 				';
 				if(!$category->parent)
@@ -96,6 +72,7 @@
 					$showstr=$showstr.'<td>'.$parentcategories[$category->parent]->name.'</td></tr>';
 				}
 				echo $showstr;
+				$n++;
 			}
 			?>
 
@@ -106,15 +83,13 @@
 		<div class="pages">
 			<span>显示</span>
 			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="20">20</option>
-				<option value="50">50</option>
 				<option value="100">100</option>
-				<option value="200">200</option>
+
 			</select>
-			<span>条，共${totalCount}条</span>
+			<span>条，共<?php echo count($categories);?>条</span>
 		</div>
 
-		<div class="pagination" targetType="navTab" totalCount="200" numPerPage="20" pageNumShown="10" currentPage="1"></div>
+		<div class="pagination" targetType="navTab" totalCount="" numPerPage="100" pageNumShown="10" currentPage="1"></div>
 
 	</div>
 </div>

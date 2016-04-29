@@ -84,7 +84,7 @@ $authors=$DB->get_records_sql('select *from mdl_ebook_author_my a '.$sql);//作�
             <li><a class="edit" href="bookroom/author_edit.php?authorid={authorid}" target="dialog"><span>修改</span></a></li>
         </ul>
     </div>
-    <table class="table" width="40%" layoutH="138">
+    <table class="table" width="30%" layoutH="138">
         <thead>
         <tr align="center">
             <th width="80">序号</th>

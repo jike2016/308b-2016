@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>书库分类页</title>
+		<link rel="stylesheet" href="../css/bootstrap.css" />
+		<link rel="stylesheet" href="../css/bookroom_classify.css" />
+
+		<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
+		<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
+
+	</head>
+	<body id="bookroom_classify">
+		<!--顶部导航-->
+		<div class="header">
+			<div class="header-center">
+				<a class="frist" href="#">首页</a>
+				<a href="#">微阅</a>
+				<a href="#">微课</a>
+				<a href="#">直播</a>
+				<a class="login" href="#"><img src="../img/denglu.png"></a>
+			</div>
+		</div>
+		
+		<div class="header-banner">
+			<img  src="../img/shuku_logo.png"/>
+			<!--搜索框组-->
+			<div class="search-box">
+				<div class="input-group">
+			     	<div class="input-group-btn">
+			        	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">图书&nbsp;<span class="caret"></span></button>
+			        	<ul class="dropdown-menu">
+			          		<li><a href="#">图书</a></li>
+			          		<li role="separator" class="divider"></li>
+			          		<li><a href="#">文献</a></li>
+			          		<li role="separator" class="divider"></li>
+			          		<li><a href="#">论文</a></li>
+			        	</ul>
+			      	</div><!-- /btn-group -->
+			      	<input type="text" class="form-control" >
+			    </div><!-- /input-group -->
+			    <button class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
+			    
+			    <div class="radio">
+			  		<label>
+			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+			    		全部字段
+			  		</label>
+			  		<label>
+			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+			    		标题
+			  		</label>
+			  		<label>
+			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+			    		主讲人
+			  		</label>
+				</div>
+			    
+			</div>
+			<!--搜索框组 end-->
+		</div>
+		<!--顶部导航 end-->
+		
+		<!--书本分类-->
+		<div class="bookclassified">
+			<div class="bookclassified-center">
+				
+				<!-- 书本分类按钮 -->
+				<div class="btn-group" style="float: left;">
+				  	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  		<img src="../img/tushuFenlei.png">
+				  	</a>
+				  	<ul class="dropdown-menu">
+				    	<li><a href="#">现代</a></li>
+				    	<li role="separator" class="divider"></li>
+				    	<li><a href="#">军事</a></li>
+				    	<li role="separator" class="divider"></li>
+				    	<li><a href="#">战争</a></li>
+				    	<li role="separator" class="divider"></li>
+				    	<li><a href="#">科技</a></li>
+				  	</ul>
+				</div>
+				<!-- 书本分类按钮 end-->
+				
+				<div class="line"></div>
+				<a href="#" class="kinds">每日新书</a>
+				<div class="line"></div>
+				<a href="#" class="kinds">7日抢读</a>
+				<div class="line"></div>
+				<a href="#" ><img src="../img/VIP.png"></a>
+				<div class="line"></div>
+				<a href="#" class="kinds">客户端下载</a>
+			</div>
+		</div>
+		<!--书本分类 end-->
+		
+		<!--页面主体-->
+		<div class="main">
+			<!--分类面板-->
+			<div class="classifiedbanner">
+				<div class="classified-block total">
+					<a href="#">全部</a>
+				</div>
+				<div class="classified-block">
+					<a href="#">哲学宗教</a>
+					<span>2</span>
+				</div>
+				<div class="classified-block">
+					<a href="#">自然科学</a>
+					<span>2</span>
+				</div>
+				<div class="classified-block">
+					<a href="#">医学</a>
+					<span>2</span>
+				</div>
+				<div class="classified-block">
+					<a href="#">文学</a>
+					<span>233</span>
+				</div>
+				<div class="classified-block">
+					<a href="#">哲学宗教</a>
+					<span>12</span>
+				</div>
+				<div class="classified-block">
+					<a href="#">艺术</a>
+					<span>2</span>
+				</div>
+			</div>
+			<!--分类面板  end-->
+			
+			<!--书本列表面板-->
+			<div class="booklistbanner">
+				<!--第一排-->
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_1.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_2.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_3.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_4.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<!--第一排 end-->
+				
+				<!--第二排-->
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_5.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_6.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_2.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_1.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<!--第二排 end-->
+				
+				<!--第三排-->
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_6.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_3.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_1.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<div class="book-block">
+					<div class="imgbox">
+						<img src="../img/tushu_4.jpg" />
+					</div>
+					<div class="bookinfo">
+						<a href="#">上善若水</a>
+						<p>王文月（1900-1920）</p>
+					</div>
+				</div>
+				<!--第三排 end-->
+				
+				
+				<!--分页-->
+				<div style="clear: both;"></div>
+				<div class="paging">
+				<nav>
+				  	<ul class="pagination">
+				  		<li>
+				     	 	<a href="#">
+				       	 		<span aria-hidden="true">首页</span>
+				      		</a>
+				    	</li>
+				    	<li>
+				     	 	<a href="#" aria-label="Previous">
+				       	 		<span aria-hidden="true">上一页</span>
+				      		</a>
+				    	</li>
+					    <li><a href="#">1</a></li>
+					    <li><a href="#">2</a></li>
+					    <li><a href="#">3</a></li>
+					    <li><a href="#">4</a></li>
+					    <li><a href="#">5</a></li>
+					    <li>
+					      	<a href="#" aria-label="Next">
+					       		<span aria-hidden="true">下一页</span>
+					      	</a>
+				    	</li>
+				    	<li>
+				     	 	<a href="#">
+				       	 		<span aria-hidden="true">尾页</span>
+				      		</a>
+				    	</li>
+				  	</ul>
+				</nav>
+				</div>
+				<!--分页 end-->
+			</div>
+			<!--书本列表面板 end-->
+		</div>		
+		<!--页面主体 end-->
+		
+		<div style="clear: both;"></div>
+		
+		<!--底部导航条-->
+		<nav class="bottomnav">
+			<div class="whiteline"></div>
+			<p>
+				<a>电子书友链</a>
+				<a>QQ：54250413230</a>
+				<a>版权声明</a>
+				<a>意见反馈</a>
+				<a>客服电话（0771-536780）</a>
+			</p>
+			<p>
+				<a>单位编号：1101081827</a>
+				<a>防城慕课网</a>
+				<a>桂ICP证：060172号</a>
+				<a>网络视听许可证：0110438号</a>
+			</p>
+			<p>Copyright &nbsp;1999-2012&nbsp;&nbsp;防城慕课</p>
+		</nav>
+		<!--底部导航条 end-->
+	</body>
+</html>

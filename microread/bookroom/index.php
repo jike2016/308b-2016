@@ -139,11 +139,11 @@ $totalrankStr .= '"';
 		<!--顶部导航-->
 		<div class="header">
 			<div class="header-center">
-				<a class="frist" href="#">首页</a>
-				<a href="#">微阅</a>
-				<a href="#">微课</a>
-				<a href="#">直播</a>
-				<a class="login" href="#"><img src="../img/denglu.png"></a>
+				<a class="frist" href="<?php echo $CFG->wwwroot; ?>">首页</a>
+				<a href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+				<a href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
+				<a href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
+				<a class="login" href="<?php echo $CFG->wwwroot; ?>/login/index.php"><img src="../img/denglu.png"></a>
 			</div>
 		</div>
 		
@@ -185,35 +185,35 @@ $totalrankStr .= '"';
 			<!--搜索框组 end-->
 		</div>
 		<!--顶部导航 end-->
-		
+
 		<!--书本分类-->
 		<div class="bookclassified">
 			<div class="bookclassified-center">
-				
+
 				<!-- 书本分类按钮 -->
-<!--				<div class="btn-group" style="float: left;">-->
-<!--				  	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--				  		<img src="../img/tushuFenlei.png">-->
-<!--				  	</a>-->
-<!--				  	<ul class="dropdown-menu">-->
-<!--				    	<li><a href="#">现代</a></li>-->
-<!--				    	<li role="separator" class="divider"></li>-->
-<!--				    	<li><a href="#">军事</a></li>-->
-<!--				    	<li role="separator" class="divider"></li>-->
-<!--				    	<li><a href="#">战争</a></li>-->
-<!--				    	<li role="separator" class="divider"></li>-->
-<!--				    	<li><a href="#">科技</a></li>-->
-<!--				  	</ul>-->
-<!--				</div>-->
+				<!--				<div class="btn-group" style="float: left;">-->
+				<!--				  	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+				<!--				  		<img src="../img/tushuFenlei.png">-->
+				<!--				  	</a>-->
+				<!--				  	<ul class="dropdown-menu">-->
+				<!--				    	<li><a href="#">现代</a></li>-->
+				<!--				    	<li role="separator" class="divider"></li>-->
+				<!--				    	<li><a href="#">军事</a></li>-->
+				<!--				    	<li role="separator" class="divider"></li>-->
+				<!--				    	<li><a href="#">战争</a></li>-->
+				<!--				    	<li role="separator" class="divider"></li>-->
+				<!--				    	<li><a href="#">科技</a></li>-->
+				<!--				  	</ul>-->
+				<!--				</div>-->
 				<!-- 书本分类按钮 end-->
 				<?php
-                    if($bookclasses != null){
-                        foreach($bookclasses as $bookclass){
-                            echo '<div class="line"></div>
-                                        <a href="#" class="kinds">'.$bookclass->name.'</a>';
-                        }
-                    }
-                ?>
+				if($bookclasses != null){
+					foreach($bookclasses as $bookclass){
+						echo '<div class="line"></div>
+											<a href="classify.php?bookclassid='.$bookclass->id.'" class="kinds">'.$bookclass->name.'</a>';
+					}
+				}
+				?>
 			</div>
 		</div>
 		<!--书本分类 end-->

@@ -12,9 +12,9 @@ img {vertical-align:top; border:0;page-break-inside:avoid;max-width:100% !import
 a{text-decoration:none;text-shadow: 0 0.5px 0.5px rgba(0, 0, 0, 0.2);}
 a:hover,a:active{outline:0}
 a,a:visited{text-decoration:none}
-a[href]:after{content:" (" attr(href) ")"}
+/*a[href]:after{content:" (" attr(href) ")"}
 abbr[title]:after{content:" (" attr(title) ")"}
-.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}
+.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}*/
 a:hover,a:focus{text-decoration:underline}
 html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%; height: 100%;  font-size:100%; background: #FFFFFF; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100% }
 

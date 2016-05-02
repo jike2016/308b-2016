@@ -48,7 +48,7 @@ $('.lockpage').hide();
 
 <?php
 require_once("../../config.php");
-$page = optional_param('page', 1, PARAM_INT);
+$page = optional_param('page', 0, PARAM_INT);
 global $DB;
 global $USER;
 

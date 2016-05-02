@@ -8,6 +8,7 @@
 
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="js/rank.js" ></script>
 
 		<!--控制图片轮转js文件-->
 		<script type="text/javascript" src="js/Imagerotation/jquery-1.4.2.min.js"></script>
@@ -15,6 +16,54 @@
 		<script type="text/javascript" src="js/Imagerotation/roundabout_shapes.js" ></script>
 		<script type="text/javascript" src="js/Imagerotation/gallery_init.js" ></script>
 		<!--控制图片轮转js文件 end-->
+		<script>
+		
+		// 更新推荐书目录
+        var bookname = new Array("基于3生物质的环境友好材料","情商与影响力","兵家史话","美洲历史","两个主义一百年");   //书名数组
+        var writer = new Array("张建华","王一","兵家","美洲","两个年"); //作者数组 
+        var bookinfo=new Array(5); //书本介绍文字数组
+		bookinfo[0]="《私·念念不忘》，中国首部私密文学主题书，由青春畅销作家九夜茴主编，并携手韩寒、桐华、辛夷坞、孙睿、春树、苏小懒、明前雨后等80后先锋作家共同打造，也成为2011年度最具重量级的收官之作。他们借《私》的写作平台.";
+		bookinfo[1]="《私·念念不忘》";
+		bookinfo[2]="中国首部私密文学主题";
+		bookinfo[3]="由青春畅销作家九夜茴";
+		bookinfo[4]="韩寒、桐华";
+		
+		var moothrank = new Array(10); //月书单
+		moothrank[0] = "1";
+		moothrank[1] = "12";
+		moothrank[2] = "13";
+		moothrank[3] = "1";
+		moothrank[4] = "1";
+		moothrank[5] = "1";
+		moothrank[6] = "1";
+		moothrank[7] = "1";
+		moothrank[8] = "1";
+		moothrank[9] = "1";
+
+		var weekrank = new Array(10); //周书单
+		weekrank[0] = "2";
+		weekrank[1] = "2";
+		weekrank[2] = "2";
+		weekrank[3] = "2";
+		weekrank[4] = "2";
+		weekrank[5] = "2";
+		weekrank[6] = "2";
+		weekrank[7] = "2";
+		weekrank[8] = "2";
+		weekrank[9] = "2";
+
+		var totalrank = new Array(10); //总书单
+		totalrank[0] = "3";
+		totalrank[1] = "3";
+		totalrank[2] = "3";
+		totalrank[3] = "3";
+		totalrank[4] = "3";
+		totalrank[5] = "3";
+		totalrank[6] = "3";
+		totalrank[7] = "3";
+		totalrank[8] = "3";
+		totalrank[9] = "3";
+		</script>
 	</head>
 	<body id="bookroom">
 		<!--顶部导航-->
@@ -199,17 +248,17 @@
 						<section id="gallery">
 						    <div class="container_image">
 						        <ul id="myRoundabout">
-						            <li><a href="#" target="_blank" title="图片"><img src="img/tushu_1.jpg" alt='图片' style="border: 0"></a></li>   
-						            <li><a href="#" target="_blank" title="图片"><img src="img/tushu_2.jpg" alt='图片' style="border: 0"></a></li>   
-						            <li><a href="#" target="_blank" title="图片"><img src="img/tushu_3.jpg" alt='图片' style="border: 0"></a></li>   
-						            <li><a href="#" target="_blank" title="图片"><img src="img/tushu_4.jpg" alt='图片' style="border: 0"></a></li>  
-						            <li><a href="#" target="_blank" title="图片"><img src="img/tushu_5.jpg" alt='图片' style="border: 0"></a></li> 
+						            <li id="0"><a href="#" target="_blank" title="图片"><img src="img/tushu_1.jpg" alt='图片' style="border: 0"></a></li>   
+						            <li id="1"><a href="#" target="_blank" title="图片"><img src="img/tushu_2.jpg" alt='图片' style="border: 0"></a></li>   
+						            <li id="2"><a href="#" target="_blank" title="图片"><img src="img/tushu_3.jpg" alt='图片' style="border: 0"></a></li>   
+						            <li id="3"><a href="#" target="_blank" title="图片"><img src="img/tushu_4.jpg" alt='图片' style="border: 0"></a></li>  
+						            <li id="4"><a href="#" target="_blank" title="图片"><img src="img/tushu_5.jpg" alt='图片' style="border: 0"></a></li> 
 						        </ul>
 						    </div>
 						</section>
 					</div>
 					<div class="book-introduce">
-						<p class="bookname">新徽商  创业提升价值</p>
+						<p class="bookname">基于生物质的环境友好材料</p>
 						<p class="writer">作者：张建华著</p>
 						<p class="bookinfo">《私·念念不忘》，中国首部私密文学主题书，由青春畅销作家九夜茴主编，并携手韩寒、桐华、辛夷坞、孙睿、春树、苏小懒、明前雨后等80后先锋作家共同打造，也成为2011年度最具重量级的收官之作。他们借《私》的写作平台.</p>
 					</div>
@@ -372,51 +421,51 @@
 				
 				<!--热门排行榜-->
 				<div class="top-charts">
-					<div class="title">热门排行榜</div>
-					<div class="title mooth">月</div>
+					<div class="title hotrank">热门排行榜</div>
 					<div class="title week">周</div>
+					<div class="title mooth">月</div>					
 					<div class="title total">总</div>
 					<div style="clear: both;"></div>
-					<div class="ranklist">
+					<div class="ranklist final">
 						<div class="ranklist-block">
 							<a class="ranknum top3">1</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 						<div class="ranklist-block">
 							<a class="ranknum top3">2</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 						<div class="ranklist-block">
 							<a class="ranknum top3">3</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 						<div class="ranklist-block">
 							<a class="ranknum">4</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 						<div class="ranklist-block">
 							<a class="ranknum">5</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 						<div class="ranklist-block">
 							<a class="ranknum">6</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 						<div class="ranklist-block">
 							<a class="ranknum">7</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 						<div class="ranklist-block">
 							<a class="ranknum">8</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 						<div class="ranklist-block">
 							<a class="ranknum">9</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 						<div class="ranklist-block">
 							<a class="ranknum top10">10</a>
-							<a class="bookname">辛亥革命在甘肃</a>
+							<a class="bookname"></a>
 						</div>
 					</div>
 					<div class="more-box"><a class="more" href="#">更多>></a></div>

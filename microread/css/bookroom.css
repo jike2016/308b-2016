@@ -71,7 +71,7 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 #bookroom .book-block .book-info-box {float: right; width: 420px;}
 #bookroom .book-block .book-info-box .bookname {font-size: 20px; color: #0d99ca; margin-bottom: 3px;}
 #bookroom .book-block .book-info-box .writer {font-size: 16px; color: #0d99ca;}
-#bookroom .book-block .book-info-box .bookinfo {font-size: 14px;margin-top: 18px; margin-bottom: 18px; height: 107px;}
+#bookroom .book-block .book-info-box .bookinfo {font-size: 14px;margin-top: 18px; margin-bottom: 18px; height: 107px; }
 #bookroom .book-block .book-info-box .tips {font-size: 14px;padding: 3px 30px; background-color: #b8e7f6; margin-right: 10px; text-decoration: none; color: #000000;}
 /******书单列表 @end******/
 			
@@ -90,7 +90,7 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 #bookroom .recomend-box .recomendread .book-introduce {text-align: center;}
 #bookroom .recomend-box .recomendread .book-introduce .bookname{font-size: 20px; color: #1096ce; margin-bottom: 0px; font-weight: 600;}
 #bookroom .recomend-box .recomendread .book-introduce .writer{font-size: 14px; color: #1096ce;}
-#bookroom .recomend-box .recomendread .book-introduce .bookinfo {font-size: 12px; text-align: left;}
+#bookroom .recomend-box .recomendread .book-introduce .bookinfo {font-size: 12px; text-align:center;}
 #bookroom .recomend-box .recomendtop10{width: 26%; float: right;}
 #bookroom .recomend-box .recomendtop10 .title {border-bottom: 2px solid #91E2FA; width: 100%; }
 #bookroom .recomend-box .recomendtop10 .title p{border-bottom: 1px solid #000000; font-size: 20px;margin-bottom: 0px;text-align: center;font-weight: 600;height: 34px;}
@@ -118,6 +118,7 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 #bookroom .rank-box .more {font-size: 12px; text-decoration: none;color: #0e4da9; margin-left:30px;}
 #bookroom .rank-box .more:hover {color: #2EBEFF;}
 #bookroom .rank-box .top-charts .title:hover{background-color: #2ebeff;}
+#bookroom .rank-box .top-charts .hotrank:hover{background-color: #437a92;}
 #bookroom .rank-box .top-charts .mooth{width: 22%; float: left;}
 #bookroom .rank-box .top-charts .week{width: 22%; float: left;}
 #bookroom .rank-box .top-charts .total{width: 22%; float: left;}

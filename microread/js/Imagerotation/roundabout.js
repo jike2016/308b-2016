@@ -413,12 +413,16 @@ jQuery.fn.roundabout_updateChildPositions = function () {
         info.opacity = { min: data.minOpacity, max: data.maxOpacity, diff: data.maxOpacity - data.minOpacity };
         info.scale = { min: data.minScale, max: data.maxScale, diff: data.maxScale - data.minScale };
 
-        // update child positions
+
+        
         ref.children(data.childSelector).each(function (i) {        //这里是某本书的图片成为当前焦点时，加上class roundabout-in-focus
             if (jQuery.roundabout_updateChildPosition(jQuery(this), ref, info, i) && info.animating === 0) {
                 inFocus = i;
                 jQuery(this).addClass('roundabout-in-focus');
-                //alert("sucess");  //测试成功
+                var booknum = $('.roundabout-in-focus').attr("id");
+                $('.book-introduce').children('.bookname').text(bookname[booknum]);
+                $('.book-introduce').children('.writer').text(writer[booknum]);
+                $('.book-introduce').children('.bookinfo').text(bookinfo[booknum]);
             } else {
                 jQuery(this).removeClass('roundabout-in-focus');
             }

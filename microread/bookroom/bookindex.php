@@ -157,7 +157,19 @@ $bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
 				</p>
 				<?php
 					foreach($bookchapters as $bookchapter){
-						echo '<p><a href="#">'.$bookchapter->name.'</a></p>';
+
+						$booksections = $DB->get_records_sql("select * from mdl_ebook_section_my es
+																where es.chapterid = $bookchapter->id
+																order by es.sectionorder");
+						echo '<p>
+									<a href="#">'.$bookchapter->name.'</a>
+									<ul>';
+						foreach($booksections as $booksection){
+							echo '<li><a href="#">'.$booksection->name.'</a></li>';
+						}
+						echo '</ul>
+							</p>';
+
 					}
 				?>
 			</div>

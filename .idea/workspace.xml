@@ -25,16 +25,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="access.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mod/tagmy/db/access.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.875">
-              <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="mod_form.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mod/tagmy/mod_form.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -144,13 +134,21 @@
       <file leaf-file-name="bookindex.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/microread/bookroom/bookindex.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19827586">
-              <caret line="135" column="36" selection-start-line="135" selection-start-column="36" selection-end-line="135" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.7572464">
+              <caret line="167" column="83" selection-start-line="167" selection-start-column="83" selection-end-line="167" selection-end-column="83" />
               <folding>
-                <marker date="1462261004835" expanded="true" signature="415:483" placeholder="select e.id,... mdl_ebook_categories_my" />
-                <marker date="1462261004835" expanded="true" signature="533:772" placeholder="select e.*,e... mdl_ebook_my" />
-                <marker date="1462261004835" expanded="true" signature="533:773" placeholder="select e.*,e... mdl_ebook_my" />
-                <marker date="1462261004835" expanded="true" signature="830:936" placeholder="select * fro... mdl_ebook_chapter_my" />
+                <marker date="1462263435624" expanded="true" signature="415:483" placeholder="select e.id,... mdl_ebook_categories_my" />
+                <marker date="1462263435624" expanded="true" signature="533:772" placeholder="select e.*,e... mdl_ebook_my" />
+                <marker date="1462263435624" expanded="true" signature="533:773" placeholder="select e.*,e... mdl_ebook_my" />
+                <marker date="1462263435624" expanded="true" signature="830:936" placeholder="select * fro... mdl_ebook_chapter_my" />
+                <marker date="1462263435624" expanded="true" signature="5314:5446" placeholder="select * fro... mdl_ebook_section_my" />
+                <marker date="1462263435624" expanded="true" signature="5464:5522" placeholder="..." />
+                <marker date="1462263435624" expanded="true" signature="5464:5675" placeholder="..." />
+                <marker date="1462263435624" expanded="true" signature="5526:5665" placeholder="..." />
+                <marker date="1462263435624" expanded="true" signature="5769:5781" placeholder="..." />
+                <marker date="1462263435624" expanded="true" signature="5832:6157" placeholder="..." />
+                <marker date="1462263435624" expanded="true" signature="5872:5984" placeholder="..." />
+                <marker date="1462263435624" expanded="true" signature="5991:6096" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -159,7 +157,7 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mod/notemy/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.875">
+            <state vertical-scroll-proportion="-7.3125">
               <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
               <folding>
                 <marker date="1459950868347" expanded="true" signature="2805:2872" placeholder="select * FRO... mdl_note_my" />
@@ -1202,18 +1200,6 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/microread/admin/bookroom/category_post_handler.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2440192">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <marker date="1461930730760" expanded="true" signature="383:464" placeholder="select * fro... mdl_ebook_categories_my" />
-            <marker date="1461930730760" expanded="true" signature="948:995" placeholder="select * fro... mdl_ebook_categories_my" />
-            <marker date="1461930730760" expanded="true" signature="1103:1214" placeholder="select * fro... mdl_ebook_categories_my" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/classes/shutdown_manager.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33202356">
@@ -1703,16 +1689,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mod/notemy/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.875">
-          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-          <folding>
-            <marker date="1459950868347" expanded="true" signature="2805:2872" placeholder="select * FRO... mdl_note_my" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mod/notemy/db/access.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
@@ -1759,6 +1735,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/microread/admin/bookroom/section_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.12786885">
+          <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+          <folding>
+            <marker date="1462240039769" expanded="true" signature="468:573" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462240039769" expanded="true" signature="2290:2334" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462240039769" expanded="true" signature="2456:2587" placeholder="select * fro... mdl_ebook_section_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/microread/bookroom/classify.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.474359">
@@ -1787,15 +1775,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mod/notemy/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.3125">
+          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+          <folding>
+            <marker date="1459950868347" expanded="true" signature="2805:2872" placeholder="select * FRO... mdl_note_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/microread/bookroom/bookindex.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19827586">
-          <caret line="135" column="36" selection-start-line="135" selection-start-column="36" selection-end-line="135" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.7572464">
+          <caret line="167" column="83" selection-start-line="167" selection-start-column="83" selection-end-line="167" selection-end-column="83" />
           <folding>
-            <marker date="1462261004835" expanded="true" signature="415:483" placeholder="select e.id,... mdl_ebook_categories_my" />
-            <marker date="1462261004835" expanded="true" signature="533:772" placeholder="select e.*,e... mdl_ebook_my" />
-            <marker date="1462261004835" expanded="true" signature="533:773" placeholder="select e.*,e... mdl_ebook_my" />
-            <marker date="1462261004835" expanded="true" signature="830:936" placeholder="select * fro... mdl_ebook_chapter_my" />
+            <marker date="1462263435624" expanded="true" signature="415:483" placeholder="select e.id,... mdl_ebook_categories_my" />
+            <marker date="1462263435624" expanded="true" signature="533:772" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462263435624" expanded="true" signature="533:773" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462263435624" expanded="true" signature="830:936" placeholder="select * fro... mdl_ebook_chapter_my" />
+            <marker date="1462263435624" expanded="true" signature="5314:5446" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462263435624" expanded="true" signature="5464:5522" placeholder="..." />
+            <marker date="1462263435624" expanded="true" signature="5464:5675" placeholder="..." />
+            <marker date="1462263435624" expanded="true" signature="5526:5665" placeholder="..." />
+            <marker date="1462263435624" expanded="true" signature="5769:5781" placeholder="..." />
+            <marker date="1462263435624" expanded="true" signature="5832:6157" placeholder="..." />
+            <marker date="1462263435624" expanded="true" signature="5872:5984" placeholder="..." />
+            <marker date="1462263435624" expanded="true" signature="5991:6096" placeholder="..." />
           </folding>
         </state>
       </provider>

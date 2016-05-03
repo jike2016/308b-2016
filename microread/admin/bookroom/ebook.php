@@ -131,6 +131,9 @@ $errorebooks = $DB->get_records_sql('select * from mdl_ebook_my where authorid=0
 				<th width="80" align="center">格式</th>
 				<th width="80" align="center">总字数</th>
 				<th width="80" align="center">大小</th>
+				<!--start zxf 章管理-->
+				<th width="80" align="center">章管理</th>
+				<!--end zxf 章管理-->
 			</tr>
 		</thead>
 		<tbody>
@@ -173,6 +176,7 @@ $errorebooks = $DB->get_records_sql('select * from mdl_ebook_my where authorid=0
 					<td>'.$ebook->suffix.'</td>
 					<td>'.$ebook->wordcount.'</td>
 					<td>'.$ebook->size.'</td>
+					<td><a class="button" href="bookroom/chapter.php?ebookid='.$ebook->id.'" target="navTab" rel="ebookchapter"><span>章节管理</span></a></td>
 					
 				</tr>
 				';

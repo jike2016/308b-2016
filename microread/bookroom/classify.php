@@ -64,8 +64,6 @@ else{
 ?>
 
 
-
-
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -169,7 +167,7 @@ else{
 			<!--分类面板-->
 			<div class="classifiedbanner">
 				<div class="classified-block total">
-					<a href="#"><?php echo $bookclassnow->name; ?></a>
+					<a href="classify.php?bookclassid=<?php echo $bookclassid; ?>"><?php echo $bookclassnow->name; ?></a>
 				</div>
 				<?php
 					foreach($booksecondclasses as $booksecondclass){
@@ -187,15 +185,17 @@ else{
 				<!--第一排-->
 				<?php
 					foreach($books as $book){
-						echo '<div class="book-block">
-									<div class="imgbox">
-										<img src="'.$book->pictrueurl.'" />
+						echo '<a href="bookindex.php?bookid='.$book->id.'">
+									<div class="book-block">
+										<div class="imgbox">
+											<img src="'.$book->pictrueurl.'" />
+										</div>
+										<div class="bookinfo">
+											'.$book->name.'
+											<p>'.$book->authorname.'（1900-1920）</p>
+										</div>
 									</div>
-									<div class="bookinfo">
-										<a href="#">'.$book->name.'</a>
-										<p>'.$book->authorname.'（1900-1920）</p>
-									</div>
-								</div>';
+								</a>';
 					}
 				?>
 				<!--第一排 end-->

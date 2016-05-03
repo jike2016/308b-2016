@@ -21,14 +21,24 @@ $booksecondclassid = '';//要显示的二级分类
 if(isset($_GET["booksecondclassid"]) && $_GET["booksecondclassid"] != null){
 	$booksecondclassid = $_GET["booksecondclassid"];
 }
-if($booksecondclassid == '' && count($booksecondclasses)!=0 ){
-	$booksecondclassid = current($booksecondclasses)->id;//显示第一个二级分类
+
+//从首页跳转到二级分页，显示二级分页的所有书籍
+if($booksecondclassid == '' ){
+	$index = ($page-1)*12;//从第几条记录开始
+	$books = $DB->get_records_sql("select e.*,ea.`name` as authorname from mdl_ebook_categories_my ec
+									left join mdl_ebook_my e on ec.id = e.categoryid
+									left join mdl_ebook_author_my ea on e.authorid = ea.id
+									where ec.parent = $bookclassid
+									or e.categoryid = $bookclassid
+									order by e.timecreated desc
+									limit $index,12");
 }
 if($booksecondclassid != ''){//获取二级分类对应的书
 	$index = ($page-1)*12;//从第几条记录开始
 	$books = $DB->get_records_sql("select e.*,ea.`name` as authorname from mdl_ebook_my e
 								left join mdl_ebook_author_my ea on e.authorid = ea.id
 								where e.categoryid = $booksecondclassid
+								order by e.timecreated desc
 								limit $index,12");
 }
 //如果还没有查过总记录数则查询
@@ -36,10 +46,17 @@ if(isset($_POST['totalcount'])) {
 	$totalcount = $_POST['totalcount'];
 }
 else{
-	if($booksecondclassid != '') {
+	if($booksecondclassid != '') {//选择二级分类
 		$record = $DB->get_record_sql("select count(*) as count from mdl_ebook_my e
 									left join mdl_ebook_author_my ea on e.authorid = ea.id
 									where e.categoryid = $booksecondclassid");
+		$totalcount = $record->count;
+	}
+	if($booksecondclassid == '') {//未选着二级分类
+		$record = $DB->get_record_sql("select count(*) as count from mdl_ebook_categories_my ec
+										left join mdl_ebook_my e on ec.id = e.categoryid
+										where ec.parent = $bookclassid
+										or e.categoryid = $bookclassid");
 		$totalcount = $record->count;
 	}
 }

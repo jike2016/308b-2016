@@ -135,7 +135,7 @@ $bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
 			<!--书籍介绍-->
 			<div class="bookbanner">
 				<div class="imgbox">
-					<img src="<?php echo $book->pictrueurl; ?>" />
+					<img src="<?php echo $book->pictrueurl; ?>" width="150" height="220" />
 				</div>
 				<div class="bookinfo">
 					<p class="titleword">作者：&nbsp;&nbsp;</p><p class="titleinfo"><?php echo $book->authorname; ?></p><br />

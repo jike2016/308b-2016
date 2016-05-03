@@ -188,7 +188,7 @@ else{
 						echo '<a href="bookindex.php?bookid='.$book->id.'">
 									<div class="book-block">
 										<div class="imgbox">
-											<img src="'.$book->pictrueurl.'" />
+											<img src="'.$book->pictrueurl.'" width="150" height="220"/>
 										</div>
 										<div class="bookinfo">
 											'.$book->name.'

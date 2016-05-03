@@ -230,7 +230,7 @@ $totalrankStr .= '"';
                     if($books != null){
                         foreach($books as $book){
                             echo '<div class="book-block">
-                                    <img src="'.$book->pictrueurl.'" />
+                                    <img src="'.$book->pictrueurl.'" width="150" height="220" />
                                     <div class="book-info-box">
                                         <p class="bookname">'.$book->name.'</p>
                                         <p class="writer">作者：'.$book->authorname.'</p>
@@ -278,7 +278,7 @@ $totalrankStr .= '"';
                                     <?php
                                         if($recommends!=null){
                                             for($i=1;$i<=5;$i++){
-                                                echo ' <li id="'.($i-1).'"><a href="#" target="_blank" title="图片"> <img src="'.$recommends[$i]->pictrueurl.'" alt=\'图片\' style="border: 0"></a></li>';
+                                                echo ' <li id="'.($i-1).'"><a href="#" target="_blank" title="图片"> <img src="'.$recommends[$i]->pictrueurl.'" alt=\'图片\' style="border: 0" width="150" height="220" ></a></li>';
                                             }
                                         }
                                     ?>

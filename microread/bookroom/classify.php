@@ -8,19 +8,19 @@ if(isset($_GET["bookclassid"]) && $_GET["bookclassid"] != null){//顶级分类
 	$bookclassid = $_GET["bookclassid"];
 }
 
-global $DB;
-$bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");//获取顶级分类
-$bookclassnow = $bookclasses[$bookclassid];//当前顶级分类对象
-//获取二级分类
-$booksecondclasses = $DB->get_records_sql("select ec.id,ec.`name`,count(*) as num from mdl_ebook_categories_my ec
-											left join mdl_ebook_my e on ec.id = e.categoryid
-											where ec.parent = $bookclassid
-											group by e.categoryid ");
-
 $booksecondclassid = '';//要显示的二级分类
 if(isset($_GET["booksecondclassid"]) && $_GET["booksecondclassid"] != null){
 	$booksecondclassid = $_GET["booksecondclassid"];
 }
+
+global $DB;
+$bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");//获取顶级分类
+$bookclassnow = $bookclasses[$bookclassid];//当前顶级分类对象
+//获取当前顶级分类下面的二级分类
+$booksecondclasses = $DB->get_records_sql("select ec.id,ec.`name`,count(*) as num from mdl_ebook_categories_my ec
+											left join mdl_ebook_my e on ec.id = e.categoryid
+											where ec.parent = $bookclassid
+											group by e.categoryid ");
 
 //从首页跳转到二级分页，显示二级分页的所有书籍
 if($booksecondclassid == '' ){
@@ -30,9 +30,10 @@ if($booksecondclassid == '' ){
 									left join mdl_ebook_author_my ea on e.authorid = ea.id
 									where ec.parent = $bookclassid
 									or e.categoryid = $bookclassid
-									order by e.timecreated desc
+									order by e.timecreated desc,e.categoryid asc
 									limit $index,12");
 }
+
 if($booksecondclassid != ''){//获取二级分类对应的书
 	$index = ($page-1)*12;//从第几条记录开始
 	$books = $DB->get_records_sql("select e.*,ea.`name` as authorname from mdl_ebook_my e
@@ -41,6 +42,7 @@ if($booksecondclassid != ''){//获取二级分类对应的书
 								order by e.timecreated desc
 								limit $index,12");
 }
+
 //如果还没有查过总记录数则查询
 if(isset($_POST['totalcount'])) {
 	$totalcount = $_POST['totalcount'];
@@ -61,6 +63,19 @@ else{
 	}
 }
 
+//如果还没有设置过顶级书籍的数量
+if(isset($_POST['toptotalcount'])) {
+	$toptotalcount = $_POST['toptotalcount'];
+}else{
+	$topcount = $DB->get_records_sql("select e.*,ea.`name` as authorname from mdl_ebook_categories_my ec
+									left join mdl_ebook_my e on ec.id = e.categoryid
+									left join mdl_ebook_author_my ea on e.authorid = ea.id
+									where ec.parent = $bookclassid
+									or e.categoryid = $bookclassid
+									");
+	$toptotalcount = count($topcount);
+}
+
 ?>
 
 
@@ -78,6 +93,7 @@ else{
 
 		<form id="pagerForm" method="post" action="">
 			<input type="hidden" name="totalcount" value="<?php echo $totalcount;?>" />
+			<input type="hidden" name="toptotalcount" value="<?php echo $toptotalcount;?>" /><!-- 顶级分类的书籍数量 -->
 		</form>
 
 		<!--顶部导航-->
@@ -168,6 +184,7 @@ else{
 			<div class="classifiedbanner">
 				<div class="classified-block total">
 					<a href="classify.php?bookclassid=<?php echo $bookclassid; ?>"><?php echo $bookclassnow->name; ?></a>
+					<span><?php echo $toptotalcount; ?></span>
 				</div>
 				<?php
 					foreach($booksecondclasses as $booksecondclass){

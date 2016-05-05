@@ -9,7 +9,7 @@ label, legend, li, meter,nav,object, ol, output,p, pre, progress,q, s, samp, sec
 mark, rp, rt, ruby, summary, time{ display: inline }
  ul {list-style: none;padding:0px;margin:0px;outline: 0;}
 img {vertical-align:top; border:0;page-break-inside:avoid;max-width:100% !important; }
-a{text-decoration:none;text-shadow: 0 0.5px 0.5px rgba(0, 0, 0, 0.2);}
+/*a{text-decoration:none;text-shadow: 0 0.5px 0.5px rgba(0, 0, 0, 0.2);}*/
 a:hover,a:active{outline:0}
 a,a:visited{text-decoration:none}
 /*a[href]:after{content:" (" attr(href) ")"}

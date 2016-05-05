@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 require_once ("../../config.php");
 
@@ -6,16 +5,10 @@ if(isset($_GET["bookid"]) && $_GET["bookid"] != null){//顶级分类
 	$bookid = $_GET["bookid"];
 }
 
-global $DB;
-global $USER;
+require_once ("../loglib.php");
+addbookviewlog($bookid);//添加日志记录
 
-$log = new stdClass();
-$log->action = 'view';
-$log->target = 1;
-$log->contextid = $bookid;
-$log->userid = $USER->id;
-$log->timecreated = time();
-$DB->insert_record("microread_log",$log,true);//添加日志记录
+global $DB;
 
 $bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");//获取顶级分类
 //查询书籍信息
@@ -28,9 +21,9 @@ $bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
 										where e.ebookid = $bookid
 										order by e.chapterorder");
 
-
 ?>
 
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -40,8 +33,8 @@ $bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
 
 		<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
-
 	</head>
+
 	<body id="bookindex">
 		<!--顶部导航-->
 		<div class="header">
@@ -55,7 +48,7 @@ $bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
 		</div>
 		
 		<div class="header-banner">
-			<img  src="../img/shuku_logo.png"/>
+			<a href="index.php"><img  src="../img/shuku_logo.png"/></a>
 			<!--搜索框组-->
 			<div class="search-box">
 				<div class="input-group">
@@ -96,7 +89,7 @@ $bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
 		<!--书本分类-->
 		<div class="bookclassified">
 			<div class="bookclassified-center">
-				
+
 				<!-- 书本分类按钮 -->
 <!--				<div class="btn-group" style="float: left;">-->
 <!--				  	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
@@ -125,13 +118,13 @@ $bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
 			</div>
 		</div>
 		<!--书本分类 end-->
-		
+
 		<!--页面主体-->
 		<div class="main">
 			<p class="bookname">
 				<?php echo $book->name; ?>
 			</p>
-			
+
 			<!--书籍介绍-->
 			<div class="bookbanner">
 				<div class="imgbox">
@@ -149,7 +142,7 @@ $bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
 				<div style="clear: both;"></div>
 			</div>
 			<!--书籍介绍 end-->
-			
+
 			<!--书籍目录-->
 			<div class="bookcatalog">
 				<p class="title">
@@ -174,7 +167,7 @@ $bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
 				?>
 			</div>
 			<!--书籍目录 end-->
-		</div>		
+		</div>
 		<!--页面主体 end-->
 		
 		<div style="clear: both;"></div>

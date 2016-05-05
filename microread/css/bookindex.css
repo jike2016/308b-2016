@@ -1,3 +1,9 @@
+/****总体样式 *****/
+img {vertical-align:top; border:0;page-break-inside:avoid;max-width:100% !important; }
+html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%; height: 100%;  font-size:100%; background: #FFFFFF; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100% }
+/****总体样式@end*****/
+
+
 body{font-family: "微软雅黑";}
 .header{height:35px; width:100%; border-bottom: 2px solid #93e1fa; padding: 5px 0px 0px 0px;}
 .header .header-center {margin: auto;width: 1200px;}

@@ -148,7 +148,7 @@ $totalrankStr .= '"';
 		</div>
 		
 		<div class="header-banner">
-			<img  src="../img/shuku_logo.png"/>
+			<a href="#"><img  src="../img/shuku_logo.png"/></a>
 			<!--搜索框组-->
 			<div class="search-box">
 				<div class="input-group">
@@ -232,7 +232,7 @@ $totalrankStr .= '"';
                             echo '<div class="book-block">
                                     <img src="'.$book->pictrueurl.'" width="150" height="220" />
                                     <div class="book-info-box">
-                                        <p class="bookname">'.$book->name.'</p>
+                                        <a href="bookindex.php?bookid='.$book->id.'"><p class="bookname">'.$book->name.'</p></a>
                                         <p class="writer">作者：'.$book->authorname.'</p>
                                         <p class="bookinfo">'.$book->summary.'</p>
                                         <p>';
@@ -240,8 +240,13 @@ $totalrankStr .= '"';
                                                 left join mdl_tag_my tm on tl.tagid = tm.id
                                                 where tl.link_id = $book->id");
                             if($tags != null){
+								$num = 0;
                                 foreach($tags as $tag){
+									if($num == 3){
+										break;
+									}
                                     echo '<a class="tips">'.$tag->tagname.'</a>';
+									$num++;
                                 }
                             }
                             echo '</p>
@@ -278,7 +283,7 @@ $totalrankStr .= '"';
                                     <?php
                                         if($recommends!=null){
                                             for($i=1;$i<=5;$i++){
-                                                echo ' <li id="'.($i-1).'"><a href="#" target="_blank" title="图片"> <img src="'.$recommends[$i]->pictrueurl.'" alt=\'图片\' style="border: 0" width="150" height="220" ></a></li>';
+                                                echo ' <li id="'.($i-1).'"><a href="bookindex.php?bookid='.$recommends[$i]->ebookid.'" target="_blank" title="图片"> <img src="'.$recommends[$i]->pictrueurl.'" alt=\'图片\' style="border: 0" width="150" height="220" ></a></li>';
                                             }
                                         }
                                     ?>
@@ -307,12 +312,12 @@ $totalrankStr .= '"';
                                 if($no<4){
                                     echo ' <div class="ranklist-block">
                                         <a class="ranknum top3">'.$no.'</a>
-                                        <a class="bookname">'.$recommend->name.'</a>
+                                        <a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
                                     </div>';
                                 }else{
                                     echo ' <div class="ranklist-block">
                                         <a class="ranknum">'.$no.'</a>
-                                        <a class="bookname">'.$recommend->name.'</a>
+                                        <a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
                                     </div>';
                                 }
                                 $no++;

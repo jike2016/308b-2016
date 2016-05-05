@@ -96,7 +96,7 @@ global $USER;
 
 $userid = $USER->id;//获取用户id
 //$mission_my = $DB->get_records_sql('select * from mdl_mission_my m join mdl_mission_user_my mu  where m.id = mu.mission_id and mu.user_id = '.$userid.' ORDER BY m.id DESC;');
-$mission_my = $DB->get_records_sql('select * from mdl_mission_my m ');
+$mission_my = $DB->get_records_sql('select * from mdl_mission_my m order by m.id desc');
 foreach ($mission_my as $mission) {
 	$actions=null;
 	$mission_name = $mission->mission_name;//台账标题

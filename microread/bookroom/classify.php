@@ -92,7 +92,7 @@ else{
 		</div>
 		
 		<div class="header-banner">
-			<img  src="../img/shuku_logo.png"/>
+			<a href="index.php"><img  src="../img/shuku_logo.png"/></a>
 			<!--搜索框组-->
 			<div class="search-box">
 				<div class="input-group">
@@ -188,7 +188,7 @@ else{
 						echo '<a href="bookindex.php?bookid='.$book->id.'">
 									<div class="book-block">
 										<div class="imgbox">
-											<img src="'.$book->pictrueurl.'" width="150" height="220"/>
+											<img src="'.$book->pictrueurl.'" width="130" height="190"/>
 										</div>
 										<div class="bookinfo">
 											'.$book->name.'

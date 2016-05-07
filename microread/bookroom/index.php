@@ -133,6 +133,20 @@ $totalrankStr .= '"';
             var moothrank = new Array(<?php echo $monthrankStr; ?>); //月书单
             var weekrank = new Array(<?php echo $weekrankStr; ?>); //周书单
             var totalrank = new Array(<?php echo $totalrankStr; ?>); //总书单
+
+			//搜索选项下拉框
+			$(document).ready(function() {
+				$('#searchtype a').click(function() {
+					$('#searchtypebtn').text($(this).text());
+				});
+			});
+			//搜索
+			function search(){
+				var searchType = document.getElementById("searchtypebtn");//获取查询参数
+				var searchParam = document.getElementById("searchParam");//获取选项
+				window.location.href="searchresult.php?searchType="+searchType.textContent+"&searchParam="+searchParam.value;
+			}
+
 		</script>
 	</head>
 	<body id="bookroom">
@@ -146,41 +160,43 @@ $totalrankStr .= '"';
 				<a class="login" href="<?php echo $CFG->wwwroot; ?>/login/index.php"><img src="../img/denglu.png"></a>
 			</div>
 		</div>
-		
+
 		<div class="header-banner">
-			<a href="#"><img  src="../img/shuku_logo.png"/></a>
+			<a href="index.php"><img  src="../img/shuku_logo.png"/></a>
 			<!--搜索框组-->
 			<div class="search-box">
 				<div class="input-group">
-			     	<div class="input-group-btn">
-			        	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">图书&nbsp;<span class="caret"></span></button>
-			        	<ul class="dropdown-menu">
-			          		<li><a href="#">图书</a></li>
-			          		<li role="separator" class="divider"></li>
-			          		<li><a href="#">文献</a></li>
-			          		<li role="separator" class="divider"></li>
-			          		<li><a href="#">论文</a></li>
-			        	</ul>
-			      	</div><!-- /btn-group -->
-			      	<input type="text" class="form-control" >
-			    </div><!-- /input-group -->
-			    <button class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
-			    
-			    <div class="radio">
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-			    		全部字段
-			  		</label>
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-			    		标题
-			  		</label>
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-			    		主讲人
-			  		</label>
-				</div>
-			    
+					<div class="input-group-btn">
+						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部<span class="caret"></span></button>
+						<ul id="searchtype" class="dropdown-menu">
+							<li><a id="bookall" href="#">全部</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a id="booktitle" href="#">标题</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a id="bookauthor" href="#">作者</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a id="bookuploader" href="#">上传者</a></li>
+						</ul>
+					</div><!-- /btn-group -->
+					<input id="searchParam" type="text" class="form-control" >
+				</div><!-- /input-group -->
+				<button onclick="search()" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
+
+				<!--			    <div class="radio">-->
+				<!--			  		<label>-->
+				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">-->
+				<!--			    		全部字段-->
+				<!--			  		</label>-->
+				<!--			  		<label>-->
+				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">-->
+				<!--			    		标题-->
+				<!--			  		</label>-->
+				<!--			  		<label>-->
+				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">-->
+				<!--			    		主讲人-->
+				<!--			  		</label>-->
+				<!--				</div>-->
+
 			</div>
 			<!--搜索框组 end-->
 		</div>

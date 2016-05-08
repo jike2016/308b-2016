@@ -15,7 +15,7 @@ $bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categorie
 
 switch($searchType){
 	case '全部':
-		$sql = "where em.name like '%$searchParam%' or ea.name like '%$searchParam%' or em.summary like '%$searchParam%'";
+		$sql = "where em.name like '%$searchParam%' or ea.name like '%$searchParam%' or em.summary like '%$searchParam%' or u.firstname like '%$searchParam%'";
 		break;
 	case '标题':
 		$sql = "where em.name like '%$searchParam%'";
@@ -24,7 +24,7 @@ switch($searchType){
 		$sql = "where ea.name like '%$searchParam%'";
 		break;
 	case '上传者':
-		$sql = "";
+		$sql = "where u.firstname like '%$searchParam%'";
 		break;
 	default:
 		break;
@@ -32,8 +32,9 @@ switch($searchType){
 
 //查询结果
 $index = ($page-1)*12;//从第几条记录开始
-$searchResults = $DB->get_records_sql("select em.*,ea.name as authorname from mdl_ebook_my em
+$searchResults = $DB->get_records_sql("select em.*,ea.name as authorname,u.firstname as uploadername from mdl_ebook_my em
 								left join mdl_ebook_author_my ea on em.authorid = ea.id
+								left join mdl_user u on em.uploaderid = u.id
 								$sql
 								order by em.timecreated desc
 								limit $index,10 ");
@@ -44,6 +45,7 @@ if(isset($_POST["searchcount"])){
 }else{
 	$searchResultsCount = $DB->get_records_sql("select em.*,ea.name as authorname from mdl_ebook_my em
 								left join mdl_ebook_author_my ea on em.authorid = ea.id
+								left join mdl_user u on em.uploaderid = u.id
 								$sql
 								order by em.timecreated desc");
 	$searchcount = count($searchResultsCount);
@@ -70,6 +72,14 @@ if(isset($_POST["searchcount"])){
 					$('#searchtypebtn').text($(this).text());
 				});
 			});
+			//回车事件
+			document.onkeydown = function (e) {
+				var theEvent = window.event || e;
+				var code = theEvent.keyCode || theEvent.which;
+				if (code == 13) {
+					$("#search_btn").click();
+				}
+			}
 			//搜索
 			function search(){
 				var searchType = document.getElementById("searchtypebtn");//获取查询参数
@@ -213,7 +223,7 @@ if(isset($_POST["searchcount"])){
 					</div><!-- /btn-group -->
 					<input id="searchParam" type="text" class="form-control" >
 			    </div><!-- /input-group -->
-			    <button onclick="search()" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
+			    <button onclick="search()" id="search_btn" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
 			    
 <!--			    <div class="radio">-->
 <!--			  		<label>-->
@@ -276,14 +286,15 @@ if(isset($_POST["searchcount"])){
 								<img src="'.$searchResult->pictrueurl.'" width="105" height="150"/>
 								<div class="book-info-box">
 									<a href="bookindex.php?bookid='.$searchResult->id.'" target="_blank"><p class="bookname">'.$searchResult->name.'</p></a>
-									<p class="writer">作者：'.$searchResult->authorname.'</p>
+									<p class="writer">作者：'.$searchResult->authorname.'&nbsp;&nbsp;（上传者：'.$searchResult->uploadername.'）</p>
 									<p class="bookinfo">'.$searchResult->summary.'</p>
 									<p>';
 
 					//获取书籍的标签
 					$tags = $DB->get_records_sql("select tm.id,tm.tagname from mdl_tag_link tl
 								left join mdl_tag_my tm on tl.tagid = tm.id
-								where tl.link_id = $searchResult->id");
+								where tl.link_id = $searchResult->id
+								and tl.link_name = 'mdl_ebook_my'");
 					foreach($tags as $tag){
 						echo '<a class="tips">'.$tag->tagname.'</a>';
 					}
@@ -326,7 +337,9 @@ if(isset($_POST["searchcount"])){
 
 					<li>
 						<?php
-						if(($page+1)>= ceil($searchcount/12) ){
+						if(ceil($searchcount/12)==0){
+							$nextpage = 1;
+						}elseif(($page+1)>= ceil($searchcount/12) ){
 							$nextpage = ceil($searchcount/12);
 						}else{
 							$nextpage = $page+1;
@@ -337,7 +350,7 @@ if(isset($_POST["searchcount"])){
 						</a>
 					</li>
 					<li>
-						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&page=<?php echo ceil($searchcount/12); ?>">
+						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&page=<?php if(ceil($searchcount/12)==0){echo 1;}else{echo ceil($searchcount/12);}  ?>">
 							<span aria-hidden="true">尾页</span>
 						</a>
 					</li>

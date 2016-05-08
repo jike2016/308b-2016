@@ -17,10 +17,12 @@ $recommends = $DB->get_records_sql("select em.*,er.*,ea.`name` as authorname fro
 $recommendbooknames = array();
 $recommendwriters = array();
 $recommendbookinfos = array();
+$recommendbookhrefs = array();//链接路径
 for($i=1;$i<6;$i++){
     $recommendbooknames[]  = $recommends[$i]->name;
     $recommendwriters[]  = $recommends[$i]->authorname;
     $recommendbookinfos[]  = $recommends[$i]->summary;
+	$recommendbookhrefs[]  = 'bookindex.php?bookid='.$recommends[$i]->ebookid;
 }
 $recommendbooknameStr = '"';
 $recommendbooknameStr .= implode('","',$recommendbooknames);
@@ -33,75 +35,113 @@ $recommendwriterStr .= '"';
 $recommendbookinfoStr = '"';
 $recommendbookinfoStr .= implode('","',$recommendbookinfos);
 $recommendbookinfoStr .= '"';
+
+$recommendbookhrefStr = '"';
+$recommendbookhrefStr .= implode('","',$recommendbookhrefs);
+$recommendbookhrefStr .= '"';
 //End 更新推荐书目录
 
 //Start 热门排行榜
 $weektime = time()-3600*24*7;//一周前
 $monthtime = time()-3600*24*30;//一月前
 
-$weekranks = $DB->get_records_sql("select count(1) as rank ,m.target,m.contextid,e.name as bookname from mdl_microread_log m
+$weekranks = $DB->get_records_sql("select count(1) as rank ,m.target,m.contextid,e.id as ebookid,e.name as bookname from mdl_microread_log m
                                     left join mdl_ebook_my e on m.contextid = e.id
                                     where  m.target = 1 and m.action = 'view' and m.timecreated> $weektime
                                     group by m.contextid
                                     order by rank desc
                                     limit 0,10");
-$monthranks = $DB->get_records_sql("select count(1) as rank ,m.target,m.contextid,e.name as bookname from mdl_microread_log m
+$monthranks = $DB->get_records_sql("select count(1) as rank ,m.target,m.contextid,e.id as ebookid,e.name as bookname from mdl_microread_log m
                                     left join mdl_ebook_my e on m.contextid = e.id
                                     where  m.target = 1 and m.action = 'view' and m.timecreated> $monthtime
                                     group by m.contextid
                                     order by rank desc
                                     limit 0,10");
-$totalranks = $DB->get_records_sql("select count(1) as rank ,m.target,m.contextid,e.name as bookname from mdl_microread_log m
+$totalranks = $DB->get_records_sql("select count(1) as rank ,m.target,m.contextid,e.id as ebookid,e.name as bookname from mdl_microread_log m
                                     left join mdl_ebook_my e on m.contextid = e.id
                                     where  m.target = 1 and m.action = 'view'
                                     group by m.contextid
                                     order by rank desc
                                     limit 0,10");
-$weekrankarray = array();
+$weekrankarray = array();//显示书名信息
 $monthrankarray = array();
 $totalrankarray = array();
+$weekhrefarray = array();//链接路径
+$monthhrefarray = array();
+$totalhrefarray = array();
 foreach($weekranks as $weekrank ){
     $weekrankarray[] = '《'.$weekrank->bookname.'》'.' -- '.$weekrank->rank;
+	$weekhrefarray[] = 'bookindex.php?bookid='.$weekrank->ebookid;
 }
 if(count($weekrankarray)<10){
     $i = 10 - count($weekrankarray);
     for($i;$i>0;$i--){
         $weekrankarray[] = ' ';
+		$weekhrefarray[] = '#';
     }
 }
 foreach($monthranks as $monthrank ){
     $monthrankarray[] = '《'.$monthrank->bookname.'》'.' -- '.$monthrank->rank;
+	$monthhrefarray[] = 'bookindex.php?bookid='.$monthrank->ebookid;
 }
 if(count($monthrankarray)<10){
     $i = 10 - count($monthrankarray);
     for($i;$i>0;$i--){
         $monthrankarray[] = ' ';
+		$monthhrefarray[] = '#';
     }
 }
 foreach($totalranks as $totalrank ){
     $totalrankarray[] = '《'.$totalrank->bookname.'》'.' -- '.$totalrank->rank;
+	$totalhrefarray[] = 'bookindex.php?bookid='.$totalrank->ebookid;
 }
 if(count($totalrankarray)<10){
     $i = 10 - count($totalrankarray);
     for($i;$i>0;$i--){
         $totalrankarray[] = ' ';
+		$totalhrefarray[] = '#';
     }
 }
 
 $weekrankStr = '"';
 $weekrankStr .= implode('","',$weekrankarray);
 $weekrankStr .= '"';
+$weekhrefStr = '"';
+$weekhrefStr .= implode('","',$weekhrefarray);
+$weekhrefStr .= '"';
 
 $monthrankStr = '"';
 $monthrankStr .= implode('","',$monthrankarray);
 $monthrankStr .= '"';
+$monthhrefStr = '"';
+$monthhrefStr .= implode('","',$monthhrefarray);
+$monthhrefStr .= '"';
 
 $totalrankStr = '"';
 $totalrankStr .= implode('","',$totalrankarray);
 $totalrankStr .= '"';
+$totalhrefStr = '"';
+$totalhrefStr .= implode('","',$totalhrefarray);
+$totalhrefStr .= '"';
 
 //End 热门排行榜
 
+//Start 热门作者
+$authorranks = $DB->get_records_sql("select count(1) as rank,ea.id,ea.`name` as authorname from mdl_ebook_author_my ea
+								left join mdl_ebook_my em on ea.id = em.authorid
+								left join mdl_microread_log ml on em.id = ml.contextid
+								where ml.target = 1
+								group by ea.id
+								order by rank desc
+								limit 0,10");
+if(count($authorranks)<10){
+	$i = 10 - count($authorranks);
+	for($i;$i>0;$i--){
+		$authorranks[] = '';
+	}
+}
+
+//End 热门作者
 
 ?>
 
@@ -132,61 +172,31 @@ $totalrankStr .= '"';
             var bookname = new Array(<?php echo $recommendbooknameStr; ?>);//书名数组
             var writer = new Array(<?php echo $recommendwriterStr; ?>); //作者数组
             var bookinfo = new Array(<?php echo $recommendbookinfoStr; ?>); //书本介绍文字数组
+			var bookhref = new Array(<?php echo $recommendbookhrefStr; ?>); //书本链接
 
             //热门排行榜
             var moothrank = new Array(<?php echo $monthrankStr; ?>); //月书单
             var weekrank = new Array(<?php echo $weekrankStr; ?>); //周书单
             var totalrank = new Array(<?php echo $totalrankStr; ?>); //总书单
-			
-			var bookhref=new Array(5); //书本链接
-			bookhref[0]= "http://www.baidu.com";
-			bookhref[1]= "http://www.baidu1.com";
-			bookhref[2]= "http://www.baidu2.com";
-			bookhref[3]= "http://www.baidu3.com";
-			bookhref[4]= "http://www.baidu4.com";
-			
-			var moothrank_href = new Array(10); //月书单链接
-			moothrank_href[0] = "http://www.baidu.com";
-			moothrank_href[1] = "http://www.baidu1.com";
-			moothrank_href[2] = "http://www.baidu.com";
-			moothrank_href[3] = "http://www.baidu.com";
-			moothrank_href[4] = "http://www.baidu.com";
-			moothrank_href[5] = "http://www.baidu.com";
-			moothrank_href[6] = "http://www.baidu.com";
-			moothrank_href[7] = "http://www.baidu.com";
-			moothrank_href[8] = "http://www.baidu.com";
-			moothrank_href[9] = "http://www.baidu.com";
-			
-			var weekrank_href = new Array(10); //周书单链接
-			weekrank_href[0] = "http://www.baidu.com";
-			weekrank_href[1] = "http://www.baidu.com";
-			weekrank_href[2] = "2";
-			weekrank_href[3] = "2";
-			weekrank_href[4] = "2";
-			weekrank_href[5] = "2";
-			weekrank_href[6] = "2";
-			weekrank_href[7] = "2";
-			weekrank_href[8] = "2";
-			weekrank_href[9] = "2";
-			
-			var totalrank_href = new Array(10); //总书单
-			totalrank_href[0] = "3";
-			totalrank_href[1] = "3";
-			totalrank_href[2] = "3";
-			totalrank_href[3] = "3";
-			totalrank_href[4] = "3";
-			totalrank_href[5] = "3";
-			totalrank_href[6] = "3";
-			totalrank_href[7] = "3";
-			totalrank_href[8] = "3";
-			totalrank_href[9] = "3";
-			
+            var moothrank_href = new Array(<?php echo $monthhrefStr; ?>); //月书单链接
+            var weekrank_href = new Array(<?php echo $weekhrefStr; ?>); //周书单链接
+            var totalrank_href = new Array(<?php echo $totalhrefStr; ?>); //总书单链接
+		</script>
+		<script>
 			//搜索选项下拉框
 			$(document).ready(function() {
 				$('#searchtype a').click(function() {
 					$('#searchtypebtn').text($(this).text());
 				});
 			});
+			//回车事件
+			document.onkeydown = function (e) {
+				var theEvent = window.event || e;
+				var code = theEvent.keyCode || theEvent.which;
+				if (code == 13) {
+					$("#search_btn").click();
+				}
+			}
 			//搜索
 			function search(){
 				var searchType = document.getElementById("searchtypebtn");//获取查询参数
@@ -323,7 +333,7 @@ $totalrankStr .= '"';
 					</div><!-- /btn-group -->
 					<input id="searchParam" type="text" class="form-control" >
 				</div><!-- /input-group -->
-				<button onclick="search()" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
+				<button onclick="search()" id="search_btn" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
 
 				<!--			    <div class="radio">-->
 				<!--			  		<label>-->
@@ -397,7 +407,8 @@ $totalrankStr .= '"';
                                         <p>';
                             $tags = $DB->get_records_sql("select tm.id,tm.tagname from mdl_tag_link tl
                                                 left join mdl_tag_my tm on tl.tagid = tm.id
-                                                where tl.link_id = $book->id");
+                                                where tl.link_id = $book->id
+                                                and tl.link_name = 'mdl_ebook_my'");
                             if($tags != null){
 								$num = 0;
                                 foreach($tags as $tag){
@@ -497,46 +508,25 @@ $totalrankStr .= '"';
 				<div class="popular-writer">
 					<div class="title">热门作者榜</div>
 					<div class="ranklist">
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum top3">1</a></div>
-							<div class="w-name"><a class="writername">张建华</a></div>
-						</div>
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum top3">2</a></div>
-							<div class="w-name"><a class="writername">张&nbsp;&nbsp;&nbsp;华</a></div>
-						</div>
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum top3">3</a></div>
-							<div class="w-name"><a class="writername">李子红</a></div>
-						</div>
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum">4</a></div>
-							<div class="w-name"><a class="writername">张大炮</a></div>
-						</div>
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum">5</a></div>
-							<div class="w-name"><a class="writername">张建华</a></div>
-						</div>
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum">6</a></div>
-							<div class="w-name"><a class="writername">张建华</a></div>
-						</div>
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum">7</a></div>
-							<div class="w-name"><a class="writername">张建华</a></div>
-						</div>
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum">8</a></div>
-							<div class="w-name"><a class="writername">张建华</a></div>
-						</div>
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum">9</a></div>
-							<div class="w-name"><a class="writername">张建华</a></div>
-						</div>
-						<div class="ranklist-block">
-							<div class="w-num"><a class="ranknum top10">10</a></div>
-							<div class="w-name"><a class="writername">张建华</a></div>
-						</div>
+						<?php
+							if($authorranks !=null){
+								$no = 1;
+								foreach($authorranks as $authorrank){
+									if($no<4){
+										echo '<div class="ranklist-block">
+													<div class="w-num"><a class="ranknum top3">'.$no.'</a></div>
+													<div class="w-name"><a class="writername" href="#">'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
+												</div>';
+									}else{
+										echo ' <div class="ranklist-block">
+													<div class="w-num"><a class="ranknum">'.$no.'</a></div>
+													<div class="w-name"><a class="writername" href="#">'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
+												</div>';
+									}
+									$no++;
+								}
+							}
+						?>
 					</div>
 					<div class="more-box"><a class="more" href="#">更多>></a></div>
 				</div>

@@ -35,29 +35,34 @@
       <file leaf-file-name="searchresult.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/microread/bookroom/searchresult.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-51.509434">
-              <caret line="368" column="28" selection-start-line="368" selection-start-column="28" selection-end-line="368" selection-end-column="28" />
+            <state vertical-scroll-proportion="-1.8301886">
+              <caret line="293" column="25" selection-start-line="293" selection-start-column="20" selection-end-line="293" selection-end-column="25" />
               <folding>
-                <marker date="1462627690052" expanded="true" signature="157:200" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="266:311" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="363:431" placeholder="select e.id,... mdl_ebook_categories_my" />
-                <marker date="1462627690052" expanded="true" signature="476:602" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="614:671" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="683:740" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="753:775" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="785:794" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="877:995" placeholder="select em.*,... mdl_ebook_my" />
-                <marker date="1462627690052" expanded="true" signature="877:1005" placeholder="select em.*,... mdl_ebook_my" />
-                <marker date="1462627690052" expanded="true" signature="877:1045" placeholder="select em.*,... mdl_ebook_my" />
-                <marker date="1462627690052" expanded="true" signature="877:1069" placeholder="select em.*,... mdl_ebook_my" />
-                <marker date="1462627690052" expanded="true" signature="1126:1166" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="1172:1434" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="1217:1387" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="1218:1386" placeholder="select em.*,... mdl_ebook_my" />
-                <marker date="1462627690052" expanded="true" signature="12419:12431" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="12479:12804" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="12519:12631" placeholder="..." />
-                <marker date="1462627690052" expanded="true" signature="12638:12743" placeholder="..." />
+                <element signature="n#style#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1462679801870" expanded="true" signature="363:431" placeholder="select e.id,... mdl_ebook_categories_my" />
+                <marker date="1462679801870" expanded="true" signature="953:1099" placeholder="select em.*,... mdl_ebook_my" />
+                <marker date="1462679801870" expanded="true" signature="953:1162" placeholder="select em.*,... mdl_ebook_my" />
+                <marker date="1462679801870" expanded="true" signature="953:1202" placeholder="select em.*,... mdl_ebook_my" />
+                <marker date="1462679801870" expanded="true" signature="953:1226" placeholder="select em.*,... mdl_ebook_my" />
+                <marker date="1462679801870" expanded="true" signature="1375:1596" placeholder="select em.*,... mdl_ebook_my" />
+                <marker date="1462679801870" expanded="true" signature="5750:6675" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="5905:6122" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="6189:6661" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="9626:10054" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="9738:10054" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="10109:10233" placeholder="select tm.id... mdl_tag_link" />
+                <marker date="1462679801870" expanded="true" signature="10109:10292" placeholder="select tm.id... mdl_tag_link" />
+                <marker date="1462679801870" expanded="true" signature="12252:12593" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="12306:12320" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="12366:12380" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="12444:12458" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="12519:12533" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="12663:12718" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="13045:13057" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="13105:13430" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="13145:13257" placeholder="..." />
+                <marker date="1462679801870" expanded="true" signature="13264:13369" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -66,76 +71,138 @@
       <file leaf-file-name="bookindex.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/microread/bookroom/bookindex.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-46.789474">
-              <caret line="174" column="55" selection-start-line="174" selection-start-column="55" selection-end-line="174" selection-end-column="55" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/microread/bookroom/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-81.68421">
-              <caret line="279" column="12" selection-start-line="279" selection-start-column="12" selection-end-line="279" selection-end-column="12" />
+            <state vertical-scroll-proportion="-1.518868">
+              <caret line="62" column="10" selection-start-line="62" selection-start-column="10" selection-end-line="62" selection-end-column="10" />
               <folding>
-                <marker date="1462627421721" expanded="true" signature="122:190" placeholder="select e.id,... mdl_ebook_categories_my" />
-                <marker date="1462627421721" expanded="true" signature="236:452" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="237:449" placeholder="select e.*,e... mdl_ebook_my" />
-                <marker date="1462627421721" expanded="true" signature="500:754" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="501:753" placeholder="select em.*,... mdl_ebook_recommendlist_my" />
-                <marker date="1462627421721" expanded="true" signature="884:1048" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="1541:1563" placeholder="select count... mdl_microread_log" />
-                <marker date="1462627421721" expanded="true" signature="1541:1979" placeholder="select count... mdl_microread_log" />
-                <marker date="1462627421721" expanded="true" signature="2018:2459" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="2019:2458" placeholder="select count... mdl_microread_log" />
-                <marker date="1462627421721" expanded="true" signature="2497:2908" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="2498:2907" placeholder="select count... mdl_microread_log" />
-                <marker date="1462627421721" expanded="true" signature="2855:2907" placeholder="select count... mdl_microread_log" />
-                <marker date="1462627421721" expanded="true" signature="3025:3101" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="3132:3231" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="3192:3229" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="3269:3348" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="3380:3481" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="3441:3479" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="3519:3598" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="3630:3731" placeholder="..." />
-                <marker date="1462627421721" expanded="true" signature="3691:3729" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="274:368" placeholder="select * fro... mdl_ebook_user_read_my" />
+                <marker date="1462692627489" expanded="true" signature="485:553" placeholder="select e.id,... mdl_ebook_categories_my" />
+                <marker date="1462692627489" expanded="true" signature="603:858" placeholder="select e.*,e... mdl_ebook_my" />
+                <marker date="1462692627489" expanded="true" signature="920:1060" placeholder="select ec2.*... mdl_ebook_categories_my" />
+                <marker date="1462692627489" expanded="true" signature="1303:1427" placeholder="select tm.id... mdl_tag_link" />
+                <marker date="1462692627489" expanded="true" signature="1303:1452" placeholder="select tm.id... mdl_tag_link" />
+                <marker date="1462692627489" expanded="true" signature="1303:1478" placeholder="select tm.id... mdl_tag_link" />
+                <marker date="1462692627489" expanded="true" signature="1529:1635" placeholder="select * fro... mdl_ebook_chapter_my" />
+                <marker date="1462692627489" expanded="true" signature="1856:2161" placeholder="select em.*,... mdl_tag_link" />
+                <marker date="1462692627489" expanded="true" signature="6134:7059" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="6289:6506" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="6573:7045" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="11790:11922" placeholder="select * fro... mdl_ebook_section_my" />
+                <marker date="1462692627489" expanded="true" signature="11940:11998" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="12605:12626" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="12605:13043" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="12717:12957" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="12717:13028" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13233:13574" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13287:13301" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13347:13361" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13425:13439" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13500:13514" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13644:13699" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13750:13850" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13776:13841" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13885:13991" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="13912:13982" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="14029:14041" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="14092:14417" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="14132:14244" placeholder="..." />
+                <marker date="1462692627489" expanded="true" signature="14251:14356" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="classify.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ebook.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/microread/admin/bookroom/ebook.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.0">
+              <caret line="2" column="29" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
+              <folding>
+                <marker date="1462624306241" expanded="true" signature="426:481" placeholder="select count... mdl_ebook_my" />
+                <marker date="1462624306241" expanded="true" signature="654:803" placeholder="select a.id,... mdl_ebook_my" />
+                <marker date="1462624306241" expanded="true" signature="654:1035" placeholder="select a.id,... mdl_ebook_my" />
+                <marker date="1462624306241" expanded="true" signature="1109:1319" placeholder="select a.id,... mdl_ebook_my" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/microread/bookroom/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.31453362">
+              <caret line="519" column="42" selection-start-line="519" selection-start-column="42" selection-end-line="519" selection-end-column="42" />
+              <folding>
+                <element signature="n#style#0;n#div#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#5;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#4;n#div#2;n#div#6;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1462694877792" expanded="true" signature="122:190" placeholder="select e.id,... mdl_ebook_categories_my" />
+                <marker date="1462694877792" expanded="true" signature="237:449" placeholder="select e.*,e... mdl_ebook_my" />
+                <marker date="1462694877792" expanded="true" signature="501:753" placeholder="select em.*,... mdl_ebook_recommendlist_my" />
+                <marker date="1462694877792" expanded="true" signature="1775:1797" placeholder="select count... mdl_microread_log" />
+                <marker date="1462694877792" expanded="true" signature="1775:2229" placeholder="select count... mdl_microread_log" />
+                <marker date="1462694877792" expanded="true" signature="2269:2724" placeholder="select count... mdl_microread_log" />
+                <marker date="1462694877792" expanded="true" signature="2764:3189" placeholder="select count... mdl_microread_log" />
+                <marker date="1462694877792" expanded="true" signature="3137:3189" placeholder="select count... mdl_microread_log" />
+                <marker date="1462694877792" expanded="true" signature="4996:5248" placeholder="select count... " />
+                <marker date="1462694877792" expanded="true" signature="4996:5294" placeholder="select count... mdl_ebook_author_my" />
+                <marker date="1462694877792" expanded="true" signature="5667:5681" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="6305:7150" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="7208:7216" placeholder="{...}" />
+                <marker date="1462694877792" expanded="true" signature="10673:11598" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="10828:11045" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="11112:11584" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="14789:15293" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="14950:15293" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="15355:15559" placeholder="select tm.id... mdl_tag_link" />
+                <marker date="1462694877792" expanded="true" signature="15355:15650" placeholder="select tm.id... mdl_tag_link" />
+                <marker date="1462694877792" expanded="true" signature="18083:18340" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="18453:18705" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="19320:19550" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="19533:19550" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="19614:19839" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="19822:19839" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="23141:23482" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="23195:23209" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="23255:23269" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="23333:23347" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="23408:23422" placeholder="..." />
+                <marker date="1462694877792" expanded="true" signature="23552:23607" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="classify.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/microread/bookroom/classify.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3191153">
-              <caret line="149" column="42" selection-start-line="149" selection-start-column="42" selection-end-line="149" selection-end-column="42" />
+            <state vertical-scroll-proportion="-5.056604">
+              <caret line="385" column="66" selection-start-line="385" selection-start-column="66" selection-end-line="385" selection-end-column="66" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1462607961250" expanded="true" signature="437:505" placeholder="select e.id,... mdl_ebook_categories_my" />
-                <marker date="1462607961250" expanded="true" signature="632:639" placeholder="select * fro... mdl_ebook_categories_my" />
-                <marker date="1462607961250" expanded="true" signature="632:837" placeholder="select ec.id... mdl_ebook_categories_my" />
-                <marker date="1462607961250" expanded="true" signature="965:1270" placeholder="select * fro... mdl_ebook_categories_my" />
-                <marker date="1462607961250" expanded="true" signature="965:1312" placeholder="select e.*,e... mdl_ebook_categories_my" />
-                <marker date="1462607961250" expanded="true" signature="1361:1383" placeholder="select e.*,e... mdl_ebook_my" />
-                <marker date="1462607961250" expanded="true" signature="1427:1574" placeholder="select e.*,e... mdl_ebook_my" />
-                <marker date="1462607961250" expanded="true" signature="1427:1652" placeholder="select e.*,e... mdl_ebook_my" />
-                <marker date="1462607961250" expanded="true" signature="1828:1967" placeholder="select count... " />
-                <marker date="1462607961250" expanded="true" signature="1852:1967" placeholder="select e.*,e... mdl_ebook_my" />
-                <marker date="1462607961250" expanded="true" signature="2098:2105" placeholder="select count... " />
-                <marker date="1462607961250" expanded="true" signature="2098:2283" placeholder="select count... " />
-                <marker date="1462607961250" expanded="true" signature="2477:2733" placeholder="select e.*,e... mdl_ebook_categories_my" />
-                <marker date="1462607961250" expanded="true" signature="6306:7231" placeholder="..." />
-                <marker date="1462607961250" expanded="true" signature="6461:6678" placeholder="..." />
-                <marker date="1462607961250" expanded="true" signature="6745:7217" placeholder="..." />
-                <marker date="1462607961250" expanded="true" signature="10200:10398" placeholder="..." />
-                <marker date="1462607961250" expanded="true" signature="12872:13213" placeholder="..." />
-                <marker date="1462607961250" expanded="true" signature="12926:12940" placeholder="..." />
-                <marker date="1462607961250" expanded="true" signature="12986:13000" placeholder="..." />
-                <marker date="1462607961250" expanded="true" signature="13064:13078" placeholder="..." />
-                <marker date="1462607961250" expanded="true" signature="13139:13153" placeholder="..." />
-                <marker date="1462607961250" expanded="true" signature="13283:13338" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="437:505" placeholder="select e.id,... mdl_ebook_categories_my" />
+                <marker date="1462676761390" expanded="true" signature="632:639" placeholder="select * fro... mdl_ebook_categories_my" />
+                <marker date="1462676761390" expanded="true" signature="632:837" placeholder="select ec.id... mdl_ebook_categories_my" />
+                <marker date="1462676761390" expanded="true" signature="965:1270" placeholder="select * fro... mdl_ebook_categories_my" />
+                <marker date="1462676761390" expanded="true" signature="965:1312" placeholder="select e.*,e... mdl_ebook_categories_my" />
+                <marker date="1462676761390" expanded="true" signature="1361:1383" placeholder="select e.*,e... mdl_ebook_my" />
+                <marker date="1462676761390" expanded="true" signature="1427:1574" placeholder="select e.*,e... mdl_ebook_my" />
+                <marker date="1462676761390" expanded="true" signature="1427:1652" placeholder="select e.*,e... mdl_ebook_my" />
+                <marker date="1462676761390" expanded="true" signature="1828:1967" placeholder="select count... " />
+                <marker date="1462676761390" expanded="true" signature="1852:1967" placeholder="select e.*,e... mdl_ebook_my" />
+                <marker date="1462676761390" expanded="true" signature="2098:2105" placeholder="select count... " />
+                <marker date="1462676761390" expanded="true" signature="2098:2283" placeholder="select count... " />
+                <marker date="1462676761390" expanded="true" signature="2477:2733" placeholder="select e.*,e... mdl_ebook_categories_my" />
+                <marker date="1462676761390" expanded="true" signature="6970:7895" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="7125:7342" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="7409:7881" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="11153:11351" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="13967:14308" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="14021:14035" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="14081:14095" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="14159:14173" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="14234:14248" placeholder="..." />
+                <marker date="1462676761390" expanded="true" signature="14378:14433" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -144,35 +211,54 @@
       <file leaf-file-name="onlineread.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/microread/bookroom/onlineread.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-63.11842">
-              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+            <state vertical-scroll-proportion="-20.688679">
+              <caret line="183" column="21" selection-start-line="183" selection-start-column="21" selection-end-line="183" selection-end-column="21" />
               <folding>
-                <marker date="1462610864443" expanded="true" signature="508:576" placeholder="select e.id,... mdl_ebook_categories_my" />
-                <marker date="1462610864443" expanded="true" signature="627:882" placeholder="select e.*,e... mdl_ebook_my" />
-                <marker date="1462610864443" expanded="true" signature="946:953" placeholder="select ec2.*... mdl_ebook_categories_my" />
-                <marker date="1462610864443" expanded="true" signature="946:1085" placeholder="select ec1.*... mdl_ebook_categories_my" />
-                <marker date="1462610864443" expanded="true" signature="946:1086" placeholder="select ec1.*... mdl_ebook_categories_my" />
-                <marker date="1462610864443" expanded="true" signature="946:1093" placeholder="select ec1.*... mdl_ebook_categories_my" />
-                <marker date="1462610864443" expanded="true" signature="1160:1269" placeholder="select * fro... mdl_ebook_chapter_my" />
-                <marker date="1462610864443" expanded="true" signature="1332:1540" placeholder="select es.id... mdl_ebook_chapter_my" />
-                <marker date="1462610864443" expanded="true" signature="1647:1741" placeholder="select * fro... mdl_ebook_user_read_my" />
-                <marker date="1462610864443" expanded="true" signature="2070:2194" placeholder="select * fro... mdl_ebook_section_my" />
-                <marker date="1462610864443" expanded="true" signature="2303:2355" placeholder="select * fro... mdl_ebook_section_my" />
-                <marker date="1462610864443" expanded="true" signature="2303:2356" placeholder="select * fro... mdl_ebook_section_my" />
-                <marker date="1462610864443" expanded="true" signature="2303:2369" placeholder="select * fro... mdl_ebook_section_my" />
-                <marker date="1462610864443" expanded="true" signature="2470:2521" placeholder="select * fro... mdl_ebook_chapter_my" />
-                <marker date="1462610864443" expanded="true" signature="2470:2522" placeholder="select * fro... mdl_ebook_chapter_my" />
-                <marker date="1462610864443" expanded="true" signature="2554:2830" placeholder="..." />
-                <marker date="1462610864443" expanded="true" signature="2601:2653" placeholder="select * fro... mdl_ebook_section_my" />
-                <marker date="1462610864443" expanded="true" signature="2756:2808" placeholder="select * fro... mdl_ebook_chapter_my" />
-                <marker date="1462610864443" expanded="true" signature="2974:3069" placeholder="..." />
-                <marker date="1462610864443" expanded="true" signature="3015:3026" placeholder="..." />
-                <marker date="1462610864443" expanded="true" signature="3126:3252" placeholder="..." />
-                <marker date="1462610864443" expanded="true" signature="3139:3192" placeholder="..." />
-                <marker date="1462610864443" expanded="true" signature="3234:3249" placeholder="..." />
-                <marker date="1462610864443" expanded="true" signature="3318:3633" placeholder="..." />
-                <marker date="1462610864443" expanded="true" signature="3545:3631" placeholder="..." />
-                <marker date="1462610864443" expanded="true" signature="3639:3784" placeholder="..." />
+                <element signature="n#style#0;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1462672212288" expanded="true" signature="508:576" placeholder="select e.id,... mdl_ebook_categories_my" />
+                <marker date="1462672212288" expanded="true" signature="627:882" placeholder="select e.*,e... mdl_ebook_my" />
+                <marker date="1462672212288" expanded="true" signature="946:953" placeholder="select ec2.*... mdl_ebook_categories_my" />
+                <marker date="1462672212288" expanded="true" signature="946:1085" placeholder="select ec1.*... mdl_ebook_categories_my" />
+                <marker date="1462672212288" expanded="true" signature="946:1086" placeholder="select ec1.*... mdl_ebook_categories_my" />
+                <marker date="1462672212288" expanded="true" signature="946:1093" placeholder="select ec1.*... mdl_ebook_categories_my" />
+                <marker date="1462672212288" expanded="true" signature="1160:1269" placeholder="select * fro... mdl_ebook_chapter_my" />
+                <marker date="1462672212288" expanded="true" signature="1332:1540" placeholder="select es.id... mdl_ebook_chapter_my" />
+                <marker date="1462672212288" expanded="true" signature="1647:1741" placeholder="select * fro... mdl_ebook_user_read_my" />
+                <marker date="1462672212288" expanded="true" signature="2070:2194" placeholder="select * fro... mdl_ebook_section_my" />
+                <marker date="1462672212288" expanded="true" signature="2303:2355" placeholder="select * fro... mdl_ebook_section_my" />
+                <marker date="1462672212288" expanded="true" signature="2303:2356" placeholder="select * fro... mdl_ebook_section_my" />
+                <marker date="1462672212288" expanded="true" signature="2303:2369" placeholder="select * fro... mdl_ebook_section_my" />
+                <marker date="1462672212288" expanded="true" signature="2470:2521" placeholder="select * fro... mdl_ebook_chapter_my" />
+                <marker date="1462672212288" expanded="true" signature="2470:2522" placeholder="select * fro... mdl_ebook_chapter_my" />
+                <marker date="1462672212288" expanded="true" signature="2601:2653" placeholder="select * fro... mdl_ebook_section_my" />
+                <marker date="1462672212288" expanded="true" signature="2756:2808" placeholder="select * fro... mdl_ebook_chapter_my" />
+                <marker date="1462672212288" expanded="true" signature="7977:8902" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="8132:8349" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="8416:8888" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="13079:13420" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="13133:13147" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="13193:13207" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="13271:13285" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="13346:13360" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="13490:13545" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="14348:14586" placeholder="..." />
+                <marker date="1462672212288" expanded="true" signature="14368:14506" placeholder="{...}" />
+                <marker date="1462672212288" expanded="true" signature="14390:14500" placeholder="{&quot;pagemode&quot;: &quot;thumbs&quot;...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_upload.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/microread/bookroom/user_upload.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-13.697369">
+              <caret line="46" column="53" selection-start-line="46" selection-start-column="53" selection-end-line="46" selection-end-column="53" />
+              <folding>
+                <marker date="1462674035764" expanded="true" signature="104:172" placeholder="select e.id,... mdl_ebook_categories_my" />
+                <marker date="1462674035764" expanded="true" signature="5760:6699" placeholder="..." />
+                <marker date="1462674035764" expanded="true" signature="5916:6136" placeholder="..." />
+                <marker date="1462674035764" expanded="true" signature="6204:6684" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -186,8 +272,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/privatecenter/myclass/course_zhibo.php" />
-        <option value="$PROJECT_DIR$/org/index.php" />
         <option value="$PROJECT_DIR$/org/orgCRUD.php" />
         <option value="$PROJECT_DIR$/org/org.class.php" />
         <option value="$PROJECT_DIR$/theme/more/layout/teamlernpicker.php" />
@@ -229,14 +313,16 @@
         <option value="$PROJECT_DIR$/microread/bookroom/bookindex.html" />
         <option value="$PROJECT_DIR$/mod/tagmy/db/access.php" />
         <option value="$PROJECT_DIR$/microread/loglib.php" />
-        <option value="$PROJECT_DIR$/microread/bookroom/index.php" />
         <option value="$PROJECT_DIR$/privatecenter/myclass/course_complete.php" />
         <option value="$PROJECT_DIR$/mod/missionmy/index.php" />
         <option value="$PROJECT_DIR$/microread/bookroom/onlineread.html" />
-        <option value="$PROJECT_DIR$/microread/bookroom/classify.php" />
-        <option value="$PROJECT_DIR$/microread/bookroom/onlineread.php" />
         <option value="$PROJECT_DIR$/microread/css/bookindex.css" />
+        <option value="$PROJECT_DIR$/microread/bookroom/onlineread.php" />
+        <option value="$PROJECT_DIR$/microread/bookroom/user_upload.php" />
+        <option value="$PROJECT_DIR$/microread/bookroom/classify.php" />
+        <option value="$PROJECT_DIR$/microread/bookroom/searchresult.php" />
         <option value="$PROJECT_DIR$/microread/bookroom/bookindex.php" />
+        <option value="$PROJECT_DIR$/microread/bookroom/index.php" />
       </list>
     </option>
   </component>
@@ -494,9 +580,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21801706" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13859275" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32950193" sideWeight="0.4957265" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Grunt " active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22914466" sideWeight="0.57395834" order="7" side_tool="true" content_ui="tabs" />
@@ -506,7 +592,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18541667" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32950193" sideWeight="0.49786323" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2012987" sideWeight="0.42604166" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35497835" sideWeight="0.42604166" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -915,11 +1001,41 @@
           <line>94</line>
           <option name="timeStamp" value="800" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/microread/bookroom/searchresult.php</url>
+          <line>340</line>
+          <option name="timeStamp" value="828" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/microread/bookroom/searchresult.php</url>
+          <line>339</line>
+          <option name="timeStamp" value="829" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/microread/admin/bookroom/ebook.php</url>
+          <line>1</line>
+          <option name="timeStamp" value="830" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/microread/bookroom/bookindex.php</url>
+          <line>38</line>
+          <option name="timeStamp" value="832" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/microread/bookroom/index.php</url>
+          <line>513</line>
+          <option name="timeStamp" value="833" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/microread/bookroom/index.php</url>
+          <line>136</line>
+          <option name="timeStamp" value="834" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="828" />
+      <option name="time" value="835" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="reviewquestion.php">
@@ -959,9 +1075,7 @@
         <watch expression="$output" />
       </configuration>
       <configuration name="bookindex.php">
-        <watch expression="ceil(count($books)/12)" />
-        <watch expression="count($books)/12" />
-        <watch expression="$recommends[$i]-&gt;id" />
+        <watch expression="ceil($searchcount/12)" />
       </configuration>
       <configuration name="setdbvideoseek.php">
         <watch expression="$rank_learn" />
@@ -1000,9 +1114,10 @@
         <watch expression="$nextsectionid" />
       </configuration>
       <configuration name="index.php">
-        <watch expression="ceil(count($books)/12)" />
-        <watch expression="count($books)/12" />
-        <watch expression="$recommends[$i]-&gt;id" />
+        <watch expression="$authorranks" />
+        <watch expression="id = &quot;4&quot;" />
+        <watch expression="count($authorranks)" />
+        <watch expression="$i" />
       </configuration>
       <configuration name="note_data_course.php">
         <watch expression="$comments" />
@@ -1085,6 +1200,9 @@
         <watch expression="$output" />
         <watch expression="$lessoncontent" />
       </configuration>
+      <configuration name="searchresult.php">
+        <watch expression="ceil($searchcount/12)" />
+      </configuration>
       <configuration name="summary.php">
         <watch expression="$output" />
         <watch expression="$output" />
@@ -1158,6 +1276,9 @@
       <configuration name="report.php">
         <watch expression="$results" />
         <watch expression="$results_my" />
+      </configuration>
+      <configuration name="ebook.php">
+        <watch expression="ceil($searchcount/12)" />
       </configuration>
       <configuration name="teamlearn_pickuser.php">
         <watch expression="$rank_learn" />
@@ -1584,13 +1705,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/setuplib.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5833335">
-          <caret line="354" column="0" selection-start-line="354" selection-start-column="0" selection-end-line="354" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/microread/css/bookroom_read.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1609,18 +1723,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35986158">
           <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/microread/admin/bookroom/ebook.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.375">
-          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
-          <folding>
-            <marker date="1462624306241" expanded="true" signature="426:481" placeholder="select count... mdl_ebook_my" />
-            <marker date="1462624306241" expanded="true" signature="654:803" placeholder="select a.id,... mdl_ebook_my" />
-            <marker date="1462624306241" expanded="true" signature="1057:1116" placeholder="select * fro... mdl_ebook_my" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1632,109 +1735,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/microread/bookroom/onlineread.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-63.11842">
-          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
-          <folding>
-            <marker date="1462610864443" expanded="true" signature="508:576" placeholder="select e.id,... mdl_ebook_categories_my" />
-            <marker date="1462610864443" expanded="true" signature="627:882" placeholder="select e.*,e... mdl_ebook_my" />
-            <marker date="1462610864443" expanded="true" signature="946:953" placeholder="select ec2.*... mdl_ebook_categories_my" />
-            <marker date="1462610864443" expanded="true" signature="946:1085" placeholder="select ec1.*... mdl_ebook_categories_my" />
-            <marker date="1462610864443" expanded="true" signature="946:1086" placeholder="select ec1.*... mdl_ebook_categories_my" />
-            <marker date="1462610864443" expanded="true" signature="946:1093" placeholder="select ec1.*... mdl_ebook_categories_my" />
-            <marker date="1462610864443" expanded="true" signature="1160:1269" placeholder="select * fro... mdl_ebook_chapter_my" />
-            <marker date="1462610864443" expanded="true" signature="1332:1540" placeholder="select es.id... mdl_ebook_chapter_my" />
-            <marker date="1462610864443" expanded="true" signature="1647:1741" placeholder="select * fro... mdl_ebook_user_read_my" />
-            <marker date="1462610864443" expanded="true" signature="2070:2194" placeholder="select * fro... mdl_ebook_section_my" />
-            <marker date="1462610864443" expanded="true" signature="2303:2355" placeholder="select * fro... mdl_ebook_section_my" />
-            <marker date="1462610864443" expanded="true" signature="2303:2356" placeholder="select * fro... mdl_ebook_section_my" />
-            <marker date="1462610864443" expanded="true" signature="2303:2369" placeholder="select * fro... mdl_ebook_section_my" />
-            <marker date="1462610864443" expanded="true" signature="2470:2521" placeholder="select * fro... mdl_ebook_chapter_my" />
-            <marker date="1462610864443" expanded="true" signature="2470:2522" placeholder="select * fro... mdl_ebook_chapter_my" />
-            <marker date="1462610864443" expanded="true" signature="2554:2830" placeholder="..." />
-            <marker date="1462610864443" expanded="true" signature="2601:2653" placeholder="select * fro... mdl_ebook_section_my" />
-            <marker date="1462610864443" expanded="true" signature="2756:2808" placeholder="select * fro... mdl_ebook_chapter_my" />
-            <marker date="1462610864443" expanded="true" signature="2974:3069" placeholder="..." />
-            <marker date="1462610864443" expanded="true" signature="3015:3026" placeholder="..." />
-            <marker date="1462610864443" expanded="true" signature="3126:3252" placeholder="..." />
-            <marker date="1462610864443" expanded="true" signature="3139:3192" placeholder="..." />
-            <marker date="1462610864443" expanded="true" signature="3234:3249" placeholder="..." />
-            <marker date="1462610864443" expanded="true" signature="3318:3633" placeholder="..." />
-            <marker date="1462610864443" expanded="true" signature="3545:3631" placeholder="..." />
-            <marker date="1462610864443" expanded="true" signature="3639:3784" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/microread/bookroom/searchresult.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-51.509434">
-          <caret line="368" column="28" selection-start-line="368" selection-start-column="28" selection-end-line="368" selection-end-column="28" />
-          <folding>
-            <marker date="1462627690052" expanded="true" signature="157:200" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="266:311" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="363:431" placeholder="select e.id,... mdl_ebook_categories_my" />
-            <marker date="1462627690052" expanded="true" signature="476:602" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="614:671" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="683:740" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="753:775" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="785:794" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="877:995" placeholder="select em.*,... mdl_ebook_my" />
-            <marker date="1462627690052" expanded="true" signature="877:1005" placeholder="select em.*,... mdl_ebook_my" />
-            <marker date="1462627690052" expanded="true" signature="877:1045" placeholder="select em.*,... mdl_ebook_my" />
-            <marker date="1462627690052" expanded="true" signature="877:1069" placeholder="select em.*,... mdl_ebook_my" />
-            <marker date="1462627690052" expanded="true" signature="1126:1166" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="1172:1434" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="1217:1387" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="1218:1386" placeholder="select em.*,... mdl_ebook_my" />
-            <marker date="1462627690052" expanded="true" signature="12419:12431" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="12479:12804" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="12519:12631" placeholder="..." />
-            <marker date="1462627690052" expanded="true" signature="12638:12743" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/microread/bookroom/bookindex.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-46.789474">
-          <caret line="174" column="55" selection-start-line="174" selection-start-column="55" selection-end-line="174" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/microread/bookroom/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-81.68421">
-          <caret line="279" column="12" selection-start-line="279" selection-start-column="12" selection-end-line="279" selection-end-column="12" />
-          <folding>
-            <marker date="1462627421721" expanded="true" signature="122:190" placeholder="select e.id,... mdl_ebook_categories_my" />
-            <marker date="1462627421721" expanded="true" signature="236:452" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="237:449" placeholder="select e.*,e... mdl_ebook_my" />
-            <marker date="1462627421721" expanded="true" signature="500:754" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="501:753" placeholder="select em.*,... mdl_ebook_recommendlist_my" />
-            <marker date="1462627421721" expanded="true" signature="884:1048" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="1541:1563" placeholder="select count... mdl_microread_log" />
-            <marker date="1462627421721" expanded="true" signature="1541:1979" placeholder="select count... mdl_microread_log" />
-            <marker date="1462627421721" expanded="true" signature="2018:2459" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="2019:2458" placeholder="select count... mdl_microread_log" />
-            <marker date="1462627421721" expanded="true" signature="2497:2908" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="2498:2907" placeholder="select count... mdl_microread_log" />
-            <marker date="1462627421721" expanded="true" signature="2855:2907" placeholder="select count... mdl_microread_log" />
-            <marker date="1462627421721" expanded="true" signature="3025:3101" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="3132:3231" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="3192:3229" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="3269:3348" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="3380:3481" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="3441:3479" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="3519:3598" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="3630:3731" placeholder="..." />
-            <marker date="1462627421721" expanded="true" signature="3691:3729" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/microread/css/bookroom_searchresult.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1743,35 +1743,241 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/microread/css/bookroomallpage.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22370937">
+          <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/microread/bookroom/searchresult.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.8301886">
+          <caret line="293" column="25" selection-start-line="293" selection-start-column="20" selection-end-line="293" selection-end-column="25" />
+          <folding>
+            <element signature="n#style#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1462679801870" expanded="true" signature="363:431" placeholder="select e.id,... mdl_ebook_categories_my" />
+            <marker date="1462679801870" expanded="true" signature="953:1099" placeholder="select em.*,... mdl_ebook_my" />
+            <marker date="1462679801870" expanded="true" signature="953:1162" placeholder="select em.*,... mdl_ebook_my" />
+            <marker date="1462679801870" expanded="true" signature="953:1202" placeholder="select em.*,... mdl_ebook_my" />
+            <marker date="1462679801870" expanded="true" signature="953:1226" placeholder="select em.*,... mdl_ebook_my" />
+            <marker date="1462679801870" expanded="true" signature="1375:1596" placeholder="select em.*,... mdl_ebook_my" />
+            <marker date="1462679801870" expanded="true" signature="5750:6675" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="5905:6122" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="6189:6661" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="9626:10054" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="9738:10054" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="10109:10233" placeholder="select tm.id... mdl_tag_link" />
+            <marker date="1462679801870" expanded="true" signature="10109:10292" placeholder="select tm.id... mdl_tag_link" />
+            <marker date="1462679801870" expanded="true" signature="12252:12593" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="12306:12320" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="12366:12380" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="12444:12458" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="12519:12533" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="12663:12718" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="13045:13057" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="13105:13430" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="13145:13257" placeholder="..." />
+            <marker date="1462679801870" expanded="true" signature="13264:13369" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/microread/bookroom/user_upload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.697369">
+          <caret line="46" column="53" selection-start-line="46" selection-start-column="53" selection-end-line="46" selection-end-column="53" />
+          <folding>
+            <marker date="1462674035764" expanded="true" signature="104:172" placeholder="select e.id,... mdl_ebook_categories_my" />
+            <marker date="1462674035764" expanded="true" signature="5760:6699" placeholder="..." />
+            <marker date="1462674035764" expanded="true" signature="5916:6136" placeholder="..." />
+            <marker date="1462674035764" expanded="true" signature="6204:6684" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/microread/bookroom/classify.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3191153">
-          <caret line="149" column="42" selection-start-line="149" selection-start-column="42" selection-end-line="149" selection-end-column="42" />
+        <state vertical-scroll-proportion="-5.056604">
+          <caret line="385" column="66" selection-start-line="385" selection-start-column="66" selection-end-line="385" selection-end-column="66" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1462607961250" expanded="true" signature="437:505" placeholder="select e.id,... mdl_ebook_categories_my" />
-            <marker date="1462607961250" expanded="true" signature="632:639" placeholder="select * fro... mdl_ebook_categories_my" />
-            <marker date="1462607961250" expanded="true" signature="632:837" placeholder="select ec.id... mdl_ebook_categories_my" />
-            <marker date="1462607961250" expanded="true" signature="965:1270" placeholder="select * fro... mdl_ebook_categories_my" />
-            <marker date="1462607961250" expanded="true" signature="965:1312" placeholder="select e.*,e... mdl_ebook_categories_my" />
-            <marker date="1462607961250" expanded="true" signature="1361:1383" placeholder="select e.*,e... mdl_ebook_my" />
-            <marker date="1462607961250" expanded="true" signature="1427:1574" placeholder="select e.*,e... mdl_ebook_my" />
-            <marker date="1462607961250" expanded="true" signature="1427:1652" placeholder="select e.*,e... mdl_ebook_my" />
-            <marker date="1462607961250" expanded="true" signature="1828:1967" placeholder="select count... " />
-            <marker date="1462607961250" expanded="true" signature="1852:1967" placeholder="select e.*,e... mdl_ebook_my" />
-            <marker date="1462607961250" expanded="true" signature="2098:2105" placeholder="select count... " />
-            <marker date="1462607961250" expanded="true" signature="2098:2283" placeholder="select count... " />
-            <marker date="1462607961250" expanded="true" signature="2477:2733" placeholder="select e.*,e... mdl_ebook_categories_my" />
-            <marker date="1462607961250" expanded="true" signature="6306:7231" placeholder="..." />
-            <marker date="1462607961250" expanded="true" signature="6461:6678" placeholder="..." />
-            <marker date="1462607961250" expanded="true" signature="6745:7217" placeholder="..." />
-            <marker date="1462607961250" expanded="true" signature="10200:10398" placeholder="..." />
-            <marker date="1462607961250" expanded="true" signature="12872:13213" placeholder="..." />
-            <marker date="1462607961250" expanded="true" signature="12926:12940" placeholder="..." />
-            <marker date="1462607961250" expanded="true" signature="12986:13000" placeholder="..." />
-            <marker date="1462607961250" expanded="true" signature="13064:13078" placeholder="..." />
-            <marker date="1462607961250" expanded="true" signature="13139:13153" placeholder="..." />
-            <marker date="1462607961250" expanded="true" signature="13283:13338" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="437:505" placeholder="select e.id,... mdl_ebook_categories_my" />
+            <marker date="1462676761390" expanded="true" signature="632:639" placeholder="select * fro... mdl_ebook_categories_my" />
+            <marker date="1462676761390" expanded="true" signature="632:837" placeholder="select ec.id... mdl_ebook_categories_my" />
+            <marker date="1462676761390" expanded="true" signature="965:1270" placeholder="select * fro... mdl_ebook_categories_my" />
+            <marker date="1462676761390" expanded="true" signature="965:1312" placeholder="select e.*,e... mdl_ebook_categories_my" />
+            <marker date="1462676761390" expanded="true" signature="1361:1383" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462676761390" expanded="true" signature="1427:1574" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462676761390" expanded="true" signature="1427:1652" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462676761390" expanded="true" signature="1828:1967" placeholder="select count... " />
+            <marker date="1462676761390" expanded="true" signature="1852:1967" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462676761390" expanded="true" signature="2098:2105" placeholder="select count... " />
+            <marker date="1462676761390" expanded="true" signature="2098:2283" placeholder="select count... " />
+            <marker date="1462676761390" expanded="true" signature="2477:2733" placeholder="select e.*,e... mdl_ebook_categories_my" />
+            <marker date="1462676761390" expanded="true" signature="6970:7895" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="7125:7342" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="7409:7881" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="11153:11351" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="13967:14308" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="14021:14035" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="14081:14095" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="14159:14173" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="14234:14248" placeholder="..." />
+            <marker date="1462676761390" expanded="true" signature="14378:14433" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/microread/bookroom/onlineread.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.688679">
+          <caret line="183" column="21" selection-start-line="183" selection-start-column="21" selection-end-line="183" selection-end-column="21" />
+          <folding>
+            <element signature="n#style#0;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1462672212288" expanded="true" signature="508:576" placeholder="select e.id,... mdl_ebook_categories_my" />
+            <marker date="1462672212288" expanded="true" signature="627:882" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462672212288" expanded="true" signature="946:953" placeholder="select ec2.*... mdl_ebook_categories_my" />
+            <marker date="1462672212288" expanded="true" signature="946:1085" placeholder="select ec1.*... mdl_ebook_categories_my" />
+            <marker date="1462672212288" expanded="true" signature="946:1086" placeholder="select ec1.*... mdl_ebook_categories_my" />
+            <marker date="1462672212288" expanded="true" signature="946:1093" placeholder="select ec1.*... mdl_ebook_categories_my" />
+            <marker date="1462672212288" expanded="true" signature="1160:1269" placeholder="select * fro... mdl_ebook_chapter_my" />
+            <marker date="1462672212288" expanded="true" signature="1332:1540" placeholder="select es.id... mdl_ebook_chapter_my" />
+            <marker date="1462672212288" expanded="true" signature="1647:1741" placeholder="select * fro... mdl_ebook_user_read_my" />
+            <marker date="1462672212288" expanded="true" signature="2070:2194" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462672212288" expanded="true" signature="2303:2355" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462672212288" expanded="true" signature="2303:2356" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462672212288" expanded="true" signature="2303:2369" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462672212288" expanded="true" signature="2470:2521" placeholder="select * fro... mdl_ebook_chapter_my" />
+            <marker date="1462672212288" expanded="true" signature="2470:2522" placeholder="select * fro... mdl_ebook_chapter_my" />
+            <marker date="1462672212288" expanded="true" signature="2601:2653" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462672212288" expanded="true" signature="2756:2808" placeholder="select * fro... mdl_ebook_chapter_my" />
+            <marker date="1462672212288" expanded="true" signature="7977:8902" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="8132:8349" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="8416:8888" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="13079:13420" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="13133:13147" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="13193:13207" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="13271:13285" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="13346:13360" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="13490:13545" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="14348:14586" placeholder="..." />
+            <marker date="1462672212288" expanded="true" signature="14368:14506" placeholder="{...}" />
+            <marker date="1462672212288" expanded="true" signature="14390:14500" placeholder="{&quot;pagemode&quot;: &quot;thumbs&quot;...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/microread/admin/bookroom/ebook.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0">
+          <caret line="2" column="29" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
+          <folding>
+            <marker date="1462624306241" expanded="true" signature="426:481" placeholder="select count... mdl_ebook_my" />
+            <marker date="1462624306241" expanded="true" signature="654:803" placeholder="select a.id,... mdl_ebook_my" />
+            <marker date="1462624306241" expanded="true" signature="654:1035" placeholder="select a.id,... mdl_ebook_my" />
+            <marker date="1462624306241" expanded="true" signature="1109:1319" placeholder="select a.id,... mdl_ebook_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/setuplib.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3167702">
+          <caret line="354" column="0" selection-start-line="354" selection-start-column="0" selection-end-line="354" selection-end-column="0" />
+          <folding>
+            <marker date="1459950866036" expanded="true" signature="26433:26449" placeholder="..." />
+            <marker date="1459950866036" expanded="true" signature="66713:67001" placeholder="..." />
+            <marker date="1459950866036" expanded="true" signature="67002:67026" placeholder="..." />
+            <marker date="1459950866036" expanded="true" signature="71332:71404" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/microread/bookroom/bookindex.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.518868">
+          <caret line="62" column="10" selection-start-line="62" selection-start-column="10" selection-end-line="62" selection-end-column="10" />
+          <folding>
+            <marker date="1462692627489" expanded="true" signature="274:368" placeholder="select * fro... mdl_ebook_user_read_my" />
+            <marker date="1462692627489" expanded="true" signature="485:553" placeholder="select e.id,... mdl_ebook_categories_my" />
+            <marker date="1462692627489" expanded="true" signature="603:858" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462692627489" expanded="true" signature="920:1060" placeholder="select ec2.*... mdl_ebook_categories_my" />
+            <marker date="1462692627489" expanded="true" signature="1303:1427" placeholder="select tm.id... mdl_tag_link" />
+            <marker date="1462692627489" expanded="true" signature="1303:1452" placeholder="select tm.id... mdl_tag_link" />
+            <marker date="1462692627489" expanded="true" signature="1303:1478" placeholder="select tm.id... mdl_tag_link" />
+            <marker date="1462692627489" expanded="true" signature="1529:1635" placeholder="select * fro... mdl_ebook_chapter_my" />
+            <marker date="1462692627489" expanded="true" signature="1856:2161" placeholder="select em.*,... mdl_tag_link" />
+            <marker date="1462692627489" expanded="true" signature="6134:7059" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="6289:6506" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="6573:7045" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="11790:11922" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462692627489" expanded="true" signature="11940:11998" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="12605:12626" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="12605:13043" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="12717:12957" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="12717:13028" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13233:13574" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13287:13301" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13347:13361" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13425:13439" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13500:13514" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13644:13699" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13750:13850" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13776:13841" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13885:13991" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="13912:13982" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="14029:14041" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="14092:14417" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="14132:14244" placeholder="..." />
+            <marker date="1462692627489" expanded="true" signature="14251:14356" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/microread/bookroom/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.31453362">
+          <caret line="519" column="42" selection-start-line="519" selection-start-column="42" selection-end-line="519" selection-end-column="42" />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#5;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#div#2;n#div#6;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1462694877792" expanded="true" signature="122:190" placeholder="select e.id,... mdl_ebook_categories_my" />
+            <marker date="1462694877792" expanded="true" signature="237:449" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462694877792" expanded="true" signature="501:753" placeholder="select em.*,... mdl_ebook_recommendlist_my" />
+            <marker date="1462694877792" expanded="true" signature="1775:1797" placeholder="select count... mdl_microread_log" />
+            <marker date="1462694877792" expanded="true" signature="1775:2229" placeholder="select count... mdl_microread_log" />
+            <marker date="1462694877792" expanded="true" signature="2269:2724" placeholder="select count... mdl_microread_log" />
+            <marker date="1462694877792" expanded="true" signature="2764:3189" placeholder="select count... mdl_microread_log" />
+            <marker date="1462694877792" expanded="true" signature="3137:3189" placeholder="select count... mdl_microread_log" />
+            <marker date="1462694877792" expanded="true" signature="4996:5248" placeholder="select count... " />
+            <marker date="1462694877792" expanded="true" signature="4996:5294" placeholder="select count... mdl_ebook_author_my" />
+            <marker date="1462694877792" expanded="true" signature="5667:5681" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="6305:7150" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="7208:7216" placeholder="{...}" />
+            <marker date="1462694877792" expanded="true" signature="10673:11598" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="10828:11045" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="11112:11584" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="14789:15293" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="14950:15293" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="15355:15559" placeholder="select tm.id... mdl_tag_link" />
+            <marker date="1462694877792" expanded="true" signature="15355:15650" placeholder="select tm.id... mdl_tag_link" />
+            <marker date="1462694877792" expanded="true" signature="18083:18340" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="18453:18705" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="19320:19550" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="19533:19550" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="19614:19839" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="19822:19839" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="23141:23482" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="23195:23209" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="23255:23269" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="23333:23347" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="23408:23422" placeholder="..." />
+            <marker date="1462694877792" expanded="true" signature="23552:23607" placeholder="..." />
           </folding>
         </state>
       </provider>

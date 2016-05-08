@@ -89,6 +89,28 @@ if(isset($_POST['toptotalcount'])) {
 		<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
 		<script>
+			//搜索选项下拉框
+			$(document).ready(function() {
+				$('#searchtype a').click(function() {
+					$('#searchtypebtn').text($(this).text());
+				});
+			});
+			//回车事件
+			document.onkeydown = function (e) {
+				var theEvent = window.event || e;
+				var code = theEvent.keyCode || theEvent.which;
+				if (code == 13) {
+					$("#search_btn").click();
+				}
+			}
+			//搜索
+			function search(){
+				var searchType = document.getElementById("searchtypebtn");//获取查询参数
+				var searchParam = document.getElementById("searchParam");//获取选项
+				window.location.href="searchresult.php?searchType="+searchType.textContent+"&searchParam="+searchParam.value;
+			}
+		</script>
+		<script>
 		$(document).ready(function(){
 			//聊天室 START 20160314
 			//适配不同大小偏移值
@@ -203,41 +225,43 @@ if(isset($_POST['toptotalcount'])) {
 				?>
 			</div>
 		</div>
-		
+
 		<div class="header-banner">
 			<a href="index.php"><img  src="../img/shuku_logo.png"/></a>
 			<!--搜索框组-->
 			<div class="search-box">
 				<div class="input-group">
-			     	<div class="input-group-btn">
-			        	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">图书&nbsp;<span class="caret"></span></button>
-			        	<ul class="dropdown-menu">
-			          		<li><a href="#">图书</a></li>
-			          		<li role="separator" class="divider"></li>
-			          		<li><a href="#">文献</a></li>
-			          		<li role="separator" class="divider"></li>
-			          		<li><a href="#">论文</a></li>
-			        	</ul>
-			      	</div><!-- /btn-group -->
-			      	<input type="text" class="form-control" >
-			    </div><!-- /input-group -->
-			    <button class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
-			    
-			    <div class="radio">
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-			    		全部字段
-			  		</label>
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-			    		标题
-			  		</label>
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-			    		主讲人
-			  		</label>
-				</div>
-			    
+					<div class="input-group-btn">
+						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部<span class="caret"></span></button>
+						<ul id="searchtype" class="dropdown-menu">
+							<li><a id="bookall" href="#">全部</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a id="booktitle" href="#">标题</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a id="bookauthor" href="#">作者</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a id="bookuploader" href="#">上传者</a></li>
+						</ul>
+					</div><!-- /btn-group -->
+					<input id="searchParam" type="text" class="form-control" >
+				</div><!-- /input-group -->
+				<button onclick="search()" id="search_btn" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
+
+				<!--			    <div class="radio">-->
+				<!--			  		<label>-->
+				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">-->
+				<!--			    		全部字段-->
+				<!--			  		</label>-->
+				<!--			  		<label>-->
+				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">-->
+				<!--			    		标题-->
+				<!--			  		</label>-->
+				<!--			  		<label>-->
+				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">-->
+				<!--			    		主讲人-->
+				<!--			  		</label>-->
+				<!--				</div>-->
+
 			</div>
 			<!--搜索框组 end-->
 		</div>
@@ -306,7 +330,7 @@ if(isset($_POST['toptotalcount'])) {
 										</div>
 										<div class="bookinfo">
 											'.$book->name.'
-											<p>'.$book->authorname.'（1900-1920）</p>
+											<p>'.$book->authorname.'（'.userdate($book->timecreated,'%Y-%m-%d').'）</p>
 										</div>
 									</div>
 								</a>';
@@ -345,7 +369,9 @@ if(isset($_POST['toptotalcount'])) {
 
 					    <li>
 							<?php
-								if(($page+1)>= ceil($totalcount/12) ){
+								if(ceil($totalcount/12)==0){
+									$nextpage = 1;
+								}elseif(($page+1)>= ceil($totalcount/12) ){
 									$nextpage = ceil($totalcount/12);
 								}else{
 									$nextpage = $page+1;
@@ -356,7 +382,7 @@ if(isset($_POST['toptotalcount'])) {
 					      	</a>
 				    	</li>
 				    	<li>
-				     	 	<a href="classify.php?bookclassid=<?php echo $bookclassid; ?>&booksecondclassid=<?php echo $booksecondclassid; ?>&page=<?php echo ceil($totalcount/12); ?>">
+				     	 	<a href="classify.php?bookclassid=<?php echo $bookclassid; ?>&booksecondclassid=<?php echo $booksecondclassid; ?>&page=<?php if(ceil($totalcount/12)==0){echo 1;}else{echo ceil($totalcount/12);} ?>">
 				       	 		<span aria-hidden="true">尾页</span>
 				      		</a>
 				    	</li>

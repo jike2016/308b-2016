@@ -34,7 +34,8 @@
             else
             {
                 $showstr=$showstr.'<td>pdf</td>
-                <td>'.$section->pdfurl.'</td>';
+                <td><a href="'.$section->pdfurl.'">(右键另存为)</a></td>';
+				
             }
             $showstr=$showstr.'</tr>';
             echo $showstr;

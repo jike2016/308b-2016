@@ -129,7 +129,7 @@ jQuery.fn.roundabout = function () {
                         if (ref.data('roundabout').animating === 0) {
                             ref.roundabout_animateAngleToFocus(degrees);
                         }
-                        jQuery('#myRoundabout a').attr('href', '#'); //为当前的焦点书本添加链接
+                        jQuery('#myRoundabout a').attr('href', 'www.baidu.com'); //为当前的焦点书本添加链接
                         jQuery(this).children('a').attr('href', jQuery(this).children(':hidden').val());
 
                         return false;
@@ -420,6 +420,7 @@ jQuery.fn.roundabout_updateChildPositions = function () {
                 inFocus = i;
                 jQuery(this).addClass('roundabout-in-focus');
                 var booknum = $('.roundabout-in-focus').attr("id");
+                jQuery(this).children('a').attr('href', bookhref[booknum]);
                 $('.book-introduce').children('.bookname').text(bookname[booknum]);
                 $('.book-introduce').children('.writer').text(writer[booknum]);
                 $('.book-introduce').children('.bookinfo').text(bookinfo[booknum]);
@@ -427,7 +428,6 @@ jQuery.fn.roundabout_updateChildPositions = function () {
                 jQuery(this).removeClass('roundabout-in-focus');
             }
         });
-
         // update status of who is in focus
         if (inFocus !== info.inFocus) {
             jQuery.roundabout_triggerEvent(ref, info.inFocus, 'blur');

@@ -1,48 +1,9 @@
-/****总体样式 *****/
-img {vertical-align:top; border:0;page-break-inside:avoid;max-width:100% !important; }
-html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%; height: 100%;  font-size:100%; background: #FFFFFF; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100% }
-/****总体样式@end*****/
-
-
-body{font-family: "微软雅黑";}
-.header{height:35px; width:100%; border-bottom: 2px solid #93e1fa; padding: 5px 0px 0px 0px;}
-.header .header-center {margin: auto;width: 1200px;}
-.header a {font-size: 18px; color: #000000; margin-left: 60px; text-decoration: none;}
-.header a:hover{color: #93E1FA;}
-.header .frist {margin-left: 446px;}
-.header .login {margin-left: 250px;}
-.header-banner{height:85px; width:1200px; margin: auto;}
-.header-banner img{margin-top: 8px;}
-			
-/********搜索框********/
-.search-box {height: 100%;width:400px;float: right; padding: 25px 0px 0px 0px;}
-.search-box .input-group {width: 330px; float: left;}
-.search-box .input-group .form-control{border-radius: 0px;}
-.search-box .radio{height: 20px; margin-bottom: 0px; margin-top: 35px;}
-.search-box label{font-size: 14px; margin: 0px 15px 0px 5px; font-weight: 600;}
-.search-box .dropdown-menu {min-width: 95px;}
-.searchbtn {width: 70px; float: right;border-radius: 0px 4px 4px 0px; border-left: 0px;}
-.search-box .dropdown-menu .divider {height: 1px; margin: 0px;}
-/********搜索框 @end********/
-			
-.bookclassified {height: 37px; width: 100%; background: url(../img/nav_BKG.jpg)}
-.bookclassified-center {width: 1200px; margin: auto; padding: 5px 0px 0px 0px;}			
-.bookclassified-center a {color: #FFFFFF; text-decoration: none; float: left;}
-.bookclassified-center .dropdown-menu > li > a { color: #000000; float: inherit;height: 30px;padding-top: 5px;}
-.bookclassified-center .dropdown-menu > li {height: 30px;}
-.bookclassified-center .dropdown-menu { min-width: 95px;text-align: center; }
-.bookclassified-center .dropdown-menu .divider {height: 1px; margin: 0px;}
-.bookclassified-center a:hover {color: #000000;}
-.bookclassified-center .kinds {margin: 3px 15px 0px 15px;}
-.bookclassified-center .line{width: 1px;height: 14px; background-color: #80d0ee;float: left; margin: 7px 10px 0px 10px ;}
 			
 .main {width: 1200px; margin: auto; min-height: 600px;}
-.upload {height: 45px; border-bottom: 4px solid #93E1FA; padding-top: 5px;}
-.upload p {font-size: 23px; text-align: center; font-weight: 600;}
-			
+		
 /*******主体内容*******/
 #bookindex .main {width: 1200px; margin: auto;}
-#bookindex .main .bookbanner {padding-bottom: 20px; border-bottom: 1px dashed #e8e8e8;}
+#bookindex .main .bookbanner {padding-bottom: 20px; border-bottom: 1px dashed #15A9E0;}
 #bookindex .main .bookname {width: 100%; font-size: 20px; margin-top: 40px;}
 #bookindex .main .imgbox {width: 15%; float: left; height: 220px;}
 #bookindex .main .imgbox img {height: 100%;}
@@ -50,15 +11,19 @@ body{font-family: "微软雅黑";}
 #bookindex .main .bookinfo p {display: inline-block;}
 #bookindex .main .bookinfo .titleword {font-size: 14px; color: #777777;}
 #bookindex .main .bookinfo .titleinfo{font-size: 14px; color: #000000;}
-#bookindex .main .bookinfo .btnbox{ width: 100%; height: 80px; padding-top: 30px;}
+#bookindex .main .bookinfo .btnbox{ width: 100%; height: 80px; padding-top: 42px;}
 #bookindex .main .bookinfo .btnbox .functionbtn {text-decoration: none; padding: 10px 20px; background-color: #2EBEFF; color: #FFFFFF;}
 #bookindex .main .bookinfo .btnbox .functionbtn:hover {background-color: #31B0D5 }
-#bookindex .main .bookcatalog {widows: 100%; padding: 30px 0px; border-bottom: 1px dashed #e8e8e8;}
+#bookindex .main .bookcatalog {width: 72%; padding: 30px 0px; border-bottom: 1px dashed #15A9E0; float: left;}
+#bookindex .main .bookcatalog p{font-size: 14px; }
+#bookindex .main .bookcatalog .title{font-size: 16px; font-weight: 600;}
+#bookindex .main .recomendread {width: 25%; padding: 30px 0px; float: right; margin-left: 3%;border-bottom: 1px dashed #15A9E0;}
+#bookindex .main .recomendread .title{font-size: 16px; font-weight: 600; margin-bottom: 0px; }
+
+#bookindex .main .recomendread .bookbox {width: 100%; height: 130px; padding: 15px 0px;}
+#bookindex .main .recomendread .bookbox img {height: 100%; float: left;}
+#bookindex .main .recomendread .bookbox .bookinfobox {float: left; margin-left: 10px; width: 200px;}
+#bookindex .main .recomendread .bookbox .bookinfobox p {font-size: 14px; margin-bottom: 4px;}
+#bookindex .main .recomendread .bookbox .bookinfobox .bookname {margin-top: 0px; margin-bottom: 15px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
 /*******主体内容 @end*******/
-			
-/*******底部导航条*******/
-.bottomnav {width: 100%; height: 222px; background-color: #2EBEFF; padding-top: 44px; margin-top: 50px;}
-.bottomnav .whiteline {width: 1200px; margin: auto; height: 2px; background-color: #FFFFFF; margin-bottom: 15px;}
-.bottomnav p {text-align: center; margin-bottom: 10px;}
-.bottomnav p a {text-decoration: none;color: #000000; font-size: 14px; margin-right: 20px;}
-/*******底部导航条 @end*******/
+

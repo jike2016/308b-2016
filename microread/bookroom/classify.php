@@ -85,24 +85,83 @@ if(isset($_POST['toptotalcount'])) {
 		<title>书库分类页</title>
 		<link rel="stylesheet" href="../css/bootstrap.css" />
 		<link rel="stylesheet" href="../css/bookroom_classify.css" />
-
+		<link rel="stylesheet" href="../css/bookroomallpage.css" />
 		<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
-
 		<script>
-			//搜索选项下拉框
-			$(document).ready(function() {
-				$('#searchtype a').click(function() {
-					$('#searchtypebtn').text($(this).text());
+		$(document).ready(function(){
+			//聊天室 START 20160314
+			//适配不同大小偏移值
+			var winW=$(window).width();
+			var winH=$(window).height();
+			var leftval = (winW-900)/2;	
+			var topval = (winH-600)/3;	
+			$('.chat-box').css({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
+			//适配不同大小偏移值 end	
+			var chatbox=false;
+			$('.elevator-weixin').click(function(){
+				if(chatbox==false){
+					$('.chat-box1').append('<iframe src="<?php echo $CFG->wwwroot;?>/chat" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
+					chatbox=true;
+				}
+				$('.chat-box1').show();	
+			})
+			$('#chat-close').click(function(){
+				$('.chat-box1').hide();
+				//alert("关闭的top: " +$('.chat-box').offset().top);
+			})
+			//聊天室 End
+			//收藏按钮
+			$('#collection-btn').click(function()
+			{
+				$.ajax({
+					url: "<?php echo $CFG->wwwroot;?>/privatecenter/mycollection/collectionpage.php",
+					data: {mytitle: document.title, myurl: window.location.href },
+					success: function(msg){
+						if(msg=='1'){
+							alert('收藏成功，可去个人中心查看')
+						}
+						else{
+							msg=='2' ? alert('您已经收藏过了，请去个人中心查看收藏结果') :alert('收藏失败');
+						}
+					}
 				});
 			});
-			//搜索
-			function search(){
-				var searchType = document.getElementById("searchtypebtn");//获取查询参数
-				var searchParam = document.getElementById("searchParam");//获取选项
-				window.location.href="searchresult.php?searchType="+searchType.textContent+"&searchParam="+searchParam.value;
-			}
+			//点赞按钮
+			$('#like-btn').click(function()
+			{
+				$.ajax({
+					url: "<?php echo $CFG->wwwroot;?>/like/courselike.php",
+					data: {mytitle: document.title, myurl: window.location.href },
+					success: function(msg){
+						// alert(msg);
+						if(msg=='1'){
+							alert('点赞成功')
+						}
+						else{
+							msg=='2' ? alert('你已经点赞了，不能再次点赞') :alert('点赞失败');
+						}
+					}
+				});
+			});
+			//笔记20160314
+			var note_personal = false
+			$('#mynote-btn').click(function(){
+				if(note_personal == false)
+				{
+					$('.chat-box2').append('<iframe src="<?php echo $CFG->wwwroot;?>/mod/notemy/newnotemy_personal.php" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
+					note_personal = true;
+				}
+								
+				$('.chat-box2').show();	
+				
+			})
+			//笔记
+			$('#chat-close2').click(function(){
+				$('.chat-box2').hide();
+			})
 
+		});
 		</script>
 	</head>
 	<body id="bookroom_classify">
@@ -115,50 +174,70 @@ if(isset($_POST['toptotalcount'])) {
 		<!--顶部导航-->
 		<div class="header">
 			<div class="header-center">
-				<a class="frist" href="<?php echo $CFG->wwwroot; ?>">首页</a>
-				<a href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
-				<a href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
-				<a href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
-				<a class="login" href="#"><img src="../img/denglu.png"></a>
+				<div class="a-box">
+					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
+					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
+				</div>
+				<?php 
+				
+					if($USER->id!=0){
+						echo '<div id="usermenu" class="dropdown">
+								<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									<a href="#" class="username">'.fullname($USER, true).'</a>
+									<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="'.new moodle_url('/message/').'">消息</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="user_upload.php">上传电子书</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
+								</ul>
+							</div>';
+					};
+				?>
 			</div>
 		</div>
-
+		
 		<div class="header-banner">
 			<a href="index.php"><img  src="../img/shuku_logo.png"/></a>
 			<!--搜索框组-->
 			<div class="search-box">
 				<div class="input-group">
-					<div class="input-group-btn">
-						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部<span class="caret"></span></button>
-						<ul id="searchtype" class="dropdown-menu">
-							<li><a id="bookall" href="#">全部</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a id="booktitle" href="#">标题</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a id="bookauthor" href="#">作者</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a id="bookuploader" href="#">上传者</a></li>
-						</ul>
-					</div><!-- /btn-group -->
-					<input id="searchParam" type="text" class="form-control" >
-				</div><!-- /input-group -->
-				<button onclick="search()" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
-
-				<!--			    <div class="radio">-->
-				<!--			  		<label>-->
-				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">-->
-				<!--			    		全部字段-->
-				<!--			  		</label>-->
-				<!--			  		<label>-->
-				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">-->
-				<!--			    		标题-->
-				<!--			  		</label>-->
-				<!--			  		<label>-->
-				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">-->
-				<!--			    		主讲人-->
-				<!--			  		</label>-->
-				<!--				</div>-->
-
+			     	<div class="input-group-btn">
+			        	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">图书&nbsp;<span class="caret"></span></button>
+			        	<ul class="dropdown-menu">
+			          		<li><a href="#">图书</a></li>
+			          		<li role="separator" class="divider"></li>
+			          		<li><a href="#">文献</a></li>
+			          		<li role="separator" class="divider"></li>
+			          		<li><a href="#">论文</a></li>
+			        	</ul>
+			      	</div><!-- /btn-group -->
+			      	<input type="text" class="form-control" >
+			    </div><!-- /input-group -->
+			    <button class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
+			    
+			    <div class="radio">
+			  		<label>
+			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+			    		全部字段
+			  		</label>
+			  		<label>
+			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+			    		标题
+			  		</label>
+			  		<label>
+			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+			    		主讲人
+			  		</label>
+				</div>
+			    
 			</div>
 			<!--搜索框组 end-->
 		</div>
@@ -289,7 +368,39 @@ if(isset($_POST['toptotalcount'])) {
 			<!--书本列表面板 end-->
 		</div>		
 		<!--页面主体 end-->
+				<!--右下角按钮-->
+		<?php 
+			if(isloggedin()){
+				echo '
+					<div id="J_GotoTop" class="elevator">
+					<a class="elevator-msg" id="mynote-btn" style="cursor:pointer"></a>
+					<a class="elevator-weixin" style="cursor:pointer"></a>
+					<a class="elevator-app"  id="collection-btn" style="cursor:pointer"></a>
+					<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
+					<a class="elevator-top" href="#"></a>
+					</div>';
+			}
+			else{
+				echo '
+					<div id="J_GotoTop" class="elevator">
+					<a class="elevator-top" href="#"></a>
+					</div>';
+			}
+			?>
 		
+		<div class="chat-box chat-box1">
+		<div class="chat-head">
+			<p>聊天室</p>
+			<p id="chat-close" class="close">x</p>
+		</div>
+		</div>
+		<div class="chat-box chat-box2">
+			<div class="chat-head">
+				<p>个人笔记</p>
+				<p id="chat-close2" class="close">x</p>
+			</div>
+		</div>
+		<!--右下角按钮 end-->
 		<div style="clear: both;"></div>
 		
 		<!--底部导航条-->

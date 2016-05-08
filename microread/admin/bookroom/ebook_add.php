@@ -7,7 +7,7 @@
 				<input name="name" type="text" size="30" value="" class="required"/>
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">
-				<label>图片：</label>
+				<label>图片：(jpg ,png ,bmp ,gif)(150*220)</label>
 				<input name="pictrueurl" type="file" class="required"/>
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">
@@ -50,7 +50,7 @@
 				<input name="wordcount" type="text" size="30" value="" class="required"/>
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">
-				<label>上传电子书：</label>
+				<label>上传电子书：(pdf,txt,rar,zip)</label>
 				<input name="url" type="file" class="required"/>
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">

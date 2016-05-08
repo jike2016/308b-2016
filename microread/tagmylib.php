@@ -12,7 +12,7 @@ function gettagmy_selected($table,$tableid){
 	$alltags = $DB->get_records_sql('select tagid from mdl_tag_link where link_name=\''.$table.'\' and link_id='.$tableid.';');
 	return $alltags;
 }
-//更新标签
+//更新ebook链接的标签
 function update_edit_tagmy($tagmy,$table,$tableid){
 	global $DB;
 	$DB->delete_records("tag_link", array('link_name'=>$table , 'link_id'=>$tableid));
@@ -21,7 +21,7 @@ function update_edit_tagmy($tagmy,$table,$tableid){
 	} 
 	update_tagmy_num();
 }
-//添加标签
+//添加ebook链接的标签
 function update_add_tagmy($tagmy,$table,$tableid){
 		global $DB;
 	for ($x=0; $x<count($tagmy); $x++) {

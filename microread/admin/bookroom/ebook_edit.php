@@ -12,7 +12,7 @@ $ebook = $DB->get_record_sql('select * from mdl_ebook_my where id='.$ebookid.';'
 				<input name="name" type="text" size="30" value="<?php echo $ebook->name;?>" class="required"/>
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">
-				<label>图片：</label>
+				<label>图片：(jpg ,png ,bmp ,gif)(150*220)</label>
 				<input name="pictrueurl" type="file" class="" />
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">
@@ -61,7 +61,7 @@ $ebook = $DB->get_record_sql('select * from mdl_ebook_my where id='.$ebookid.';'
 				<input name="wordcount" type="text" size="30" value="6" class="required" value="<?php echo $ebook->wordcount;?>"/>
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">
-				<label>上传电子书：</label>
+				<label>上传电子书：(pdf,txt,rar,zip)</label>
 				<input name="url" type="file" class=""/>
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">

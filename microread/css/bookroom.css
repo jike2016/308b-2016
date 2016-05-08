@@ -9,7 +9,6 @@ label, legend, li, meter,nav,object, ol, output,p, pre, progress,q, s, samp, sec
 mark, rp, rt, ruby, summary, time{ display: inline }
  ul {list-style: none;padding:0px;margin:0px;outline: 0;}
 img {vertical-align:top; border:0;page-break-inside:avoid;max-width:100% !important; }
-/*a{text-decoration:none;text-shadow: 0 0.5px 0.5px rgba(0, 0, 0, 0.2);}*/
 a:hover,a:active{outline:0}
 a,a:visited{text-decoration:none}
 /*a[href]:after{content:" (" attr(href) ")"}
@@ -30,36 +29,7 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 
 
 #bookroom {font-family: "微软雅黑";}
-#bookroom .header{height:35px; width:100%; border-bottom: 2px solid #93e1fa; padding: 5px 0px 0px 0px;}
-#bookroom .header .header-center {margin: auto;width: 1200px;}
-#bookroom .header a {font-size: 18px; color: #000000; margin-left: 60px; text-decoration: none;}
-#bookroom .header a:hover{color: #93E1FA;}
-#bookroom .header .frist {margin-left: 446px;}
-#bookroom .header .login {margin-left: 250px;}
-#bookroom .header-banner{height:85px; width:1200px; margin: auto;}
-#bookroom .header-banner img{margin-top: 8px;}
-			
-/********搜索框********/
-#bookroom .search-box {height: 100%;width:400px;float: right; padding: 25px 0px 0px 0px;}
-#bookroom .search-box .input-group {width: 330px; float: left;}
-#bookroom .search-box .input-group .form-control{border-radius: 0px;}
-#bookroom .search-box .radio{height: 20px; margin-bottom: 0px; margin-top: 35px;}
-#bookroom .search-box label{font-size: 14px; margin: 0px 15px 0px 5px; font-weight: 600;}
-#bookroom .search-box .dropdown-menu {min-width: 95px;}
-#bookroom .searchbtn {width: 70px; float: right;border-radius: 0px 4px 4px 0px; border-left: 0px;}
-#bookroom .search-box .dropdown-menu .divider {height: 1px; margin: 0px;}
-/********搜索框 @end********/
-			
-#bookroom .bookclassified {height: 37px; width: 100%; background: url(../img/nav_BKG.jpg)}
-#bookroom .bookclassified-center {width: 1200px; margin: auto; padding: 5px 0px 0px 0px;}			
-#bookroom .bookclassified-center a {color: #FFFFFF; text-decoration: none; float: left;}
-#bookroom .bookclassified-center .dropdown-menu > li > a { color: #000000; float: inherit;height: 30px;padding-top: 5px;}
-#bookroom .bookclassified-center .dropdown-menu > li {height: 30px;}
-#bookroom .bookclassified-center .dropdown-menu { min-width: 95px;text-align: center; }
-#bookroom .bookclassified-center .dropdown-menu .divider {height: 1px; margin: 0px;}
-#bookroom .bookclassified-center a:hover {color: #000000;}
-#bookroom .bookclassified-center .kinds {margin: 3px 15px 0px 15px;}
-#bookroom .bookclassified-center .line{width: 1px;height: 14px; background-color: #80d0ee;float: left; margin: 7px 10px 0px 10px ;}
+
 			
 #bookroom .main {width: 1200px; margin: auto;}
 #bookroom .upload {height: 45px; border-bottom: 4px solid #93E1FA; padding-top: 5px;}
@@ -97,13 +67,14 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 #bookroom .recomend-box .recomendtop10 .ranklist {padding: 25px 15px 0px 5px;}
 /******推荐书板块 @end******/
 			
+
+/****热门作者榜、评分榜、热门排行榜***/
 #bookroom .ranklist-block {width: 100%; border-bottom: 1px solid #f0f0f0;font-size: 14px; height: 37px; padding: 8px 0px 0px 0px;}
 			
 #bookroom .ranklist-block .ranknum {color: #000000; font-style: italic; background-color: #f1f1f1; padding: 2px 9px 2px 7px; text-decoration: none;}
 #bookroom .ranklist-block .top3 {color: #FFFFFF;background-color: #cd0100;}
 #bookroom .ranklist-block .top10 {padding: 2px 6px 2px 2px;}
 #bookroom .ranklist-block .bookname {color: #000000; font-size: 14px; margin-left: 25px; cursor: pointer;}
-/****热门作者榜、评分榜、热门排行榜***/
 #bookroom .rank-box {width: 100%; margin-top: 60px;}
 #bookroom .rank-box .title {font-size: 20px; color: #FFFFFF; width: 100%; height: 34px; text-align: center; background-color: #437a92; margin-bottom: 10px;}
 #bookroom .rank-box .popular-writer{width: 18%; float: left; margin-right: 1.5%;}/****热门作者榜****/
@@ -124,9 +95,3 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 #bookroom .rank-box .top-charts .total{width: 22%; float: left;}
 /****热门作者榜、评分榜、热门排行榜 @end***/
 			
-/*******底部导航条*******/
-#bookroom .bottomnav {width: 100%; height: 222px; background-color: #2EBEFF; padding-top: 44px; margin-top: 50px;}
-#bookroom .bottomnav .whiteline {width: 1200px; margin: auto; height: 2px; background-color: #FFFFFF; margin-bottom: 15px;}
-#bookroom .bottomnav p {text-align: center; margin-bottom: 10px;}
-#bookroom .bottomnav p a {text-decoration: none;color: #000000; font-size: 14px; margin-right: 20px;}
-/*******底部导航条 @end*******/

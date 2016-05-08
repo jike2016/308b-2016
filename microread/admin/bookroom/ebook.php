@@ -26,15 +26,17 @@ else{
 //查询当前页记录
 $offset = ($pagenummy-1)*$numPerPage;//获取limit的第一个参数的值 offset ，假如第一页则为(1-1)*10=0,第二页为(2-1)*10=10。
 $ebooks = $DB->get_records_sql('select 
-	a.id,a.name,a.authorid,a.summary,a.url,a.pictrueurl,a.timecreated,a.wordcount,a.suffix,a.size,b.name as categoryname, c.`name` as authorname
+	a.id,a.name,a.authorid,a.summary,a.url,a.pictrueurl,a.timecreated,a.wordcount,a.suffix,a.size,b.name as categoryname, c.`name` as authorname, d.firstname 
 	FROM mdl_ebook_my a 
 	join mdl_ebook_categories_my b on a.categoryid=b.id 
 	join mdl_ebook_author_my c on a.authorid=c.id
+	join mdl_user d on a.uploaderid=d.id
 	'.$sql.'
 	ORDER BY timecreated desc
 	limit '.$offset.','.$numPerPage.';');
 //查询没有分类或者没有作者的书
-$errorebooks = $DB->get_records_sql('select * from mdl_ebook_my where authorid=0 or categoryid=0');
+$errorebooks = $DB->get_records_sql('select a.id,a.name,a.authorid,a.summary,a.url,a.pictrueurl,a.timecreated,a.wordcount,a.suffix,a.size, b.firstname
+	from mdl_ebook_my a join mdl_user b on a.uploaderid=b.id where a.authorid=-1 or a.categoryid=-1');
 ?>
 
 <form id="pagerForm" method="post" action="">
@@ -131,6 +133,8 @@ $errorebooks = $DB->get_records_sql('select * from mdl_ebook_my where authorid=0
 				<th width="80" align="center">格式</th>
 				<th width="80" align="center">总字数</th>
 				<th width="80" align="center">大小</th>
+				<th width="80" align="center">上传者</th>
+				<th width="80" align="center">下载</th>
 				<!--start zxf 章管理-->
 				<th width="80" align="center">章管理</th>
 				<!--end zxf 章管理-->
@@ -159,6 +163,9 @@ $errorebooks = $DB->get_records_sql('select * from mdl_ebook_my where authorid=0
 					<td>'.$ebook->suffix.'</td>
 					<td>'.$ebook->wordcount.'</td>
 					<td>'.$ebook->size.'</td>
+					<td>'.$ebook->firstname.'</td>
+					<td><a href="'.$ebook->url.'">(右键另存为)</a></td>
+					<td><a class="button" href="bookroom/chapter.php?ebookid='.$ebook->id.'" target="navTab" rel="ebookchapter"><span>章节管理</span></a></td>
 				</tr>
 				';
 			}
@@ -176,6 +183,8 @@ $errorebooks = $DB->get_records_sql('select * from mdl_ebook_my where authorid=0
 					<td>'.$ebook->suffix.'</td>
 					<td>'.$ebook->wordcount.'</td>
 					<td>'.$ebook->size.'</td>
+					<td>'.$ebook->firstname.'</td>
+					<td><a href="'.$ebook->url.'">(右键另存为)</a></td>
 					<td><a class="button" href="bookroom/chapter.php?ebookid='.$ebook->id.'" target="navTab" rel="ebookchapter"><span>章节管理</span></a></td>
 					
 				</tr>

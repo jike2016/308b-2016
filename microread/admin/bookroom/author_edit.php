@@ -13,7 +13,7 @@ $author = $DB->get_record_sql('select * from mdl_ebook_author_my where id='.$aut
                 <input name="name" type="text" size="30" value="<?php echo $author->name;?>" class="required"/>
             </p>
 			<p>
-				<label>作者头像：</label>
+				<label>作者头像：(jpg ,png ,bmp ,gif)(150*220)</label>
 				<input name="pictrueurl" type="file" class=""/>
 			</p>
         </div>

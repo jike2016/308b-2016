@@ -12,10 +12,10 @@ global $DB;
 
 //是否有查询条件
 if(isset($_POST['keyword'])&&$_POST['keyword']){
-    $sql= 'where a.name LIKE \'%'.$_POST['keyword'].'%\'';
+    $sql= 'where a.name LIKE \'%'.$_POST['keyword'].'%\' and a.categoryid!=-1';
 }
 else{
-    $sql='';
+    $sql='where a.categoryid!=-1';
 }
 //如果还没有查过总记录数则查询
 if(isset($_POST['sumnum'])){
@@ -28,16 +28,15 @@ else{
 //查询当前页记录
 $offset = ($pagenummy-1)*$numPerPage;//获取limit的第一个参数的值 offset ，假如第一页则为(1-1)*10=0,第二页为(2-1)*10=10。
 $doclibrarys = $DB->get_records_sql('select
-	a.id,a.name,a.authorid,a.summary,a.url,a.pictrueurl,a.timecreated,a.suffix,a.size,b.name as categoryname,c.name as authorname,d.firstname as uploadername
+	a.id,a.name,a.summary,a.url,a.pictrueurl,a.timecreated,a.suffix,a.size,b.name as categoryname,d.firstname as uploadername
 	FROM mdl_doc_my a
 	left join mdl_doc_categories_my b on a.categoryid=b.id
-	left join mdl_doc_author_my c on a.authorid = c.id
 	left join mdl_user d on a.uploaderid = d.id
 	'.$sql.'
 	ORDER BY timecreated desc
 	limit '.$offset.','.$numPerPage.';');
 //查询没有分类或者没有作者的书
-$errorelibrarys = $DB->get_records_sql('select * from mdl_doc_my where authorid=0 or categoryid=0');
+$errorelibrarys = $DB->get_records_sql('select a.id,a.name,a.pictrueurl,a.url,a.categoryid,a.summary,a.timecreated,a.suffix,a.size,b.firstname as uploadername from mdl_doc_my a left JOIN mdl_user b on a.uploaderid=b.id where a.categoryid=-1');
 ?>
 
 <form id="pagerForm" method="post" action="">
@@ -60,12 +59,6 @@ $errorelibrarys = $DB->get_records_sql('select * from mdl_doc_my where authorid=
                     </td>
                 </tr>
             </table>
-            <div class="subBar">
-                <ul>
-                    <!--<li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>-->
-                    <!--<li><a class="button" href="demo_page6.html" target="dialog" mask="true" title="查询框"><span>高级检索</span></a></li>-->
-                </ul>
-            </div>
         </div>
     </form>
 </div>
@@ -73,7 +66,7 @@ $errorelibrarys = $DB->get_records_sql('select * from mdl_doc_my where authorid=
 <div class="pageContent">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add" href="docroom/doclibrary_add.php" target="navTab"><span>添加文档资料</span></a></li>
+            <li><a class="add" href="docroom/doclibrary_add.php" target="navTab"><span>添加文档</span></a></li>
             <li><a class="delete" href="docroom/doclibrary_post_handler.php?title=delete&doclibraryid={doclibraryid}" target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
             <li><a class="edit" href="docroom/doclibrary_edit.php?doclibraryid={doclibraryid}" target="navTab"><span>修改</span></a></li>
         </ul>
@@ -85,37 +78,34 @@ $errorelibrarys = $DB->get_records_sql('select * from mdl_doc_my where authorid=
             <th width="120" align="center">文档名称</th>
             <th width="80" align="center">图片</th>
             <th width="150" align="center">分类</th>
-            <th width="100" align="center">作者</th>
             <th align="center">简介</th>
-            <th width="80" align="center">上传时间</th>
+            <th width="120" align="center">上传时间</th>
             <th width="80" align="center">格式</th>
             <th width="80" align="center">大小</th>
             <th width="80" align="center">上传者</th>
+			<th width="80" align="center">下载</th>
         </tr>
         </thead>
         <tbody>
         <?php
-        /**START cx 循环输出当前页电子书*/
+        /**START cx 循环输出当前页文档*/
         foreach($errorelibrarys as $errorelibrary){
             echo '
-				<tr target="ebookid" rel="'.$errorelibrary->id.'" >
+				<tr target="doclibraryid" rel="'.$errorelibrary->id.'" >
 					<td>-1</td>
 					<td>'.$errorelibrary->name.'</td>
 					<td><img src="'.$errorelibrary->pictrueurl.'" height="200" width="150" /></td>';
-            if($errorelibrary->categoryid==0)
+            if($errorelibrary->categoryid==-1)
                 echo "<td>(无分类)</td>";
             else
                 echo '<td>'.$errorelibrary->categoryid.'</td>';
-            if($errorelibrary->authorid==0)
-                echo "<td>(无作者)</td>";
-            else
-                echo '<td>'.$errorelibrary->authorid.'</td>';
             echo '
 					<td>'.$errorelibrary->summary.'</td>
 					<td>'.userdate($errorelibrary->timecreated,'%Y-%m-%d %H:%M').'</td>
 					<td>'.$errorelibrary->suffix.'</td>
 					<td>'.$errorelibrary->size.'</td>
 					<td>'.$errorelibrary->uploadername.'</td>
+					<td><a href="'.$errorelibrary->url.'">(右键另存为)</a></td>
 				</tr>
 				';
         }
@@ -127,12 +117,12 @@ $errorelibrarys = $DB->get_records_sql('select * from mdl_doc_my where authorid=
 					<td>'.$doclibrary->name.'</td>
 					<td><img src="'.$doclibrary->pictrueurl.'" height="200" width="150" /></td>
 					<td>'.$doclibrary->categoryname.'</td>
-					<td>'.$doclibrary->authorname.'</td>
 					<td>'.$doclibrary->summary.'</td>
 					<td>'.userdate($doclibrary->timecreated,'%Y-%m-%d %H:%M').'</td>
 					<td>'.$doclibrary->suffix.'</td>
 					<td>'.$doclibrary->size.'</td>
 					<td>'.$doclibrary->uploadername.'</td>
+					<td><a href="'.$doclibrary->url.'">(右键另存为)</a></td>
 				</tr>
 				';
             $offset++;

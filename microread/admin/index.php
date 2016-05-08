@@ -144,15 +144,26 @@ $(function(){
 									<li><a href="bookroom/ebook.php" target="navTab" rel="ebook" fresh="false">电子书管理</a></li>
 									<li><a href="bookroom/category.php" target="navTab" rel="ebookcategory" fresh="false">分类管理</a></li>
 									<li><a href="bookroom/author.php" target="navTab" rel="ebookauthor" fresh="false">作者管理</a></li>
-									<li><a href="bookroom/recommendlist.php" target="navTab" rel="ebookrecommendlist" fresh="false">推荐榜管理</a></li>
+									<li><a href="bookroom/recommendlist.php" target="navTab" rel="ebookrecommendlist" fresh="false">首页推荐榜管理</a></li>
+									<li><a href="bookroom/user_upload.php" target="navTab" rel="ebookuser_upload" fresh="false">用户上传电子书审核</a></li>
 								</ul>
 							</li>
 							<li><a href="tabsPage.html" target="navTab">文库管理</a>
 								<ul>
-									<li><a href="docroom/doclibrary.php" target="navTab" rel="doclibrary" fresh="false">文档管理</a></li>
-									<li><a href="docroom/category.php" target="navTab" rel="doclibrarycategory" fresh="false">分类管理</a></li>
-									<li><a href="docroom/tag.php" target="navTab" rel="doclibrarytag" fresh="false">标签管理</a></li>
-									<li><a href="docroom/recommendlist.php" target="navTab" rel="doclibraryrecommendlist" fresh="false">推荐榜管理</a></li>
+									<li><a href="docroom/doclibrary.php" target="navTab" rel="doclibrary">文档管理</a></li>
+									<li><a href="docroom/category.php" target="navTab" rel="doccategory">分类管理</a></li>
+									<li><a href="docroom/tag.php" target="navTab" rel="doctag">标签管理</a></li>
+									<li><a href="docroom/categoryrecommendlist.php" target="navTab" rel="doccategoryrecommendlist">首页分类推荐管理</a></li>
+									<li><a href="docroom/authorrecommendlist.php" target="navTab" rel="docauthorrecommendlist">首页贡献作者推荐管理</a></li>
+									<li><a href="docroom/recommendlist.php" target="navTab" rel="docrecommendlist">首页推荐榜管理</a></li>
+									<li><a href="docroom/user_upload.php" target="navTab" rel="docuser_upload" fresh="false">用户上传文档审核</a></li>
+								</ul>
+							</li>
+							<li><a>图库管理</a>
+								<ul>
+									<li><a href="picroom/picture.php" target="navTab" rel="picture">图片管理</a></li>
+									<li><a href="picroom/tag.php" target="navTab" rel="pictag">标签管理</a></li>
+									<li><a href="picroom/pictagrecommend.php" target="navTab" rel="pictagcommend">首页推荐搜索词管理</a></li>
 								</ul>
 							</li>
 							<li><a>源码例子</a>

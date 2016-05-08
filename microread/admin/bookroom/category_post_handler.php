@@ -55,6 +55,13 @@ if(isset($_GET['title']) && $_GET['title']){
             /**end zxf 排除自己查重名**/
             break;
         case "delete"://删除
+			$ebooks=$DB->get_records_sql('select * from mdl_ebook_my where categoryid='.$_GET['categoryid']);
+            foreach($ebooks as $ebook){
+                $newcategory=new stdClass();
+                $newcategory->id=$ebook->id;
+                $newcategory->categoryid=-1;
+                $DB->update_record('ebook_my',$newcategory);
+            }
             $DB->delete_records("ebook_categories_my", array("id" =>$_GET['categoryid']));
             success('删除成功','ebookcategory','');
             break;

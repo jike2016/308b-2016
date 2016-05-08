@@ -29,6 +29,8 @@ function delete_ebook(){
 	success('删除成功','ebook','');
 }
 function edit_ebook(){
+	$currenttime=time();
+	$ranknum = rand(100, 200);//随机数
 	$newebook=new stdClass();
 	$newebook->id= $_GET['ebookid'];
 	$newebook->name= $_POST['name'];
@@ -42,9 +44,19 @@ function edit_ebook(){
 			// exit;
 		}
 		else{
-			$currenttime=time();
-			move_uploaded_file($_FILES["pictrueurl"]["tmp_name"],"../../../../microread_files/ebook/pictrueurl/" . $currenttime.$_FILES["pictrueurl"]["name"]);
-			$newebook->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/pictrueurl/'. $currenttime.$_FILES["pictrueurl"]["name"];
+			//判断上传类型是否是图片类型
+			$picstr=strrchr($_FILES['pictrueurl']['name'],'.');
+			$picmatch=array('.gif','.jpeg','.png','.bmp','.jpg');
+			if(in_array($picstr,$picmatch)){
+				$picfilestr=strrchr($_FILES['pictrueurl']['name'],'.');//pic后缀名
+				$picfilestr=strtolower($picfilestr);//全小写
+				move_uploaded_file($_FILES["pictrueurl"]["tmp_name"],"../../../../microread_files/ebook/pictrueurl/" . $currenttime.$ranknum.$picfilestr);
+				$newebook->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/pictrueurl/'. $currenttime.$ranknum.$picfilestr;
+			}
+			else{
+				failure('请上传正确格式的图片');
+				exit;
+			}
 		}
 	}
 	if(isset($_FILES['url'])){//上传下载的文件
@@ -52,11 +64,21 @@ function edit_ebook(){
 			// failure('上传文件失败');
 			// exit;
 		}
-		else{
-			move_uploaded_file($_FILES["url"]["tmp_name"],"../../../../microread_files/ebook/ebookurl_fordownload/" . $currenttime.$_FILES["url"]["name"]);
-			$newebook->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/ebookurl_fordownload/'. $currenttime.$_FILES["url"]["name"];
-			$newebook->suffix= $_FILES["url"]["type"];
-			$newebook->size= number_format(($_FILES["url"]["size"] / 1048576),1).'MB';
+		else{//判断上传文件是否为txt,pdf,rar,zip格式
+			$filestr=strrchr($_FILES['url']['name'],'.');
+			$ebookmatch=array('.txt','.pdf','.rar','.zip');
+			if(in_array($filestr,$ebookmatch)){
+				$urlfilestr=strrchr($_FILES['url']['name'],'.');//url后缀名
+				$urlfilestr=strtolower($urlfilestr);
+				move_uploaded_file($_FILES["url"]["tmp_name"],"../../../../microread_files/ebook/ebookurl_fordownload/" . $currenttime.$ranknum.$urlfilestr);
+				$newebook->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/ebookurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
+				$newebook->suffix= $filestr;
+				$newebook->size= number_format(($_FILES["url"]["size"] / 1048576),1).'MB';
+			}
+			else{
+				 failure('请上传正确格式的电子书');
+				 exit;
+			}
 		}
 	}
 	global $DB;
@@ -68,34 +90,57 @@ function edit_ebook(){
 	else{
 		update_edit_tagmy(array(),'mdl_ebook_my',$_GET['ebookid']);
 	}
-	success('添加成功','ebook','closeCurrent');
+	success('修改成功','ebook','closeCurrent');
 }
+
 function add_ebook(){
 	if(isset($_FILES['pictrueurl'])){//上传图片
 		if ($_FILES["pictrueurl"]["error"] > 0){
 			failure('上传图片失败');
 			exit;
 		}
-		else{
-			$currenttime=time();
-			move_uploaded_file($_FILES["pictrueurl"]["tmp_name"],"../../../../microread_files/ebook/pictrueurl/" . $currenttime.$_FILES["pictrueurl"]["name"]);
-			if ($_FILES["url"]["error"] > 0){//上传下载的文件
-				failure('上传文件失败');
-				exit;
+		else{//判断上传类型是否是图片类型
+			$picstr=strrchr($_FILES['pictrueurl']['name'],'.');
+			$picmatch=array('.gif','.jpeg','.png','.bmp','.jpg');
+			if(in_array($picstr,$picmatch)){
+				$currenttime = time();
+				$ranknum = rand(100, 200);//随机数
+				$picfilestr=strrchr($_FILES['pictrueurl']['name'],'.');//pic后缀名
+				$picfilestr=strtolower($picfilestr);//全小写
+				move_uploaded_file($_FILES["pictrueurl"]["tmp_name"], "../../../../microread_files/ebook/pictrueurl/" . $currenttime.$ranknum.$picfilestr);
 			}
 			else{
-				move_uploaded_file($_FILES["url"]["tmp_name"],"../../../../microread_files/ebook/ebookurl_fordownload/" . $currenttime.$_FILES["url"]["name"]);
+				failure('请上传正确格式的图片');
+				exit;
+			}
+			if ($_FILES["url"]["error"] > 0){//上传下载的文件
+			failure('上传文件失败');
+			exit;
+			}
+			else{
+				$filestr=strrchr($_FILES['url']['name'],'.');
+				$ebookmatch=array('.txt','.pdf','.rar','.zip');
+				if(in_array($filestr,$ebookmatch)){
+					$urlfilestr=strrchr($_FILES['url']['name'],'.');//url后缀名
+					$urlfilestr=strtolower($urlfilestr);
+					move_uploaded_file($_FILES["url"]["tmp_name"],"../../../../microread_files/ebook/ebookurl_fordownload/" . $currenttime.$ranknum.$urlfilestr);
+				}
+				else{
+					failure('请上传正确格式的电子书');
+					exit;
+				}
 				$newebook=new stdClass();
 				$newebook->name= $_POST['name'];
 				$newebook->categoryid= $_POST['categoryid'];
 				$newebook->authorid= $_POST['authorid'];
 				$newebook->summary= $_POST['summary'];
-				$newebook->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/ebookurl_fordownload/'. $currenttime.$_FILES["url"]["name"];
-				$newebook->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/pictrueurl/'. $currenttime.$_FILES["pictrueurl"]["name"];
+				$newebook->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/ebookurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
+				$newebook->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/pictrueurl/'. $currenttime . $ranknum.$picfilestr;
 				$newebook->timecreated= $currenttime;
 				$newebook->wordcount= $_POST['wordcount'];
-				$newebook->suffix= $_FILES["url"]["type"];
+				$newebook->suffix= $filestr;
 				$newebook->size= number_format(($_FILES["url"]["size"] / 1048576),1).'MB';
+				$newebook->uploaderid = 2;
 				global $DB;
 				$ebookid=$DB->insert_record('ebook_my',$newebook,true);
 				//处理标签

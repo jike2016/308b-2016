@@ -7,7 +7,7 @@
                 <input name="name" type="text" size="30" value="" class="required"/>
             </p>
 			<p>
-				<label>作者头像：</label>
+				<label>作者头像：(jpg ,png ,bmp ,gif)(150*220)</label>
 				<input name="pictrueurl" type="file" class=""/>
 			</p>
         </div>

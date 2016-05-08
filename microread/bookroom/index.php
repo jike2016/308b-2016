@@ -111,7 +111,11 @@ $totalrankStr .= '"';
 		<title>书库首页</title>
 		<link rel="stylesheet" href="../css/bootstrap.css" />
 		<link rel="stylesheet" href="../css/bookroom.css" />
-
+		<link rel="stylesheet" href="../css/bookroomallpage.css" />	
+		<style>
+		
+		</style>
+		
 		<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
 		<script type="text/javascript" src="../js/rank.js" ></script>
@@ -133,7 +137,50 @@ $totalrankStr .= '"';
             var moothrank = new Array(<?php echo $monthrankStr; ?>); //月书单
             var weekrank = new Array(<?php echo $weekrankStr; ?>); //周书单
             var totalrank = new Array(<?php echo $totalrankStr; ?>); //总书单
-
+			
+			var bookhref=new Array(5); //书本链接
+			bookhref[0]= "http://www.baidu.com";
+			bookhref[1]= "http://www.baidu1.com";
+			bookhref[2]= "http://www.baidu2.com";
+			bookhref[3]= "http://www.baidu3.com";
+			bookhref[4]= "http://www.baidu4.com";
+			
+			var moothrank_href = new Array(10); //月书单链接
+			moothrank_href[0] = "http://www.baidu.com";
+			moothrank_href[1] = "http://www.baidu1.com";
+			moothrank_href[2] = "http://www.baidu.com";
+			moothrank_href[3] = "http://www.baidu.com";
+			moothrank_href[4] = "http://www.baidu.com";
+			moothrank_href[5] = "http://www.baidu.com";
+			moothrank_href[6] = "http://www.baidu.com";
+			moothrank_href[7] = "http://www.baidu.com";
+			moothrank_href[8] = "http://www.baidu.com";
+			moothrank_href[9] = "http://www.baidu.com";
+			
+			var weekrank_href = new Array(10); //周书单链接
+			weekrank_href[0] = "http://www.baidu.com";
+			weekrank_href[1] = "http://www.baidu.com";
+			weekrank_href[2] = "2";
+			weekrank_href[3] = "2";
+			weekrank_href[4] = "2";
+			weekrank_href[5] = "2";
+			weekrank_href[6] = "2";
+			weekrank_href[7] = "2";
+			weekrank_href[8] = "2";
+			weekrank_href[9] = "2";
+			
+			var totalrank_href = new Array(10); //总书单
+			totalrank_href[0] = "3";
+			totalrank_href[1] = "3";
+			totalrank_href[2] = "3";
+			totalrank_href[3] = "3";
+			totalrank_href[4] = "3";
+			totalrank_href[5] = "3";
+			totalrank_href[6] = "3";
+			totalrank_href[7] = "3";
+			totalrank_href[8] = "3";
+			totalrank_href[9] = "3";
+			
 			//搜索选项下拉框
 			$(document).ready(function() {
 				$('#searchtype a').click(function() {
@@ -146,21 +193,117 @@ $totalrankStr .= '"';
 				var searchParam = document.getElementById("searchParam");//获取选项
 				window.location.href="searchresult.php?searchType="+searchType.textContent+"&searchParam="+searchParam.value;
 			}
+		</script>
+		<script>
+		$(document).ready(function(){
+			//聊天室 START 20160314
+			//适配不同大小偏移值
+			var winW=$(window).width();
+			var winH=$(window).height();
+			var leftval = (winW-900)/2;	
+			var topval = (winH-600)/3;	
+			$('.chat-box').css({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
+			//适配不同大小偏移值 end	
+			var chatbox=false;
+			$('.elevator-weixin').click(function(){
+				if(chatbox==false){
+					$('.chat-box1').append('<iframe src="<?php echo $CFG->wwwroot;?>/chat" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
+					chatbox=true;
+				}
+				$('.chat-box1').show();	
+			})
+			$('#chat-close').click(function(){
+				$('.chat-box1').hide();
+				//alert("关闭的top: " +$('.chat-box').offset().top);
+			})
+			//聊天室 End
+			//收藏按钮
+			$('#collection-btn').click(function()
+			{
+				$.ajax({
+					url: "<?php echo $CFG->wwwroot;?>/privatecenter/mycollection/collectionpage.php",
+					data: {mytitle: document.title, myurl: window.location.href },
+					success: function(msg){
+						if(msg=='1'){
+							alert('收藏成功，可去个人中心查看')
+						}
+						else{
+							msg=='2' ? alert('您已经收藏过了，请去个人中心查看收藏结果') :alert('收藏失败');
+						}
+					}
+				});
+			});
+			//点赞按钮
+			$('#like-btn').click(function()
+			{
+				$.ajax({
+					url: "<?php echo $CFG->wwwroot;?>/like/courselike.php",
+					data: {mytitle: document.title, myurl: window.location.href },
+					success: function(msg){
+						// alert(msg);
+						if(msg=='1'){
+							alert('点赞成功')
+						}
+						else{
+							msg=='2' ? alert('你已经点赞了，不能再次点赞') :alert('点赞失败');
+						}
+					}
+				});
+			});
+			//笔记20160314
+			var note_personal = false
+			$('#mynote-btn').click(function(){
+				if(note_personal == false)
+				{
+					$('.chat-box2').append('<iframe src="<?php echo $CFG->wwwroot;?>/mod/notemy/newnotemy_personal.php" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
+					note_personal = true;
+				}
+								
+				$('.chat-box2').show();	
+				
+			})
+			//笔记
+			$('#chat-close2').click(function(){
+				$('.chat-box2').hide();
+			})
 
+		});
 		</script>
 	</head>
 	<body id="bookroom">
 		<!--顶部导航-->
 		<div class="header">
 			<div class="header-center">
-				<a class="frist" href="<?php echo $CFG->wwwroot; ?>">首页</a>
-				<a href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
-				<a href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
-				<a href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
-				<a class="login" href="<?php echo $CFG->wwwroot; ?>/login/index.php"><img src="../img/denglu.png"></a>
+				<div class="a-box">
+					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
+					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
+				</div>
+				<?php 
+				
+					if($USER->id!=0){
+						echo '<div id="usermenu" class="dropdown">
+								<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									<a href="#" class="username">'.fullname($USER, true).'</a>
+									<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="'.new moodle_url('/message/').'">消息</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="user_upload.php">上传电子书</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
+								</ul>
+							</div>';
+					};
+				?>
 			</div>
 		</div>
-
+		
 		<div class="header-banner">
 			<a href="index.php"><img  src="../img/shuku_logo.png"/></a>
 			<!--搜索框组-->
@@ -299,7 +442,7 @@ $totalrankStr .= '"';
                                     <?php
                                         if($recommends!=null){
                                             for($i=1;$i<=5;$i++){
-                                                echo ' <li id="'.($i-1).'"><a href="bookindex.php?bookid='.$recommends[$i]->ebookid.'" target="_blank" title="图片"> <img src="'.$recommends[$i]->pictrueurl.'" alt=\'图片\' style="border: 0" width="150" height="220" ></a></li>';
+                                                echo ' <li id="'.($i-1).'"><a href="bookindex.php?bookid='.$recommends[$i]->ebookid.'" target="_blank" title="图片"> <img src="'.$recommends[$i]->pictrueurl.'" alt=\'图片\' style="border: 0"  ></a></li>';
                                             }
                                         }
                                     ?>
@@ -504,6 +647,41 @@ $totalrankStr .= '"';
 			<!--热门作者榜、评分榜、热门排行榜 end-->
 		</div>
 		<!--页面主体 end-->
+		
+		<!--右下角按钮-->
+		<?php 
+			if(isloggedin()){
+				echo '
+					<div id="J_GotoTop" class="elevator">
+					<a class="elevator-msg" id="mynote-btn" style="cursor:pointer"></a>
+					<a class="elevator-weixin" style="cursor:pointer"></a>
+					<a class="elevator-app"  id="collection-btn" style="cursor:pointer"></a>
+					<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
+					<a class="elevator-top" href="#"></a>
+					</div>';
+			}
+			else{
+				echo '
+					<div id="J_GotoTop" class="elevator">
+					<a class="elevator-top" href="#"></a>
+					</div>';
+			}
+			?>
+		
+		<div class="chat-box chat-box1">
+		<div class="chat-head">
+			<p>聊天室</p>
+			<p id="chat-close" class="close">x</p>
+		</div>
+		</div>
+		<div class="chat-box chat-box2">
+			<div class="chat-head">
+				<p>个人笔记</p>
+				<p id="chat-close2" class="close">x</p>
+			</div>
+		</div>
+		<!--右下角按钮 end-->
+		
 		<div style="clear: both;"></div>
 		<!--底部导航条-->
 		<nav class="bottomnav">

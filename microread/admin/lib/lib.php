@@ -23,4 +23,3 @@ function failure($message){
 		"confirmMsg":""
 	}';
 }
-?>

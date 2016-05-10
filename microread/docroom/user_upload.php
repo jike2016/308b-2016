@@ -135,7 +135,7 @@ if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
 		</div>
 		
 		<div class="header-banner">
-			<a href="index.php"><img  src="../img/shuku_logo.png"/></a>
+			<a href="index.php"><img  src="../img/logo_WenKu.png"/></a>
 			<!--搜索框组-->
 			<div class="search-box">
 				<div class="input-group">

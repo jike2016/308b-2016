@@ -2,6 +2,7 @@
 /** Start CX 处理电子书CURD*/
 require_once('../lib/lib.php');
 require_once("../../tagmylib.php");
+require_once('../../convertlib.php');
 /**获取上传的文件，并转存路径 */
 if(isset($_GET['title']) && $_GET['title']){
 	require_once('../../../config.php');
@@ -31,6 +32,22 @@ function pass_doc(){
 	$newdoc->suffix= $user_doc->suffix;
 	$newdoc->size= $user_doc->size;
 	$newdoc->uploaderid= $user_doc->upload_userid;
+//	/**START cx 上传的文档转swf*/
+//	$currenttime = time();
+//	$ranknum = rand(100, 200);//随机数
+//	if(in_array($user_doc->suffix,array('.doc','.docx','.ppt','.pptx','.txt','.xls','.xlsx'))){
+//		word2pdf($user_doc->url,
+//		'D:/WWW/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf',
+//		'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
+//	}
+//	elseif(in_array($user_doc->suffix,array('.pdf'))){
+//		$pdfurl=strrchr($user_doc->url,'/');
+//		$pdfurl=substr($pdfurl, 1);
+//		pdf2swf('D:/WWW/microread_files/doclibrary/user_upload/docfordownload/'.$pdfurl,
+//		'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
+//	}
+//	$newdoc->swfurl='http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
+//	/**End*/
 	$DB->insert_record('doc_my',$newdoc,true);
 	
 	//更新表

@@ -108,39 +108,51 @@ function  add_doclibrary(){
                 exit;
             }
             else{
-                global $USER;
-				$urlfilestr=strrchr($_FILES['url']['name'],'.');//url后缀名
-				$urlfilestr=strtolower($urlfilestr);
-                move_uploaded_file($_FILES["url"]["tmp_name"],"../../../../microread_files/doclibrary/doclibraryurl_fordownload/" . $currenttime.$ranknum.$urlfilestr);
-                /**START cx 上传的文档转swf*/
-				word2pdf('http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
-					'D:/WWW/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf',
-					'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
-				//如果是pdf则直接转swf
-				/**End*/
+                
 				$newdoclibrary=new stdClass();
                 $newdoclibrary->name= $_POST['name'];
                 $newdoclibrary->categoryid= $_POST['categoryid'];
                 $newdoclibrary->summary= $_POST['summary'];
                 //判断文档上传类型
-                $docstr=strrchr($_FILES['url']['name'],'.');
+                $urlfilestr=strrchr($_FILES['url']['name'],'.');
+                $urlfilestr=strtolower($urlfilestr);
                 $docmatch=array('.doc','.docx','.ppt','.pptx','.xls','.xlsx','.pdf','.txt');
-                if(in_array($docstr,$docmatch)) {
+                if(in_array($urlfilestr,$docmatch)) {
                     $newdoclibrary->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
                     $newdoclibrary->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/pictrueurl/'.$currenttime.$ranknum.$picfilestr;
                     $newdoclibrary->timecreated= $currenttime;
-                    $newdoclibrary->suffix=$docstr;
+                    $newdoclibrary->suffix=$urlfilestr;
                     if(($_FILES["url"]["size"] / 1048576)<=0.1){
                         $newdoclibrary->size='0.1MB';
                     }
                     else{
                         $newdoclibrary->size= number_format(($_FILES["url"]["size"] / 1048576),1).'MB';
                     }
+
+					move_uploaded_file($_FILES["url"]["tmp_name"],"../../../../microread_files/doclibrary/doclibraryurl_fordownload/" . $currenttime.$ranknum.$urlfilestr);
+//					/**START cx 上传的文档转swf*/
+//					if(in_array($urlfilestr,array('.doc','.docx','.ppt','.pptx','.txt','.xls','.xlsx'))){
+//						word2pdf('http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
+//						'D:/WWW/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf',
+//						'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
+//					}
+//					// elseif(in_array($urlfilestr,array('.xls','.xlsx'))){
+//						// xls2pdf('D:/WWW/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
+//						// 'D:/WWW/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf',
+//						// 'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
+//					// }
+//					elseif(in_array($urlfilestr,array('.pdf'))){
+//						pdf2swf('D:/WWW/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
+//						'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
+//					}
+//					$newdoclibrary->swfurl='http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
+//					/**End*/
                 }
                 else{
                     failure('请上传正确格式的文档');
                     exit;
                 }
+                global $USER;
                 $newdoclibrary->uploaderid= $USER->id;
                 global $DB;
                 $newaddtagids=$_POST['tagmy'];

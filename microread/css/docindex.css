@@ -1,0 +1,96 @@
+
+			
+.main {width: 1200px; margin: auto; min-height: 600px;}
+			
+/*******主体内容*******/
+#articleindex .main {width: 1200px; margin: auto; min-height:600px;}
+/***权威发布**/
+#articleindex .authority-release{width: 100%;padding-top: 30px; padding-bottom: 30px;}
+#articleindex .title {width: 100%; border-bottom: 2px solid #15a9e0; font-size:26px; color: #20abf7; margin-bottom: 30px;}
+#articleindex .authority-release .banner {width: 100%; padding-bottom: 20px}
+#articleindex .authority-release .articleblock {width: 23.5%; height: 240px; border: 1px solid #F0F0F0; padding: 4px; float: left; margin-left: 2%;}
+#articleindex .authority-release .frist { margin-left: 0%;}
+#articleindex .authority-release .articleblock div {width: 90%; margin: auto; margin-top: 15px;}
+#articleindex .authority-release .articleblock {text-align: center;}
+#articleindex .authority-release .articleblock img {width: 100%;}
+#articleindex .authority-release .articleblock a {text-align: left; font-size: 18px; color: #000000; text-decoration: none;}
+#articleindex .authority-release .articleblock a:hover {color: #15A9E0;} 
+#articleindex .authority-release .articleblock p {text-align: left; font-size: 14px; margin-top: 5px;}
+/***权威发布 @end**/
+			
+/***贡献作者榜**/
+#articleindex .contribution-writer{width: 100%;}
+#articleindex .contribution-writer .writerblock {width: 23.5%; height: 200px;float: left; margin-left: 2%;}
+#articleindex .contribution-writer .frist { margin-left: 0%;}
+#articleindex .writerblock .userinfo-box {width: 100%; height: 64px;}
+#articleindex .writerblock .userinfo-box .userimg{height: 64px; float: left; margin-right: 10px;}
+#articleindex .writerblock .userinfo-box img {height: 100%; border-radius: 5px;}
+#articleindex .writerblock .userinfo-box .userinfo {float: left; height: 64px;width: 70%; padding-top: 5px;}
+#articleindex .writerblock .userinfo-box .userinfo .name {font-size: 18px; margin-bottom: 18px; font-weight: 600;}
+#articleindex .writerblock .userinfo-box .userinfo .articlenum {font-size: 14px; margin-bottom: 0px; color: #C9302C; float: left;}
+#articleindex .writerblock .userinfo-box .userinfo .articlenumw {font-size: 14px; margin-bottom: 0px; color: #777; float: left;}			
+#articleindex .writerblock .articlelist {width: 100%; height: 100px; padding: 20px 0px;}
+#articleindex .writerblock .articlelist .pa {margin-bottom: 5px; font-size: 14px; width: 100%; height: 30px;}
+#articleindex .writerblock .articlelist .pa .ca{margin-bottom: 5px;width:180px;display: block; font-size: 14px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden; float: left;}
+#articleindex .writerblock .articlelist a {color: #000000; text-decoration: none;}
+#articleindex .writerblock .articlelist a:hover {color:#2EBEFF}
+#articleindex .writerblock .articlelist .score {float: right; color: #777; font-weight:bold}
+/***贡献作者榜 @end**/
+
+/****热门作者榜、评分榜、热门排行榜***/
+#articleindex  .ranklist-block {width: 100%; border-bottom: 1px solid #f0f0f0;font-size: 14px; height: 37px; padding: 8px 0px 0px 0px;}
+			
+#articleindex  .ranklist-block .ranknum {color: #000000; font-style: italic; background-color: #f1f1f1; padding: 2px 9px 2px 7px; text-decoration: none;}
+#articleindex  .ranklist-block .top3 {color: #FFFFFF;background-color: #cd0100;}
+#articleindex  .ranklist-block .top10 {padding: 2px 6px 2px 2px;}
+#articleindex  .ranklist-block .bookname {color: #000000; font-size: 14px; margin-left: 25px; cursor: pointer;}
+#articleindex  .rank-box {width: 100%; margin-top: 60px;}
+#articleindex  .rank-box .title {font-size: 20px; color: #FFFFFF; width: 100%; height: 34px; text-align: center; background-color: #437a92; margin-bottom: 10px;}
+#articleindex  .rank-box .popular-writer{width: 18%; float: left; margin-right: 1.5%;}/****热门作者榜****/
+#articleindex  .rank-box .popular-writer .writername {color: #000000; font-size: 14px; text-decoration: none;}
+#articleindex  .rank-box .popular-writer .w-num {width: 10%;float: left;}
+#articleindex  .rank-box .popular-writer .w-name {width: 90%;float: left; text-align: center;}
+			
+#articleindex  .rank-box .score{width: 29%; float: left; margin-right: 1.5%;}/****评分榜****/
+#articleindex  .rank-box .top-charts{width: 50%; float: left;}/****热门排行榜****/
+#articleindex  .rank-box .top-charts .title {width: 34%; float: left; cursor: pointer;}
+#articleindex  .rank-box .more-box {width: 100%; height: 30px; text-align: center; padding: 10px 0px 0px 0px;}
+#articleindex  .rank-box .more {font-size: 12px; text-decoration: none;color: #0e4da9; margin-left:30px;}
+#articleindex  .rank-box .more:hover {color: #2EBEFF;}
+#articleindex  .rank-box .top-charts .title:hover{background-color: #2ebeff;}
+#articleindex  .rank-box .top-charts .hotrank:hover{background-color: #437a92;}
+#articleindex  .rank-box .top-charts .mooth{width: 22%; float: left;}
+#articleindex  .rank-box .top-charts .week{width: 22%; float: left;}
+#articleindex  .rank-box .top-charts .total{width: 22%; float: left;}
+/****热门作者榜、评分榜、热门排行榜 @end***/
+/*******主体内容 @end*******/
+
+
+.ui-btn-32-orange:hover, .ui-btn-32-orange:active, .ui-btn-32-orange:hover .btc, .ui-btn-20-disabled, .ui-btn-20-disabled:hover, .ui-btn-20-disabled:active, .ui-btn-20-disabled .btc, .ui-btn-20-disabled:hover .btc, .ui-btn-20-disabled:active .btc, .ic-dir, .ic-doc, .ic-docx, .ic-dps, .ic-epub, .ic-et, .ic-pdf, .ic-pot, .ic-pps, .ic-ppt, .ic-pptx, .ic-rtf, .ic-txt, .ic-vsd, .ic-wps, .ic-xls, .ic-xlsx, .ic-album, .ic-wealth, .ic-ok, .ic-exp {
+    background-image: url(../img/pkg.png);
+}
+.ic-doc, .ic-docx {background-position: -193px -991px;}
+.ic-doc, .ic-docx { background-repeat: no-repeat;}
+.ic-ppt, .ic-pptx { background-position: -193px -1138px;}
+.ic-ppt, .ic-pptx { background-repeat: no-repeat;}
+.ic-txt {background-position: -193px -1180px;}
+.ic-txt { background-repeat: no-repeat;}
+.ic-pdf {background-position: -193px -1075px;}
+.ic-pdf { background-repeat: no-repeat;}
+.ic-xls, .ic-xlsx { background-position: -193px -1243px;}
+.ic-xls, .ic-xlsx {background-repeat: no-repeat;}
+.ic {
+	top: 2px;
+    display: -moz-inline-stack;
+    display: inline-block;
+    padding: 0;
+    vertical-align: -2px;
+    font-size: 0;
+    line-height: 9999em;
+    overflow: hidden;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    float: left;
+}	
+		

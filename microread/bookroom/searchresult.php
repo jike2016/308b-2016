@@ -12,18 +12,19 @@ if(isset($_GET["searchParam"]) && $_GET["searchParam"] != null){//搜索参数
 
 global $DB;
 $bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");//获取顶级分类
-
+//$searchType = strip_tags($searchType);//无效
+//$searchType = trim($searchType);//无效
 switch($searchType){
-	case '全部':
+	case '全部 '://注意：这里的空格不能省去！（因为获取$searchType时没去掉多余的字符、、、，先这样处理）
 		$sql = "where em.name like '%$searchParam%' or ea.name like '%$searchParam%' or em.summary like '%$searchParam%' or u.firstname like '%$searchParam%'";
 		break;
-	case '标题':
+	case '标题 ':
 		$sql = "where em.name like '%$searchParam%'";
 		break;
-	case '作者':
+	case '作者 ':
 		$sql = "where ea.name like '%$searchParam%'";
 		break;
-	case '上传者':
+	case '上传者 ':
 		$sql = "where u.firstname like '%$searchParam%'";
 		break;
 	default:
@@ -70,6 +71,7 @@ if(isset($_POST["searchcount"])){
 			$(document).ready(function() {
 				$('#searchtype a').click(function() {
 					$('#searchtypebtn').text($(this).text());
+					$('#searchtypebtn').append('&nbsp;<span class="caret"></span>');
 				});
 			});
 			//回车事件
@@ -210,7 +212,7 @@ if(isset($_POST["searchcount"])){
 			<div class="search-box">
 				<div class="input-group">
 					<div class="input-group-btn">
-						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部<span class="caret"></span></button>
+						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部&nbsp;<span class="caret"></span></button>
 						<ul id="searchtype" class="dropdown-menu">
 							<li><a id="bookall" href="#">全部</a></li>
 							<li role="separator" class="divider"></li>
@@ -329,10 +331,14 @@ if(isset($_POST["searchcount"])){
 						</a>
 					</li>
 					<?php
-					$totalpage = ceil($searchcount/12);
-					for($i=1;$i<=$totalpage;$i++){
-						echo ' <li><a href="searchresult.php?searchType='.$searchType.'&searchParam='.$searchParam.'&page='.$i.'">'.$i.'</a></li>';
-					}
+						$totalpage = ceil($searchcount/12);
+						for($i=1;$i<=$totalpage;$i++){
+							if($page == $i) {
+								echo ' <li><a class="active" href="searchresult.php?searchType=' . $searchType . '&searchParam=' . $searchParam . '&page=' . $i . '">' . $i . '</a></li>';
+							}else{
+								echo ' <li><a class="" href="searchresult.php?searchType=' . $searchType . '&searchParam=' . $searchParam . '&page=' . $i . '">' . $i . '</a></li>';
+							}
+						}
 					?>
 
 					<li>

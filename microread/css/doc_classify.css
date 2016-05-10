@@ -1,0 +1,43 @@
+#article_classify{font-family: "微软雅黑";}
+#article_classify .main {width: 1200px; margin: auto; min-height: 600px;}
+		
+/*******主体内容*******/
+/****分类列表****/
+#article_classify .classifiedbanner {width: 20%; float: left; padding-top: 30px;}
+#article_classify .classified-block {width: 100%; height: 36px; border-bottom: dashed 1px #e8e8e8; padding: 8px 10px 0px 10px;}
+#article_classify .total a{font-weight: 600;}
+#article_classify .classified-block a {color: #269ABC; font-size: 14px; text-decoration: none;}
+#article_classify .classified-block a:hover{color: #D43F3A}
+#article_classify .classified-block span {color: #000000; font-size: 14px;float: right;}
+/****分类列表 @end****/
+			
+/****书本列表****/
+#article_classify .booklistbanner {width: 80%;float: right; padding: 20px 20px;}
+#article_classify .booklistbanner .table {width: 100%; border-bottom: 1px solid #ddd; font-size: 14px;}
+#article_classify .booklistbanner .table td{vertical-align: middle;}
+#article_classify .booklistbanner .table tbody {text-align: center; }
+#article_classify .booklistbanner .table .docname{width: 25%;}
+#article_classify .booklistbanner .table .docinfo{width: 40%; }
+#article_classify .booklistbanner .table .doctype{width: 10%;}
+#article_classify .booklistbanner .table .uploadtime{width: 15%;}
+#article_classify .booklistbanner .table .download{width: 10%;}
+#article_classify .booklistbanner .table thead {text-align: center; font-weight: 600;}
+#article_classify .booklistbanner .table tbody .docinfo{text-align: left; color: #999999;}
+#article_classify .booklistbanner .table tbody .docname{text-align: left;}
+#article_classify .booklistbanner .table tbody .docname div{float: right; line-height:52px;   overflow:hidden;  height: 52px; width:170px;padding: 0px 10px;text-overflow:ellipsis;white-space:nowrap;}
+#article_classify .booklistbanner .table tbody .docname img {float: left;}
+#article_classify .booklistbanner .table  tbody .uploadtime{color: #999;}
+
+#article_classify .booklistbanner .paging {margin-top: 20px; width: 100%; height: 60px; text-align: center;}
+#article_classify .booklistbanner .paging nav {margin-left: 43px;}
+.pagination > li > .active, .pagination > li > span {color: #fff;background-color:#337ab7 ;}
+.pagination > li > .active:hover, .pagination > li > span {color: #fff;background-color:#337ab7 ;}
+/****书本列表 @end****/
+
+#article_classify .J_MenuItem h3 a:hover{color: #D43F3A; cursor: pointer;}
+#article_classify .J_MenuItem:hover{border-top: dashed 1px #e8e8e8;}
+
+
+/*******主体内容 @end*******/
+
+

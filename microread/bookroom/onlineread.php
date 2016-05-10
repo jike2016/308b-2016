@@ -12,7 +12,7 @@ if(isset($_GET["booksectionid"]) && $_GET["booksectionid"] != null){//书籍的�
 }
 
 require_once ("../loglib.php");
-addbookviewlog($bookid);//添加日志记录
+addbookviewlog('view',$bookid,1);//添加日志记录
 
 global $DB;
 global $USER;

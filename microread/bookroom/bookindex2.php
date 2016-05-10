@@ -6,7 +6,7 @@ if(isset($_GET["bookid"]) && $_GET["bookid"] != null){//阅读的书籍id
 }
 
 require_once ("../loglib.php");
-addbookviewlog($bookid);//添加日志记录
+addbookviewlog('view',$bookid,1);//添加日志记录
 
 global $DB;
 global $USER;

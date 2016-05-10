@@ -1,56 +1,66 @@
 <?php
 require_once ("../../config.php");
 
-$page = optional_param('page', 1, PARAM_INT);//分页页号
+if(isset($_GET["bookid"]) && $_GET["bookid"] != null){//阅读的书籍id
+	$bookid = $_GET["bookid"];
+}
 
-if(isset($_GET["searchType"]) && $_GET["searchType"] != null){//搜索类型
-	$searchType = $_GET["searchType"];
-}
-if(isset($_GET["searchParam"]) && $_GET["searchParam"] != null){//搜索参数
-	$searchParam = $_GET["searchParam"];
-}
+require_once ("../loglib.php");
+addbookviewlog($bookid);//添加日志记录
 
 global $DB;
-$bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");//获取顶级分类
-//$searchType = strip_tags($searchType);//无效
-//$searchType = trim($searchType);//无效
-switch($searchType){
-	case '全部 '://注意：这里的空格不能省去！（因为获取$searchType时没去掉多余的字符、、、，先这样处理）
-		$sql = "where em.name like '%$searchParam%' or ea.name like '%$searchParam%' or em.summary like '%$searchParam%' or u.firstname like '%$searchParam%'";
-		break;
-	case '标题 ':
-		$sql = "where em.name like '%$searchParam%'";
-		break;
-	case '作者 ':
-		$sql = "where ea.name like '%$searchParam%'";
-		break;
-	case '上传者 ':
-		$sql = "where u.firstname like '%$searchParam%'";
-		break;
-	default:
-		break;
-}
-
-//查询结果
-$index = ($page-1)*12;//从第几条记录开始
-$searchResults = $DB->get_records_sql("select em.*,ea.name as authorname,u.firstname as uploadername from mdl_ebook_my em
-								left join mdl_ebook_author_my ea on em.authorid = ea.id
-								left join mdl_user u on em.uploaderid = u.id
-								$sql
-								order by em.timecreated desc
-								limit $index,10 ");
-
-//如果还没有设置过查询结果的数量
-if(isset($_POST["searchcount"])){
-	$searchcount = $_POST['searchcount'];
+global $USER;
+//查找阅读历史
+$readHistory = $DB->get_record_sql("select * from mdl_ebook_user_read_my eu
+									where eu.userid = $USER->id and eu.ebookid = $bookid ");
+if($readHistory){
+	$readStr = '继续阅读';
 }else{
-	$searchResultsCount = $DB->get_records_sql("select em.*,ea.name as authorname from mdl_ebook_my em
-								left join mdl_ebook_author_my ea on em.authorid = ea.id
-								left join mdl_user u on em.uploaderid = u.id
-								$sql
-								order by em.timecreated desc");
-	$searchcount = count($searchResultsCount);
+	$readStr = '在线阅读';
 }
+
+$bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");//获取顶级分类
+//查询书籍信息
+$book = $DB->get_record_sql("select e.*,ea.`name` as authorname,ec.id as bookclassid,ec.`name` as categoryname from mdl_ebook_my e
+								left join mdl_ebook_author_my ea on e.authorid = ea.id
+								left join mdl_ebook_categories_my ec on e.categoryid = ec.id
+								where e.id = $bookid");
+//查询书籍的所属顶级分类
+$booktopclass = $DB->get_record_sql("select ec2.* from mdl_ebook_categories_my ec1
+									left join mdl_ebook_categories_my ec2 on ec1.parent = ec2.id
+									where ec1.id = $book->bookclassid");
+if($booktopclass->name != null){//如果有顶级分类
+	$bookclasslist = $booktopclass->name.'&nbsp;>&nbsp;'.$book->categoryname;
+}else{//如果当前分类已经是顶级分类
+	$bookclasslist = $book->categoryname;
+}
+
+//获取书籍的标签
+$tags = $DB->get_records_sql("select tm.id,tm.tagname from mdl_tag_link tl
+								left join mdl_tag_my tm on tl.tagid = tm.id
+								where tl.link_id = $book->id
+								and tl.link_name = 'mdl_ebook_my'");
+
+//查询各章节
+$bookchapters = $DB->get_records_sql("select * from mdl_ebook_chapter_my e
+										where e.ebookid = $bookid
+										order by e.chapterorder");
+//Start 相关书籍
+$tagsStr = '';
+foreach($tags as $tag){
+	$tagsStr .= $tag->id.',';
+}
+$tagsStrsql = substr($tagsStr,0,strlen($tagsStr)-1);
+$recomendbooks = array();
+if($tagsStrsql){
+	$recomendbooks = $DB->get_records_sql("select em.*,ea.`name` as authorname from mdl_tag_link tl
+										left join mdl_ebook_my em on tl.link_id = em.id
+										left join mdl_ebook_author_my ea on em.authorid = ea.id
+										where tl.tagid in ($tagsStrsql)
+										and tl.link_name = 'mdl_ebook_my'
+										order by em.timecreated desc");
+}
+//End 相关书籍
 
 ?>
 
@@ -58,14 +68,13 @@ if(isset($_POST["searchcount"])){
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>书库搜索结果页</title>
+		<title><?php echo $book->name; ?></title>
 		<link rel="stylesheet" href="../css/bootstrap.css" />
-		<link rel="stylesheet" href="../css/bookroom_searchresult.css" />
-		<link rel="stylesheet" href="../css/bookroomallpage.css" />	
+		<link rel="stylesheet" href="../css/bookindex.css" />
+		<link rel="stylesheet" href="../css/bookroomallpage.css" />
 		
 		<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
-
 		<script>
 			//搜索选项下拉框
 			$(document).ready(function() {
@@ -88,7 +97,6 @@ if(isset($_POST["searchcount"])){
 				var searchParam = document.getElementById("searchParam");//获取选项
 				window.location.href="searchresult.php?searchType="+searchType.textContent+"&searchParam="+searchParam.value;
 			}
-
 		</script>
 		<script>
 		$(document).ready(function(){
@@ -164,15 +172,11 @@ if(isset($_POST["searchcount"])){
 			})
 
 		});
+
 		</script>
-
 	</head>
-	<body id="bookroom_searchresult">
 
-		<form id="pagerForm" method="post" action="">
-			<input type="hidden" name="searchcount" value="<?php echo $searchcount;?>" />
-		</form>
-
+	<body id="bookindex">
 		<!--顶部导航-->
 		<div class="header">
 			<div class="header-center">
@@ -205,7 +209,7 @@ if(isset($_POST["searchcount"])){
 				?>
 			</div>
 		</div>
-		
+
 		<div class="header-banner">
 			<a href="index.php"><img  src="../img/shuku_logo.png"/></a>
 			<!--搜索框组-->
@@ -224,24 +228,24 @@ if(isset($_POST["searchcount"])){
 						</ul>
 					</div><!-- /btn-group -->
 					<input id="searchParam" type="text" class="form-control" >
-			    </div><!-- /input-group -->
-			    <button onclick="search()" id="search_btn" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
-			    
-<!--			    <div class="radio">-->
-<!--			  		<label>-->
-<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">-->
-<!--			    		全部字段-->
-<!--			  		</label>-->
-<!--			  		<label>-->
-<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">-->
-<!--			    		标题-->
-<!--			  		</label>-->
-<!--			  		<label>-->
-<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">-->
-<!--			    		主讲人-->
-<!--			  		</label>-->
-<!--				</div>-->
-			    
+				</div><!-- /input-group -->
+				<button onclick="search()" id="search_btn" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
+
+				<!--			    <div class="radio">-->
+				<!--			  		<label>-->
+				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">-->
+				<!--			    		全部字段-->
+				<!--			  		</label>-->
+				<!--			  		<label>-->
+				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">-->
+				<!--			    		标题-->
+				<!--			  		</label>-->
+				<!--			  		<label>-->
+				<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">-->
+				<!--			    		主讲人-->
+				<!--			  		</label>-->
+				<!--				</div>-->
+
 			</div>
 			<!--搜索框组 end-->
 		</div>
@@ -250,7 +254,7 @@ if(isset($_POST["searchcount"])){
 		<!--书本分类-->
 		<div class="bookclassified">
 			<div class="bookclassified-center">
-				
+
 				<!-- 书本分类按钮 -->
 <!--				<div class="btn-group" style="float: left;">-->
 <!--				  	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
@@ -272,98 +276,112 @@ if(isset($_POST["searchcount"])){
 					if($bookclasses != null){
 						foreach($bookclasses as $bookclass){
 							echo '<div class="line"></div>
-									<a href="classify.php?bookclassid='.$bookclass->id.'" class="kinds">'.$bookclass->name.'</a>';
+												<a href="classify.php?bookclassid='.$bookclass->id.'" class="kinds">'.$bookclass->name.'</a>';
 						}
 					}
 				?>
 			</div>
 		</div>
 		<!--书本分类 end-->
-		
+
 		<!--页面主体-->
 		<div class="main">
-			<?php
-				foreach($searchResults as $searchResult){
-					echo '<div class="book-block">
-								<img src="'.$searchResult->pictrueurl.'" width="105" height="150"/>
-								<div class="book-info-box">
-									<a href="bookindex.php?bookid='.$searchResult->id.'" target="_blank"><p class="bookname">'.$searchResult->name.'</p></a>
-									<p class="writer">作者：'.$searchResult->authorname.'&nbsp;&nbsp;（上传者：'.$searchResult->uploadername.'）</p>
-									<p class="bookinfo">'.substr($searchResult->summary,0,270).'...'.'</p>
-									<p>';
+			<p class="bookname">
+				<?php echo $book->name; ?>
+			</p>
 
-					//获取书籍的标签
-					$tags = $DB->get_records_sql("select tm.id,tm.tagname from mdl_tag_link tl
-								left join mdl_tag_my tm on tl.tagid = tm.id
-								where tl.link_id = $searchResult->id
-								and tl.link_name = 'mdl_ebook_my'");
-					foreach($tags as $tag){
-						echo '<a class="tips">'.$tag->tagname.'</a>';
-					}
-					echo '			</p>
-								</div>
-							</div>';
-				}
-			?>
-		</div>
-		<!--页面主体 end-->
-
-		<!--分页-->
-		<div style="clear: both;"></div>
-		<div class="paging" style="text-align: center;">
-			<nav>
-				<ul class="pagination">
-					<li>
-						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>">
-							<span aria-hidden="true">首页</span>
-						</a>
-					</li>
-					<li>
+			<!--书籍介绍-->
+			<div class="bookbanner">
+				<div class="imgbox">
+					<img src="<?php echo $book->pictrueurl; ?>" width="150" height="220" />
+				</div>
+				<div class="bookinfo">
+					<p class="titleword">作者：&nbsp;&nbsp;</p><p class="titleinfo"><?php echo $book->authorname; ?></p><br />
+					<p class="titleword">简介：&nbsp;&nbsp;</p><p class="titleinfo"><?php echo substr($book->summary,0,450) ?></p><br />
+					<p class="titleword">所属分类：&nbsp;&nbsp;</p>
 						<?php
-						if(($page-1)<= 0){
-							$prepage = 1;
-						}else{
-							$prepage = $page-1;
-						}
-						?>
-						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&page=<?php echo $prepage; ?>" aria-label="Previous">
-							<span aria-hidden="true">上一页</span>
-						</a>
-					</li>
-					<?php
-						$totalpage = ceil($searchcount/12);
-						for($i=1;$i<=$totalpage;$i++){
-							if($page == $i) {
-								echo ' <li><a class="active" href="searchresult.php?searchType=' . $searchType . '&searchParam=' . $searchParam . '&page=' . $i . '">' . $i . '</a></li>';
-							}else{
-								echo ' <li><a class="" href="searchresult.php?searchType=' . $searchType . '&searchParam=' . $searchParam . '&page=' . $i . '">' . $i . '</a></li>';
+							if($booktopclass->name != null) {//如果是二级分类，则会有顶级分类
+								echo '<a href="classify.php?bookclassid='.$booktopclass->id .'";  class="classify" >'.$booktopclass->name.'</a> &nbsp;>&nbsp;';
+								echo '<a href="classify.php?bookclassid='.$booktopclass->id  .'&booksecondclassid='.$book->bookclassid.'";  class="classify" >'.$book->categoryname.'</a>';
+							}else{//如果是顶级分类
+								echo '<a href="classify.php?bookclassid='.$book->bookclassid.'" class="classify" >'.$book->categoryname.'</a>';
 							}
+						?>
+					<br />
+					<p class="titleword">字数：&nbsp;&nbsp;</p><?php echo $book->wordcount; ?><br />
+					<p class="titleword">标签：&nbsp;&nbsp;</p>
+					<?php
+						foreach($tags as $tag){
+							echo '<a class="tips">'.$tag->tagname.'</a>&nbsp;&nbsp;';
 						}
 					?>
+					<br />
+					<div class="btnbox">
+						<a href="onlineread.php?bookid=<?php echo $book->id; ?>" target="_blank" class="functionbtn"><?php echo $readStr; ?></a>
+						<a href="<?php echo $book->url; ?>" download="" class="functionbtn">下载此书</a>
+					</div>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<!--书籍介绍 end-->
 
-					<li>
-						<?php
-						if(ceil($searchcount/12)==0){
-							$nextpage = 1;
-						}elseif(($page+1)>= ceil($searchcount/12) ){
-							$nextpage = ceil($searchcount/12);
-						}else{
-							$nextpage = $page+1;
+			<!--书籍目录-->
+			<div class="bookcatalog">
+				<p class="title">
+					目录
+				</p>
+				<?php
+					foreach($bookchapters as $bookchapter){
+
+						$booksections = $DB->get_records_sql("select * from mdl_ebook_section_my es
+																where es.chapterid = $bookchapter->id
+																order by es.sectionorder");
+						echo '<p>
+									<a href="#">'.$bookchapter->name.'</a>
+									<ul>';
+						foreach($booksections as $booksection){
+							echo '<li><a href="onlineread.php?bookid='.$bookid.'&booksectionid='.$booksection->id.'" target="_blank">'.$booksection->name.'</a></li>';
 						}
-						?>
-						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&page=<?php echo $nextpage; ?>" aria-label="Next">
-							<span aria-hidden="true">下一页</span>
-						</a>
-					</li>
-					<li>
-						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&page=<?php if(ceil($searchcount/12)==0){echo 1;}else{echo ceil($searchcount/12);}  ?>">
-							<span aria-hidden="true">尾页</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
+						echo '</ul>
+							</p>';
+
+					}
+				?>
+			</div>
+			<!--书籍目录 end-->
+			
+			<!--相关图书-->
+			<div class="recomendread">
+				<p class="title">
+					相关图书
+				</p>
+				<?php
+					$num = 0;
+					foreach($recomendbooks as $recomendbook){
+						if($bookid == $recomendbook->id){//去掉当前课程
+							continue;
+						}
+						if($num == 4){//只提供4本书的相关推荐
+							break;
+						}
+						echo '<div class="bookbox">
+									<img src="'.$recomendbook->pictrueurl.'" width="68" height="100" />
+									<div class="bookinfobox">
+										<a href="bookindex.php?bookid='.$recomendbook->id.'"><p class="bookname">'.$recomendbook->name.'</p></a>
+										<p>'.$recomendbook->authorname.'</p>
+										<p>'.substr($recomendbook->summary,0,96).'...'.'</p>
+										<p>'.userdate($recomendbook->timecreated,'%Y年%m月%d日').'</p>
+									</div>
+								</div>';
+						$num++;
+					}
+				?>
+
+			</div>
+			<!--相关图书 end-->
+			
 		</div>
-		<!--分页 end-->
+		<!--页面主体 end-->
 		<!--右下角按钮-->
 		<?php 
 			if(isloggedin()){
@@ -397,7 +415,9 @@ if(isset($_POST["searchcount"])){
 			</div>
 		</div>
 		<!--右下角按钮 end-->
+		
 		<div style="clear: both;"></div>
+		
 		<!--底部导航条-->
 		<nav class="bottomnav">
 			<div class="whiteline"></div>

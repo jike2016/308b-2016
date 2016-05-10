@@ -404,7 +404,7 @@ if(count($authorranks)<10){
                                     <div class="book-info-box">
                                         <a href="bookindex.php?bookid='.$book->id.'"><p class="bookname">'.$book->name.'</p></a>
                                         <p class="writer">作者：'.$book->authorname.'</p>
-                                        <p class="bookinfo">'.$book->summary.'</p>
+                                        <p class="bookinfo">'.substr($book->summary,0,270).'...'.'</p>
                                         <p>';
                             $tags = $DB->get_records_sql("select tm.id,tm.tagname from mdl_tag_link tl
                                                 left join mdl_tag_my tm on tl.tagid = tm.id

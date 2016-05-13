@@ -67,6 +67,7 @@ if(isset($_POST["searchcount"])){
 		<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
 
 		<script>
+
 			//搜索选项下拉框
 			$(document).ready(function() {
 				$('#searchtype a').click(function() {
@@ -78,7 +79,7 @@ if(isset($_POST["searchcount"])){
 			document.onkeydown = function (e) {
 				var theEvent = window.event || e;
 				var code = theEvent.keyCode || theEvent.which;
-				if (code == 13) {
+				if (  $('#searchParam').attr("value") != '' && code == 13) {
 					$("#search_btn").click();
 				}
 			}
@@ -212,7 +213,7 @@ if(isset($_POST["searchcount"])){
 			<div class="search-box">
 				<div class="input-group">
 					<div class="input-group-btn">
-						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部&nbsp;<span class="caret"></span></button>
+						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo ($searchType != '')?$searchType :'全部&nbsp;'; ?><span class="caret"></span></button>
 						<ul id="searchtype" class="dropdown-menu">
 							<li><a id="bookall" href="#">全部</a></li>
 							<li role="separator" class="divider"></li>
@@ -223,7 +224,7 @@ if(isset($_POST["searchcount"])){
 							<li><a id="bookuploader" href="#">上传者</a></li>
 						</ul>
 					</div><!-- /btn-group -->
-					<input id="searchParam" type="text" class="form-control" >
+					<input id="searchParam" type="text" class="form-control"  value="<?php echo ($searchParam != '')?$searchParam:'';  ?>">
 			    </div><!-- /input-group -->
 			    <button onclick="search()" id="search_btn" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
 			    
@@ -285,7 +286,7 @@ if(isset($_POST["searchcount"])){
 			<?php
 				foreach($searchResults as $searchResult){
 					echo '<div class="book-block">
-								<img src="'.$searchResult->pictrueurl.'" width="105" height="150"/>
+								<a href="bookindex.php?bookid='.$searchResult->id.'" target="_blank"><img src="'.$searchResult->pictrueurl.'" width="105" height="150"/></a>
 								<div class="book-info-box">
 									<a href="bookindex.php?bookid='.$searchResult->id.'" target="_blank"><p class="bookname">'.$searchResult->name.'</p></a>
 									<p class="writer">作者：'.$searchResult->authorname.'&nbsp;&nbsp;（上传者：'.$searchResult->uploadername.'）</p>

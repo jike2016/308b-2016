@@ -53,7 +53,7 @@ if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
 			document.onkeydown = function (e) {
 				var theEvent = window.event || e;
 				var code = theEvent.keyCode || theEvent.which;
-				if (code == 13) {
+				if (  $('#searchParam').attr("value") != '' &&  code == 13) {
 					$("#search_btn").click();
 				}
 			}

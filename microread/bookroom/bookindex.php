@@ -62,6 +62,78 @@ if($tagsStrsql){
 }
 //End 相关书籍
 
+//    获取评价数目页数  20150512
+function my_get_book_evaluation_count($bookid)
+{
+	global $DB;
+	$evaluation = $DB->get_records_sql('SELECT id FROM mdl_ebook_comment_my WHERE ebookid = ? ', array($bookid));
+	$mycount = count($evaluation);
+	$mycount = ceil($mycount/10);
+	return ($mycount <= 1 ? 1: $mycount);
+}
+//	    输出页码   20150512
+function my_get_book_evaluation_current_count($count_page, $bookid, $current_page)
+{
+	global $CFG;
+	/** Start 设置评论数的显示页码（只显示5页)*/
+	$numstart = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page - 2):1):($count_page - 4)):1;
+	$numend = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page + 2):5):($count_page)):$count_page;
+	for($num = $numstart; $num <= $numend; $num ++)
+	{
+		if($num == $current_page)
+		{
+			//  这里需要修改样式标示当前页
+			echo '<li><a class="active" href="'.$CFG->wwwroot.'/microread/bookroom/bookindex.php?bookid='.$bookid.'&page='.$num.'">'.$num.'</a></li>';
+		}
+		else
+		{
+			echo'<li><a href="'.$CFG->wwwroot.'/microread/bookroom/bookindex.php?bookid='.$bookid.'&page='.$num.'">'.$num.'</a></li>';
+		}
+	}
+}
+
+/** START zzwu 获取文档评价 20160512*/
+function my_get_book_evaluation($bookid, $current_page)
+{
+	$my_page = $current_page * 10;
+	global $DB;
+	global $OUTPUT;
+	$evaluation = $DB->get_records_sql('SELECT a.id, userid, comment, b.firstname, b.lastname, commenttime FROM mdl_ebook_comment_my a JOIN mdl_user b ON a.userid = b.id WHERE ebookid = ? ORDER BY commenttime DESC LIMIT '.$my_page.',10', array($bookid));
+
+	$evaluationhtml = '';
+	foreach($evaluation as $value)
+	{
+		$userobject = new stdClass();
+		$userobject->metadata = array();
+		$user = $DB->get_record('user', array('id' => $value->userid), '*', MUST_EXIST);
+		$userobject->metadata['useravatar'] = $OUTPUT->user_picture (
+			$user,
+			array(
+				'link' => false,
+				'visibletoscreenreaders' => false
+			)
+		);
+
+		$userobject->metadata['useravatar'] = str_replace("width=\"35\" height=\"35\"", " ", $userobject->metadata['useravatar']);
+		$evaluationhtml .= '<div class="comment container">
+					<div class="comment-l">
+						<div class="Learnerimg-box">
+							'.$userobject->metadata['useravatar'].'
+						</div>
+					</div>
+					<div class="comment-r">
+						<p class="name">'.$value->lastname.$value->firstname.'</p>
+						<p class="commentinfo">
+							'.$value->comment.'
+						</p>
+						<p class="time">时间：'.userdate($value->commenttime,'%Y-%m-%d %H:%M').'</p>
+					</div>
+				</div>';
+	}
+	echo $evaluationhtml;
+}
+/** START zzwu 获取文档评价 20160512*/
+
 ?>
 
 
@@ -91,11 +163,27 @@ if($tagsStrsql){
 					starid2 = str+i;
 					if(starid2 ==starid1 )
 					{
-						for(var j=1;j<=i;j++)
-						{
-							var starid = star + j;
-							$(starid).addClass('active');
-						}
+						/**   START 书库评分  zzwu 20160512*/
+						var score = i * 2;
+						$.ajax({
+							//D:\WWW\moodle\microread\bookroom\bookscoreandcomment.php
+							url: "./bookscoreandcomment.php",
+							data: { score: score, ebookid: getQueryString('bookid'), type:'score' },
+							success: function(msg){
+								if(msg=='1'){
+									for(var j=1;j<=score*0.5;j++)
+									{
+										var starid = star + j;
+										$(starid).addClass('active');
+									}
+								}
+								else{
+									// alert(msg);
+									msg=='2'?alert('评分失败,一个用户只能对一本书评分一次'):alert('评分失败');
+								}
+							}
+						});
+						/**   END 书库评分  zzwu 20160512*/
 					}
 				}
 				$('.score #commentword').text("您已评价：");
@@ -103,14 +191,35 @@ if($tagsStrsql){
 			})
 			//评价 end
 
-			//分页
-			$('.pagination li a').click(function(){
-				$('.pagination li a').removeClass('active');
-				$(this).addClass('active');
-				$('#commmentlist').load('commentlist.php');
-			})
-			//分页 end
+			/**   START 书本评论 zzwu 20160512 */
+			$('#score-btn').click(function() {
+				var mycomment = $(this).parent().parent().children(".form-control").val();
+				if(mycomment == ""){
+					alert('请输入评论内容');
+				}
+				else{
+					$.ajax({
+						url: "./bookscoreandcomment.php",
+						data: { comment: mycomment,  ebookid: getQueryString('bookid'), type:'comment' },
+						success: function(msg){
+							if(msg=='1'){
+								location.reload();
+							}
+						}
+					});
+				}
+			});
+			/**   END 书本评论 zzwu 20160512 */
 		})
+		
+		/**  START 获取书本id zzwu 20160512*/
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) return unescape(r[2]); return null;
+		}
+		/**  END 获取书本id zzwu 20160512*/
+		
 	</script>
 	<script>
 		//搜索选项下拉框
@@ -124,7 +233,7 @@ if($tagsStrsql){
 		document.onkeydown = function (e) {
 			var theEvent = window.event || e;
 			var code = theEvent.keyCode || theEvent.which;
-			if (code == 13) {
+			if ( $('#searchParam').attr("value") != '' && code == 13) {
 				$("#search_btn").click();
 			}
 		}
@@ -334,7 +443,7 @@ if($tagsStrsql){
 		</div>
 		<div class="bookinfo">
 			<p class="titleword">作者：&nbsp;&nbsp;</p><p class="titleinfo"><?php echo $book->authorname; ?></p><br />
-			<p class="titleword">简介：&nbsp;&nbsp;</p><p class="titleinfo infobanner"><?php echo substr($book->summary,0,645).'...'; ?></p><br />
+			<p class="titleword infobanner" style="float: left;width: 5%;">简介：&nbsp;&nbsp;</p><p class="titleinfo infobanner" style="float: right; width: 95%;" ><?php echo substr($book->summary,0,645).'...'; ?></p><br />
 			<p class="titleword">所属分类：&nbsp;&nbsp;</p>
 			<?php
 			if($booktopclass->name != null) {//如果是二级分类，则会有顶级分类
@@ -390,112 +499,52 @@ if($tagsStrsql){
 		</div>
 		<!--书籍目录 end-->
 
+		<!-- START 获取评论内容 zzwu 20150512-->
 		<!--评论-->
 		<div class="commentbox">
 			<p class="title">您的评论</p>
-			<textarea class="form-control" placeholder="写下评论支持文档贡献者~"></textarea>
-			<p><button class="btn btn-info">发表评论</button></p>
+			<textarea class="form-control" id="comment-text" placeholder="写下评论支持文档贡献者~"></textarea>
+			<p><button id="score-btn" class="btn btn-info">发表评论</button></p>
 			<div style="clear: both;"></div>
 		</div>
+		<!-- END 获取评论内容 zzwu 20150512-->
+
 		<div id="commmentlist">
-			<!--评论内容1-->
-			<div class="comment container">
-				<div class="comment-l">
-					<div class="Learnerimg-box">
-						<img src="../img/learnner.jpg" alt="依米暖暖">
-					</div>
-				</div>
-				<div class="comment-r">
-					<p class="name">红桃A</p>
-					<p class="commentinfo">
-						大神的课获益匪浅！
-					</p>
-					<p class="time">时间：一天前</p>
-				</div>
-			</div>
-			<!--评论内容1 end-->
-
-			<!--评论内容2-->
-			<div class="comment container">
-				<div class="comment-l">
-					<div class="Learnerimg-box">
-						<img src="../img/learnner.jpg" alt="依米暖暖">
-					</div>
-				</div>
-				<div class="comment-r">
-					<p class="name">红桃B</p>
-					<p class="commentinfo">
-						大神的课获益匪浅！
-					</p>
-					<p class="time">时间：一天前</p>
-				</div>
-			</div>
-			<!--评论内容2 end-->
-
-			<!--评论内容3-->
-			<div class="comment container">
-				<div class="comment-l">
-					<div class="Learnerimg-box">
-						<img src="../img/learnner.jpg" alt="依米暖暖">
-					</div>
-				</div>
-				<div class="comment-r">
-					<p class="name">红桃C</p>
-					<p class="commentinfo">
-						大神的课获益匪浅！
-					</p>
-					<p class="time">时间：一天前</p>
-				</div>
-			</div>
-			<!--评论内容3 end-->
-
-			<!--评论内容4-->
-			<div class="comment container">
-				<div class="comment-l">
-					<div class="Learnerimg-box">
-						<img src="../img/learnner.jpg" alt="依米暖暖">
-					</div>
-				</div>
-				<div class="comment-r">
-					<p class="name">红桃D</p>
-					<p class="commentinfo">
-						大神的课获益匪浅！
-					</p>
-					<p class="time">时间：一天前</p>
-				</div>
-			</div>
-			<!--评论内容4 end-->
+			<!-- START zzwu 显示评价内容 20150512 -->
+			<?php $current_page = isset($_GET['page']) ? $_GET['page'] : 1; my_get_book_evaluation($_GET['bookid'], $current_page-1)?>
+			<!-- END zzwu 显示评价内容 20150512 -->
 		</div>
 		<!--分页-->
 		<div style="clear: both;"></div>
 		<div class="paging">
 			<nav>
 				<ul class="pagination">
+					<!-- START 修改分页 zzwu 20160512-->
+					<?php global $CFG; $count_page = my_get_book_evaluation_count($bookid);?>
 					<li>
-						<a>
+
+						<a href="<?php echo $CFG->wwwroot; ?>/microread/bookroom/bookindex.php?bookid=<?php echo $bookid;?>&page=1">
 							<span aria-hidden="true">首页</span>
 						</a>
 					</li>
 					<li>
-						<a aria-label="Previous">
+						<a aria-label="Previous" href="<?php echo $CFG->wwwroot; ?>/microread/bookroom/bookindex.php?bookid=<?php echo $bookid;?>&page=<?php echo ($current_page <= 1 ? 1: $current_page - 1); ?>">
 							<span aria-hidden="true">上一页</span>
 						</a>
 					</li>
-					<li><a class="active">1</a></li>
-					<li><a id="page-two">2</a></li>
-					<li><a>3</a></li>
-					<li><a>4</a></li>
-					<li><a>5</a></li>
+
+					<?php my_get_book_evaluation_current_count($count_page, $bookid, $current_page); ?>
 					<li>
-						<a aria-label="Next">
+						<a aria-label="Next" href="<?php echo $CFG->wwwroot; ?>/microread/bookroom/bookindex.php?bookid=<?php echo $bookid;?>&page=<?php echo ($current_page < $count_page ? ($current_page + 1): $count_page); ?>">
 							<span aria-hidden="true">下一页</span>
 						</a>
 					</li>
 					<li>
-						<a>
+						<a href="<?php echo $CFG->wwwroot; ?>/microread/bookroom/bookindex.php?bookid=<?php echo $bookid;?>&page=<?php echo $count_page; ?>">
 							<span aria-hidden="true">尾页</span>
 						</a>
 					</li>
+					<!-- START 修改分页 zzwu 20160512-->
 				</ul>
 			</nav>
 		</div>

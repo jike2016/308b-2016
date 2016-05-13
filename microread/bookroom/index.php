@@ -194,7 +194,7 @@ if(count($authorranks)<10){
 			document.onkeydown = function (e) {
 				var theEvent = window.event || e;
 				var code = theEvent.keyCode || theEvent.which;
-				if (code == 13) {
+				if ( $('#searchParam').attr("value") != '' && code == 13) {
 					$("#search_btn").click();
 				}
 			}
@@ -400,7 +400,7 @@ if(count($authorranks)<10){
                     if($books != null){
                         foreach($books as $book){
                             echo '<div class="book-block">
-                                    <img src="'.$book->pictrueurl.'" width="150" height="220" />
+                                    <a href="bookindex.php?bookid='.$book->id.'"><img src="'.$book->pictrueurl.'" width="150" height="220" /></a>
                                     <div class="book-info-box">
                                         <a href="bookindex.php?bookid='.$book->id.'"><p class="bookname">'.$book->name.'</p></a>
                                         <p class="writer">作者：'.$book->authorname.'</p>

@@ -17,7 +17,7 @@ global $DB;
 $bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");//获取顶级分类
 $bookclassnow = $bookclasses[$bookclassid];//当前顶级分类对象
 //获取当前顶级分类下面的二级分类
-$booksecondclasses = $DB->get_records_sql("select ec.id,ec.`name`,count(*) as num from mdl_ebook_categories_my ec
+$booksecondclasses = $DB->get_records_sql("select ec.id,ec.`name`,count(*) as num,e.id as numflag from mdl_ebook_categories_my ec
 											left join mdl_ebook_my e on ec.id = e.categoryid
 											where ec.parent = $bookclassid
 											group by e.categoryid ");
@@ -100,7 +100,7 @@ if(isset($_POST['toptotalcount'])) {
 			document.onkeydown = function (e) {
 				var theEvent = window.event || e;
 				var code = theEvent.keyCode || theEvent.which;
-				if (code == 13) {
+				if ( $('#searchParam').attr("value") != '' && code == 13) {
 					$("#search_btn").click();
 				}
 			}
@@ -311,9 +311,13 @@ if(isset($_POST['toptotalcount'])) {
 				<?php
 					foreach($booksecondclasses as $booksecondclass){
 						echo '<div class="classified-block">
-									<a href="classify.php?bookclassid='.$bookclassid.'&booksecondclassid='.$booksecondclass->id.'">'.$booksecondclass->name.'</a>
-									<span>'.$booksecondclass->num.'</span>
-								</div>';
+									<a href="classify.php?bookclassid='.$bookclassid.'&booksecondclassid='.$booksecondclass->id.'">'.$booksecondclass->name.'</a>';
+						if($booksecondclass->numflag != null){
+							echo "<span>$booksecondclass->num</span>";
+						}else{
+							echo "<span>0</span>";
+						}
+						echo '</div>';
 					}
 				?>
 			</div>
@@ -343,7 +347,8 @@ if(isset($_POST['toptotalcount'])) {
 				<div style="clear: both;"></div>
 				<div class="paging">
 				<nav>
-				  	<ul class="pagination">
+					<?php echo ($totalcount == 0)?'占无此类书籍':''; ?>
+				  	<ul class="pagination" <?php echo ($totalcount == 0)?'style="display: none;"':'style=""'; ?> >
 				  		<li>
 				     	 	<a href="classify.php?bookclassid=<?php echo $bookclassid; ?>&booksecondclassid=<?php echo $booksecondclassid; ?>">
 				       	 		<span aria-hidden="true">首页</span>

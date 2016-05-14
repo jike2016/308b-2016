@@ -32,7 +32,7 @@ switch($searchType){
 }
 
 //查询结果
-$index = ($page-1)*12;//从第几条记录开始
+$index = ($page-1)*10;//从第几条记录开始
 $searchResults = $DB->get_records_sql("select em.*,ea.name as authorname,u.firstname as uploadername from mdl_ebook_my em
 								left join mdl_ebook_author_my ea on em.authorid = ea.id
 								left join mdl_user u on em.uploaderid = u.id
@@ -44,12 +44,12 @@ $searchResults = $DB->get_records_sql("select em.*,ea.name as authorname,u.first
 if(isset($_POST["searchcount"])){
 	$searchcount = $_POST['searchcount'];
 }else{
-	$searchResultsCount = $DB->get_records_sql("select em.*,ea.name as authorname from mdl_ebook_my em
-								left join mdl_ebook_author_my ea on em.authorid = ea.id
-								left join mdl_user u on em.uploaderid = u.id
-								$sql
-								order by em.timecreated desc");
-	$searchcount = count($searchResultsCount);
+	$searchResultsCount = $DB->get_record_sql("select count(1) as totalcount from mdl_ebook_my em
+												left join mdl_ebook_author_my ea on em.authorid = ea.id
+												left join mdl_user u on em.uploaderid = u.id
+												$sql
+											");
+	$searchcount = $searchResultsCount->totalcount;
 }
 
 ?>
@@ -79,7 +79,7 @@ if(isset($_POST["searchcount"])){
 			document.onkeydown = function (e) {
 				var theEvent = window.event || e;
 				var code = theEvent.keyCode || theEvent.which;
-				if (  $('#searchParam').attr("value") != '' && code == 13) {
+				if ( $('#searchParam').val() != '' && code == 13) {
 					$("#search_btn").click();
 				}
 			}
@@ -283,6 +283,7 @@ if(isset($_POST["searchcount"])){
 		
 		<!--页面主体-->
 		<div class="main">
+			<?php echo ($searchcount == 0)?'<p style="margin-top: 30px; text-align: center">占无相关书籍</p>':''; ?>
 			<?php
 				foreach($searchResults as $searchResult){
 					echo '<div class="book-block">
@@ -313,7 +314,7 @@ if(isset($_POST["searchcount"])){
 		<div style="clear: both;"></div>
 		<div class="paging" style="text-align: center;">
 			<nav>
-				<ul class="pagination">
+				<ul class="pagination" <?php echo ($searchcount == 0)?'style="display: none;"':'style=""'; ?> >
 					<li>
 						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>">
 							<span aria-hidden="true">首页</span>

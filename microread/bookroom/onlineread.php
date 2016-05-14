@@ -149,7 +149,7 @@ if($readHistory == null) {
 			document.onkeydown = function (e) {
 				var theEvent = window.event || e;
 				var code = theEvent.keyCode || theEvent.which;
-				if (  $('#searchParam').attr("value") != '' &&  code == 13) {
+				if (  $('#searchParam').val() != '' &&  code == 13) {
 					$("#search_btn").click();
 				}
 			}

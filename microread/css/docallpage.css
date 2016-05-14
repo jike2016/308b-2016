@@ -13,8 +13,8 @@ body{font-family: "微软雅黑";}
 .header .userbox:hover {background-color: #F0F0F0;}
 .header .username{ margin-left: 0px; font-weight: 600; color:#0D99CA;font-size:16px; text-decoration: none; margin-right: 15px;}
 .header .userimg{ margin-left: 0px; }
-#usermenu {width: 120px; float: right; height: 46px;}
-#usermenu .dropdown-toggle {width: 160px; height: 43px; border-radius: 0px; padding: 0px; border: 0px;}
+#usermenu {width: 145px; float: right; height: 46px;}
+#usermenu .dropdown-toggle {width: 145px; height: 43px; border-radius: 0px; padding: 0px; border: 0px;}
 #usermenu a {margin-left: 0px;}
 #usermenu .dropdown-menu > li {height: 30px;}
 #usermenu .dropdown-menu .divider {height: 1px; margin: 0px;}
@@ -79,4 +79,15 @@ body{font-family: "微软雅黑";}
 .elevator .elevator-top:hover {background-position: 0 -736px;}
 .elevator .elevator-diaocha {background-position: 0 -798px;}
 .elevator .elevator-diaocha:hover {background-position: 0 -984px;}
-/****右下角悬浮按钮 @end*****/	
+/****右下角悬浮按钮 @end*****/
+
+.chat-box {height:65%; position: fixed; z-index: 10000;top:0px; left: 0px; display: none; border: 1px solid #CCCCCC; font-family: "微软雅黑";}
+.chat-box .chat-head {height: 8%; background-color: #5bc0de; padding: 6px 20px;}
+.chat-box .chat-head p{color: #FFFFFF;float: left; margin: 0px; font-size: 18px; font-weight: 600;}
+.chat-box .chat-head .close{float: right; cursor: pointer;}
+.chat-box .chat-head .close:hover{color: #F0F0F0;}
+.iframestyle { width: 900px; height:600px;}
+.iframestylecourse { width: 900px; height:650px;overflow-y:scroll;}
+
+.pagination > li > .active, .pagination > li > span {color: #fff;background-color:#337ab7 ;}
+.pagination > li > .active:hover, .pagination > li > span {color: #fff;background-color:#337ab7 ;}

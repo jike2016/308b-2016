@@ -14,8 +14,8 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 .header .userbox:hover {background-color: #F0F0F0;}
 .header .username{ margin-left: 0px; font-weight: 600; color:#0D99CA;font-size:16px; text-decoration: none; margin-right: 15px;}
 .header .userimg{ margin-left: 0px; }
-#usermenu {width: 120px; float: right; height: 46px;}
-#usermenu .dropdown-toggle {width: 160px; height: 43px; border-radius: 0px; padding: 0px; border: 0px;}
+#usermenu {width: 145px; float: right; height: 46px;}
+#usermenu .dropdown-toggle {width: 145px; height: 43px; border-radius: 0px; padding: 0px; border: 0px;}
 #usermenu a {margin-left: 0px;}
 #usermenu .dropdown-menu > li {height: 30px;}
 #usermenu .dropdown-menu .divider {height: 1px; margin: 0px;}

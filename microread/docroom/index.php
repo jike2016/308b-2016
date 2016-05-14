@@ -13,12 +13,12 @@ $doccategoryrecomends = $DB->get_records_sql("select dc.id as `index`,dcm.`name`
 $doccontributorsrecomends = $DB->get_records_sql("select dr.*,u.firstname as contribuname from mdl_doc_recommend_authorlist_my dr
 													left join mdl_user u on dr.userid = u.id");
 //Start 热门贡献榜
-$doccontributorslists = $DB->get_records_sql("select count(1) as rankcount,du.upload_userid,u.firstname as uploadusername from mdl_doc_user_upload_my du
-												left join mdl_microread_log ml on du.id = ml.contextid
-												left join mdl_user u on u.id = du.upload_userid
+$doccontributorslists = $DB->get_records_sql("select dm.uploaderid,count(1) as rankcount,u.firstname as uploadusername from mdl_doc_my dm
+												left join mdl_microread_log ml on dm.id = ml.contextid
+												left join mdl_user u on u.id = dm.uploaderid
 												where ml.action = 'view'
 												and ml.target = 2
-												group by du.upload_userid
+												group by dm.uploaderid
 												order by rankcount desc
 												limit 0,10");
 if(count($doccontributorslists)<10){
@@ -33,27 +33,24 @@ if(count($doccontributorslists)<10){
 $weektime = time()-3600*24*7;//一周前
 $monthtime = time()-3600*24*30;//一月前
 
-$weekranks = $DB->get_records_sql("select count(1) as rankcount,ml.contextid,dm.`name` as name1,du.`name` as name2 from mdl_microread_log ml
+$weekranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_microread_log ml
 									left join mdl_doc_my dm on ml.contextid = dm.id
-									left join mdl_doc_user_upload_my du on ml.contextid = du.id
 									where ml.action = 'view'
 									and ml.target = 2
 									and ml.timecreated > $weektime
 									group by ml.contextid
 									order by rankcount desc
-									limit 0,10");
-$monthranks = $DB->get_records_sql("select count(1) as rankcount,ml.contextid,dm.`name` as name1,du.`name` as name2 from mdl_microread_log ml
+									limit 0,10 ");
+$monthranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_microread_log ml
 									left join mdl_doc_my dm on ml.contextid = dm.id
-									left join mdl_doc_user_upload_my du on ml.contextid = du.id
 									where ml.action = 'view'
 									and ml.target = 2
 									and ml.timecreated > $monthtime
 									group by ml.contextid
 									order by rankcount desc
 									limit 0,10");
-$totalranks = $DB->get_records_sql("select count(1) as rankcount,ml.contextid,dm.`name` as name1,du.`name` as name2 from mdl_microread_log ml
+$totalranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_microread_log ml
 									left join mdl_doc_my dm on ml.contextid = dm.id
-									left join mdl_doc_user_upload_my du on ml.contextid = du.id
 									where ml.action = 'view'
 									and ml.target = 2
 									group by ml.contextid
@@ -67,8 +64,8 @@ $monthhrefarray = array();
 $totalhrefarray = array();
 
 foreach($weekranks as $weekrank ){
-	$weekrankarray[] = $weekrank->name1.$weekrank->name2.' -- '.$weekrank->rankcount;
-	$weekhrefarray[] = 'bookindex.php?bookid='.$weekrank->ebookid;
+	$weekrankarray[] = $weekrank->docname.$weekrank->doctype.' -- '.$weekrank->rankcount;
+	$weekhrefarray[] = 'onlineread.php?docid='.$weekrank->contextid;
 }
 if(count($weekrankarray)<10){
 	$i = 10 - count($weekrankarray);
@@ -78,8 +75,8 @@ if(count($weekrankarray)<10){
 	}
 }
 foreach($monthranks as $monthrank ){
-	$monthrankarray[] = $monthrank->name1.$monthrank->name2.' -- '.$monthrank->rankcount;
-	$monthhrefarray[] = 'bookindex.php?bookid='.$monthrank->ebookid;
+	$monthrankarray[] = $monthrank->docname.$monthrank->doctype.' -- '.$monthrank->rankcount;
+	$monthhrefarray[] = 'onlineread.php?docid='.$monthrank->contextid;
 }
 if(count($monthrankarray)<10){
 	$i = 10 - count($monthrankarray);
@@ -89,8 +86,8 @@ if(count($monthrankarray)<10){
 	}
 }
 foreach($totalranks as $totalrank ){
-	$totalrankarray[] = $totalrank->name1.$totalrank->name2.' -- '.$totalrank->rankcount;
-	$totalhrefarray[] = 'bookindex.php?bookid='.$totalrank->ebookid;
+	$totalrankarray[] = $totalrank->docname.$totalrank->doctype.' -- '.$totalrank->rankcount;
+	$totalhrefarray[] = 'onlineread.php?docid='.$totalrank->contextid;
 }
 if(count($totalrankarray)<10){
 	$i = 10 - count($totalrankarray);
@@ -123,6 +120,20 @@ $totalhrefStr .= '"';
 
 //End 热门排行榜
 
+/** Start 截取用户头像字符串*/
+function getUserIcon($userid)
+{
+	global $OUTPUT;
+	global $DB;
+	$user = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
+	$str1 = $OUTPUT->user_picture($user,array('link' => false,'visibletoscreenreaders' => false));
+	$str=substr($str1,10);//去除前面
+	$n=strpos($str,'"');//寻找位置
+	if ($n) $str=substr($str,0,$n);//删除后面
+	return $str;
+}
+/** End 截取用户头像字符串*/
+
 ?>
 
 <!DOCTYPE html>
@@ -147,34 +158,150 @@ $totalhrefStr .= '"';
 			var totalrank = new Array(<?php echo $totalrankStr; ?>); //总书单
 			var totalrank_href = new Array(<?php echo $totalhrefStr; ?>); //总书单
 		</script>
+
+		<script>
+			$(document).ready(function() {
+				//搜索选项下拉框
+				$('#searchtype a').click(function() {
+					$('#searchtypebtn').text($(this).text());
+					$('#searchtypebtn').append('&nbsp;<span class="caret"></span>');
+				});
+//				//单选组合
+//				$("input[type='radio'][name='optionsRadios']").removeAttr("checked");
+//				$("input[type='radio'][id='optionsRadios-"+searchDocType+"']").attr("checked","checked");
+
+			});
+
+			//回车事件
+			document.onkeydown = function (e) {
+				var theEvent = window.event || e;
+				var code = theEvent.keyCode || theEvent.which;
+				if ( $('#searchParam').val() != '' && code == 13) {
+					$("#search_btn").click();
+				}
+			}
+			//搜索
+			function search(){
+				var searchType = document.getElementById("searchtypebtn");//获取选项
+				var searchParam = document.getElementById("searchParam");//获取查询参数
+				var searchDocTypes = document.getElementsByName("optionsRadios");//获取文档类型
+				var searchDocType = '';
+				for(var i =0;i<searchDocTypes.length;i++){
+					if(searchDocTypes[i].checked){
+						searchDocType = searchDocTypes[i].value;
+					}
+				}
+				window.location.href="searchresult.php?searchType="+searchType.textContent+"&searchParam="+searchParam.value+"&searchDocType="+searchDocType;
+			}
+		</script>
+		<script>
+			$(document).ready(function(){
+				//聊天室 START 20160314
+				//适配不同大小偏移值
+				var winW=$(window).width();
+				var winH=$(window).height();
+				var leftval = (winW-900)/2;
+				var topval = (winH-600)/3;
+				$('.chat-box').css({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
+				//适配不同大小偏移值 end
+				var chatbox=false;
+				$('.elevator-weixin').click(function(){
+					if(chatbox==false){
+						$('.chat-box1').append('<iframe src="<?php echo $CFG->wwwroot;?>/chat" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
+						chatbox=true;
+					}
+					$('.chat-box1').show();
+				})
+				$('#chat-close').click(function(){
+					$('.chat-box1').hide();
+					//alert("关闭的top: " +$('.chat-box').offset().top);
+				})
+				//聊天室 End
+				//收藏按钮
+				$('#collection-btn').click(function()
+				{
+					$.ajax({
+						url: "<?php echo $CFG->wwwroot;?>/privatecenter/mycollection/collectionpage.php",
+						data: {mytitle: document.title, myurl: window.location.href },
+						success: function(msg){
+							if(msg=='1'){
+								alert('收藏成功，可去个人中心查看')
+							}
+							else{
+								msg=='2' ? alert('您已经收藏过了，请去个人中心查看收藏结果') :alert('收藏失败');
+							}
+						}
+					});
+				});
+				//点赞按钮
+				$('#like-btn').click(function()
+				{
+					$.ajax({
+						url: "<?php echo $CFG->wwwroot;?>/like/courselike.php",
+						data: {mytitle: document.title, myurl: window.location.href },
+						success: function(msg){
+							// alert(msg);
+							if(msg=='1'){
+								alert('点赞成功')
+							}
+							else{
+								msg=='2' ? alert('你已经点赞了，不能再次点赞') :alert('点赞失败');
+							}
+						}
+					});
+				});
+				//笔记20160314
+				var note_personal = false
+				$('#mynote-btn').click(function(){
+					if(note_personal == false)
+					{
+						$('.chat-box2').append('<iframe src="<?php echo $CFG->wwwroot;?>/mod/notemy/newnotemy_personal.php" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
+						note_personal = true;
+					}
+
+					$('.chat-box2').show();
+
+				})
+				//笔记
+				$('#chat-close2').click(function(){
+					$('.chat-box2').hide();
+				})
+
+			});
+		</script>
+
 	</head>
 	<body id="articleindex">
 		<!--顶部导航-->
 		<div class="header">
 			<div class="header-center">
 				<div class="a-box">
-					<a class="nav-a frist" href="#">首页</a>
-					<a class="nav-a" href="#">微阅</a>
-					<a class="nav-a" href="#">微课</a>
-					<a class="nav-a" href="#">直播</a>
-					<!--a class="nav-a login" href="#"><img src="img/denglu.png"</a-->
+					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
+					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
 				</div>
 
-				<div id="usermenu" class="dropdown">
-				  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				    <a href="#" class="username">王大锤</a>
-					<a href="#" class="userimg"><img src="../img/user.jpg" style="width: 40px;"></a>
-				  </button>
-				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				    <li><a href="#">个人中心</a></li>
-				    <li role="separator" class="divider"></li>
-				    <li><a href="#">台账</a></li>
-				    <li role="separator" class="divider"></li>
-				    <li><a href="#">Something</a></li>
-				     <li role="separator" class="divider"></li>
-				    <li><a href="#">Separated</a></li>
-				  </ul>
-				</div>
+				<?php
+					if($USER->id!=0){
+						echo '<div id="usermenu" class="dropdown">
+									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+										<a href="#" class="username">'.fullname($USER, true).'</a>
+										<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a href="'.new moodle_url('/message/').'">消息</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a href="user_upload.php">上传文档</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
+									</ul>
+								</div>';
+					};
+				?>
 			</div>
 		</div>
 		
@@ -183,47 +310,49 @@ $totalhrefStr .= '"';
 			<!--搜索框组-->
 			<div class="search-box">
 				<div class="input-group">
-			     	<div class="input-group-btn">
-			        	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">图书&nbsp;<span class="caret"></span></button>
-			        	<ul class="dropdown-menu">
-			          		<li><a href="#">图书</a></li>
-			          		<li role="separator" class="divider"></li>
-			          		<li><a href="#">文献</a></li>
-			          		<li role="separator" class="divider"></li>
-			          		<li><a href="#">论文</a></li>
-			        	</ul>
-			      	</div><!-- /btn-group -->
-			      	<input type="text" class="form-control" >
-			    </div><!-- /input-group -->
-			    <button class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
-			    
-			    <div class="radio">
-			    	<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-			    		全部
-			  		</label>
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-			    		DOC
-			  		</label>
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-			    		PPT
-			  		</label>
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-			    		TXT
-			  		</label>
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-			    		PDF
-			  		</label>
-			  		<label>
-			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-			    		XLS
-			  		</label>
+					<div class="input-group-btn">
+						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo ($searchType != '')?$searchType :'全部&nbsp;'; ?><span class="caret"></span></button>
+						<ul id="searchtype" class="dropdown-menu">
+							<li><a href="#">全部</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">标题</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">作者</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">上传者</a></li>
+						</ul>
+					</div><!-- /btn-group -->
+					<input id="searchParam" type="text" class="form-control" >
+				</div><!-- /input-group -->
+				<button onclick="search()" id="search_btn" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
+
+				<div id="searchDocType" class="radio">
+					<label>
+						<input type="radio" checked="checked" name="optionsRadios" id="optionsRadios-all" value="all">
+						全部
+					</label>
+					<label>
+						<input type="radio" name="optionsRadios" id="optionsRadios-doc" value="doc">
+						DOC
+					</label>
+					<label>
+						<input type="radio" name="optionsRadios" id="optionsRadios-ppt" value="ppt">
+						PPT
+					</label>
+					<label>
+						<input type="radio" name="optionsRadios" id="optionsRadios-txt" value="txt">
+						TXT
+					</label>
+					<label>
+						<input type="radio" name="optionsRadios" id="optionsRadios-pdf" value="pdf">
+						PDF
+					</label>
+					<label>
+						<input type="radio" name="optionsRadios" id="optionsRadios-xls" value="xls">
+						XLS
+					</label>
 				</div>
-			    
+
 			</div>
 			<!--搜索框组 end-->
 		</div>
@@ -275,17 +404,17 @@ $totalhrefStr .= '"';
 						}
 						if($index%4==0) {
 							echo '<div class="articleblock frist ">
-											<img src="'.$doccategoryrecomend->pictrueurl.'" width="272" height="125" />
+											<a href="onlineread.php?docid='.$doccategoryrecomend->id.'"><img src="'.$doccategoryrecomend->pictrueurl.'" width="272" height="125" /></a>
 											<div>
-												<a href="#">'.$doccategoryrecomend->name.'</a>
+												<a href="onlineread.php?docid='.$doccategoryrecomend->id.'">'.$doccategoryrecomend->name.'</a>
 												<p>'.$doccategoryrecomend->summary	.'</p>
 											</div>
 										</div>';
 						}else{
 							echo '<div class="articleblock">
-											<img src="'.$doccategoryrecomend->pictrueurl.'"  width="272" height="125" />
+											<a href="onlineread.php?docid='.$doccategoryrecomend->id.'"><img src="'.$doccategoryrecomend->pictrueurl.'"  width="272" height="125" /></a>
 											<div>
-												<a href="#">'.$doccategoryrecomend->name.'</a>
+												<a href="onlineread.php?docid='.$doccategoryrecomend->id.'">'.$doccategoryrecomend->name.'</a>
 												<p>'.$doccategoryrecomend->summary	.'</p>
 											</div>
 										</div>';
@@ -319,7 +448,7 @@ $totalhrefStr .= '"';
 						}
 						echo '<div class="userinfo-box">
 									<div class="userimg">
-										<img src="../img/user.jpg" />
+										<img src="'.getUserIcon($doccontributorsrecomend->userid).'" width="64" height="64"/>
 									</div>
 									<div class="userinfo">
 										<p class="name">'.$doccontributorsrecomend->contribuname	.'</p>
@@ -334,7 +463,7 @@ $totalhrefStr .= '"';
 							$doctype = imagechoise($doc1->suffix);
 							echo '<a href="#">
 										<p class="pa">
-											<a class="ca" href="#"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc1->name.'</a>
+											<a class="ca" href="onlineread.php?docid='.$doc1->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc1->name.'</a>
 											<span class="score">4.3分</span>
 										</p>
 									</a>';
@@ -344,7 +473,7 @@ $totalhrefStr .= '"';
 							$doctype = imagechoise($doc2->suffix);
 							echo '<a href="#">
 										<p class="pa">
-											<a class="ca" href="#"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc2->name.'</a>
+											<a class="ca" href="onlineread.php?docid='.$doc2->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc2->name.'</a>
 											<span class="score">4.3分</span>
 										</p>
 									</a>';
@@ -354,7 +483,7 @@ $totalhrefStr .= '"';
 							$doctype = imagechoise($doc3->suffix);
 							echo '<a href="#">
 										<p class="pa">
-											<a class="ca" href="#"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc3->name.'</a>
+											<a class="ca" href="onlineread.php?docid='.$doc3->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc3->name.'</a>
 											<span class="score">4.3分</span>
 										</p>
 									</a>';
@@ -365,31 +494,32 @@ $totalhrefStr .= '"';
 							</div>';
 						$index++;
 					}
-				function imagechoise($type){
-					$type = strtolower($type);
-					$doctype = '';
-					switch($type){
-						case '.txt':
-							$doctype = 'ic-txt';
-							break;
-						case '.pdf':
-							$doctype = 'ic-pdf';
-							break;
-						case '.doc':
-						case '.docx':
-							$doctype = 'ic-doc';
-							break;
-						case '.xls':
-						case '.xlsx':
-							$doctype = 'ic-xls';
-							break;
-						case '.ppt':
-						case '.pptx':
-							$doctype = 'ic-ppt';
-							break;
+					//文件类型判断
+					function imagechoise($type){
+						$type = strtolower($type);
+						$doctype = '';
+						switch($type){
+							case '.txt':
+								$doctype = 'ic-txt';
+								break;
+							case '.pdf':
+								$doctype = 'ic-pdf';
+								break;
+							case '.doc':
+							case '.docx':
+								$doctype = 'ic-doc';
+								break;
+							case '.xls':
+							case '.xlsx':
+								$doctype = 'ic-xls';
+								break;
+							case '.ppt':
+							case '.pptx':
+								$doctype = 'ic-ppt';
+								break;
+						}
+						return $doctype;
 					}
-					return $doctype;
-				}
 
 				?>
 				<!--第一行 end-->
@@ -532,16 +662,40 @@ $totalhrefStr .= '"';
 			<!--热门作者榜、评分榜、热门排行榜 end-->			
 		</div>
 		<!--页面主体 end-->
-		
-		<!--右下角按钮-->
-		<div id="J_GotoTop" class="elevator">
-			<a class="elevator-msg" id="mynote-btn" style="cursor:pointer"></a>
-			<a class="elevator-weixin" style="cursor:pointer"></a>
-			<a class="elevator-app"  id="collection-btn" style="cursor:pointer"></a>
-			<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
-			<a class="elevator-top" href="#"></a>
+
+<!--右下角按钮-->
+		<?php
+		if(isloggedin()){
+			echo '
+					<div id="J_GotoTop" class="elevator">
+					<a class="elevator-msg" id="mynote-btn" style="cursor:pointer"></a>
+					<a class="elevator-weixin" style="cursor:pointer"></a>
+					<a class="elevator-app"  id="collection-btn" style="cursor:pointer"></a>
+					<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
+					<a class="elevator-top" href="#"></a>
+					</div>';
+		}
+		else{
+			echo '
+					<div id="J_GotoTop" class="elevator">
+					<a class="elevator-top" href="#"></a>
+					</div>';
+		}
+		?>
+
+		<div class="chat-box chat-box1">
+			<div class="chat-head">
+				<p>聊天室</p>
+				<p id="chat-close" class="close">x</p>
+			</div>
 		</div>
-		<!--右下角按钮 end-->
+		<div class="chat-box chat-box2">
+			<div class="chat-head">
+				<p>个人笔记</p>
+				<p id="chat-close2" class="close">x</p>
+			</div>
+		</div>
+<!--右下角按钮 end-->
 		
 		<div style="clear: both;"></div>		
 		<!--底部导航条-->

@@ -1,0 +1,56 @@
+
+			
+#articlesearch .main {width: 1200px; margin: auto; min-height: 600px; padding-top: 20px;}
+			
+/*******主体内容*******/
+#articlesearch .search-blockbox {width: 81%;float: left; border-right: 1px solid #F0F0F0; padding-right: 15px;}
+#articlesearch .search-block {width: 100%; padding: 0px 0px 20px 0px; margin-bottom: 20px; border-bottom:dashed 1px #D5D5D5;}
+#articlesearch .articlename {font-size: 16px;}
+#articlesearch .articleinfo {font-size: 14px;color: #555; width: 100%; height: 42px;overflow:hidden;text-indent:2em;text-overflow:ellipsis;}
+#articlesearch .tips{padding: 2px 20px;background-color: #b8e7f6; font-size: 14px; margin-right: 10px; text-decoration: none;color: #000000;}
+#articlesearch .tips:hover {background-color: #20ABF7; color: #FFFFFF;}
+#articlesearch .search-block span,#articlesearch .search-block span a {font-size: 12px; margin-right: 10px; color: #999;}
+#articlesearch .search-block span .downloadbtn {padding: 2px 20px;background-color: #5bc0de; font-size: 12px; margin-right: 10px; text-decoration: none;color: #FFFFFF; border-radius: 3px;}
+#articlesearch .search-block span .downloadbtn:hover {background-color: #20ABF7; color: #FFFFFF;border-radius: 6px;}
+
+/**相关搜索**/
+#articlesearch .banner-right {width: 19%; float: right; padding: 0px 0px 0px 15px;}
+#articlesearch .banner-right .btn-block {background-color: #Fd8a23; color: #FFFFFF; font-size: 18px;}
+#articlesearch .banner-right .btn-block:hover {background-color: #Ff9d46; color: #FFFFFF;}
+#articlesearch .banner-right .title {font-size: 16px; color: #999999; font-weight: 600; margin-top: 30px;}
+#articlesearch .banner-right .relatedsearch {width: 100%; padding: 15px 0px;}
+#articlesearch .banner-right .relatedsearch .tips {padding: 2px 10px;background-color: #F0F0F0; font-size: 14px; margin-right: 10px; margin-bottom: 10px; text-decoration: none;color: #999; display: inline-block; border-radius: 4px;}
+#articlesearch .banner-right .relatedsearch .tips:hover {background-color: #15A9E0; color: #FFFFFF;}
+/**相关搜索 @end**/
+#articlesearch  .paging {margin-top: 20px; width: 100%; height: 60px; text-align: center;}
+.pagination > li > .active, .pagination > li > span {color: #fff;background-color:#337ab7 ;}
+.pagination > li > .active:hover, .pagination > li > span {color: #fff;background-color:#337ab7 ;}
+/*******主体内容 @end*******/
+
+.ui-btn-32-orange:hover, .ui-btn-32-orange:active, .ui-btn-32-orange:hover .btc, .ui-btn-20-disabled, .ui-btn-20-disabled:hover, .ui-btn-20-disabled:active, .ui-btn-20-disabled .btc, .ui-btn-20-disabled:hover .btc, .ui-btn-20-disabled:active .btc, .ic-dir, .ic-doc, .ic-docx, .ic-dps, .ic-epub, .ic-et, .ic-pdf, .ic-pot, .ic-pps, .ic-ppt, .ic-pptx, .ic-rtf, .ic-txt, .ic-vsd, .ic-wps, .ic-xls, .ic-xlsx, .ic-album, .ic-wealth, .ic-ok, .ic-exp {
+    background-image: url(../img/pkg.png);
+}
+.ic-doc, .ic-docx {background-position: -193px -991px;}
+.ic-doc, .ic-docx { background-repeat: no-repeat;}
+.ic-ppt, .ic-pptx { background-position: -193px -1138px;}
+.ic-ppt, .ic-pptx { background-repeat: no-repeat;}
+.ic-txt {background-position: -193px -1180px;}
+.ic-txt { background-repeat: no-repeat;}
+.ic-pdf {background-position: -193px -1075px;}
+.ic-pdf { background-repeat: no-repeat;}
+.ic-xls, .ic-xlsx { background-position: -193px -1243px;}
+.ic-xls, .ic-xlsx {background-repeat: no-repeat;}
+.ic {
+	top: 2px;
+    display: -moz-inline-stack;
+    display: inline-block;
+    padding: 0;
+    vertical-align: -2px;
+    font-size: 0;
+    line-height: 9999em;
+    overflow: hidden;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    float: left;
+}	

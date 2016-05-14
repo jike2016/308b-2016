@@ -5,37 +5,8 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 
 
 #uploadpage {font-family: "微软雅黑";}
-#uploadpage .header{height:35px; width:100%; border-bottom: 2px solid #93e1fa; padding: 5px 0px 0px 0px;}
-#uploadpage .header .header-center {margin: auto;width: 1200px;}
-#uploadpage .header a {font-size: 18px; color: #000000; margin-left: 60px; text-decoration: none;}
-#uploadpage .header a:hover{color: #93E1FA;}
-#uploadpage .header .frist {margin-left: 446px;}
-#uploadpage .header .login {margin-left: 250px;}
-#uploadpage .header-banner{height:85px; width:1200px; margin: auto;}
-#uploadpage .header-banner img{margin-top: 8px;}
-			
-/********搜索框********/
-#uploadpage .search-box {height: 100%;width:400px;float: right; padding: 25px 0px 0px 0px;}
-#uploadpage .search-box .input-group {width: 330px; float: left;}
-#uploadpage .search-box .input-group .form-control{border-radius: 0px;}
-#uploadpage .search-box .radio{height: 20px; margin-bottom: 0px; margin-top: 35px;}
-#uploadpage .search-box label{font-size: 14px; margin: 0px 15px 0px 5px; font-weight: 600;}
-#uploadpage .search-box .dropdown-menu {min-width: 95px;}
-#uploadpage .searchbtn {width: 70px; float: right;border-radius: 0px 4px 4px 0px; border-left: 0px;}
-#uploadpage .search-box .dropdown-menu .divider {height: 1px; margin: 0px;}
-/********搜索框 @end********/
-			
-#uploadpage .bookclassified {height: 37px; width: 100%; background: url(../img/nav_BKG.jpg)}
-#uploadpage .bookclassified-center {width: 1200px; margin: auto; padding: 5px 0px 0px 0px;}			
-#uploadpage .bookclassified-center a {color: #FFFFFF; text-decoration: none; float: left;}
-#uploadpage .bookclassified-center .dropdown-menu > li > a { color: #000000; float: inherit;height: 30px;padding-top: 5px;}
-#uploadpage .bookclassified-center .dropdown-menu > li {height: 30px;}
-#uploadpage .bookclassified-center .dropdown-menu { min-width: 95px;text-align: center; }
-#uploadpage .bookclassified-center .dropdown-menu .divider {height: 1px; margin: 0px;}
-#uploadpage .bookclassified-center a:hover {color: #000000;}
-#uploadpage .bookclassified-center .kinds {margin: 3px 15px 0px 15px;}
-#uploadpage .bookclassified-center .line{width: 1px;height: 14px; background-color: #80d0ee;float: left; margin: 7px 10px 0px 10px ;}
-			
+
+
 /*******页面主体内容*******/
 #uploadpage .main {width: 1200px; margin: auto; min-height: 600px; padding: 30px 20px;}
 #uploadpage .left  {width: 20%; min-height: 600px; float: left;}

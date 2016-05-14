@@ -100,7 +100,7 @@ if(isset($_POST['toptotalcount'])) {
 			document.onkeydown = function (e) {
 				var theEvent = window.event || e;
 				var code = theEvent.keyCode || theEvent.which;
-				if ( $('#searchParam').attr("value") != '' && code == 13) {
+				if ( $('#searchParam').val() != '' && code == 13) {
 					$("#search_btn").click();
 				}
 			}
@@ -345,9 +345,10 @@ if(isset($_POST['toptotalcount'])) {
 
 				<!--分页-->
 				<div style="clear: both;"></div>
+
 				<div class="paging">
 				<nav>
-					<?php echo ($totalcount == 0)?'占无此类书籍':''; ?>
+					<?php echo ($totalcount == 0)?'<p>占无相关书籍</p>':''; ?>
 				  	<ul class="pagination" <?php echo ($totalcount == 0)?'style="display: none;"':'style=""'; ?> >
 				  		<li>
 				     	 	<a href="classify.php?bookclassid=<?php echo $bookclassid; ?>&booksecondclassid=<?php echo $booksecondclassid; ?>">

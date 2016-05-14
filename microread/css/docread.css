@@ -1,0 +1,86 @@
+#docread .main {width: 1200px; margin: auto; padding: 20px 0px;}
+
+/****图标文件****/
+.ic-dir, .ic-doc, .ic-docx, .ic-dps, .ic-epub, .ic-et, .ic-pdf, .ic-pot, .ic-pps, .ic-ppt, .ic-pptx, .ic-rtf, .ic-txt, .ic-vsd, .ic-wps, .ic-xls, .ic-xlsx, .ic-album, .ic-wealth, .ic-ok, .ic-exp { background-image: url(../img/pkg.png);}
+.ic-doc, .ic-docx {background-position: -193px -991px;}
+.ic-doc, .ic-docx { background-repeat: no-repeat;}
+.ic-ppt, .ic-pptx { background-position: -193px -1138px;}
+.ic-ppt, .ic-pptx { background-repeat: no-repeat;}
+.ic-txt {background-position: -193px -1180px;}
+.ic-txt { background-repeat: no-repeat;}
+.ic-pdf {background-position: -193px -1075px;}
+.ic-pdf { background-repeat: no-repeat;}
+.ic-xls, .ic-xlsx { background-position: -193px -1243px;}
+.ic-xls, .ic-xlsx {background-repeat: no-repeat;}
+.ic-user {background: url(../img/icons.png) no-repeat -18px 0; width: 16px;height: 16px;}
+.ic {
+	top: 2px;
+    display: -moz-inline-stack;
+    display: inline-block;
+    padding: 0;
+    vertical-align: -2px;
+    font-size: 0;
+    line-height: 9999em;
+    overflow: hidden;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    float: left;
+}	
+/****图标文件 @end****/
+
+/****主体内容左板块*****/
+#docread .banner-left {width: 80%; float: left; padding-right: 20px;}
+#docread .banner-left .flexpaper_viewer {width:100%;height:800px}
+#docread .banner-left .type {font-size: 12px;color: #000000;}
+#docread .banner-left .type a {font-size: 12px;color: #000000;}
+#docread .banner-left .type .currentpage{color: #999999;}
+
+#docread .banner-left .docname {font-size: 22px; margin-bottom: 5px; }
+#docread .banner-left .docname .ic {top: 7px;}
+
+#docread .banner-left .docinfo {font-size: 12px; color: #666;margin-bottom: 15px;}
+#docread .banner-left .docinfo a {color: #666;text-decoration: none;}
+#docread .banner-left .docinfo .writer:hover{color: #C9302C;text-decoration: underline;}
+#docread .banner-left .docinfo .ic {top: 0px;}
+#docread .banner-left .docinfo .starbox {color: #F0F0F0;}
+#docread .banner-left .docinfo .active {color: #EC971F;}
+#docread .banner-left .commentbox {width: 100%; padding:30px 0px 10px 0px;}
+#docread .banner-left .commentbox .title {font-size: 14px; font-weight: 600;margin-bottom: 10px;}
+#docread .banner-left .commentbox textarea {height: 70px; margin-bottom: 10px;}
+#docread .banner-left .commentbox p button {float: right;}
+
+/*评论*/
+#docread .banner-left .comment {width: 100%; height: 100px; border-top: dashed 1px #DDDDDD; padding: 10px 0px 0px 0px ;}
+#docread .banner-left .comment-l {float:left; width: 5%; height: 100%; margin-right: 1%;}
+#docread .banner-left .comment-r {float:right; width: 94%; height: 100%; padding: 10px 0px;}
+#docread .banner-left .comment-r .name{font-size: 12px; font-weight: 600; color: #555; margin: 0;}	
+#docread .banner-left .comment-r .commentinfo {color: #000000; margin-bottom: 8px;}
+#docread .banner-left .comment-r .time {color: #b5b9bc; font-size: 12px;}
+
+#docread .banner-left .Learnerimg-box {width: 40px;height: 40px;border-radius: 30px;overflow: hidden;float: left;margin-top: 10px; margin-bottom: 10px;}
+#docread .banner-left .Learnerimg-box img {height: 100%;}
+
+#docread .paging {margin-top: 20px; width: 100%; height: 60px; text-align: center;}
+.pagination > li > a {cursor: pointer;}
+.pagination > li > .active, .pagination > li > span {color: #fff;background-color:#337ab7 ;}
+.pagination > li > .active:hover, .pagination > li > span {color: #fff;background-color:#337ab7 ;}
+/*评论 @end*/
+	
+/****主体内容左板块 @end*****/
+
+/****主体内容右板块*****/
+#docread .banner-right {width: 20%; float: right; padding-left: 20px; padding-top: 30px;}
+#docread .banner-right .downloadbtn {background-color: #Fd8a23;color: #FFFFFF;font-size: 18px;}
+#docread .banner-right .downloadbtn:hover {background-color: #Ff9d46; color: #FFFFFF;}
+#docread .banner-right .score {margin: 15px 0px; padding: 10px 0px; border-bottom: dashed 1px #DDDDDD; border-top: dashed 1px #DDDDDD; height: 40px;}
+#docread .banner-right .score p {float: left; font-size: 14px;}
+#docread .banner-right .score .starbox{color: #f0f0f0;}
+#docread .banner-right .score .active{color: #EC971F;}
+#docread .banner-right .recommenddoc {padding-bottom: 10px; border-bottom: dashed 1px #DDDDDD;}
+#docread .banner-right .recommenddoc p {font-size: 14px; margin-bottom: 8px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden; }
+#docread .banner-right .recommenddoc a {color: #000000; text-decoration: none;}
+#docread .banner-right .recommenddoc a:hover {color: #C9302C;}
+#docread .banner-right .recommenddoc .title{font-size: 14px; font-weight: 600;margin-bottom: 10px;}
+#docread .banner-right .co {font-size: 14px; margin-bottom: 10px;color:#999999 ; display: none;}
+/****主体内容右板块 @end*****/

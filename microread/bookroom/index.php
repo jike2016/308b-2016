@@ -45,19 +45,19 @@ $recommendbookhrefStr .= '"';
 $weektime = time()-3600*24*7;//一周前
 $monthtime = time()-3600*24*30;//一月前
 
-$weekranks = $DB->get_records_sql("select count(1) as rank ,m.target,m.contextid,e.id as ebookid,e.name as bookname from mdl_microread_log m
+$weekranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
                                     left join mdl_ebook_my e on m.contextid = e.id
                                     where  m.target = 1 and m.action = 'view' and m.timecreated> $weektime
                                     group by m.contextid
                                     order by rank desc
                                     limit 0,10");
-$monthranks = $DB->get_records_sql("select count(1) as rank ,m.target,m.contextid,e.id as ebookid,e.name as bookname from mdl_microread_log m
+$monthranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
                                     left join mdl_ebook_my e on m.contextid = e.id
                                     where  m.target = 1 and m.action = 'view' and m.timecreated> $monthtime
                                     group by m.contextid
                                     order by rank desc
                                     limit 0,10");
-$totalranks = $DB->get_records_sql("select count(1) as rank ,m.target,m.contextid,e.id as ebookid,e.name as bookname from mdl_microread_log m
+$totalranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
                                     left join mdl_ebook_my e on m.contextid = e.id
                                     where  m.target = 1 and m.action = 'view'
                                     group by m.contextid
@@ -194,7 +194,7 @@ if(count($authorranks)<10){
 			document.onkeydown = function (e) {
 				var theEvent = window.event || e;
 				var code = theEvent.keyCode || theEvent.which;
-				if ( $('#searchParam').attr("value") != '' && code == 13) {
+				if ( $('#searchParam').val() != '' && code == 13) {
 					$("#search_btn").click();
 				}
 			}
@@ -211,17 +211,17 @@ if(count($authorranks)<10){
 			//适配不同大小偏移值
 			var winW=$(window).width();
 			var winH=$(window).height();
-			var leftval = (winW-900)/2;	
-			var topval = (winH-600)/3;	
+			var leftval = (winW-900)/2;
+			var topval = (winH-600)/3;
 			$('.chat-box').css({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
-			//适配不同大小偏移值 end	
+			//适配不同大小偏移值 end
 			var chatbox=false;
 			$('.elevator-weixin').click(function(){
 				if(chatbox==false){
 					$('.chat-box1').append('<iframe src="<?php echo $CFG->wwwroot;?>/chat" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
 					chatbox=true;
 				}
-				$('.chat-box1').show();	
+				$('.chat-box1').show();
 			})
 			$('#chat-close').click(function(){
 				$('.chat-box1').hide();
@@ -269,9 +269,9 @@ if(count($authorranks)<10){
 					$('.chat-box2').append('<iframe src="<?php echo $CFG->wwwroot;?>/mod/notemy/newnotemy_personal.php" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
 					note_personal = true;
 				}
-								
-				$('.chat-box2').show();	
-				
+
+				$('.chat-box2').show();
+
 			})
 			//笔记
 			$('#chat-close2').click(function(){

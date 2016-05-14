@@ -7,7 +7,7 @@
  * @param $ID
  * @param $target 1:书库 2：文库 3：图库
  */
-function addbookviewlog($action,$ID,$target)
+function add_microreadviewlog($action,$ID,$target)
 {
 	global $DB;
 	global $USER;
@@ -25,7 +25,14 @@ function addbookviewlog($action,$ID,$target)
 
 }
 
+/**
+ * 去掉被删除的书籍记录
+ */
+function del_microreadviewlog(){
+	global $DB;
 
+//	$DB->delete_records("");
+}
 
 
 

@@ -9,7 +9,7 @@ $docclasses = $DB->get_records_sql("select * from mdl_doc_categories_my dc where
 $doccategoryrecomends = $DB->get_records_sql("select dc.id as `index`,dcm.`name` as categoryname,dc.docid,dm.* from mdl_doc_category_recommend_my dc
 												left join mdl_doc_categories_my dcm on dc.categoryid = dcm.id
 												left join mdl_doc_my dm on dc.docid = dm.id");
-//获取推荐贡献者
+//获取贡献者推荐
 $doccontributorsrecomends = $DB->get_records_sql("select dr.*,u.firstname as contribuname from mdl_doc_recommend_authorlist_my dr
 													left join mdl_user u on dr.userid = u.id");
 //Start 热门贡献榜
@@ -133,6 +133,20 @@ function getUserIcon($userid)
 	return $str;
 }
 /** End 截取用户头像字符串*/
+
+//Start 评分榜
+$scoretables = $DB->get_records_sql("select dm.*,ds.sumscore from mdl_doc_my dm
+							left join mdl_doc_sumscore_my ds on dm.id = ds.docid
+							order by ds.sumscore desc
+							limit 0,10");
+if(count($scoretables)<10){
+	$i = 10 - count($scoretables);
+	for($i;$i>0;$i--){
+		$scoretables[] = '';
+	}
+}
+
+//End 评分榜
 
 ?>
 
@@ -446,7 +460,8 @@ function getUserIcon($userid)
 						}else{
 							echo '<div class="writerblock">';
 						}
-						echo '<div class="userinfo-box">
+						echo '<a href="searchresult.php?searchType=上传者 &searchParam='.$doccontributorsrecomend->contribuname.'&searchDocType=all">
+								<div class="userinfo-box">
 									<div class="userimg">
 										<img src="'.getUserIcon($doccontributorsrecomend->userid).'" width="64" height="64"/>
 									</div>
@@ -456,35 +471,48 @@ function getUserIcon($userid)
 										<p class="articlenumw">篇文档</p>
 									</div>
 								</div>
+								</a>
 								<div class="articlelist">';
 						//获取其3篇文章
 						if($doccontributorsrecomend->docid1 != null && $doccontributorsrecomend->docid1 != -1){
-							$doc1 = $DB->get_record_sql("select * from mdl_doc_my dm where dm.id = $doccontributorsrecomend->docid1");
+							$doc1 = $DB->get_record_sql("select dm.*,ds.sumscore from mdl_doc_my dm
+															left join mdl_doc_sumscore_my ds on dm.id = ds.docid
+															where dm.id = $doccontributorsrecomend->docid1");
 							$doctype = imagechoise($doc1->suffix);
 							echo '<a href="#">
 										<p class="pa">
 											<a class="ca" href="onlineread.php?docid='.$doc1->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc1->name.'</a>
-											<span class="score">4.3分</span>
+											<span class="score">';
+							echo ($doc1->sumscore=="")?0:($doc1->sumscore);
+							echo '分</span>
 										</p>
 									</a>';
 						}
 						if($doccontributorsrecomend->docid2 != null && $doccontributorsrecomend->docid2 != -1){
-							$doc2 = $DB->get_record_sql("select * from mdl_doc_my dm where dm.id = $doccontributorsrecomend->docid2");
+							$doc2 = $DB->get_record_sql("select dm.*,ds.sumscore from mdl_doc_my dm
+															left join mdl_doc_sumscore_my ds on dm.id = ds.docid
+															where dm.id = $doccontributorsrecomend->docid2");
 							$doctype = imagechoise($doc2->suffix);
 							echo '<a href="#">
 										<p class="pa">
 											<a class="ca" href="onlineread.php?docid='.$doc2->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc2->name.'</a>
-											<span class="score">4.3分</span>
+											<span class="score">';
+							echo ($doc2->sumscore=="")?0:($doc2->sumscore);
+							echo '分</span>
 										</p>
 									</a>';
 						}
 						if($doccontributorsrecomend->docid3 != null && $doccontributorsrecomend->docid3 != -1){
-							$doc3 = $DB->get_record_sql("select * from mdl_doc_my dm where dm.id = $doccontributorsrecomend->docid3");
+							$doc3 = $DB->get_record_sql("select dm.*,ds.sumscore from mdl_doc_my dm
+															left join mdl_doc_sumscore_my ds on dm.id = ds.docid
+															where dm.id = $doccontributorsrecomend->docid3");
 							$doctype = imagechoise($doc3->suffix);
 							echo '<a href="#">
 										<p class="pa">
 											<a class="ca" href="onlineread.php?docid='.$doc3->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc3->name.'</a>
-											<span class="score">4.3分</span>
+											<span class="score">';
+							echo ($doc3->sumscore=="")?0:$doc3->sumscore;
+							echo'分</span>
 										</p>
 									</a>';
 						}
@@ -543,6 +571,11 @@ function getUserIcon($userid)
 												<div class="w-num"><a class="ranknum top3">'.$no.'</a></div>
 												<div class="w-name"><a class="writername">'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
 											</div>';
+								}elseif($no==10){
+									echo '<div class="ranklist-block">
+												<div class="w-num"><a class="ranknum top10">'.$no.'</a></div>
+												<div class="w-name"><a class="writername">'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
+											</div>';
 								}else{
 									echo '<div class="ranklist-block">
 												<div class="w-num"><a class="ranknum">'.$no.'</a></div>
@@ -561,46 +594,29 @@ function getUserIcon($userid)
 				<div class="score">
 					<div class="title">评分榜</div>
 					<div class="ranklist">
-						<div class="ranklist-block">
-							<a class="ranknum top3">1</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum top3">2</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum top3">3</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">4</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">5</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">6</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">7</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">8</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">9</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum top10">10</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
+						<?php
+							$no = 1;
+							foreach($scoretables as $scoretable){
+								$doctype = imagechoise($scoretable->suffix);
+								if($no<4){
+									echo '<div class="ranklist-block">
+											<a class="ranknum top3">'.$no.'</a>
+											<a class="bookname" href="onlineread.php?docid='.$scoretable->id.'" ><span class="ic '.$doctype.'"></span>&nbsp;'.$scoretable->name.$scoretable->suffix.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
+										</div>';
+								}elseif($no==10){
+									echo '<div class="ranklist-block">
+											<a class="ranknum top10">'.$no.'</a>
+											<a class="bookname" href="onlineread.php?docid='.$scoretable->id.'" ><span class="ic '.$doctype.'"></span>&nbsp;'.$scoretable->name.$scoretable->suffix.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
+										</div>';
+								}else{
+									echo '<div class="ranklist-block">
+											<a class="ranknum">'.$no.'</a>
+											<a class="bookname" href="onlineread.php?docid='.$scoretable->id.'" ><span class="ic '.$doctype.'"></span>&nbsp;'.$scoretable->name.$scoretable->suffix.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
+										</div>';
+								}
+								$no++;
+							}
+						?>
 					</div>
 					<div class="more-box"><a class="more" href="#">更多>></a></div>
 				</div>

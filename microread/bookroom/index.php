@@ -143,6 +143,20 @@ if(count($authorranks)<10){
 
 //End 热门作者
 
+//Start 评分榜
+$scoretables = $DB->get_records_sql("select em.*,es.sumscore from mdl_ebook_my em
+										left join  mdl_ebook_sumscore_my es on em.id = es.ebookid
+										order by es.sumscore desc
+										limit 0,10");
+if(count($scoretables)<10){
+	$i = 10 - count($scoretables);
+	for($i;$i>0;$i--){
+		$scoretables[] = '';
+	}
+}
+
+//End 评分榜
+
 ?>
 
 <html>
@@ -485,7 +499,12 @@ if(count($authorranks)<10){
                                         <a class="ranknum top3">'.$no.'</a>
                                         <a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
                                     </div>';
-                                }else{
+                                }elseif($no==10){
+									echo ' <div class="ranklist-block">
+                                        <a class="ranknum top10">'.$no.'</a>
+                                        <a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+                                    </div>';
+								}else{
                                     echo ' <div class="ranklist-block">
                                         <a class="ranknum">'.$no.'</a>
                                         <a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
@@ -518,6 +537,11 @@ if(count($authorranks)<10){
 													<div class="w-num"><a class="ranknum top3">'.$no.'</a></div>
 													<div class="w-name"><a class="writername" href="#">'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
 												</div>';
+									}elseif($no==10){
+										echo ' <div class="ranklist-block">
+													<div class="w-num"><a class="ranknum top10">'.$no.'</a></div>
+													<div class="w-name"><a class="writername" href="#">'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
+												</div>';
 									}else{
 										echo ' <div class="ranklist-block">
 													<div class="w-num"><a class="ranknum">'.$no.'</a></div>
@@ -537,46 +561,29 @@ if(count($authorranks)<10){
 				<div class="score">
 					<div class="title">评分榜</div>
 					<div class="ranklist">
-						<div class="ranklist-block">
-							<a class="ranknum top3">1</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum top3">2</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum top3">3</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">4</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">5</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">6</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">7</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">8</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">9</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum top10">10</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
+						<?php
+							$no = 1;
+							foreach($scoretables as $scoretable){
+								if($no<4){
+									echo '<div class="ranklist-block">
+											<a class="ranknum top3">'.$no.'</a>
+											<a class="bookname" href="bookindex.php?bookid='.$scoretable->id.'" >'.$scoretable->name.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
+										</div>';
+								}elseif($no==10){
+									echo '<div class="ranklist-block">
+												<a class="ranknum top10">'.$no.'</a>
+												<a class="bookname" href="bookindex.php?bookid='.$scoretable->id.'" >'.$scoretable->name.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
+											</div>';
+								}
+								else{
+									echo '<div class="ranklist-block">
+												<a class="ranknum">'.$no.'</a>
+												<a class="bookname" href="bookindex.php?bookid='.$scoretable->id.'" >'.$scoretable->name.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
+											</div>';
+								}
+								$no++;
+							}
+						?>
 					</div>
 					<div class="more-box"><a class="more" href="#">更多>></a></div>
 				</div>

@@ -80,7 +80,7 @@
 .ic-xls, .ic-xlsx { background-position: -193px -1243px;}
 .ic-xls, .ic-xlsx {background-repeat: no-repeat;}
 .ic {
-	top: 2px;
+	top: 1px;
     display: -moz-inline-stack;
     display: inline-block;
     padding: 0;
@@ -91,6 +91,6 @@
     position: relative;
     width: 16px;
     height: 16px;
-    float: left;
+    /*float: left;*/
 }	
 		

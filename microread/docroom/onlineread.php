@@ -8,7 +8,7 @@ if(isset($_GET["docid"]) && $_GET["docid"] != null){//阅读的书籍id
 }
 
 require_once ("../loglib.php");
-addbookviewlog('view',$docid,2);//添加日志记录
+add_microreadviewlog('view',$docid,2);//添加日志记录
 
 global $DB;
 //获取文档的顶级分类

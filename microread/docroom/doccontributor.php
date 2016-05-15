@@ -5,7 +5,7 @@ require_once ("../../config.php");
 $page = optional_param('page', 1, PARAM_INT);//分页页号
 $prePageNum = 2;//每页显示的条数
 
-if(isset($_GET["contributorid"]) && $_GET["contributorid"] != null){//作者id
+if(isset($_GET["contributorid"]) && $_GET["contributorid"] != null){//贡献者id
 	$contributorid = $_GET["contributorid"];
 }
 if(isset($_GET["totalcount"]) && $_GET["totalcount"] != null){//书籍总数
@@ -239,8 +239,6 @@ function getUserIcon($userid)
 							<li><a href="#">全部</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="#">标题</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">作者</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="#">上传者</a></li>
 						</ul>

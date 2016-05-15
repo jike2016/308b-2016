@@ -23,13 +23,10 @@ $docclasses = $DB->get_records_sql("select * from mdl_doc_categories_my dc where
 //搜索选项
 switch($searchType){
 	case '全部':
-		$sql = "where ( dm.name like '%$searchParam%' or da.name like '%$searchParam%' or dm.summary like '%$searchParam%' or u.firstname like '%$searchParam%' )";
+		$sql = "where ( dm.name like '%$searchParam%' or dm.summary like '%$searchParam%' or u.firstname like '%$searchParam%' )";
 		break;
 	case '标题':
 		$sql = "where dm.name like '%$searchParam%'";
-		break;
-	case '作者':
-		$sql = "where da.name like '%$searchParam%'";
 		break;
 	case '上传者':
 		$sql = "where u.firstname like '%$searchParam%'";
@@ -63,8 +60,7 @@ switch($searchDocType){
 
 //查询结果
 $index = ($page-1)*$prePageNum;//从第几条记录开始
-$searchResults = $DB->get_records_sql("select dm.*,da.`name` as authorname,u.firstname as uploadername from mdl_doc_my dm
-										left join mdl_doc_author_my da on dm.authorid = da.id
+$searchResults = $DB->get_records_sql("select dm.*,u.firstname as uploadername from mdl_doc_my dm
 										left join mdl_user u on dm.uploaderid = u.id
 										$sql
 										order by dm.timecreated desc
@@ -78,7 +74,6 @@ if(isset($_POST["searchcount"])){
 	$searchcount = $_POST['searchcount'];
 }else{
 	$searchResultsCount = $DB->get_record_sql("select count(1) as totalcount from mdl_doc_my dm
-													left join mdl_doc_author_my da on dm.authorid = da.id
 													left join mdl_user u on dm.uploaderid = u.id
 													$sql
 												");
@@ -299,8 +294,6 @@ function imagechoise($type){
 			          		<li role="separator" class="divider"></li>
 			          		<li><a href="#">标题</a></li>
 			          		<li role="separator" class="divider"></li>
-			          		<li><a href="#">作者</a></li>
-							<li role="separator" class="divider"></li>
 							<li><a href="#">上传者</a></li>
 			        	</ul>
 			      	</div><!-- /btn-group -->
@@ -397,7 +390,7 @@ function imagechoise($type){
 									<span>l</span>
 									<span>'.$category->name.'</span>
 									<span>l</span>
-									<span><a href="#">贡献者:'.$searchResult->uploadername.'</a></span>
+									<span><a href="doccontributor.php?contributorid='.$searchResult->uploaderid.'" target="_blank">贡献者:'.$searchResult->uploadername.'</a></span>
 									<span><a class="downloadbtn" href="'.$searchResult->url.'" download="" >下载</a></span>
 								</div>	';
 					}
@@ -407,7 +400,7 @@ function imagechoise($type){
 				<div style="clear: both;"></div>
 				<div class="paging">
 					<nav>
-						  <?php echo ($searchcount == 0)?'占无相关文档':''; ?>
+						  <?php echo ($searchcount == 0)?'暂无相关文档':''; ?>
 						  <ul class="pagination" <?php echo ($searchcount == 0)?'style="display: none;"':'style=""'; ?> >
 							  <li>
 								  <a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&searchDocType=<?php echo $searchDocType; ?>">

@@ -83,7 +83,33 @@ if($docthirdclassid != ''){//显示三级分类的文档
 	}
 }
 
-
+//Start 文件类型判断
+function imagetype($type){
+	$type = strtolower($type);
+	$doctype = '';
+	switch($type){
+		case '.txt':
+			$doctype = 'txt';
+			break;
+		case '.pdf':
+			$doctype = 'pdf';
+			break;
+		case '.doc':
+		case '.docx':
+			$doctype = 'word';
+			break;
+		case '.xls':
+		case '.xlsx':
+			$doctype = 'xls';
+			break;
+		case '.ppt':
+		case '.pptx':
+			$doctype = 'ppt';
+			break;
+	}
+	return $doctype;
+}
+//End 文件类型判断
 
 ?>
 
@@ -265,8 +291,6 @@ if($docthirdclassid != ''){//显示三级分类的文档
 					<li role="separator" class="divider"></li>
 					<li><a href="#">标题</a></li>
 					<li role="separator" class="divider"></li>
-					<li><a href="#">作者</a></li>
-					<li role="separator" class="divider"></li>
 					<li><a href="#">上传者</a></li>
 				</ul>
 			</div><!-- /btn-group -->
@@ -410,7 +434,7 @@ if($docthirdclassid != ''){//显示三级分类的文档
 			<?php
 				foreach($docs as $doc){
 					echo '<tr>
-								<td class="docname"><img src="'.$doc->pictrueurl.'" width="40" height="52"><div><a href="onlineread.php?docid='.$doc->id.'" target="_blank" >'.$doc->name.'</a></div></td>
+								<td class="docname"><img src="../img/'.imagetype($doc->suffix).'.png" width="40" height="52"><div><a href="onlineread.php?docid='.$doc->id.'" target="_blank" >'.$doc->name.'</a></div></td>
 								<td class="docinfo">'.$doc->summary.'</td>
 								<td><a href="#">'.$doc->categoryname.'</a></td>
 								<td class="uploadtime">'.userdate($doc->timecreated,'%Y年%m月%d日').'</td>

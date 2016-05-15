@@ -307,8 +307,6 @@ if(count($scoretables)<10){
 							<li role="separator" class="divider"></li>
 							<li><a href="#">标题</a></li>
 							<li role="separator" class="divider"></li>
-							<li><a href="#">作者</a></li>
-							<li role="separator" class="divider"></li>
 							<li><a href="#">上传者</a></li>
 						</ul>
 					</div><!-- /btn-group -->
@@ -436,7 +434,7 @@ if(count($scoretables)<10){
 						}else{
 							echo '<div class="writerblock">';
 						}
-						echo '<a href="doccontributor.php?contributorid='.$doccontributorsrecomend->userid.'" target="_blank" >
+						echo '<a href="doccontributor.php?contributorid='.$doccontributorsrecomend->userid.'">
 								<div class="userinfo-box">
 									<div class="userimg">
 										<img src="'.getUserIcon($doccontributorsrecomend->userid).'" width="64" height="64"/>
@@ -545,17 +543,35 @@ if(count($scoretables)<10){
 								if($no<4){
 									echo '<div class="ranklist-block">
 												<div class="w-num"><a class="ranknum top3">'.$no.'</a></div>
-												<div class="w-name"><a class="writername" href="doccontributor.php?contributorid='.$doccontributorslist->uploaderid.'" target="_blank" >'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
+												<div class="w-name">';
+									if($doccontributorslist->uploaderid == 0){
+										echo '<a class="writername" href="#" ></a>';
+									}else{
+										echo '<a class="writername" href="doccontributor.php?contributorid='.$doccontributorslist->uploaderid.'" target="_blank" >'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a>';
+									}
+									echo '</div>
 											</div>';
 								}elseif($no==10){
 									echo '<div class="ranklist-block">
 												<div class="w-num"><a class="ranknum top10">'.$no.'</a></div>
-												<div class="w-name"><a class="writername" href="doccontributor.php?contributorid='.$doccontributorslist->uploaderid.'" target="_blank" >'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
+												<div class="w-name">';
+									if($doccontributorslist->uploaderid == 0){
+										echo '<a class="writername" href="#" ></a>';
+									}else{
+										echo '<a class="writername" href="doccontributor.php?contributorid='.$doccontributorslist->uploaderid.'" target="_blank" >'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a>';
+									}
+									echo '</div>
 											</div>';
 								}else{
 									echo '<div class="ranklist-block">
 												<div class="w-num"><a class="ranknum">'.$no.'</a></div>
-												<div class="w-name"><a class="writername" href="doccontributor.php?contributorid='.$doccontributorslist->uploaderid.'" target="_blank" >'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
+												<div class="w-name">';
+									if($doccontributorslist->uploaderid == 0){
+										echo '<a class="writername" href="#" ></a>';
+									}else{
+										echo '<a class="writername" href="doccontributor.php?contributorid='.$doccontributorslist->uploaderid.'" target="_blank" >'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a>';
+									}
+									echo '</div>
 											</div>';
 								}
 								$no++;

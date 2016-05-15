@@ -412,8 +412,6 @@ function get_doc_sumcore_count($docid)
 						<li role="separator" class="divider"></li>
 						<li><a href="#">标题</a></li>
 						<li role="separator" class="divider"></li>
-						<li><a href="#">作者</a></li>
-						<li role="separator" class="divider"></li>
 						<li><a href="#">上传者</a></li>
 					</ul>
 				</div><!-- /btn-group -->

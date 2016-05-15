@@ -21,7 +21,7 @@ $recommendbookhrefs = array();//链接路径
 for($i=1;$i<6;$i++){
     $recommendbooknames[]  = $recommends[$i]->name;
     $recommendwriters[]  = $recommends[$i]->authorname;
-    $recommendbookinfos[]  = $recommends[$i]->summary;
+    $recommendbookinfos[]  = mb_substr($recommends[$i]->summary,0,146,"utf-8").'...';
 	$recommendbookhrefs[]  = 'bookindex.php?bookid='.$recommends[$i]->ebookid;
 }
 $recommendbooknameStr = '"';
@@ -425,8 +425,8 @@ if(count($scoretables)<10){
                                     <a href="bookindex.php?bookid='.$book->id.'"><img src="'.$book->pictrueurl.'" width="150" height="220" /></a>
                                     <div class="book-info-box">
                                         <a href="bookindex.php?bookid='.$book->id.'"><p class="bookname">'.$book->name.'</p></a>
-                                        <p class="writer">作者：'.$book->authorname.'</p>
-                                        <p class="bookinfo">'.substr($book->summary,0,270).'...'.'</p>
+                                        <a href="bookauthor.php?authorid='.$book->authorid.'" target="_blank"><p class="writer">作者：'.$book->authorname.'</p></a>
+                                        <p class="bookinfo">'.mb_substr($book->summary,0,100,"utf-8").'...</p>
                                         <p>';
                             $tags = $DB->get_records_sql("select tm.id,tm.tagname from mdl_tag_link tl
                                                 left join mdl_tag_my tm on tl.tagid = tm.id
@@ -543,17 +543,35 @@ if(count($scoretables)<10){
 									if($no<4){
 										echo '<div class="ranklist-block">
 													<div class="w-num"><a class="ranknum top3">'.$no.'</a></div>
-													<div class="w-name"><a class="writername" href="bookauthor.php?authorid='.$authorrank->id.'" target="_blank" >'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
+													<div class="w-name">';
+										if($authorrank->id == 0){
+											echo '<a class="writername" href="#" >'.$authorrank->authorname.$authorrank->rank.'</a>';
+										}else{
+											echo '<a class="writername" href="bookauthor.php?authorid='.$authorrank->id.'" target="_blank" >'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a>';
+										}
+										echo '</div>
 												</div>';
 									}elseif($no==10){
 										echo ' <div class="ranklist-block">
 													<div class="w-num"><a class="ranknum top10">'.$no.'</a></div>
-													<div class="w-name"><a class="writername" href="bookauthor.php?authorid='.$authorrank->id.'" target="_blank" >'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
+													<div class="w-name">';
+										if($authorrank->id == 0){
+											echo '<a class="writername" href="#" >'.$authorrank->authorname.$authorrank->rank.'</a>';
+										}else{
+											echo '<a class="writername" href="bookauthor.php?authorid='.$authorrank->id.'" target="_blank" >'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a>';
+										}
+										echo '</div>
 												</div>';
 									}else{
 										echo ' <div class="ranklist-block">
 													<div class="w-num"><a class="ranknum">'.$no.'</a></div>
-													<div class="w-name"><a class="writername" href="bookauthor.php?authorid='.$authorrank->id.'" target="_blank" >'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
+													<div class="w-name">';
+										if($authorrank->id == 0){
+											echo '<a class="writername" href="#" >'.$authorrank->authorname.$authorrank->rank.'</a>';
+										}else{
+											echo '<a class="writername" href="bookauthor.php?authorid='.$authorrank->id.'" target="_blank" >'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a>';
+										}
+										echo '</div>
 												</div>';
 									}
 									$no++;

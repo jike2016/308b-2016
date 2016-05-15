@@ -282,14 +282,14 @@ if(isset($_POST["searchcount"])){
 		
 		<!--页面主体-->
 		<div class="main">
-			<?php echo ($searchcount == 0)?'<p style="margin-top: 30px; text-align: center">占无相关书籍</p>':''; ?>
+			<?php echo ($searchcount == 0)?'<p style="margin-top: 30px; text-align: center">暂无相关书籍</p>':''; ?>
 			<?php
 				foreach($searchResults as $searchResult){
 					echo '<div class="book-block">
 								<a href="bookindex.php?bookid='.$searchResult->id.'" target="_blank"><img src="'.$searchResult->pictrueurl.'" width="105" height="150"/></a>
 								<div class="book-info-box">
 									<a href="bookindex.php?bookid='.$searchResult->id.'" target="_blank"><p class="bookname">'.$searchResult->name.'</p></a>
-									<p class="writer">作者：'.$searchResult->authorname.'&nbsp;&nbsp;（上传者：'.$searchResult->uploadername.'）</p>
+									<p class="writer">作者：<a href="bookauthor.php?authorid='.$searchResult->authorid.'" target="_blank" >'.$searchResult->authorname.'</a>&nbsp;&nbsp;（上传者：'.$searchResult->uploadername.'）</p>
 									<p class="bookinfo">'.substr($searchResult->summary,0,270).'...'.'</p>
 									<p>';
 

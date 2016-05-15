@@ -30,8 +30,7 @@ function add_microreadviewlog($action,$ID,$target)
  */
 function del_microreadviewlog(){
 	global $DB;
-
-//	$DB->delete_records("");
+	//在D:\WWW\moodle\admin\my_microread_rank.php 中实现了
 }
 
 

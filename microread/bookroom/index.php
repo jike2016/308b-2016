@@ -45,24 +45,30 @@ $recommendbookhrefStr .= '"';
 $weektime = time()-3600*24*7;//一周前
 $monthtime = time()-3600*24*30;//一月前
 
-$weekranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
-                                    left join mdl_ebook_my e on m.contextid = e.id
-                                    where  m.target = 1 and m.action = 'view' and m.timecreated> $weektime
-                                    group by m.contextid
-                                    order by rank desc
-                                    limit 0,10");
-$monthranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
-                                    left join mdl_ebook_my e on m.contextid = e.id
-                                    where  m.target = 1 and m.action = 'view' and m.timecreated> $monthtime
-                                    group by m.contextid
-                                    order by rank desc
-                                    limit 0,10");
-$totalranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
-                                    left join mdl_ebook_my e on m.contextid = e.id
-                                    where  m.target = 1 and m.action = 'view'
-                                    group by m.contextid
-                                    order by rank desc
-                                    limit 0,10");
+//$weekranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
+//                                    left join mdl_ebook_my e on m.contextid = e.id
+//                                    where  m.target = 1 and m.action = 'view' and m.timecreated> $weektime
+//                                    group by m.contextid
+//                                    order by rank desc
+//                                    limit 0,10");
+$weekranks = $DB->get_records_sql("select eh.contextid,eh.`name` as bookname,eh.rankcount as rank from mdl_ebook_hot_rank_my eh
+									where eh.ranktype = 1 ");
+//$monthranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
+//                                    left join mdl_ebook_my e on m.contextid = e.id
+//                                    where  m.target = 1 and m.action = 'view' and m.timecreated> $monthtime
+//                                    group by m.contextid
+//                                    order by rank desc
+//                                    limit 0,10");
+$monthranks = $DB->get_records_sql("select eh.contextid,eh.`name` as bookname,eh.rankcount as rank from mdl_ebook_hot_rank_my eh
+									where eh.ranktype = 2 ");
+//$totalranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
+//                                    left join mdl_ebook_my e on m.contextid = e.id
+//                                    where  m.target = 1 and m.action = 'view'
+//                                    group by m.contextid
+//                                    order by rank desc
+//                                    limit 0,10");
+$totalranks = $DB->get_records_sql("select eh.contextid,eh.`name` as bookname,eh.rankcount as rank from mdl_ebook_hot_rank_my eh
+									where eh.ranktype = 3 ");
 $weekrankarray = array();//显示书名信息
 $monthrankarray = array();
 $totalrankarray = array();
@@ -70,8 +76,11 @@ $weekhrefarray = array();//链接路径
 $monthhrefarray = array();
 $totalhrefarray = array();
 foreach($weekranks as $weekrank ){
+	if($weekrank->contextid == 0){
+		break;
+	}
     $weekrankarray[] = '《'.$weekrank->bookname.'》'.' -- '.$weekrank->rank;
-	$weekhrefarray[] = 'bookindex.php?bookid='.$weekrank->ebookid;
+	$weekhrefarray[] = 'bookindex.php?bookid='.$weekrank->contextid;
 }
 if(count($weekrankarray)<10){
     $i = 10 - count($weekrankarray);
@@ -81,8 +90,11 @@ if(count($weekrankarray)<10){
     }
 }
 foreach($monthranks as $monthrank ){
+	if($monthrank->contextid == 0){
+		break;
+	}
     $monthrankarray[] = '《'.$monthrank->bookname.'》'.' -- '.$monthrank->rank;
-	$monthhrefarray[] = 'bookindex.php?bookid='.$monthrank->ebookid;
+	$monthhrefarray[] = 'bookindex.php?bookid='.$monthrank->contextid;
 }
 if(count($monthrankarray)<10){
     $i = 10 - count($monthrankarray);
@@ -92,8 +104,11 @@ if(count($monthrankarray)<10){
     }
 }
 foreach($totalranks as $totalrank ){
+	if($totalrank->contextid == 0){
+		break;
+	}
     $totalrankarray[] = '《'.$totalrank->bookname.'》'.' -- '.$totalrank->rank;
-	$totalhrefarray[] = 'bookindex.php?bookid='.$totalrank->ebookid;
+	$totalhrefarray[] = 'bookindex.php?bookid='.$totalrank->contextid;
 }
 if(count($totalrankarray)<10){
     $i = 10 - count($totalrankarray);
@@ -127,20 +142,13 @@ $totalhrefStr .= '"';
 //End 热门排行榜
 
 //Start 热门作者
-$authorranks = $DB->get_records_sql("select count(1) as rank,ea.id,ea.`name` as authorname from mdl_ebook_author_my ea
-								left join mdl_ebook_my em on ea.id = em.authorid
-								left join mdl_microread_log ml on em.id = ml.contextid
-								where ml.target = 1
-								group by ea.id
-								order by rank desc
-								limit 0,10");
+$authorranks = $DB->get_records_sql("select er.authorid as id,er.authorname,er.rankcount as rank from mdl_ebook_author_rank_my er");
 if(count($authorranks)<10){
 	$i = 10 - count($authorranks);
 	for($i;$i>0;$i--){
 		$authorranks[] = '';
 	}
 }
-
 //End 热门作者
 
 //Start 评分榜

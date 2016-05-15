@@ -75,6 +75,10 @@ if (!empty($CFG->cronremotepassword)) {
 require_once(dirname(__FILE__).'/my_course_complete_rank.php');
 course_rank();
 /** End */
+/**Start 微阅排名:定时更新数据库中的信息 徐东威 20160514 */
+require_once(dirname(__FILE__).'/my_microread_rank.php');
+microread_rank();
+/** End */
 
 // send mime type and encoding
 @header('Content-Type: text/plain; charset=utf-8');

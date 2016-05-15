@@ -13,14 +13,7 @@ $doccategoryrecomends = $DB->get_records_sql("select dc.id as `index`,dcm.`name`
 $doccontributorsrecomends = $DB->get_records_sql("select dr.*,u.firstname as contribuname from mdl_doc_recommend_authorlist_my dr
 													left join mdl_user u on dr.userid = u.id");
 //Start 热门贡献榜
-$doccontributorslists = $DB->get_records_sql("select dm.uploaderid,count(1) as rankcount,u.firstname as uploadusername from mdl_doc_my dm
-												left join mdl_microread_log ml on dm.id = ml.contextid
-												left join mdl_user u on u.id = dm.uploaderid
-												where ml.action = 'view'
-												and ml.target = 2
-												group by dm.uploaderid
-												order by rankcount desc
-												limit 0,10");
+$doccontributorslists = $DB->get_records_sql("select dr.* from mdl_doc_contributor_rank_my dr ");
 if(count($doccontributorslists)<10){
 	$i = 10 - count($doccontributorslists);
 	for($i;$i>0;$i--){
@@ -33,29 +26,12 @@ if(count($doccontributorslists)<10){
 $weektime = time()-3600*24*7;//一周前
 $monthtime = time()-3600*24*30;//一月前
 
-$weekranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_microread_log ml
-									left join mdl_doc_my dm on ml.contextid = dm.id
-									where ml.action = 'view'
-									and ml.target = 2
-									and ml.timecreated > $weektime
-									group by ml.contextid
-									order by rankcount desc
-									limit 0,10 ");
-$monthranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_microread_log ml
-									left join mdl_doc_my dm on ml.contextid = dm.id
-									where ml.action = 'view'
-									and ml.target = 2
-									and ml.timecreated > $monthtime
-									group by ml.contextid
-									order by rankcount desc
-									limit 0,10");
-$totalranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_microread_log ml
-									left join mdl_doc_my dm on ml.contextid = dm.id
-									where ml.action = 'view'
-									and ml.target = 2
-									group by ml.contextid
-									order by rankcount desc
-									limit 0,10");
+$weekranks = $DB->get_records_sql("select dh.contextid,dh.rankcount,dh.`name` as docname,dh.suffix as doctype from mdl_doc_hot_rank_my dh
+									where dh.ranktype = 1 ");
+$monthranks = $DB->get_records_sql("select dh.contextid,dh.rankcount,dh.`name` as docname,dh.suffix as doctype from mdl_doc_hot_rank_my dh
+									where dh.ranktype = 2 ");
+$totalranks = $DB->get_records_sql("select dh.contextid,dh.rankcount,dh.`name` as docname,dh.suffix as doctype from mdl_doc_hot_rank_my dh
+									where dh.ranktype = 3 ");
 $weekrankarray = array();//显示书名信息
 $monthrankarray = array();
 $totalrankarray = array();

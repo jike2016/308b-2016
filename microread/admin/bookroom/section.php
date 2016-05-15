@@ -9,9 +9,9 @@
     <table class="table" width="100%" layoutH="138">
         <thead>
         <tr align="center">
-            <th width="80">节序号</th>
-            <th width="120">节名称</th>
-            <th width="80">类型</th>
+            <th width="20">节序号</th>
+            <th width="80">节名称</th>
+            <th width="20">类型</th>
             <th width="150">内容</th>
         </tr>
         </thead>

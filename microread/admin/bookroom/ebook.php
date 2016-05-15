@@ -9,11 +9,24 @@ else{
 require_once('../../../config.php');
 global $DB;
 //是否有查询条件
-if(isset($_POST['keyword'])&&$_POST['keyword']){
-	$sql= 'where a.name LIKE \'%'.$_POST['keyword'].'%\'';
+if(!(isset($_POST['keyword'])&&$_POST['keyword'])&&!(isset($_POST['selectcategory'])&&$_POST['selectcategory'])&&!(isset($_POST['selectauthor'])&&$_POST['selectauthor'])&&!(isset($_POST['selectuploader'])&&$_POST['selectuploader'])){
+	$sql='';
 }
 else{
-	$sql='';
+	if(isset($_POST['keyword'])&&$_POST['keyword']){
+		$sql['keyword']= 'a.name LIKE \'%'.$_POST['keyword'].'%\'';
+	}
+	if(isset($_POST['selectcategory'])&&$_POST['selectcategory']){
+		$sql['selectcategory']= 'a.categoryid='.$_POST['selectcategory'];
+	}
+	if(isset($_POST['selectauthor'])&&$_POST['selectauthor']){
+		$sql['selectauthor']= 'a.authorid='.$_POST['selectauthor'];
+	}
+	if(isset($_POST['selectuploader'])&&$_POST['selectuploader']){
+	 $sql['selectuploader']= 'a.uploaderid='.$_POST['selectuploader'];
+	}
+	require_once('../dealselect.php');
+	$sql=join_sql_select($sql);
 }
 //如果还没有查过总记录数则查询
 if(isset($_POST['sumnum'])){
@@ -37,27 +50,27 @@ $ebooks = $DB->get_records_sql('select
 //查询没有分类或者没有作者的书
 $errorebooks = $DB->get_records_sql('select a.id,a.name,a.authorid,a.summary,a.url,a.pictrueurl,a.timecreated,a.wordcount,a.suffix,a.size, b.firstname
 	from mdl_ebook_my a join mdl_user b on a.uploaderid=b.id where a.authorid=-1 or a.categoryid=-1');
+//查询所有的分类
+$allcategories=$DB->get_records_sql('select *from mdl_ebook_categories_my');
+//查询所有的作者
+$allauthors=$DB->get_records_sql('select *from mdl_ebook_author_my');
+//查询所有的上传者
+$alluploaders=$DB->get_records_sql('select d.id,d.firstname as name from mdl_ebook_my a left join mdl_user d on a.uploaderid = d.id group by uploaderid');
 ?>
 
 <form id="pagerForm" method="post" action="">
 	<input type="hidden" name="status" value="${param.status}">
 	<input type="hidden" name="keyword" value="<?php if(isset($_POST['keyword']))echo $_POST['keyword'];?>" />
+	<input type="hidden" name="selectcategory" value="<?php if(isset($_POST['selectcategory']))echo $_POST['selectcategory'];?>" />
+	<input type="hidden" name="selectauthor" value="<?php if(isset($_POST['selectauthor']))echo $_POST['selectauthor'];?>" />
+	<input type="hidden" name="selectuploader" value="<?php if(isset($_POST['selectuploader']))echo $_POST['selectuploader'];?>" />
 	<input type="hidden" name="pageNum" value="1" />
 	<input type="hidden" name="numPerPage" value="<?php echo $numPerPage;?>" />
 	<input type="hidden" name="orderField" value="${param.orderField}" />
 	<input type="hidden" name="sumnum" value="<?php echo $sumnum;?>" />
 </form>
-<!--
-<style>
 
-.grid .gridTbody td div {
-    display: block;
-    overflow: hidden;
-    height: 200px;
-    white-space: nowrap;
-    line-height: 21px;
-}
-</style>-->
+
 <div class="pageHeader">
 	<form onsubmit="return navTabSearch(this);" action="" method="post">
 	<div class="searchBar">
@@ -80,25 +93,64 @@ $errorebooks = $DB->get_records_sql('select a.id,a.name,a.authorid,a.summary,a.u
 		-->
 		<table class="searchContent">
 			<tr>
-				<!--<td>
-					我的客户：<input type="text" name="keyword" />
-				</td>
 				<td>
-					<select class="combox" name="province">
-						<option value="">所有省市</option>
-						<option value="北京">北京</option>
-						<option value="上海">上海</option>
-						<option value="天津">天津</option>
-						<option value="重庆">重庆</option>
-						<option value="广东">广东</option>
-					</select>
-				</td>
-				<td>
-					建档日期：<input type="text" class="date" readonly="true" />
-				</td>-->
-				<td>
-					电子书名：<input type="text" name="keyword" />
 					<div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+					<label>电子书名：</label>
+					<input type="text" name="keyword" value="<?php  if(isset($_POST['keyword'])&&$_POST['keyword']) echo $_POST['keyword']?>" />
+					<select name="selectcategory">
+						<option value="">所有分类</option>
+						<?php //以下拉框的形式显示所有分类
+						if(isset($_POST['selectcategory'])&&$_POST['selectcategory']){
+							foreach($allcategories as $category){
+								if($_POST['selectcategory']==$category->id)
+									echo	'<option value="'.$category->id.'" selected="selected">'.$category->name.'</option>';
+								else
+									echo	'<option value="'.$category->id.'">'.$category->name.'</option>';
+							}
+						}
+						else{
+							foreach($allcategories as $category){
+								echo	'<option value="'.$category->id.'">'.$category->name.'</option>';
+							}
+						}
+						?>
+					</select>
+					<select name="selectauthor">
+						<option value="">所有作者</option>
+						<?php //以下拉框的形式显示所有分类
+						if(isset($_POST['selectauthor'])&&$_POST['selectauthor']){
+							foreach($allauthors as $author){
+								if($_POST['selectauthor']==$author->id)
+									echo	'<option value="'.$author->id.'" selected="selected">'.$author->name.'</option>';
+								else
+									echo	'<option value="'.$author->id.'">'.$author->name.'</option>';
+							}
+						}
+						else{
+							foreach($allauthors as $author){
+								echo	'<option value="'.$author->id.'">'.$author->name.'</option>';
+							}
+						}
+						?>
+					</select>
+					<select name="selectuploader">
+                            <option value="">所有上传者</option>
+                            <?php //以下拉框的形式显示所有上传者
+                            if(isset($_POST['selectuploader'])&&$_POST['selectuploader']){
+                                foreach($alluploaders as $alluploader){
+                                    if($_POST['selectuploader']==$alluploader->id)
+                                        echo	'<option value="'.$alluploader->id.'" selected="selected">'.$alluploader->name.'</option>';
+                                    else
+                                        echo	'<option value="'.$alluploader->id.'">'.$alluploader->name.'</option>';
+                                }
+                            }
+                            else{
+                                foreach($alluploaders as $alluploader){
+                                    echo	'<option value="'.$alluploader->id.'">'.$alluploader->name.'</option>';
+                                }
+                            }
+                            ?>
+                        </select>
 				</td>
 			</tr>
 		</table>
@@ -148,7 +200,7 @@ $errorebooks = $DB->get_records_sql('select a.id,a.name,a.authorid,a.summary,a.u
 				<tr target="ebookid" rel="'.$ebook->id.'" >
 					<td>-1</td>
 					<td>'.$ebook->name.'</td>
-					<td><img src="'.$ebook->pictrueurl.'" height="200" width="150" /></td>';
+					<td><img src="'.$ebook->pictrueurl.'" height="80" width="60" /></td>';
 				if($ebook->categoryid==0)
 					echo "<td>(无分类)</td>";
 				else
@@ -175,7 +227,7 @@ $errorebooks = $DB->get_records_sql('select a.id,a.name,a.authorid,a.summary,a.u
 				<tr target="ebookid" rel="'.$ebook->id.'" >
 					<td>'.$offset.'</td>
 					<td>'.$ebook->name.'</td>
-					<td><img src="'.$ebook->pictrueurl.'" height="200" width="150" /></td>
+					<td><img src="'.$ebook->pictrueurl.'" height="80" width="60" /></td>
 					<td>'.$ebook->categoryname.'</td>
 					<td>'.$ebook->authorname.'</td>
 					<td>'.$ebook->summary.'</td>

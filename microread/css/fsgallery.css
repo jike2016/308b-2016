@@ -1,0 +1,54 @@
+.fs_gallery {
+	background: rgba(0, 0, 0, 0.9); left: 0px; top: 0px; right: 0px; bottom: 0px; position: fixed; z-index: 10000;
+}
+.fs_gallery_close {
+	top: 20px; width: 25px; height: 25px; text-align: center; right: 20px; color: rgb(204, 204, 204); line-height: 23px; font-size: 34px; position: absolute; z-index: 1002; cursor: pointer;
+}
+.fs_gallery_close::before {
+	content: "x";
+}
+.fs_gallery_close:hover {
+	color: rgb(255, 255, 255);
+}
+.fs_gallery_prev {
+	width: 80px; color: rgb(204, 204, 204); font-size: 30px; position: absolute; z-index: 1001; cursor: pointer;
+}
+.fs_gallery_next {
+	width: 80px; color: rgb(204, 204, 204); font-size: 30px; position: absolute; z-index: 1001; cursor: pointer;
+}
+.fs_gallery_prev:hover {
+	background: rgba(0, 0, 0, 0.1); color: rgb(255, 255, 255);
+}
+.fs_gallery_next:hover {
+	background: rgba(0, 0, 0, 0.1); color: rgb(255, 255, 255);
+}
+.fs_gallery_prev {
+	left: 0px; top: 0px; bottom: 0px;
+}
+.fs_gallery_next {
+	top: 0px; right: 0px; bottom: 0px;
+}
+.fs_gallery_prev::before {
+	left: 35px; top: 50%; height: 30px; margin-top: -30px; position: absolute; content: "<";
+}
+.fs_gallery_next::before {
+	left: 35px; top: 50%; height: 30px; margin-top: -30px; position: absolute; content: ">";
+}
+.fs_gallery_shuft {
+	width: 1200px; position: relative; height: 500px; margin: auto; text-align: center;;line-height: 500px;
+}
+.fs_gallery_shuft::after {clear: both; display: block; content: "";text-align: center;}
+.fs_gallery_shuft_item {
+	background-position: center;  position: relative; background-repeat: no-repeat;text-align: center; width: 1000px; height: 300px; margin: auto;vertical-align: middle;
+}
+.fs_gallery_shuft_item img {
+	box-shadow: 0px 0px 8px rgba(0,0,0,0.8); vertical-align: middle;height: auto; position:relative;
+    left:-50%;top:-50%;width: 100%;
+}
+.fs_gallery_shuft_item span {
+	/*height: 100%;display: inline-block; vertical-align: middle;*/
+	position:absolute;
+    left:50%;top:20%;
+    display:table-cell;
+    vertical-align:middle;
+}

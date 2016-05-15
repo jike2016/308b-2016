@@ -3,6 +3,16 @@
 require_once('../lib/lib.php');
 if(isset($_GET['title']) && $_GET['title']){
 	require_once('../../../config.php');
+	/** CX 检查权限 */
+	require_login();
+	global $USER;
+	if($USER->id!=2){//超级管理员
+		global $DB;
+		if(!$DB->record_exists('role_assignments', array('userid'=>$USER->id,'roleid'=>11)) ){//没有role=11角色
+			redirect(new moodle_url('/index.php'));
+		}
+	}
+	/** End 检查权限*/
 	switch ($_GET['title']){
 		case "edit"://编辑推荐
 			$newrecommendtag=new stdClass();
@@ -28,6 +38,13 @@ if(isset($_GET['title']) && $_GET['title']){
 					}
 				}
 			}
+			//start zxf 2016/5/11 图片标签推荐榜修改，新图片上传 之前的图片 删除
+			require_once('../convertpath.php');
+			global $DB;
+			$updatepictag=$DB->get_record_sql('select * from mdl_pic_recommended_search where id='.$_GET['pictagrecommendid']);
+			$picpath=convert_url_to_path($updatepictag->picurl);
+			unlink($picpath);
+			//start zxf 2016/5/11 图片标签推荐榜修改，新图片上传 之前的图片 删除
 			$DB->update_record('pic_recommended_search', $newrecommendtag);
 			success('设置成功','pictagcommend','closeCurrent');
 			break;

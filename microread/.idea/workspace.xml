@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4de92371-f736-4834-aa8f-24406e9b5528" name="Default" comment="" />
+    <ignored path="microread.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="microread" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="tag.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/picroom/tag.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.78125">
+              <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+              <folding>
+                <marker date="1463063680633" expanded="true" signature="1111:1139" placeholder="select * fro... mdl_pic_tag_my" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_upload.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/bookroom/user_upload.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.1875">
+              <caret line="76" column="49" selection-start-line="76" selection-start-column="49" selection-end-line="76" selection-end-column="49" />
+              <folding>
+                <marker date="1463063742044" expanded="true" signature="426:493" placeholder="select count... mdl_ebook_user_upload_my" />
+                <marker date="1463063742044" expanded="true" signature="666:918" placeholder="select a.id,... mdl_ebook_user_upload_my" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tag.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/docroom/tag.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.78125">
+              <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+              <folding>
+                <marker date="1463063534661" expanded="true" signature="1110:1138" placeholder="select * fro... mdl_doc_tag_my" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_upload_post_handler.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/docroom/user_upload_post_handler.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="6.46875">
+              <caret line="39" column="9" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
+              <folding>
+                <marker date="1463031300000" expanded="true" signature="475:521" placeholder="select * fro... mdl_doc_user_upload_my" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_upload.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/admin/docroom/user_upload.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.08288288">
+              <caret line="62" column="1" selection-start-line="62" selection-start-column="1" selection-end-line="62" selection-end-column="1" />
+              <folding>
+                <marker date="1463063760412" expanded="true" signature="426:491" placeholder="select count... mdl_doc_user_upload_my" />
+                <marker date="1463063760412" expanded="true" signature="662:915" placeholder="select a.id,... mdl_doc_user_upload_my" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ebook.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/bookroom/ebook.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.34375">
+              <caret line="174" column="46" selection-start-line="174" selection-start-column="46" selection-end-line="174" selection-end-column="46" />
+              <folding>
+                <marker date="1463056292050" expanded="true" signature="1130:1185" placeholder="select count... mdl_ebook_my" />
+                <marker date="1463056292050" expanded="true" signature="1358:1739" placeholder="select a.id,... mdl_ebook_my" />
+                <marker date="1463056292050" expanded="true" signature="1813:2023" placeholder="select a.id,... mdl_ebook_my" />
+                <marker date="1463056292050" expanded="true" signature="2074:2110" placeholder="select *from... mdl_ebook_categories_my" />
+                <marker date="1463056292050" expanded="true" signature="2158:2190" placeholder="select *from... mdl_ebook_author_my" />
+                <marker date="1463056292050" expanded="true" signature="2241:2356" placeholder="select d.id,... mdl_ebook_my" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="doclibrary.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/docroom/doclibrary.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-14.125">
+              <caret line="119" column="18" selection-start-line="119" selection-start-column="18" selection-end-line="119" selection-end-column="18" />
+              <folding>
+                <marker date="1463056313750" expanded="true" signature="973:1026" placeholder="select count... mdl_doc_my" />
+                <marker date="1463056313750" expanded="true" signature="1207:1513" placeholder="select a.id,... mdl_doc_my" />
+                <marker date="1463056313750" expanded="true" signature="1590:1790" placeholder="select a.id,... mdl_doc_my" />
+                <marker date="1463056313750" expanded="true" signature="1841:1875" placeholder="select *from... mdl_doc_categories_my" />
+                <marker date="1463056313750" expanded="true" signature="1926:2039" placeholder="select d.id,... mdl_doc_my" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="picture.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/picroom/picture.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-15.09375">
+              <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
+              <folding>
+                <marker date="1463056350022" expanded="true" signature="796:849" placeholder="select count... mdl_pic_my" />
+                <marker date="1463056350022" expanded="true" signature="1027:1235" placeholder="select a.id,... mdl_pic_my" />
+                <marker date="1463056350022" expanded="true" signature="1361:1474" placeholder="select d.id,... mdl_pic_my" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tag_add.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/picroom/tag_add.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tag_add.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/docroom/tag_add.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/admin/docroom/authorrecommendlistdoc_post_handler.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/tag_add.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/tag_edit.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/picture_add.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/picture_edit.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/tag_post_handler.php" />
+        <option value="$PROJECT_DIR$/admin/dealselect.php" />
+        <option value="$PROJECT_DIR$/admin/comvertpath.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/ebook_add.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/doclibrary_add.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/author_post_handler.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/pictagmylib.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/author_edit.php" />
+        <option value="$PROJECT_DIR$/admin/watermark.php" />
+        <option value="$PROJECT_DIR$/convertlib.php" />
+        <option value="$PROJECT_DIR$/admin/convertpath.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/author_post_handler.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/picture_post_handler.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/doclibrary_post_handler.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/author_add.php" />
+        <option value="$PROJECT_DIR$/../../water/example.php" />
+        <option value="$PROJECT_DIR$/../../water/example3.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/ebook_post_handler.php" />
+        <option value="$PROJECT_DIR$/admin/water.php" />
+        <option value="$PROJECT_DIR$/admin/advertising/advertising.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/pictagrecommend_edit.php" />
+        <option value="$PROJECT_DIR$/admin/indexadvertising/advertising_post_handler.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/pictagrecommend_post_handler.php" />
+        <option value="$PROJECT_DIR$/bookroom/user_upload.php" />
+        <option value="$PROJECT_DIR$/admin/indexadvertising/advertising_edit.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/authorrecommendlistdoc.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/section.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/chapter.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/recommendlist.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/categoryrecommendlist.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/categoryrecommendlistdoc.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/authorrecommendlist.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/recommendlist.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/pictagrecommend.php" />
+        <option value="$PROJECT_DIR$/admin/indexadvertising/advertising.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/author.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/category.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/category.php" />
+        <option value="$PROJECT_DIR$/admin/index.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/ebook.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/doclibrary.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/picture.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/tag.php" />
+        <option value="$PROJECT_DIR$/admin/picroom/tag.php" />
+        <option value="$PROJECT_DIR$/admin/bookroom/user_upload.php" />
+        <option value="$PROJECT_DIR$/admin/docroom/user_upload.php" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsBuildToolPackageJson" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="PhpServers">
+    <servers>
+      <server host="localhost" id="9e876fb0-5b0f-4827-b54a-1716ec59ab3f" name="/moodle/microread/admin" port="8082" />
+    </servers>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1" />
+    <option name="y" value="1" />
+    <option name="width" value="1364" />
+    <option name="height" value="726" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bookroom" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="picroom" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indexadvertising" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="docroom" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="microread" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bookroom" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunManager" selected="PHP Web Application.http://localhost:8082/moodle/microread/admin">
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
+      <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="http://localhost:8082/moodle/microread/admin" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" browser="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" server_name="/moodle/microread/admin" start_url="/moodle/microread/admin">
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="PHP Web Application.http://localhost:8082/moodle/microread/admin" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4de92371-f736-4834-aa8f-24406e9b5528" name="Default" comment="" />
+      <created>1461807556234</created>
+      <option name="number" value="Default" />
+      <updated>1461807556234</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1" y="1" width="1364" height="726" extended-state="0" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23442137" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890365" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42045453" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890365" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2564935" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/admin/bookroom/chapter_post_handler.php</url>
+          <line>12</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/admin/bookroom/section_post_handler.php</url>
+          <line>40</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/admin/bookroom/section_post_handler.php</url>
+          <line>53</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/admin/bookroom/section_post_handler.php</url>
+          <line>2</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/admin/docroom/author_post_handler.php</url>
+          <line>3</line>
+          <option name="timeStamp" value="202" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/admin/docroom/doclibrary_post_handler.php</url>
+          <line>128</line>
+          <option name="timeStamp" value="208" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/admin/bookroom/ebook_post_handler.php</url>
+          <line>54</line>
+          <option name="timeStamp" value="213" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="215" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/admin/docroom/author_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.2166667">
+          <caret line="23" column="21" selection-start-line="18" selection-start-column="20" selection-end-line="23" selection-end-column="21" />
+          <folding>
+            <marker date="1462261570849" expanded="true" signature="1767:1810" placeholder="select id fr... mdl_ebook_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/author_edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="59" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="59" />
+          <folding>
+            <marker date="1462948276244" expanded="true" signature="135:178" placeholder="select * fro... mdl_ebook_author_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../lib/classes/shutdown_manager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4812968">
+          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/convertlib.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10550459">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/author_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.31343284">
+          <caret line="76" column="13" selection-start-line="76" selection-start-column="13" selection-end-line="76" selection-end-column="13" />
+          <folding>
+            <marker date="1462939163073" expanded="true" signature="1680:1722" placeholder="select *from... mdl_ebook_author_my" />
+            <marker date="1462939163073" expanded="true" signature="2827:2870" placeholder="select id fr... mdl_ebook_my" />
+            <marker date="1462939163073" expanded="true" signature="3142:3185" placeholder="select id fr... mdl_ebook_my" />
+            <marker date="1462939163073" expanded="true" signature="3439:3481" placeholder="select *from... mdl_ebook_author_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/convertpath.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3067376">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/picroom/pictagmylib.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10283688">
+          <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+          <folding>
+            <marker date="1462591943642" expanded="true" signature="132:160" placeholder="select * FRO... mdl_pic_tag_my" />
+            <marker date="1462591943642" expanded="true" signature="328:378" placeholder="select tagid... mdl_pic_tag_link_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/doclibrary_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="109" column="34" selection-start-line="109" selection-start-column="34" selection-end-line="109" selection-end-column="34" />
+          <folding>
+            <marker date="1463032010017" expanded="true" signature="820:853" placeholder="select *from... mdl_doc_my" />
+            <marker date="1463032010017" expanded="true" signature="11840:11873" placeholder="select *from... mdl_doc_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../water/example.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32624114">
+          <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../water/example3.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.04144144">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/watermark.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.4375">
+          <caret line="221" column="29" selection-start-line="221" selection-start-column="29" selection-end-line="221" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/picroom/pictagrecommend_edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5099099">
+          <caret line="21" column="37" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
+          <folding>
+            <marker date="1462612061450" expanded="true" signature="174:224" placeholder="select * fro... mdl_pic_recommended_search" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/picroom/picture_edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.03125">
+          <caret line="7" column="53" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="53" />
+          <folding>
+            <marker date="1462938297997" expanded="true" signature="108:142" placeholder="select * fro... mdl_pic_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/picroom/picture_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.15625">
+          <caret line="173" column="33" selection-start-line="172" selection-start-column="4" selection-end-line="173" selection-end-column="33" />
+          <folding>
+            <marker date="1462939411722" expanded="true" signature="2778:2812" placeholder="select * fro... mdl_pic_my" />
+            <marker date="1462939411722" expanded="true" signature="6930:6964" placeholder="select * fro... mdl_pic_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/indexadvertising/advertising_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.21875">
+          <caret line="50" column="53" selection-start-line="44" selection-start-column="8" selection-end-line="50" selection-end-column="53" />
+          <folding>
+            <marker date="1463039702786" expanded="true" signature="338:386" placeholder="select * fro... mdl_microread_indexad_my" />
+            <marker date="1463039702786" expanded="true" signature="1795:1843" placeholder="select * fro... mdl_microread_indexad_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/picroom/pictagrecommend_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.7166667">
+          <caret line="36" column="43" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
+          <folding>
+            <marker date="1463042149346" expanded="true" signature="1220:1270" placeholder="select * fro... mdl_pic_recommended_search" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/author_add.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.04144144">
+          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/author_add.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17117117">
+          <caret line="10" column="39" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/user_upload_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45585585">
+          <caret line="29" column="25" selection-start-line="29" selection-start-column="15" selection-end-line="29" selection-end-column="25" />
+          <folding>
+            <marker date="1462623859222" expanded="true" signature="447:495" placeholder="select * fro... mdl_ebook_user_upload_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/water.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.65625">
+          <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/ebook_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.15625">
+          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding>
+            <marker date="1462939260694" expanded="true" signature="568:603" placeholder="select *from... mdl_ebook_my" />
+            <marker date="1462939260694" expanded="true" signature="1454:1489" placeholder="select *from... mdl_ebook_my" />
+            <marker date="1462939260694" expanded="true" signature="6457:6802" placeholder="..." />
+            <marker date="1462939260694" expanded="true" signature="6457:6805" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bookroom/user_upload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.2166667">
+          <caret line="137" column="19" selection-start-line="137" selection-start-column="19" selection-end-line="137" selection-end-column="19" />
+          <folding>
+            <marker date="1463041958767" expanded="true" signature="104:172" placeholder="select e.id,... mdl_ebook_categories_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/indexadvertising/advertising_edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.84375">
+          <caret line="26" column="16" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="16" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#p#2;n#div#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+            <marker date="1463041515544" expanded="true" signature="165:213" placeholder="select * fro... mdl_ebook_recommendlist_my" />
+            <marker date="1463041515544" expanded="true" signature="920:942" placeholder="..." />
+            <marker date="1463041515544" expanded="true" signature="1125:1142" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bookroom/bookindex.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8344595">
+          <caret line="241" column="121" selection-start-line="241" selection-start-column="121" selection-end-line="241" selection-end-column="121" />
+          <folding>
+            <marker date="1462876909833" expanded="true" signature="283:377" placeholder="select * fro... mdl_ebook_user_read_my" />
+            <marker date="1462876909833" expanded="true" signature="494:562" placeholder="select e.id,... mdl_ebook_categories_my" />
+            <marker date="1462876909833" expanded="true" signature="612:867" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462876909833" expanded="true" signature="929:1069" placeholder="select ec2.*... mdl_ebook_categories_my" />
+            <marker date="1462876909833" expanded="true" signature="1312:1487" placeholder="select tm.id... mdl_tag_link" />
+            <marker date="1462876909833" expanded="true" signature="1538:1644" placeholder="select * fro... mdl_ebook_chapter_my" />
+            <marker date="1462876909833" expanded="true" signature="1865:2170" placeholder="select em.*,... mdl_tag_link" />
+            <marker date="1462876909833" expanded="true" signature="6913:7838" placeholder="..." />
+            <marker date="1462876909833" expanded="true" signature="7068:7285" placeholder="..." />
+            <marker date="1462876909833" expanded="true" signature="7352:7824" placeholder="..." />
+            <marker date="1462876909833" expanded="true" signature="12421:12555" placeholder="select * fro... mdl_ebook_section_my" />
+            <marker date="1462876909833" expanded="true" signature="12572:12632" placeholder="..." />
+            <marker date="1462876909833" expanded="true" signature="16098:16544" placeholder="..." />
+            <marker date="1462876909833" expanded="true" signature="16212:16528" placeholder="..." />
+            <marker date="1462876909833" expanded="true" signature="16705:17046" placeholder="..." />
+            <marker date="1462876909833" expanded="false" signature="16759:16773" placeholder="..." />
+            <marker date="1462876909833" expanded="false" signature="16819:16833" placeholder="..." />
+            <marker date="1462876909833" expanded="false" signature="16897:16911" placeholder="..." />
+            <marker date="1462876909833" expanded="false" signature="16972:16986" placeholder="..." />
+            <marker date="1462876909833" expanded="true" signature="17107:17162" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bookroom/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.0">
+          <caret line="311" column="36" selection-start-line="311" selection-start-column="36" selection-end-line="311" selection-end-column="36" />
+          <folding>
+            <marker date="1462871607395" expanded="true" signature="122:190" placeholder="select e.id,... mdl_ebook_categories_my" />
+            <marker date="1462871607395" expanded="true" signature="237:449" placeholder="select e.*,e... mdl_ebook_my" />
+            <marker date="1462871607395" expanded="true" signature="501:753" placeholder="select em.*,... mdl_ebook_recommendlist_my" />
+            <marker date="1462871607395" expanded="true" signature="1775:2229" placeholder="select count... mdl_microread_log" />
+            <marker date="1462871607395" expanded="true" signature="2269:2724" placeholder="select count... mdl_microread_log" />
+            <marker date="1462871607395" expanded="true" signature="2764:3189" placeholder="select count... mdl_microread_log" />
+            <marker date="1462871607395" expanded="true" signature="4996:5294" placeholder="select count... mdl_ebook_author_my" />
+            <marker date="1462871607395" expanded="true" signature="10743:11668" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="10898:11115" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="11182:11654" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="14865:15389" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="15026:15389" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="15451:15746" placeholder="select tm.id... mdl_tag_link" />
+            <marker date="1462871607395" expanded="true" signature="18179:18436" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="18549:18801" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="19416:19646" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="19710:19935" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="23237:23578" placeholder="..." />
+            <marker date="1462871607395" expanded="false" signature="23291:23305" placeholder="..." />
+            <marker date="1462871607395" expanded="false" signature="23351:23365" placeholder="..." />
+            <marker date="1462871607395" expanded="false" signature="23429:23443" placeholder="..." />
+            <marker date="1462871607395" expanded="false" signature="23504:23518" placeholder="..." />
+            <marker date="1462871607395" expanded="true" signature="23648:23703" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/tabsPage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.3125">
+          <caret line="6" column="36" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/authorrecommendlistdoc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.59375">
+          <caret line="95" column="12" selection-start-line="95" selection-start-column="12" selection-end-line="95" selection-end-column="12" />
+          <folding>
+            <marker date="1463053057771" expanded="true" signature="594:721" placeholder="select *from... mdl_doc_my" />
+            <marker date="1463053057771" expanded="true" signature="630:690" placeholder="select docid... mdl_doc_recommend_authorlist_my" />
+            <marker date="1463053057771" expanded="true" signature="795:922" placeholder="select *from... mdl_doc_my" />
+            <marker date="1463053057771" expanded="true" signature="831:891" placeholder="select docid... mdl_doc_recommend_authorlist_my" />
+            <marker date="1463053057771" expanded="true" signature="996:1123" placeholder="select *from... mdl_doc_my" />
+            <marker date="1463053057771" expanded="true" signature="1032:1092" placeholder="select docid... mdl_doc_recommend_authorlist_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/section.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.625">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+          <folding>
+            <marker date="1463053366747" expanded="true" signature="1043:1147" placeholder="select * fro... mdl_ebook_section_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/recommendlist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37297297">
+          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
+          <folding>
+            <marker date="1463053636250" expanded="true" signature="1218:1330" placeholder="select a.id,... mdl_ebook_recommendlist_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/chapter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.34375">
+          <caret line="13" column="35" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
+          <folding>
+            <marker date="1463053492984" expanded="true" signature="972:1072" placeholder="select * fro... mdl_ebook_chapter_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/categoryrecommendlist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.15625">
+          <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
+          <folding>
+            <marker date="1463054003987" expanded="true" signature="427:498" placeholder="select count... mdl_doc_category_recommend_my" />
+            <marker date="1463054003987" expanded="true" signature="684:842" placeholder="select a.id mdl_doc_category_recommend_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/categoryrecommendlistdoc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.40625">
+          <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
+          <folding>
+            <marker date="1463054042356" expanded="true" signature="427:498" placeholder="select count... mdl_doc_category_recommend_my" />
+            <marker date="1463054042356" expanded="true" signature="688:925" placeholder="select a.id mdl_doc_category_recommend_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/authorrecommendlist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.71875">
+          <caret line="47" column="25" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
+          <folding>
+            <marker date="1463054130700" expanded="true" signature="427:500" placeholder="select count... mdl_doc_recommend_authorlist_my" />
+            <marker date="1463054130700" expanded="true" signature="682:820" placeholder="select a.id mdl_doc_recommend_authorlist_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/recommendlist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.40625">
+          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
+          <folding>
+            <marker date="1463054174283" expanded="true" signature="1218:1324" placeholder="select a.id,... mdl_doc_recommendlist_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/picroom/pictagrecommend.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.96875">
+          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
+          <folding>
+            <marker date="1463054281267" expanded="true" signature="1277:1317" placeholder="select * fro... mdl_pic_recommended_search" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/indexadvertising/advertising.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.125">
+          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
+          <folding>
+            <marker date="1463054315429" expanded="true" signature="1268:1306" placeholder="select * fro... mdl_microread_indexad_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/author.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.625">
+          <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
+          <folding>
+            <marker date="1463054650500" expanded="true" signature="426:488" placeholder="select count... mdl_ebook_author_my" />
+            <marker date="1463054650500" expanded="true" signature="660:695" placeholder="select *from... mdl_ebook_author_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/category.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.59375">
+          <caret line="80" column="12" selection-start-line="80" selection-start-column="12" selection-end-line="80" selection-end-column="12" />
+          <folding>
+            <marker date="1463054666869" expanded="true" signature="1750:1787" placeholder="select * fro... mdl_ebook_categories_my" />
+            <marker date="1463054666869" expanded="true" signature="2127:2174" placeholder="select * fro... mdl_ebook_categories_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/category.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.59375">
+          <caret line="68" column="12" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
+          <folding>
+            <marker date="1463054683688" expanded="true" signature="1223:1274" placeholder="select * fro... mdl_doc_categories_my" />
+            <marker date="1463054683688" expanded="true" signature="1826:1871" placeholder="select * fro... mdl_doc_categories_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/js/dwz.ajax.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3321976">
+          <caret line="277" column="9" selection-start-line="277" selection-start-column="9" selection-end-line="277" selection-end-column="9" />
+          <folding>
+            <marker date="1460976114000" expanded="true" signature="991:1003" placeholder="..." />
+            <marker date="1460976114000" expanded="true" signature="10900:10912" placeholder="..." />
+            <marker date="1460976114000" expanded="true" signature="11797:11810" placeholder="..." />
+            <marker date="1460976114000" expanded="true" signature="12027:12039" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-79.0625">
+          <caret line="119" column="34" selection-start-line="119" selection-start-column="34" selection-end-line="119" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/tag_add.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/doclibrary.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.125">
+          <caret line="119" column="18" selection-start-line="119" selection-start-column="18" selection-end-line="119" selection-end-column="18" />
+          <folding>
+            <marker date="1463056313750" expanded="true" signature="973:1026" placeholder="select count... mdl_doc_my" />
+            <marker date="1463056313750" expanded="true" signature="1207:1513" placeholder="select a.id,... mdl_doc_my" />
+            <marker date="1463056313750" expanded="true" signature="1590:1790" placeholder="select a.id,... mdl_doc_my" />
+            <marker date="1463056313750" expanded="true" signature="1841:1875" placeholder="select *from... mdl_doc_categories_my" />
+            <marker date="1463056313750" expanded="true" signature="1926:2039" placeholder="select d.id,... mdl_doc_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/picroom/picture.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.09375">
+          <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
+          <folding>
+            <marker date="1463056350022" expanded="true" signature="796:849" placeholder="select count... mdl_pic_my" />
+            <marker date="1463056350022" expanded="true" signature="1027:1235" placeholder="select a.id,... mdl_pic_my" />
+            <marker date="1463056350022" expanded="true" signature="1361:1474" placeholder="select d.id,... mdl_pic_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/picroom/tag_add.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/ebook.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.34375">
+          <caret line="174" column="46" selection-start-line="174" selection-start-column="46" selection-end-line="174" selection-end-column="46" />
+          <folding>
+            <marker date="1463056292050" expanded="true" signature="1130:1185" placeholder="select count... mdl_ebook_my" />
+            <marker date="1463056292050" expanded="true" signature="1358:1739" placeholder="select a.id,... mdl_ebook_my" />
+            <marker date="1463056292050" expanded="true" signature="1813:2023" placeholder="select a.id,... mdl_ebook_my" />
+            <marker date="1463056292050" expanded="true" signature="2074:2110" placeholder="select *from... mdl_ebook_categories_my" />
+            <marker date="1463056292050" expanded="true" signature="2158:2190" placeholder="select *from... mdl_ebook_author_my" />
+            <marker date="1463056292050" expanded="true" signature="2241:2356" placeholder="select d.id,... mdl_ebook_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/tag.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.78125">
+          <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+          <folding>
+            <marker date="1463063534661" expanded="true" signature="1110:1138" placeholder="select * fro... mdl_doc_tag_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/user_upload_post_handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="6.46875">
+          <caret line="39" column="9" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
+          <folding>
+            <marker date="1463031300000" expanded="true" signature="475:521" placeholder="select * fro... mdl_doc_user_upload_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/picroom/tag.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.78125">
+          <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+          <folding>
+            <marker date="1463063680633" expanded="true" signature="1111:1139" placeholder="select * fro... mdl_pic_tag_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/bookroom/user_upload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.1875">
+          <caret line="76" column="49" selection-start-line="76" selection-start-column="49" selection-end-line="76" selection-end-column="49" />
+          <folding>
+            <marker date="1463063742044" expanded="true" signature="426:493" placeholder="select count... mdl_ebook_user_upload_my" />
+            <marker date="1463063742044" expanded="true" signature="666:918" placeholder="select a.id,... mdl_ebook_user_upload_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/docroom/user_upload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08288288">
+          <caret line="62" column="1" selection-start-line="62" selection-start-column="1" selection-end-line="62" selection-end-column="1" />
+          <folding>
+            <marker date="1463063760412" expanded="true" signature="426:491" placeholder="select count... mdl_doc_user_upload_my" />
+            <marker date="1463063760412" expanded="true" signature="662:915" placeholder="select a.id,... mdl_doc_user_upload_my" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

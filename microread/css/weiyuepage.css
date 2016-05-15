@@ -1,0 +1,82 @@
+/****总体样式 *****/
+img {vertical-align:top; border:0;page-break-inside:avoid;max-width:100% !important; }
+html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%; height: 100%;  font-size:100%; background: #FFFFFF; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100% }
+/****总体样式@end*****/
+
+body{font-family: "微软雅黑";}
+.header{height:46px; width:100%; border-bottom: 2px solid #93e1fa;}
+.header .a-box {padding:10px 0px 0px 0px;float: left;}
+.header .header-center {margin: auto;width: 1200px;}
+.header .nav-a {font-size: 18px; color: #000000; margin-left: 60px; text-decoration: none;}
+.header .nav-a:hover{color: #93E1FA;}
+.header .userbox {float: right; height: 58px; padding: 10px 20px; cursor: pointer;}
+.header .userbox:hover {background-color: #F0F0F0;}
+.header .username{ margin-left: 0px; font-weight: 600; color:#0D99CA;font-size:16px; text-decoration: none; margin-right: 15px;}
+.header .userimg{ margin-left: 0px; }
+#usermenu {width: 120px; float: right; height: 46px;}
+#usermenu .dropdown-toggle {width: 160px; height: 43px; border-radius: 0px; padding: 0px; border: 0px;}
+#usermenu a {margin-left: 0px;}
+#usermenu .dropdown-menu > li {height: 30px;}
+#usermenu .dropdown-menu .divider {height: 1px; margin: 0px;}
+#usermenu .dropdown-menu > li > a { color: #000000; float: inherit;height: 30px;padding-top: 5px;}
+#usermenu .dropdown-menu > li > a:hover {background-color: #2EBEFF; color: #FFFFFF;}
+
+.header .frist {margin-left:446px;}
+.header .login {margin-left: 240px;}
+.header-banner{height:85px; width:1200px; margin: auto;}
+.header-banner img{margin-top: 8px;}
+.header .uploadbtn {margin-left: 10px;}
+			
+/********搜索框********/
+.search-box {height: 100%;width:400px;float: right; padding: 25px 0px 0px 0px;}
+.search-box .input-group {width: 330px; float: left;}
+.search-box .input-group .form-control{border-radius: 0px;}
+.search-box .radio{height: 20px; margin-bottom: 0px; margin-top: 35px;}
+.search-box label{font-size: 14px; margin: 0px 5px 0px 5px;}
+.search-box .dropdown-menu {min-width: 95px;}
+.searchbtn {width: 70px; float: right;border-radius: 0px 4px 4px 0px; border-left: 0px;}
+.search-box .dropdown-menu .divider {height: 1px; margin: 0px;}
+/********搜索框 @end********/
+
+			
+.bookclassified {height: 37px; width: 100%; background: url(../img/nav_BKG.jpg)}
+.bookclassified-center {width: 1200px; margin: auto; padding: 5px 0px 0px 0px;}			
+.bookclassified-center a {color: #FFFFFF; text-decoration: none; float: left;}
+.bookclassified-center .dropdown-menu > li > a { color: #000000; float: inherit;height: 30px;padding-top: 5px;}
+.bookclassified-center .dropdown-menu > li {height: 30px;}
+.bookclassified-center .dropdown-menu { min-width: 95px;text-align: center; }
+.bookclassified-center .dropdown-menu .divider {height: 1px; margin: 0px;}
+.bookclassified-center a:hover {color: #000000;}
+.bookclassified-center .kinds {margin: 3px 15px 0px 15px;}
+.bookclassified-center .line{width: 1px;height: 14px; background-color: #80d0ee;float: left; margin: 7px 10px 0px 10px ;}
+
+/*******底部导航条*******/
+.bottomnav {width: 100%; height: 222px; background-color: #2EBEFF; padding-top: 44px; margin-top: 50px;}
+.bottomnav .whiteline {width: 1200px; margin: auto; height: 2px; background-color: #FFFFFF; margin-bottom: 15px;}
+.bottomnav p {text-align: center; margin-bottom: 10px;}
+.bottomnav p a {text-decoration: none;color: #000000; font-size: 14px; margin-right: 20px;}
+/*******底部导航条 @end*******/
+
+/****右下角悬浮按钮*****/
+.elevator {position: fixed;right: 15px;bottom: 10px;z-index: 1030;}
+.elevator a {display: block;position: relative;
+  margin: 1px 0;
+  outline: none;
+  height: 52px;
+  width: 52px;
+  -webkit-transition: background-position 0.15s;
+  -moz-transition: background-position 0.15s;
+  transition: background-position 0.15s;
+  background: url(../img/elevator.png) no-repeat;
+}
+.elevator .elevator-app {background-position: 0 -550px;}
+.elevator .elevator-app:hover { background-position: 0 -612px;}
+.elevator .elevator-weixin { background-position: 0 -860px;}
+.elevator .elevator-weixin:hover { background-position: 0 -922px;}
+.elevator .elevator-msg { background-position: 0 -426px;}
+.elevator .elevator-msg:hover {background-position: 0 -488px;}
+.elevator .elevator-top {background-position: 0 -674px;}
+.elevator .elevator-top:hover {background-position: 0 -736px;}
+.elevator .elevator-diaocha {background-position: 0 -798px;}
+.elevator .elevator-diaocha:hover {background-position: 0 -984px;}
+/****右下角悬浮按钮 @end*****/	

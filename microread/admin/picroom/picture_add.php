@@ -6,7 +6,7 @@
                 <input name="name" type="text" size="30" value="" class="required"/>
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">
-                <label>图片上传：(jpg ,png ,bmp ,gif)</label>
+                <label>图片上传：(jpg ,png ,gif)</label>
                 <input name="picurl" type="file" class="required"/>
             </p>
             <p class="pageFormContent" style="margin: 20px 20px;">

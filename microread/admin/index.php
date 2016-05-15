@@ -1,3 +1,15 @@
+<?php 
+//检查登陆
+require_once('../../config.php');
+require_login();
+global $USER;
+if($USER->id!=2){//超级管理员
+	global $DB;
+	if(!$DB->record_exists('role_assignments', array('userid'=>$USER->id,'roleid'=>11)) ){//没有role=11角色
+		redirect(new moodle_url('/index.php'));
+	}
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -91,32 +103,11 @@ $(function(){
 	<div id="layout">
 		<div id="header">
 			<div class="headerNav">
-				<a class="logo" href="http://j-ui.com">标志</a>
+				<a class="logo" href="#">标志</a>
+				<p style="font-family: 华文彩云; font-size: 50px;color: #d0d0d0" >微阅后台管理</p>
 				<ul class="nav">
-					<li id="switchEnvBox"><a href="javascript:">（<span>北京</span>）切换城市</a>
-						<ul>
-							<li><a href="sidebar_1.html">北京</a></li>
-							<li><a href="sidebar_2.html">上海</a></li>
-							<li><a href="sidebar_2.html">南京</a></li>
-							<li><a href="sidebar_2.html">深圳</a></li>
-							<li><a href="sidebar_2.html">广州</a></li>
-							<li><a href="sidebar_2.html">天津</a></li>
-							<li><a href="sidebar_2.html">杭州</a></li>
-						</ul>
-					</li>
-					<li><a href="donation.html" target="dialog" height="400" title="捐赠 & DWZ学习视频">捐赠</a></li>
-					<li><a href="changepwd.html" target="dialog" width="600">设置</a></li>
-					<li><a href="http://www.cnblogs.com/dwzjs" target="_blank">博客</a></li>
-					<li><a href="http://weibo.com/dwzui" target="_blank">微博</a></li>
-					<li><a href="login.html">退出</a></li>
-				</ul>
-				<ul class="themeList" id="themeList">
-					<li theme="default"><div class="selected">蓝色</div></li>
-					<li theme="green"><div>绿色</div></li>
-					<!--<li theme="red"><div>红色</div></li>-->
-					<li theme="purple"><div>紫色</div></li>
-					<li theme="silver"><div>银色</div></li>
-					<li theme="azure"><div>天蓝</div></li>
+					<li><a><?php echo fullname($USER, true);?></a></li>
+					<li><?php echo '<a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a>';?></li>
 				</ul>
 			</div>
 
@@ -139,7 +130,7 @@ $(function(){
 					</div>
 					<div class="accordionContent">
 						<ul class="tree treeFolder">
-							<li><a href="tabsPage.html" target="navTab">书库管理</a>
+							<li><a>书库管理</a>
 								<ul>
 									<li><a href="bookroom/ebook.php" target="navTab" rel="ebook" fresh="false">电子书管理</a></li>
 									<li><a href="bookroom/category.php" target="navTab" rel="ebookcategory" fresh="false">分类管理</a></li>
@@ -148,7 +139,7 @@ $(function(){
 									<li><a href="bookroom/user_upload.php" target="navTab" rel="ebookuser_upload" fresh="false">用户上传电子书审核</a></li>
 								</ul>
 							</li>
-							<li><a href="tabsPage.html" target="navTab">文库管理</a>
+							<li><a>文库管理</a>
 								<ul>
 									<li><a href="docroom/doclibrary.php" target="navTab" rel="doclibrary">文档管理</a></li>
 									<li><a href="docroom/category.php" target="navTab" rel="doccategory">分类管理</a></li>
@@ -164,41 +155,12 @@ $(function(){
 									<li><a href="picroom/picture.php" target="navTab" rel="picture">图片管理</a></li>
 									<li><a href="picroom/tag.php" target="navTab" rel="pictag">标签管理</a></li>
 									<li><a href="picroom/pictagrecommend.php" target="navTab" rel="pictagcommend">首页推荐搜索词管理</a></li>
+									<li><a href="picroom/picindexbg.php" target="navTab" rel="picindexbg">首页背景图管理</a></li>
+									<li><a href="picroom/user_upload.php" target="navTab" rel="picuser_upload" fresh="false">用户上传图片审核</a></li>
 								</ul>
 							</li>
-							<li><a>源码例子</a>
-								<ul>
-																		
-									<li><a href="w_panel.html" target="navTab" rel="w_panel">面板</a></li>
-									<li><a href="w_tabs.html" target="navTab" rel="w_tabs">选项卡面板</a></li>
-									<li><a href="w_dialog.html" target="navTab" rel="w_dialog">弹出窗口</a></li>
-									<li><a href="w_alert.html" target="navTab" rel="w_alert">提示窗口</a></li>
-									<li><a href="w_list.html" target="navTab" rel="w_list">CSS表格容器</a></li>
-									<li><a href="demo_page1.html" target="navTab" rel="w_table">表格容器</a></li>
-									<li><a href="w_removeSelected.html" target="navTab" rel="w_table">表格数据库排序+批量删除</a></li>
-									<li><a href="w_tree.html" target="navTab" rel="w_tree">树形菜单</a></li>
-									<li><a href="w_accordion.html" target="navTab" rel="w_accordion">滑动菜单</a></li>
-									<li><a href="w_editor.html" target="navTab" rel="w_editor">编辑器</a></li>
-									<li><a href="w_datepicker.html" target="navTab" rel="w_datepicker">日期控件</a></li>
-									<li><a href="demo/database/db_widget.html" target="navTab" rel="db">suggest+lookup+主从结构</a></li>
-									<li><a href="demo/database/treeBringBack.html" target="navTab" rel="db">tree查找带回</a></li>
-									<li><a href="demo/sortDrag/1.html" target="navTab" rel="sortDrag">单个sortDrag示例</a></li>
-									<li><a href="demo/sortDrag/2.html" target="navTab" rel="sortDrag">多个sortDrag示例</a></li>
-									<li><a href="demo/sortDrag/form.html" target="navTab" rel="sortDrag">可拖动表单示例</a></li>
-								</ul>
-							</li>
-									
-							<li><a>图库管理</a>
-								<ul>
-									<li><a href="w_validation.html" target="navTab" rel="w_validation">表单验证</a></li>
-									<li><a href="w_button.html" target="navTab" rel="w_button">按钮</a></li>
-									<li><a href="w_textInput.html" target="navTab" rel="w_textInput">文本框/文本域</a></li>
-									<li><a href="w_combox.html" target="navTab" rel="w_combox">下拉菜单</a></li>
-									<li><a href="w_checkbox.html" target="navTab" rel="w_checkbox">多选框/单选框</a></li>
-									<li><a href="demo_upload.html" target="navTab" rel="demo_upload">iframeCallback表单提交</a></li>
-									<li><a href="w_uploadify.html" target="navTab" rel="w_uploadify">uploadify多文件上传</a></li>
-								</ul>
-							</li>
+							<li><a href="indexadvertising/advertising.php" target="navTab" rel="advertising">微阅首页广告栏管理</a></li>
+							
 							
 						</ul>
 					</div>
@@ -210,7 +172,7 @@ $(function(){
 		</div>
 		<div id="container">
 			<div id="navTab" class="tabsPage">
-				<div class="tabsPageHeader">
+				<div class="tabsPageHeader" >
 					<div class="tabsPageHeaderContent"><!-- 显示左右控制时添加 class="tabsPageHeaderMargin" -->
 						<ul class="navTab-tab">
 							<li tabid="main" class="main"><a href="javascript:;"><span><span class="home_icon">我的主页</span></span></a></li>
@@ -220,66 +182,13 @@ $(function(){
 					<div class="tabsRight">right</div><!-- 禁用只需要添加一个样式 class="tabsRight tabsRightDisabled" -->
 					<div class="tabsMore">more</div>
 				</div>
-				<ul class="tabsMoreList">
+				<ul class="tabsMoreList" >
 					<li><a href="javascript:;">我的主页</a></li>
 				</ul>
 				<div class="navTab-panel tabsPageContent layoutBox">
 					<div class="page unitBox">
-						<div class="accountInfo">
-							<div class="alertInfo">
-								<p><a href="https://code.csdn.net/dwzteam/dwz_jui/tree/master/doc" target="_blank" style="line-height:19px"><span>DWZ框架使用手册</span></a></p>
-								<p><a href="http://pan.baidu.com/s/18Bb8Z" target="_blank" style="line-height:19px">DWZ框架开发视频教材</a></p>
-							</div>
-							<div class="right">
-								<p style="color:red">DWZ官方微博 <a href="http://weibo.com/dwzui" target="_blank">http://weibo.com/dwzui</a></p>
-							</div>
-							<p><span>DWZ富客户端框架</span></p>
-							<p>DWZ官方微博:<a href="http://weibo.com/dwzui" target="_blank">http://weibo.com/dwzui</a></p>
-						</div>
-						<div class="pageFormContent" layoutH="80" style="margin-right:230px">
-
-
-<h2>DWZ系列开源项目:</h2>
-<div class="unit"><a href="https://git.oschina.net/dwzteam/dwz_jui" target="_blank">dwz富客户端框架 - jUI</a></div>
-<div class="unit"><a href="https://git.oschina.net/dwzteam/dwz_group" target="_blank">DWZ框架 + ThinkPHP 实现小组工作日志系统</a></div>
-<div class="unit"><a href="https://code.csdn.net/dwzteam/dwz_ssh2" target="_blank">dwz4j企业级Java Web快速开发框架(Hibernate+Spring+Struts2) + jUI整合应用</a></div>
-<div class="unit"><a href="https://code.csdn.net/dwzteam/dwz_springmvc" target="_blank">dwz4j企业级Java Web快速开发框架(Mybatis + SpringMVC) + jUI整合应用</a></div>
-<div class="unit"><a href="https://code.csdn.net/dwzteam/dwz_thinkphp" target="_blank">ThinkPHP + jUI整合应用</a></div>
-<div class="unit"><a href="https://code.csdn.net/dwzteam/dwz_zendframework" target="_blank">Zend Framework + jUI整合应用</a></div>
-<div class="unit"><a href="http://www.yiiframework.com/extension/dwzinterface/" target="_blank">YII + jUI整合应用</a></div>
-
-<a class="buttonActive" href="https://git.oschina.net/dwzteam/" target="_blank"><span>DWZ开源系列源码（oschina）</span></a>
-<a class="button" href="https://github.com/dwzteam/" target="_blank"><span>DWZ开源系列源码（github）</span></a>
-<a class="button" href="donation.html" target="dialog" height="400"><span style="color: red">捐赠 & DWZ学习视频</span></a>
-
-<div class="divider"></div>
-<h2>常见问题及解决:</h2>
-<pre style="margin:5px;line-height:1.4em">
-Error loading XML document: dwz.frag.xml
-直接用IE打开index.html弹出一个对话框：Error loading XML document: dwz.frag.xml
-原因：没有加载成功dwz.frag.xml。IE ajax laod本地文件有限制, 是ie安全级别的问题, 不是框架的问题。
-解决方法：部署到apache 等 Web容器下。
-
-如何精简JS：
-	1) dwz.min.js替换全部dwz.*.js (注意：替换时下面dwz.regional.zh.js还需要引入
-	2) demo index页面head中引入的几个第三方JS库也可以根据项目情况删除：
-		js/jquery.cookie.js			用于cookie中纪录jUI主题theme，下次打开浏览器时纪录用户选择的主题风格
-		js/jquery.validate.js		用于form表单验证
-		js/jquery.bgiframe.js		用于解决IE6 dialog盖不住navTab页面中的select问题
-		xheditor/xheditor-1.2.2.min.js	在线编辑器
-		xheditor/xheditor_lang/zh-cn.js	在线编辑器国际化
-		uploadify/scripts/jquery.uploadify.min.js	多文件上传
-</pre>
-
-<div class="divider"></div>
-<h2>有偿服务(<span style="color:red;">公司培训，技术支持，解决使用jUI过程中出现的全部疑难问题</span>):</h2><br/>
-<pre style="margin:5px;line-height:1.4em;">
-合作电话：18600055221(杜权)
-技术支持：17767167745(张慧华)
-邮箱：support@jui.org
-</pre>
-<a class="button" href="http://code.csdn.net/groups/2155" target="_blank"><span>DWZ讨论组</span></a>
-						</div>
+						<div class="accountInfo"></div>
+						<div class="pageFormContent" layoutH="80" style="margin-right:230px"></div>
 						
 						<div style="width:230px;position: absolute;top:60px;right:0" layoutH="80">
 							<iframe width="100%" height="430" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?width=0&height=430&fansRow=2&ptype=1&skin=1&isTitle=0&noborder=1&isWeibo=1&isFans=0&uid=1739071261&verifier=c683dfe7"></iframe>
@@ -291,8 +200,6 @@ Error loading XML document: dwz.frag.xml
 		</div>
 
 	</div>
-
-	<div id="footer">Copyright &copy; 2010 <a href="demo_page2.html" target="dialog">DWZ团队</a> 京ICP备15053290号-2</div>
 
 </body>
 </html>

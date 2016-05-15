@@ -1,5 +1,5 @@
 <?php 
-$numPerPage=100;//每页显示行数
+$numPerPage=20;//每页显示行数
 if(isset($_POST['pageNum'])){
 	$pagenummy = $_POST['pageNum'];//获取当前页数
 }
@@ -7,6 +7,9 @@ else{
 	$pagenummy=1;
 }
 require_once('../../../config.php');
+
+
+
 global $DB;
 //是否有查询条件
 if(isset($_POST['keyword'])&&$_POST['keyword']){
@@ -87,9 +90,10 @@ $authors=$DB->get_records_sql('select *from mdl_ebook_author_my a '.$sql);//作�
     <table class="table" width="30%" layoutH="138">
         <thead>
         <tr align="center">
-            <th width="80">序号</th>
+            <th width="40">序号</th>
             <th width="120">作者姓名</th>
 			<th width="120">作者头像</th>
+			 <th width="120">作者简介</th>
         </tr>
         </thead>
         <tbody>
@@ -101,7 +105,8 @@ $authors=$DB->get_records_sql('select *from mdl_ebook_author_my a '.$sql);//作�
 				<tr target="authorid" rel="'.$author->id.'" align="center">
 				<td>'.$offset.'</td>
 				<td>'.$author->name.'</td>
-				<td><img src="'.$author->pictrueurl.'" height="150px" width="100px" /></td>
+				<td><img src="'.$author->pictrueurl.'" height="80" width="60" /></td>
+				<td>'.$author->summary.'</td>
 				</tr>
 				';
 			$offset++;

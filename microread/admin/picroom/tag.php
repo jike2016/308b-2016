@@ -13,11 +13,11 @@
 			<li><a class="edit" href="picroom/tag_edit.php?tagid={tagid}" target="dialog"><span>修改</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="40%" layoutH="138">
+	<table class="table" width="30%" layoutH="78">
 		<thead>
 			<tr align="center">
-				<th width="80">序号</th>
-				<th width="120">标签名称</th>
+				<th width="40">序号</th>
+				<th >标签名称</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,13 +44,13 @@
 		<div class="pages">
 			<span>显示</span>
 			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="100">100</option>
+				<option value="20">20</option>
 
 			</select>
 			<span>条，共<?php echo count($tags);?>条</span>
 		</div>
 
-		<div class="pagination" targetType="navTab" totalCount="" numPerPage="100" pageNumShown="10" currentPage="1"></div>
+		<div class="pagination" targetType="navTab" totalCount="" numPerPage="20" pageNumShown="10" currentPage="1"></div>
 
 	</div>
 </div>

@@ -23,8 +23,8 @@
 	<table class="table" width="30%" layoutH="138">
 		<thead>
 		<tr align="center">
-			<th width="80">排名</th>
-			<th width="120">电子书名称</th>
+			<th width="50">排名</th>
+			<th >文档名称</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -46,17 +46,4 @@
 		<?php /**end zxf 查询分类全部基本信息**/?>
 		</tbody>
 	</table>
-	<div class="panelBar">
-		<div class="pages">
-			<span>显示</span>
-			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="20">20</option>
-				
-			</select>
-			<span>条，共10条</span>
-		</div>
-
-		<div class="pagination" targetType="navTab" totalCount="10" numPerPage="20" pageNumShown="10" currentPage="1"></div>
-
-	</div>
 </div>

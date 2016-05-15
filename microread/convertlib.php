@@ -27,3 +27,36 @@ function pdf2swf($oldfile,$newfile){
     return $newfile;
 }
 
+function word2pdf_linux($source_file, $output_file){
+	// $result =  `unoconv --format pdf --output "$output_file" "$source_file" 2>&1`;
+	exec('unoconv --format pdf --output '.$output_file.' '.$source_file);
+    if(file_exists($output_file) && filesize($output_file) > 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function pdf2swf_linux($source_file, $output_file){
+	// $command = "/usr/swftools/bin/pdf2swf $source_file -o $output_file 2>&1";
+	//$result = `$command`;
+    $command = "/usr/swftools/bin/pdf2swf -f -T 9 $source_file -o $output_file ";
+    exec($command);
+	if(file_exists($output_file) && filesize($output_file) > 0){
+		return true;
+	}
+	return false;
+
+}
+
+function word2swf_linux($word_filepath, $pdf_filepath, $swf_filepath){
+    if(word2pdf_linux($word_filepath, $pdf_filepath)){
+        if(pdf2swf_linux($pdf_filepath, $swf_filepath)){
+            return true;
+        }
+		failure('转换swf失败，请联系开发人员');
+		exit;
+    }
+    failure('转换pdf失败，请联系开发人员');
+    exit;
+}

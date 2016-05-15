@@ -12,7 +12,7 @@ $picture = $DB->get_record_sql('select * from mdl_pic_my where id='.$pictureid.'
                 <input name="name" type="text" size="30" value="<?php echo $picture->name; ?>" class="required"/>
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">
-                <label>图片上传：(jpg ,png ,bmp ,gif)</label>
+                <label>图片上传：(jpg ,png ,gif)</label>
                 <input name="picurl" type="file" class=""/>
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">

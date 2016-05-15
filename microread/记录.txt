@@ -1,0 +1,3 @@
+文件/microread/admin/convertpath使用绝对路径
+分辨率降低使得文件上传不可用
+logo放于/img目录下

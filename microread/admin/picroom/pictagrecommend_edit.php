@@ -19,7 +19,7 @@ $pictagrecommend = $DB->get_record_sql('select * from mdl_pic_recommended_search
 				<input name="name" type="text" class="required" value="<?php echo $pictagrecommend->name ?>"/>
 			</p>
 			<p  style="margin: 20px 20px 0px 20px">
-				<label>图片上传：(jpg ,png ,bmp ,gif)</label>
+				<label>图片上传220*180：(jpg ,png ,bmp ,gif)</label>
 				<input name="picurl" type="file"/>
 			</p>
 

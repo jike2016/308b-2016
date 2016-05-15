@@ -44,7 +44,7 @@ $categoryrs_recommend_docs=$DB->get_records_sql('select a.id ,b.id as bid ,b.nam
     <table class="table" width="100%" layoutH="138">
         <thead>
         <tr align="center">
-            <th width="80" align="center">序号</th>
+            <th width="20" align="center">序号</th>
             <th width="120" align="center">文档名称</th>
             <th width="80" align="center">图片</th>
             <th align="center">简介</th>
@@ -62,7 +62,7 @@ $categoryrs_recommend_docs=$DB->get_records_sql('select a.id ,b.id as bid ,b.nam
 				<tr target="categoryrecommenddocid" rel="'.$categoryrs_recommend_doc->id.'" align="center">
 				<td  width="60">'.$offset.'</td>
 				<td>'.$categoryrs_recommend_doc->name.'</td>
-					<td><img src="'.$categoryrs_recommend_doc->pictrueurl.'" height="200" width="150" /></td>
+					<td><img src="'.$categoryrs_recommend_doc->pictrueurl.'" height="120" width="90" /></td>
 					<td>'.$categoryrs_recommend_doc->summary.'</td>';
                 if($categoryrs_recommend_doc->timecreated==null){
                     $str=$str.'<td></td>';
@@ -85,16 +85,4 @@ $categoryrs_recommend_docs=$DB->get_records_sql('select a.id ,b.id as bid ,b.nam
         <?php /**end zxf 查询分类全部基本信息**/?>
         </tbody>
     </table>
-   <div class="panelBar">
-		<div class="pages">
-			<span>每页显示</span>
-			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="<?php echo $numPerPage;?>"><?php echo $numPerPage;?></option>
-			</select>
-			<span>条，共<?php echo $sumnum;?>条</span>
-		</div>
-
-		<div class="pagination" targetType="navTab" totalCount="<?php echo $sumnum;?>" numPerPage="<?php echo $numPerPage;?>" pageNumShown="10" currentPage="<?php echo $pagenummy;?>"></div>
-
-	</div>
 </div>

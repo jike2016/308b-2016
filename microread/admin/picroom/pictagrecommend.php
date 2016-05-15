@@ -23,7 +23,7 @@
 	<table class="table" width="30%" layoutH="138">
 		<thead>
 		<tr align="center">
-			<th width="80">排名</th>
+			<th width="40">排名</th>
 			<th width="120">搜索词</th>
 			<th width="120">搜索背景图</th>
 		</tr>
@@ -39,7 +39,7 @@
 				<tr target="pictagrecommendid" rel="'.$pictagrecommend->id.'" align="center">
 				<td>第'.$pictagrecommend->id.'名</td>
 				<td>'.$pictagrecommend->name.'</td>
-				<td><img src="'.$pictagrecommend->picurl.'" height="200" width="150" /></td>
+				<td><img src="'.$pictagrecommend->picurl.'" height="69" width="60" /></td>
 				</tr>
 				';
 		}
@@ -48,17 +48,4 @@
 		<?php /**end zxf 查询分类全部基本信息**/?>
 		</tbody>
 	</table>
-	<div class="panelBar">
-		<div class="pages">
-			<span>显示</span>
-			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="20">20</option>
-				
-			</select>
-			<span>条，共10条</span>
-		</div>
-
-		<div class="pagination" targetType="navTab" totalCount="10" numPerPage="20" pageNumShown="10" currentPage="1"></div>
-
-	</div>
 </div>

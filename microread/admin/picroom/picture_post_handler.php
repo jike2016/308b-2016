@@ -3,6 +3,16 @@
 require_once('../lib/lib.php');
 if(isset($_GET['title'])&&$_GET['title']){
     require_once('../../../config.php');
+	/** CX 检查权限 */
+	require_login();
+	global $USER;
+	if($USER->id!=2){//超级管理员
+		global $DB;
+		if(!$DB->record_exists('role_assignments', array('userid'=>$USER->id,'roleid'=>11)) ){//没有role=11角色
+			redirect(new moodle_url('/index.php'));
+		}
+	}
+	/** End 检查权限*/
     switch($_GET['title']){
         case "add"://添加
             add_picture();
@@ -31,11 +41,23 @@ function edit_picture(){
             //判断上传类型是否是图片类型
             $picstr=strrchr($_FILES['picurl']['name'],'.');
             $picstr=strtolower($picstr);//全小写
-            $picmatch=array('.gif','.jpeg','.png','.bmp','.jpg');
+            $picmatch=array('.gif','.jpeg','.png','.jpg');
             if(in_array($picstr,$picmatch)) {
                 move_uploaded_file($_FILES["picurl"]["tmp_name"],"../../../../microread_files/picture/picurl/" . $currenttime.$ranknum.$picstr);
+                //start zxf 图片加水印
+               require_once('../water.php');
+                img_water_mark('../../../../microread_files/picture/picurl/'.$currenttime . $ranknum . $picstr,'http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/Home_Logo.png');
+                //end zxf 图片加水印
                 $newpicture->picurl = 'http://' . $_SERVER['HTTP_HOST'] . '/microread_files/picture/picurl/' . $currenttime.$ranknum.$picstr;
-            }
+				$newpicture->picurl = 'http://' . $_SERVER['HTTP_HOST'] . '/microread_files/picture/picurl/' . $currenttime.$ranknum.$picstr;
+				//start zxf 2016/5/11 图片修改，新图片上传 之前的图片 删除
+                require_once('../convertpath.php');
+                global $DB;
+                $picfile=$DB->get_record_sql('select * from mdl_pic_my where id='.$_GET['pictureid']);
+                $picpath=convert_url_to_path($picfile->picurl);
+                unlink($picpath);
+                //start zxf 2016/5/11 图片修改，新图片上传 之前的图片 删除
+		   }
             else{
                 failure('请上传正确格式的图片');
                 exit;
@@ -69,9 +91,13 @@ function  add_picture(){
             $ranknum = rand(100, 200);//随机数
             $picstr=strrchr($_FILES['picurl']['name'],'.');
             $picstr=strtolower($picstr);//全小写
-            $picmatch=array('.gif','.jpeg','.png','.bmp','.jpg');
+            $picmatch=array('.gif','.jpeg','.png','.jpg');
             if(in_array($picstr,$picmatch)) {
                 move_uploaded_file($_FILES["picurl"]["tmp_name"],"../../../../microread_files/picture/picurl/" . $currenttime.$ranknum.$picstr);
+                //start zxf 图片加水印
+               require_once('../water.php');
+                img_water_mark('../../../../microread_files/picture/picurl/'.$currenttime . $ranknum . $picstr,'http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/Home_Logo.png');
+                //end zxf 图片加水印
             }
             else{
                 failure('请上传正确格式的图片');
@@ -91,12 +117,10 @@ function  add_picture(){
                 }
                 $newpic->uploaderid= $USER->id;
                 global $DB;
+               $newpicid = $DB->insert_record('pic_my',$newpic,true);
                 $newaddtagids=$_POST['tagmy'];
-                $newcurrentpic=$DB->get_record_sql('select  * from mdl_pic_my order by id desc');
-                $newcurrentpicid=$newcurrentpic->id+1;
                 require_once('pictagmylib.php');
-                update_add_pic_tagmy($newaddtagids,$newcurrentpicid);
-                $DB->insert_record('pic_my',$newpic,true);
+                update_add_pic_tagmy($newaddtagids,$newpicid);
                 success('添加成功','picture','closeCurrent');
 
         }
@@ -111,6 +135,12 @@ function  delete_picture(){
     global $DB;
     require_once('pictagmylib.php');
     update_delete_pic_tagmy_by_picid($_GET['pictureid']);
+    //删除相关记录图片
+    //获取该记录
+    $picfile=$DB->get_record_sql('select * from mdl_pic_my where id='.$_GET['pictureid']);
+    require_once('../convertpath.php');
+    $picpath=convert_url_to_path($picfile->picurl);
+    unlink($picpath);
     $DB->delete_records("pic_my", array("id" =>$_GET['pictureid']));
     success('删除成功','picture','');
 }

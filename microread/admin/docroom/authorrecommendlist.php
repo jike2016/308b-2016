@@ -41,12 +41,12 @@ $author_recommends=$DB->get_records_sql('select a.id ,a.userid,b.firstname as na
             <li><a class="edit" href="docroom/authorrecommendlist_edit.php?authorrecommendid={authorrecommendid}" target="dialog"><span>修改</span></a></li>
         </ul>
     </div>
-    <table class="table" width="20%" layoutH="138">
+    <table class="table" width="30%" layoutH="138">
         <thead>
         <tr align="center">
             <th width="40">序号</th>
-            <th width="80">推荐作者姓名</th>
-			<th width="80">推荐作者文档管理</th>
+            <th width="150">推荐作者姓名</th>
+			<th width="120">推荐作者文档管理</th>
         </tr>
         </thead>
         <tbody>
@@ -80,16 +80,4 @@ $author_recommends=$DB->get_records_sql('select a.id ,a.userid,b.firstname as na
         <?php /**end zxf 查询全部基本信息**/?>
         </tbody>
     </table>
-   <div class="panelBar">
-		<div class="pages">
-			<span>每页显示</span>
-			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="<?php echo $numPerPage;?>"><?php echo $numPerPage;?></option>
-			</select>
-			<span>条，共<?php echo $sumnum;?>条</span>
-		</div>
-
-		<div class="pagination" targetType="navTab" totalCount="<?php echo $sumnum;?>" numPerPage="<?php echo $numPerPage;?>" pageNumShown="10" currentPage="<?php echo $pagenummy;?>"></div>
-
-	</div>
 </div>

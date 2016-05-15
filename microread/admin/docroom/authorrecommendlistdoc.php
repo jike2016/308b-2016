@@ -94,16 +94,4 @@ $author_recommend_docs=array('doc1'=>$author_recommend_doc1,'doc2'=>$author_reco
         <?php /**end zxf 查询分类全部基本信息**/?>
         </tbody>
     </table>
-   <div class="panelBar">
-		<div class="pages">
-			<span>每页显示</span>
-			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="<?php echo $numPerPage;?>"><?php echo $numPerPage;?></option>
-			</select>
-			<span>条，共<?php echo $sumnum;?>条</span>
-		</div>
-
-		<div class="pagination" targetType="navTab" totalCount="<?php echo $sumnum;?>" numPerPage="<?php echo $numPerPage;?>" pageNumShown="10" currentPage="<?php echo $pagenummy;?>"></div>
-
-	</div>
 </div>

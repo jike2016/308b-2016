@@ -1,0 +1,122 @@
+html, body{margin: 0; padding: 0; min-width: 100%; width:100%; min-height:400px; font-family: "微软雅黑";}
+
+/******** 顶部导航 *******/
+.navbar {
+	background-color: #fff;
+	box-shadow: 0 0 5px #888;
+    border-bottom: 1px solid #bebebe;
+    padding-left: 30px;
+}
+.user-block {
+	float: right;
+}
+.user-block > .btn {
+	background-color: transparent;
+	width: 160px;
+}
+.username {
+	color: #333;
+}
+.username:hover {
+	text-decoration: none;
+}
+.userimg > img {
+	width: 40px;
+}
+
+.logoimg {
+	width: 120px;
+	margin-top: 8px;
+	margin-left: 10px;
+	float: left;
+}
+/********** 搜索 **********/
+.search-top {
+	overflow: hidden;
+}
+#search-form {
+	width: 640px;
+	float: left;
+	margin-top: 18px;
+	margin-left: 10px;
+}
+#search-word {
+	width: 400px;
+	height: 30px;
+	font: 16px arial;
+	padding-left: 10px;
+	float: left;
+	border: 1px solid rgba(4,0,0,.15);
+}
+#search-word:hover {
+	border-color: #999;
+}
+#search-word:focus {
+	border-color: #38f;
+}
+#search-submit {
+	cursor: pointer;
+	width: 100px;
+	height: 30px;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	background-color: #38f;
+	font-size: 16px;
+	color: white;
+	float: left;
+}
+.search-relative {
+	margin-top: 10px;
+	line-height: 30px;
+	padding-left: 8px;
+	overflow: hidden;
+}
+.search-relative-left {
+	float: left;
+	font-size: 14px;
+	padding-left: 20px;
+	background: url(../images/icon-search.png) no-repeat 3px;
+}
+.search-relative > ul > li {
+	float: left;
+	margin-left: 20px;
+}
+/********** 搜索 @end **********/
+
+/******** 顶部导航 @end *******/
+
+/*******页面主体内容*******/
+.main {width: 1200px; margin: auto; min-height: 600px; padding: 130px 20px;}
+.left  {width: 10%; min-height: 200px; float: left;}
+.form-control1{
+	display: block;
+	width: 100%;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	}
+	
+.left p {font-size: 16px; font-weight: 600;}
+.left .height-adjust {height: 60px; margin: 0px;}
+.left .height-more{height: 120px;margin: 0px;}
+.right {width: 90%; min-height: 200px; float: right;}
+.right .height-adjust {height: 60px;}
+.right .height-adjust input{width: 250px;}
+.right .height-adjust select{width: 250px;}
+.right .height-more{height: 120px;}
+.right .height-more textarea{height: 90px;}
+.right .tagsbox {width: 100%; min-height: 60px;}
+.right .tagsbox div{width: 15%;float: left; font-weight: 600; }
+.right #save,#cancel {width: 60px; margin-right: 15px;}
+/*******页面主体内容 @end*******/

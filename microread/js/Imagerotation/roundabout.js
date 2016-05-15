@@ -129,7 +129,7 @@ jQuery.fn.roundabout = function () {
                         if (ref.data('roundabout').animating === 0) {
                             ref.roundabout_animateAngleToFocus(degrees);
                         }
-                        jQuery('#myRoundabout a').attr('href', 'www.baidu.com'); //为当前的焦点书本添加链接
+                        jQuery('#myRoundabout a').attr('href', '#'); //为当前的焦点书本添加链接
                         jQuery(this).children('a').attr('href', jQuery(this).children(':hidden').val());
 
                         return false;
@@ -413,7 +413,24 @@ jQuery.fn.roundabout_updateChildPositions = function () {
         info.opacity = { min: data.minOpacity, max: data.maxOpacity, diff: data.maxOpacity - data.minOpacity };
         info.scale = { min: data.minScale, max: data.maxScale, diff: data.maxScale - data.minScale };
 
-
+        // 更新推荐书目录
+        var bookname = new Array("基于生物质的环境友好材料","情商与影响力","兵家史话","美洲历史","两个主义一百年","比亚迪真相");   //书名数组
+        
+        var writer = new Array("张建华","王一","兵家","美洲","两个年","比真相"); //作者数组 
+        
+        var bookinfo=new Array(5); //书本介绍文字数组
+		bookinfo[0]="《私·念念不忘》，中国首部私密文学主题书，由青春畅销作家九夜茴主编，并携手韩寒、桐华、辛夷坞、孙睿、春树、苏小懒、明前雨后等80后先锋作家共同打造，也成为2011年度最具重量级的收官之作。他们借《私》的写作平台.";
+		bookinfo[1]="《私·念念不忘》";
+		bookinfo[2]="中国首部私密文学主题";
+		bookinfo[3]="由青春畅销作家九夜茴";
+		bookinfo[4]="韩寒、桐华";
+		
+		var bookhref=new Array(5); //书本链接
+		bookhref[0]= "http://www.baidu.com";
+		bookhref[1]= "http://www.baidu1.com";
+		bookhref[2]= "http://www.baidu2.com";
+		bookhref[3]= "http://www.baidu3.com";
+		bookhref[4]= "http://www.baidu4.com";
         
         ref.children(data.childSelector).each(function (i) {        //这里是某本书的图片成为当前焦点时，加上class roundabout-in-focus
             if (jQuery.roundabout_updateChildPosition(jQuery(this), ref, info, i) && info.animating === 0) {
@@ -428,6 +445,7 @@ jQuery.fn.roundabout_updateChildPositions = function () {
                 jQuery(this).removeClass('roundabout-in-focus');
             }
         });
+
         // update status of who is in focus
         if (inFocus !== info.inFocus) {
             jQuery.roundabout_triggerEvent(ref, info.inFocus, 'blur');

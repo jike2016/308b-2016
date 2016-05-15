@@ -35,11 +35,11 @@ $doclibrary = $DB->get_record_sql('select * from mdl_doc_my where id='.$doclibra
                 <textarea name="summary" cols="80" rows="5" class="required"><?php echo $doclibrary->summary?></textarea>
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">
-                <label>图片：(jpg ,png ,bmp ,gif)(150*220)</label>
+                <label>图片：(jpg ,png ,gif)</label>
                 <input name="pictrueurl" type="file" class=""/>
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">
-                <label>上传文档：(doc,docx,ppt,pptx,xls,</br>xlsx,txt,pdf)(150*220)</label>
+                <label>上传文档：(doc,docx,ppt,pptx,xls,</br>xlsx,txt,pdf)</label>
                 <input name="url" type="file" class=""/>
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">

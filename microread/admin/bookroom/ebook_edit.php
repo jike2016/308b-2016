@@ -12,7 +12,7 @@ $ebook = $DB->get_record_sql('select * from mdl_ebook_my where id='.$ebookid.';'
 				<input name="name" type="text" size="30" value="<?php echo $ebook->name;?>" class="required"/>
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">
-				<label>图片：(jpg ,png ,bmp ,gif)(150*220)</label>
+				<label>图片：(jpg ,png , gif)(150*220)</label>
 				<input name="pictrueurl" type="file" class="" />
 			</p>
 			<p class="pageFormContent" style="margin: 20px 20px">

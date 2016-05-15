@@ -1,0 +1,37 @@
+/****总体样式 *****/
+html, body{margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%; height: 100%;}
+body {font-family: "Microsoft YaHei";}
+.wrap {min-height:100%; background-repeat: no-repeat; background-position: center; background-size: cover;}
+/****总体样式@end*****/
+
+/******** 顶部导航 *******/
+.header {height: 54px;}
+.user-block {float: right;}
+.user-block > .btn {background-color: transparent; width: 160px;}
+.username {color: #fff;}
+.username:hover {text-decoration: none;}
+.userimg > img {width: 40px;}
+/******** 顶部导航 @end *******/
+
+/******** 主体内容 *******/
+.main {margin: auto; min-height: 600px;}
+.home_search {margin-top: 100px; text-align: center;}
+
+/********** 搜索 **********/
+#search-form {width: 640px; margin: 42px auto 0 auto; overflow: hidden;}
+#search-word {width: 536px; height: 40px; padding: 9px 7px; font: 16px arial; border: none; float: left; box-shadow: 0 1px 2px 0 rgba(4,0,0,.15);}
+#search-word:hover {border-color: #999;}
+#search-word:focus {border-color: #38f;}
+#search-submit {cursor: pointer; width: 104px; height: 40px; padding: 0; margin: 0; border: 0; background-color: #38f; font-size: 16px; color: white; float: left;}
+/********** 搜索 @end **********/
+
+/********** 图片区域 **********/
+.img-box {width: 860px; height: 310px; padding-right: 10px; padding-bottom: 10px; background-color: rgba(255, 255, 255, .1); margin: 95px auto 0 auto;}
+.img-box li {width: 20%; padding-top: 10px; padding-left: 10px; float: left;}
+.img-block {display: block; height: 140px; overflow: hidden; position: relative;}
+.img-block img {height: 100%; -webkit-transition: transform .3s; -moz-transition: transform .3s; -o-transition: transform .3s; -webkit-perspective: 1000;}
+.img-block:hover img {-webkit-transform: scale(1.05); -moz-transform: scale(1.05); -o-transform: scale(1.05); transform: scale(1.05);}
+.img-label {position: absolute; bottom: 0; height: 40px; width: 100%; color: #f4f4f4; font-size: 14px; text-indent: 10px; padding-top: 18px; background-color: rgba(0,0,0,.2);}
+/********** 图片区域 @end **********/
+
+/******** 主体内容 @end*******/

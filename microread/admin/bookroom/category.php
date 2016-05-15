@@ -44,7 +44,7 @@
 	<table class="table" width="30%" layoutH="138">
 		<thead>
 			<tr align="center">
-				<th width="80">序号</th>
+				<th width="40">序号</th>
 				<th width="120">分类名称</th>
 				<th width="120">上级分类</th>
 			</tr>
@@ -79,17 +79,4 @@
 			<?php /**end zxf 查询分类全部基本信息**/?>
 		</tbody>
 	</table>
-	<div class="panelBar">
-		<div class="pages">
-			<span>显示</span>
-			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="100">100</option>
-
-			</select>
-			<span>条，共<?php echo count($categories);?>条</span>
-		</div>
-
-		<div class="pagination" targetType="navTab" totalCount="" numPerPage="100" pageNumShown="10" currentPage="1"></div>
-
-	</div>
 </div>

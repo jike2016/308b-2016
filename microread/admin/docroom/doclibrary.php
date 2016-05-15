@@ -1,6 +1,6 @@
 <?php
 
-$numPerPage=20;//每页显示行数
+$numPerPage=10;//每页显示行数
 if(isset($_POST['pageNum'])){
     $pagenummy = $_POST['pageNum'];//获取当前页数
 }
@@ -11,11 +11,21 @@ require_once('../../../config.php');
 global $DB;
 
 //是否有查询条件
-if(isset($_POST['keyword'])&&$_POST['keyword']){
-    $sql= 'where a.name LIKE \'%'.$_POST['keyword'].'%\' and a.categoryid!=-1';
+if(!(isset($_POST['keyword'])&&$_POST['keyword'])&&!(isset($_POST['selectcategory'])&&$_POST['selectcategory'])&&!(isset($_POST['selectuploader'])&&$_POST['selectuploader'])){
+	  $sql='';
 }
 else{
-    $sql='where a.categoryid!=-1';
+	 if(isset($_POST['keyword'])&&$_POST['keyword']){
+		 $sql['keyword']= 'a.name LIKE \'%'.$_POST['keyword'].'%\'';
+	 }
+	 if(isset($_POST['selectcategory'])&&$_POST['selectcategory']){
+		 $sql['selectcategory']= 'a.categoryid='.$_POST['selectcategory'];
+	 }
+	 if(isset($_POST['selectuploader'])&&$_POST['selectuploader']){
+		 $sql['selectuploader']= 'a.uploaderid='.$_POST['selectuploader'];
+	 }
+	 require_once('../dealselect.php');
+	 $sql=join_sql_select($sql);
 }
 //如果还没有查过总记录数则查询
 if(isset($_POST['sumnum'])){
@@ -37,11 +47,17 @@ $doclibrarys = $DB->get_records_sql('select
 	limit '.$offset.','.$numPerPage.';');
 //查询没有分类或者没有作者的书
 $errorelibrarys = $DB->get_records_sql('select a.id,a.name,a.pictrueurl,a.url,a.categoryid,a.summary,a.timecreated,a.suffix,a.size,b.firstname as uploadername from mdl_doc_my a left JOIN mdl_user b on a.uploaderid=b.id where a.categoryid=-1');
+//查询所有的分类
+$allcategories=$DB->get_records_sql('select *from mdl_doc_categories_my');
+//查询所有的上传者
+$alluploaders=$DB->get_records_sql('select d.id,d.firstname as name from mdl_doc_my a left join mdl_user d on a.uploaderid = d.id group by uploaderid');
 ?>
 
 <form id="pagerForm" method="post" action="">
     <input type="hidden" name="status" value="${param.status}">
     <input type="hidden" name="keyword" value="<?php if(isset($_POST['keyword']))echo $_POST['keyword'];?>" />
+    <input type="hidden" name="selectcategory" value="<?php if(isset($_POST['selectcategory']))echo $_POST['selectcategory'];?>" />
+    <input type="hidden" name="selectuploader" value="<?php if(isset($_POST['selectuploader']))echo $_POST['selectuploader'];?>" />
     <input type="hidden" name="pageNum" value="1" />
     <input type="hidden" name="numPerPage" value="<?php echo $numPerPage;?>" />
     <input type="hidden" name="orderField" value="${param.orderField}" />
@@ -54,11 +70,54 @@ $errorelibrarys = $DB->get_records_sql('select a.id,a.name,a.pictrueurl,a.url,a.
             <table class="searchContent">
                 <tr>
                     <td>
-                        文档名称：<input type="text" name="keyword" />
                         <div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div>
+                        <label>文档名称：</label>
+                        <input type="text" name="keyword" value="<?php  if(isset($_POST['keyword'])&&$_POST['keyword']) echo $_POST['keyword']?>"/>
+                        <select name="selectcategory">
+                            <option value="">所有分类</option>
+                            <?php //以下拉框的形式显示所有分类
+                            if(isset($_POST['selectcategory'])&&$_POST['selectcategory']){
+                                foreach($allcategories as $category){
+                                    if($_POST['selectcategory']==$category->id)
+                                    echo	'<option value="'.$category->id.'" selected="selected">'.$category->name.'</option>';
+                                    else
+                                        echo	'<option value="'.$category->id.'">'.$category->name.'</option>';
+                                }
+                            }
+                            else{
+                                foreach($allcategories as $category){
+                                    echo	'<option value="'.$category->id.'">'.$category->name.'</option>';
+                                }
+                            }
+                            ?>
+                        </select>
+                        <select name="selectuploader">
+                            <option value="">所有上传者</option>
+                            <?php //以下拉框的形式显示所有上传者
+                            if(isset($_POST['selectuploader'])&&$_POST['selectuploader']){
+                                foreach($alluploaders as $alluploader){
+                                    if($_POST['selectuploader']==$alluploader->id)
+                                        echo	'<option value="'.$alluploader->id.'" selected="selected">'.$alluploader->name.'</option>';
+                                    else
+                                        echo	'<option value="'.$alluploader->id.'">'.$alluploader->name.'</option>';
+                                }
+                            }
+                            else{
+                                foreach($alluploaders as $alluploader){
+                                    echo	'<option value="'.$alluploader->id.'">'.$alluploader->name.'</option>';
+                                }
+                            }
+                            ?>
+                        </select>
                     </td>
                 </tr>
             </table>
+            <div class="subBar">
+                <ul>
+                    <!--<li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>-->
+                    <!--<li><a class="button" href="demo_page6.html" target="dialog" mask="true" title="查询框"><span>高级检索</span></a></li>-->
+                </ul>
+            </div>
         </div>
     </form>
 </div>
@@ -74,7 +133,7 @@ $errorelibrarys = $DB->get_records_sql('select a.id,a.name,a.pictrueurl,a.url,a.
     <table class="table" width="100%" layoutH="138">
         <thead>
         <tr>
-            <th width="80" align="center">序号</th>
+            <th width="40" align="center">序号</th>
             <th width="120" align="center">文档名称</th>
             <th width="80" align="center">图片</th>
             <th width="150" align="center">分类</th>
@@ -94,7 +153,7 @@ $errorelibrarys = $DB->get_records_sql('select a.id,a.name,a.pictrueurl,a.url,a.
 				<tr target="doclibraryid" rel="'.$errorelibrary->id.'" >
 					<td>-1</td>
 					<td>'.$errorelibrary->name.'</td>
-					<td><img src="'.$errorelibrary->pictrueurl.'" height="200" width="150" /></td>';
+					<td><img src="'.$errorelibrary->pictrueurl.'" height="80" width="60" /></td>';
             if($errorelibrary->categoryid==-1)
                 echo "<td>(无分类)</td>";
             else
@@ -115,7 +174,7 @@ $errorelibrarys = $DB->get_records_sql('select a.id,a.name,a.pictrueurl,a.url,a.
 				<tr target="doclibraryid" rel="'.$doclibrary->id.'">
 					<td>'.$offset.'</td>
 					<td>'.$doclibrary->name.'</td>
-					<td><img src="'.$doclibrary->pictrueurl.'" height="200" width="150" /></td>
+					<td><img src="'.$doclibrary->pictrueurl.'" height="80" width="60" /></td>
 					<td>'.$doclibrary->categoryname.'</td>
 					<td>'.$doclibrary->summary.'</td>
 					<td>'.userdate($doclibrary->timecreated,'%Y-%m-%d %H:%M').'</td>

@@ -8,12 +8,12 @@
            
         </ul>
     </div>
-    <table class="table" width="40%" layoutH="138">
+    <table class="table" width="30%" layoutH="138">
         <thead>
         <tr align="center">
-            <th width="80">章序号</th>
-            <th width="120">章名称</th>
-            <th width="80" >节管理</th>
+            <th width="40">章序号</th>
+            <th>章名称</th>
+            <th width="65" >节管理</th>
         </tr>
         </thead>
         <tbody>

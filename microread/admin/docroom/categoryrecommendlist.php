@@ -41,12 +41,12 @@ $categoryrs_recommends=$DB->get_records_sql('select a.id ,a.categoryid,b.name fr
             <li><a class="edit" href="docroom/categoryrecommendlist_edit.php?categoryrecommendid={categoryrecommendid}" target="dialog"><span>修改</span></a></li>
         </ul>
     </div>
-    <table class="table" width="40%" layoutH="138">
+    <table class="table" width="30%" layoutH="138">
         <thead>
         <tr align="center">
-            <th width="60">序号</th>
+            <th width="20">序号</th>
             <th width="80">推荐分类名称</th>
-			<th width="80">推荐分类文档管理</th>
+			<th width="90">推荐分类文档管理</th>
         </tr>
         </thead>
         <tbody>
@@ -80,16 +80,4 @@ $categoryrs_recommends=$DB->get_records_sql('select a.id ,a.categoryid,b.name fr
         <?php /**end zxf 查询分类全部基本信息**/?>
         </tbody>
     </table>
-   <div class="panelBar">
-		<div class="pages">
-			<span>每页显示</span>
-			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="<?php echo $numPerPage;?>"><?php echo $numPerPage;?></option>
-			</select>
-			<span>条，共<?php echo $sumnum;?>条</span>
-		</div>
-
-		<div class="pagination" targetType="navTab" totalCount="<?php echo $sumnum;?>" numPerPage="<?php echo $numPerPage;?>" pageNumShown="10" currentPage="<?php echo $pagenummy;?>"></div>
-
-	</div>
 </div>

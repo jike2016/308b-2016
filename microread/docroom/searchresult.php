@@ -22,16 +22,16 @@ $docclasses = $DB->get_records_sql("select * from mdl_doc_categories_my dc where
 
 //搜索选项
 switch($searchType){
-	case '全部 '://注意：这里的空格不能省去！（因为获取$searchType时没去掉多余的字符、、、，先这样处理）
+	case '全部':
 		$sql = "where ( dm.name like '%$searchParam%' or da.name like '%$searchParam%' or dm.summary like '%$searchParam%' or u.firstname like '%$searchParam%' )";
 		break;
-	case '标题 ':
+	case '标题':
 		$sql = "where dm.name like '%$searchParam%'";
 		break;
-	case '作者 ':
+	case '作者':
 		$sql = "where da.name like '%$searchParam%'";
 		break;
-	case '上传者 ':
+	case '上传者':
 		$sql = "where u.firstname like '%$searchParam%'";
 		break;
 	default:
@@ -135,7 +135,7 @@ function imagechoise($type){
 				//搜索选项下拉框
 				$('#searchtype a').click(function() {
 					$('#searchtypebtn').text($(this).text());
-					$('#searchtypebtn').append('&nbsp;<span class="caret"></span>');
+					$('#searchtypebtn').append('<span class="caret"></span>');
 				});
 				//单选组合
 				$("input[type='radio'][id='optionsRadios-"+searchDocType+"']").attr("checked","checked");//将保留前页面选项
@@ -293,7 +293,7 @@ function imagechoise($type){
 			<div class="search-box">
 				<div class="input-group">
 			     	<div class="input-group-btn">
-			        	<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo ($searchType != '')?$searchType :'全部&nbsp;'; ?><span class="caret"></span></button>
+			        	<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo ($searchType != '')?$searchType :'全部'; ?><span class="caret"></span></button>
 			        	<ul id="searchtype" class="dropdown-menu">
 			          		<li><a href="#">全部</a></li>
 			          		<li role="separator" class="divider"></li>

@@ -226,7 +226,7 @@ function my_get_book_evaluation($bookid, $current_page)
 		$(document).ready(function() {
 			$('#searchtype a').click(function() {
 				$('#searchtypebtn').text($(this).text());
-				$('#searchtypebtn').append('&nbsp;<span class="caret"></span>');
+				$('#searchtypebtn').append('<span class="caret"></span>');
 			});
 		});
 		//回车事件
@@ -362,7 +362,7 @@ function my_get_book_evaluation($bookid, $current_page)
 	<div class="search-box">
 		<div class="input-group">
 			<div class="input-group-btn">
-				<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部&nbsp;<span class="caret"></span></button>
+				<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部<span class="caret"></span></button>
 				<ul id="searchtype" class="dropdown-menu">
 					<li><a id="bookall" href="#">全部</a></li>
 					<li role="separator" class="divider"></li>

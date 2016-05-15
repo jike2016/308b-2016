@@ -154,7 +154,7 @@ if(count($scoretables)<10){
 				//搜索选项下拉框
 				$('#searchtype a').click(function() {
 					$('#searchtypebtn').text($(this).text());
-					$('#searchtypebtn').append('&nbsp;<span class="caret"></span>');
+					$('#searchtypebtn').append('<span class="caret"></span>');
 				});
 //				//单选组合
 //				$("input[type='radio'][name='optionsRadios']").removeAttr("checked");
@@ -301,7 +301,7 @@ if(count($scoretables)<10){
 			<div class="search-box">
 				<div class="input-group">
 					<div class="input-group-btn">
-						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo ($searchType != '')?$searchType :'全部&nbsp;'; ?><span class="caret"></span></button>
+						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo ($searchType != '')?$searchType :'全部'; ?><span class="caret"></span></button>
 						<ul id="searchtype" class="dropdown-menu">
 							<li><a href="#">全部</a></li>
 							<li role="separator" class="divider"></li>

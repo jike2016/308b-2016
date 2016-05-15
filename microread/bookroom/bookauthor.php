@@ -66,7 +66,7 @@ else{
 			$(document).ready(function() {
 				$('#searchtype a').click(function() {
 					$('#searchtypebtn').text($(this).text());
-					$('#searchtypebtn').append('&nbsp;<span class="caret"></span>');
+					$('#searchtypebtn').append('<span class="caret"></span>');
 				});
 			});
 			//回车事件
@@ -205,7 +205,7 @@ else{
 			<div class="search-box">
 				<div class="input-group">
 					<div class="input-group-btn">
-						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部&nbsp;<span class="caret"></span></button>
+						<button type="button" id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部<span class="caret"></span></button>
 						<ul id="searchtype" class="dropdown-menu">
 							<li><a id="bookall" href="#">全部</a></li>
 							<li role="separator" class="divider"></li>
@@ -393,9 +393,9 @@ else{
 		<!--页面主体 end-->
 
 		<!--右下角按钮-->
-		<?php
-		if(isloggedin()){
-			echo '
+	<?php
+	if(isloggedin()){
+		echo '
 						<div id="J_GotoTop" class="elevator">
 						<a class="elevator-msg" id="mynote-btn" style="cursor:pointer"></a>
 						<a class="elevator-weixin" style="cursor:pointer"></a>
@@ -403,28 +403,28 @@ else{
 						<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
 						<a class="elevator-top" href="#"></a>
 						</div>';
-		}
-		else{
-			echo '
+	}
+	else{
+		echo '
 						<div id="J_GotoTop" class="elevator">
 						<a class="elevator-top" href="#"></a>
 						</div>';
-		}
-		?>
+	}
+	?>
 
-		<div class="chat-box chat-box1">
-			<div class="chat-head">
-				<p>聊天室</p>
-				<p id="chat-close" class="close">x</p>
-			</div>
+	<div class="chat-box chat-box1">
+		<div class="chat-head">
+			<p>聊天室</p>
+			<p id="chat-close" class="close">x</p>
 		</div>
-		<div class="chat-box chat-box2">
-			<div class="chat-head">
-				<p>个人笔记</p>
-				<p id="chat-close2" class="close">x</p>
-			</div>
+	</div>
+	<div class="chat-box chat-box2">
+		<div class="chat-head">
+			<p>个人笔记</p>
+			<p id="chat-close2" class="close">x</p>
 		</div>
-		<!--右下角按钮 end-->
+	</div>
+	<!--右下角按钮 end-->
 		
 		<div style="clear: both;"></div>
 		<!--底部导航条-->

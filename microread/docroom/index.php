@@ -1,5 +1,5 @@
 <?php
-
+//文库首页
 require_once ("../../config.php");
 global $DB;
 //获取文档的顶级分类

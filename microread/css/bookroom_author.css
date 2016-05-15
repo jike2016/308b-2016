@@ -1,0 +1,46 @@
+/****总体样式 *****/
+img {vertical-align:top; border:0;page-break-inside:avoid;max-width:100% !important; }
+html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%; height: 100%;  font-size:100%; background: #FFFFFF; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100% }
+body {font-family: "Microsoft YaHei";}
+/****总体样式@end*****/
+
+/**** 作者banner ****/
+.banner {background: url(../img/banner.jpg) no-repeat; background-size: cover;}
+.author-content {width: 1200px; margin: auto; padding: 10px 0; overflow: hidden;}
+.author-left {max-width: 100px;}
+.author-left > img {width: 100%; padding: 3px; border-radius: 5px; background-color: #fff;}
+#author-name {display: block; text-align: center; color: #fff; cursor: pointer;}
+.author-achieve {color: #fff; font-size: 16px;}
+.author-achieve .num {color: #ffcf0f; font-size: 110%; padding-right: 5px;}
+.author-achieve .separator {padding: 0 5px;}
+.author-intro {color: #fff; font-size: 14px;}
+/**** 作者banner @end ****/
+
+/********主体内容*******/
+.main {width: 1200px; margin: auto; min-height: 600px;}
+
+/********** 热门书籍 **********/
+.main {background-color: #F9F9F9; overflow: hidden;}
+.book-hot > h2 {font-size: 16px; font-weight: 700; margin-top: 35px;}
+.book-hot > ul {counter-reset: item;}
+.book-hot > ul a {color: #555; display: block; font-size: 14px; line-height: 30px; text-decoration: none; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;}
+.book-hot > ul a:hover {color: #0d99ca;}
+.book-hot > ul a:before {counter-increment: item; content: counter(item); font-size: 120%; padding: 0 5px; margin-right: 10px;}
+.book-hot > ul > li:first-child > a:before {color: #fff; background-color: #5EBA9D;}
+/********** 热门书籍 @end **********/
+
+/********** 书单列表 **********/
+.book-block {width: 100%; height: 180px; float: left; padding: 15px 15px 15px 0px;  border-bottom: 1px dashed #31B0D5;}
+.book-block img {float: left; margin-right: 15px; height: 150px;}
+.book-block .book-info-box {float: right; width: 1060px;}
+.book-block .book-info-box .bookname {font-size: 20px; color: #0d99ca; margin-bottom: 3px;}
+.book-block .book-info-box .writer {font-size: 16px; color: #0d99ca;}
+.book-block .book-info-box .bookinfo {font-size: 14px;margin-top: 18px; margin-bottom: 18px; height: 37px; }
+.book-block .book-info-box .tips {font-size: 14px;padding: 3px 30px; background-color: #b8e7f6; margin-right: 10px; text-decoration: none; color: #000000;}
+
+.book-list {background-color: #fff; padding-top: 20px; overflow: hidden;}
+.book-list > .book-block:last-child {border-bottom: none;}
+.book-block .book-info-box {float: left; width: auto;}
+/********** 书单列表 @end**********/
+
+/******** 主体内容 @end*******/

@@ -1,4 +1,5 @@
 <?php
+//在线阅读页面
 require_once ("../../config.php");
 
 if(isset($_GET["docid"]) && $_GET["docid"] != null){//阅读的书籍id

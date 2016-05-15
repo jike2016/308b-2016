@@ -1,8 +1,10 @@
 <?php
+//文档分类页面
 require_once ("../../config.php");
 
 $page = optional_param('page', 1, PARAM_INT);//分页页号
 $totalflag = optional_param('totalflag', false, PARAM_INT);//分页页号
+$prePageNum = 12;//每页显示记录数
 
 if(isset($_GET["docclassid"]) && $_GET["docclassid"] != null){//顶级分类
 	$docclassid = $_GET["docclassid"];
@@ -33,8 +35,8 @@ if(isset($_POST['totalcount'])) {
 
 //获取显示的文档
 if($docthirdclassid != ''){//显示三级分类的文档
-	$index = ($page-1)*12;//从第几条记录开始
-	$docs = $DB->get_records_sql("select dm.*,dc.`name` as categoryname from mdl_doc_my dm left join mdl_doc_categories_my dc on dm.categoryid = dc.id where dm.categoryid = $docthirdclassid order by dm.categoryid,dm.timecreated desc limit $index,12");
+	$index = ($page-1)*$prePageNum;//从第几条记录开始
+	$docs = $DB->get_records_sql("select dm.*,dc.`name` as categoryname from mdl_doc_my dm left join mdl_doc_categories_my dc on dm.categoryid = dc.id where dm.categoryid = $docthirdclassid order by dm.categoryid,dm.timecreated desc limit $index,$prePageNum");
 	if(!$totalflag){
 		$docscount = $DB->get_records_sql("select * from mdl_doc_my dm where dm.categoryid = $docthirdclassid order by dm.categoryid,dm.timecreated desc");
 		$totalcount = count($docscount);
@@ -48,8 +50,8 @@ if($docthirdclassid != ''){//显示三级分类的文档
 	$docthirdclassStr = implode(',',$docthirdclassesarray);//获取当前文档的三级分类id字符串
 	$rangeID = $docsecondclassid;
 	$rangeID .= ($docthirdclassStr != '')?','.$docthirdclassStr:'';
-	$index = ($page-1)*12;//从第几条记录开始
-	$docs = $DB->get_records_sql("select dm.*,dc.`name` as categoryname from mdl_doc_my dm left join mdl_doc_categories_my dc on dm.categoryid = dc.id where dm.categoryid in ($rangeID) order by dm.categoryid,dm.timecreated desc limit $index,12");
+	$index = ($page-1)*$prePageNum;//从第几条记录开始
+	$docs = $DB->get_records_sql("select dm.*,dc.`name` as categoryname from mdl_doc_my dm left join mdl_doc_categories_my dc on dm.categoryid = dc.id where dm.categoryid in ($rangeID) order by dm.categoryid,dm.timecreated desc limit $index,$prePageNum");
 	if(!$totalflag){
 		$docscount = $DB->get_records_sql("select * from mdl_doc_my dm where dm.categoryid in ($rangeID) order by dm.categoryid,dm.timecreated desc");
 		$totalcount = count($docscount);
@@ -73,8 +75,8 @@ if($docthirdclassid != ''){//显示三级分类的文档
 	$rangeID = $docclassid;
 	$rangeID .= ($docsecondclassStr != '')?','.$docsecondclassStr:'';
 	$rangeID .= ($docthirdclassStr != '')?','.$docthirdclassStr:'';
-	$index = ($page-1)*12;//从第几条记录开始
-	$docs = $DB->get_records_sql("select dm.*,dc.`name` as categoryname from mdl_doc_my dm left join mdl_doc_categories_my dc on dm.categoryid = dc.id where dm.categoryid in ($rangeID) order by dm.categoryid,dm.timecreated desc limit $index,12");
+	$index = ($page-1)*$prePageNum;//从第几条记录开始
+	$docs = $DB->get_records_sql("select dm.*,dc.`name` as categoryname from mdl_doc_my dm left join mdl_doc_categories_my dc on dm.categoryid = dc.id where dm.categoryid in ($rangeID) order by dm.categoryid,dm.timecreated desc limit $index,$prePageNum");
 	if(!$totalflag){
 		$docscount = $DB->get_records_sql("select * from mdl_doc_my dm where dm.categoryid in ($rangeID) order by dm.categoryid,dm.timecreated desc");
 		$totalcount = count($docscount);
@@ -443,7 +445,7 @@ if($docthirdclassid != ''){//显示三级分类的文档
 						</a>
 					</li>
 					<?php
-						$totalpage = ceil($totalcount/12);
+						$totalpage = ceil($totalcount/$prePageNum);
 						for($i=1;$i<=$totalpage;$i++){
 							if($page == $i){
 								echo ' <li><a class="active" href="classify.php?docclassid='.$docclassid.'&docsecondclassid='.$docsecondclassid.'&docthirdclassid='.$docthirdclassid.'&page='.$i.'">'.$i.'</a></li>';
@@ -454,10 +456,10 @@ if($docthirdclassid != ''){//显示三级分类的文档
 					?>
 					<li>
 						<?php
-							if(ceil($totalcount/12)==0){
+							if(ceil($totalcount/$prePageNum)==0){
 								$nextpage = 1;
-							}elseif(($page+1)>= ceil($totalcount/12) ){
-								$nextpage = ceil($totalcount/12);
+							}elseif(($page+1)>= ceil($totalcount/$prePageNum) ){
+								$nextpage = ceil($totalcount/$prePageNum);
 							}else{
 								$nextpage = $page+1;
 							}
@@ -467,7 +469,7 @@ if($docthirdclassid != ''){//显示三级分类的文档
 						</a>
 					</li>
 					<li>
-						<a href="classify.php?docclassid=<?php echo $docclassid; ?>&docsecondclassid=<?php echo $docsecondclassid; ?>&docthirdclassid=<?php echo $docthirdclassid; ?>&page=<?php if(ceil($totalcount/12)==0){echo 1;}else{echo ceil($totalcount/12);} ?>">
+						<a href="classify.php?docclassid=<?php echo $docclassid; ?>&docsecondclassid=<?php echo $docsecondclassid; ?>&docthirdclassid=<?php echo $docthirdclassid; ?>&page=<?php if(ceil($totalcount/$prePageNum)==0){echo 1;}else{echo ceil($totalcount/$prePageNum);} ?>">
 							<span aria-hidden="true">尾页</span>
 						</a>
 					</li>

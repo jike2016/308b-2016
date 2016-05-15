@@ -1,7 +1,9 @@
 <?php
+//搜索结果页面
 require_once ("../../config.php");
 
 $page = optional_param('page', 1, PARAM_INT);//分页页号
+$prePageNum = 12;//每页显示的记录数
 
 if(isset($_GET["searchType"]) && $_GET["searchType"] != null){//搜索类型
 	$searchType = $_GET["searchType"];
@@ -60,13 +62,13 @@ switch($searchDocType){
 }
 
 //查询结果
-$index = ($page-1)*10;//从第几条记录开始
+$index = ($page-1)*$prePageNum;//从第几条记录开始
 $searchResults = $DB->get_records_sql("select dm.*,da.`name` as authorname,u.firstname as uploadername from mdl_doc_my dm
 										left join mdl_doc_author_my da on dm.authorid = da.id
 										left join mdl_user u on dm.uploaderid = u.id
 										$sql
 										order by dm.timecreated desc
-										limit $index,10");
+										limit $index,$prePageNum");
 
 //获取相关搜索
 $relateSearchs = $DB->get_records_sql("select * from mdl_doc_tag_my dt where dt.`name` like '%$searchParam%'");
@@ -425,7 +427,7 @@ function imagechoise($type){
 								  </a>
 							  </li>
 							  <?php
-							  $totalpage = ceil($searchcount/12);
+							  $totalpage = ceil($searchcount/$prePageNum);
 							  for($i=1;$i<=$totalpage;$i++){
 								  if($page == $i) {
 									  echo ' <li><a class="active" href="searchresult.php?searchType=' . $searchType . '&searchParam=' . $searchParam . '&searchDocType=' . $searchDocType . '&page=' . $i . '">' . $i . '</a></li>';
@@ -437,10 +439,10 @@ function imagechoise($type){
 
 							  <li>
 								  <?php
-								  if(ceil($searchcount/12)==0){
+								  if(ceil($searchcount/$prePageNum)==0){
 									  $nextpage = 1;
-								  }elseif(($page+1)>= ceil($searchcount/12) ){
-									  $nextpage = ceil($searchcount/12);
+								  }elseif(($page+1)>= ceil($searchcount/$prePageNum) ){
+									  $nextpage = ceil($searchcount/$prePageNum);
 								  }else{
 									  $nextpage = $page+1;
 								  }
@@ -450,7 +452,7 @@ function imagechoise($type){
 								  </a>
 							  </li>
 							  <li>
-								  <a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&searchDocType=<?php echo $searchDocType; ?>&page=<?php if(ceil($searchcount/12)==0){echo 1;}else{echo ceil($searchcount/12);}  ?>">
+								  <a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&searchDocType=<?php echo $searchDocType; ?>&page=<?php if(ceil($searchcount/$prePageNum)==0){echo 1;}else{echo ceil($searchcount/$prePageNum);}  ?>">
 									  <span aria-hidden="true">尾页</span>
 								  </a>
 							  </li>

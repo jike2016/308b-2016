@@ -3,6 +3,7 @@
 require_once ("../../config.php");
 
 $page = optional_param('page', 1, PARAM_INT);//分页页号
+$prePageNum = 12;//每页显示的记录数
 
 if(isset($_GET["bookclassid"]) && $_GET["bookclassid"] != null){//顶级分类
 	$bookclassid = $_GET["bookclassid"];
@@ -24,23 +25,23 @@ $booksecondclasses = $DB->get_records_sql("select ec.id,ec.`name`,count(*) as nu
 
 //从首页跳转到二级分页，显示二级分页的所有书籍
 if($booksecondclassid == '' ){
-	$index = ($page-1)*12;//从第几条记录开始
+	$index = ($page-1)*$prePageNum;//从第几条记录开始
 	$books = $DB->get_records_sql("select e.*,ea.`name` as authorname from mdl_ebook_categories_my ec
 									left join mdl_ebook_my e on ec.id = e.categoryid
 									left join mdl_ebook_author_my ea on e.authorid = ea.id
 									where ec.parent = $bookclassid
 									or e.categoryid = $bookclassid
 									order by e.timecreated desc,e.categoryid asc
-									limit $index,12");
+									limit $index,$prePageNum");
 }
 
 if($booksecondclassid != ''){//获取二级分类对应的书
-	$index = ($page-1)*12;//从第几条记录开始
+	$index = ($page-1)*$prePageNum;//从第几条记录开始
 	$books = $DB->get_records_sql("select e.*,ea.`name` as authorname from mdl_ebook_my e
 								left join mdl_ebook_author_my ea on e.authorid = ea.id
 								where e.categoryid = $booksecondclassid
 								order by e.timecreated desc
-								limit $index,12");
+								limit $index,$prePageNum");
 }
 
 //如果还没有查过总记录数则查询
@@ -368,7 +369,7 @@ if(isset($_POST['toptotalcount'])) {
 				      		</a>
 				    	</li>
 						<?php
-							$totalpage = ceil($totalcount/12);
+							$totalpage = ceil($totalcount/$prePageNum);
 							for($i=1;$i<=$totalpage;$i++){
 								if($page == $i){
 									echo ' <li><a class="active" href="classify.php?bookclassid='.$bookclassid.'&booksecondclassid='.$booksecondclassid.'&page='.$i.'">'.$i.'</a></li>';
@@ -380,10 +381,10 @@ if(isset($_POST['toptotalcount'])) {
 
 					    <li>
 							<?php
-								if(ceil($totalcount/12)==0){
+								if(ceil($totalcount/$prePageNum)==0){
 									$nextpage = 1;
-								}elseif(($page+1)>= ceil($totalcount/12) ){
-									$nextpage = ceil($totalcount/12);
+								}elseif(($page+1)>= ceil($totalcount/$prePageNum) ){
+									$nextpage = ceil($totalcount/$prePageNum);
 								}else{
 									$nextpage = $page+1;
 								}
@@ -393,7 +394,7 @@ if(isset($_POST['toptotalcount'])) {
 					      	</a>
 				    	</li>
 				    	<li>
-				     	 	<a href="classify.php?bookclassid=<?php echo $bookclassid; ?>&booksecondclassid=<?php echo $booksecondclassid; ?>&page=<?php if(ceil($totalcount/12)==0){echo 1;}else{echo ceil($totalcount/12);} ?>">
+				     	 	<a href="classify.php?bookclassid=<?php echo $bookclassid; ?>&booksecondclassid=<?php echo $booksecondclassid; ?>&page=<?php if(ceil($totalcount/$prePageNum)==0){echo 1;}else{echo ceil($totalcount/$prePageNum);} ?>">
 				       	 		<span aria-hidden="true">尾页</span>
 				      		</a>
 				    	</li>
@@ -405,7 +406,8 @@ if(isset($_POST['toptotalcount'])) {
 			<!--书本列表面板 end-->
 		</div>		
 		<!--页面主体 end-->
-				<!--右下角按钮-->
+
+		<!--右下角按钮-->
 		<?php 
 			if(isloggedin()){
 				echo '

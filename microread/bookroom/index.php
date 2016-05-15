@@ -543,17 +543,17 @@ if(count($scoretables)<10){
 									if($no<4){
 										echo '<div class="ranklist-block">
 													<div class="w-num"><a class="ranknum top3">'.$no.'</a></div>
-													<div class="w-name"><a class="writername" href="#">'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
+													<div class="w-name"><a class="writername" href="bookauthor.php?authorid='.$authorrank->id.'" target="_blank" >'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
 												</div>';
 									}elseif($no==10){
 										echo ' <div class="ranklist-block">
 													<div class="w-num"><a class="ranknum top10">'.$no.'</a></div>
-													<div class="w-name"><a class="writername" href="#">'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
+													<div class="w-name"><a class="writername" href="bookauthor.php?authorid='.$authorrank->id.'" target="_blank" >'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
 												</div>';
 									}else{
 										echo ' <div class="ranklist-block">
 													<div class="w-num"><a class="ranknum">'.$no.'</a></div>
-													<div class="w-name"><a class="writername" href="#">'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
+													<div class="w-name"><a class="writername" href="bookauthor.php?authorid='.$authorrank->id.'" target="_blank" >'.$authorrank->authorname.'&nbsp;--&nbsp;'.$authorrank->rank.'</a></div>
 												</div>';
 									}
 									$no++;

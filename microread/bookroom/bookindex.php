@@ -578,7 +578,7 @@ function my_get_book_evaluation($bookid, $current_page)
 					break;
 				}
 				echo '<div class="bookbox">
-										<img src="'.$recomendbook->pictrueurl.'" width="68" height="100" />
+										<a href="bookindex.php?bookid='.$recomendbook->id.'"><img src="'.$recomendbook->pictrueurl.'" width="68" height="100" /></a>
 										<div class="bookinfobox">
 											<a href="bookindex.php?bookid='.$recomendbook->id.'"><p class="bookname">'.$recomendbook->name.'</p></a>
 											<p>'.$recomendbook->authorname.'</p>

@@ -306,13 +306,11 @@ else{
 				<?php
 					foreach($books as $book){
 						echo '<div class="book-block">
-									<a href="bookindex.php?bookid='.$book->id.'" target="_blank"><img src="'.$book->pictrueurl.'" /></a>
+									<a href="bookindex.php?bookid='.$book->id.'" target="_blank"><img src="'.$book->pictrueurl.'" width="102" height="150" /></a>
 									<div class="book-info-box">
 										<a href="bookindex.php?bookid='.$book->id.'" target="_blank"><p class="bookname">'.$book->name.'</p></a>
 										<p class="writer">作者：'.$authorinfo->name.'</p>
-										<p class="bookinfo">
-											'.$book->summary.'
-										</p>
+										<p class="bookinfo">'.mb_substr($book->summary,0,50,'utf-8').'...</p>
 										<p>';
 						//获取书籍的标签
 						$tags = $DB->get_records_sql("select tm.id,tm.tagname from mdl_tag_my tm

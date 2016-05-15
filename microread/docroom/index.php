@@ -436,7 +436,7 @@ if(count($scoretables)<10){
 						}else{
 							echo '<div class="writerblock">';
 						}
-						echo '<a href="searchresult.php?searchType=上传者 &searchParam='.$doccontributorsrecomend->contribuname.'&searchDocType=all">
+						echo '<a href="doccontributor.php?contributorid='.$doccontributorsrecomend->userid.'" target="_blank" >
 								<div class="userinfo-box">
 									<div class="userimg">
 										<img src="'.getUserIcon($doccontributorsrecomend->userid).'" width="64" height="64"/>
@@ -545,17 +545,17 @@ if(count($scoretables)<10){
 								if($no<4){
 									echo '<div class="ranklist-block">
 												<div class="w-num"><a class="ranknum top3">'.$no.'</a></div>
-												<div class="w-name"><a class="writername">'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
+												<div class="w-name"><a class="writername" href="doccontributor.php?contributorid='.$doccontributorslist->uploaderid.'" target="_blank" >'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
 											</div>';
 								}elseif($no==10){
 									echo '<div class="ranklist-block">
 												<div class="w-num"><a class="ranknum top10">'.$no.'</a></div>
-												<div class="w-name"><a class="writername">'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
+												<div class="w-name"><a class="writername" href="doccontributor.php?contributorid='.$doccontributorslist->uploaderid.'" target="_blank" >'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
 											</div>';
 								}else{
 									echo '<div class="ranklist-block">
 												<div class="w-num"><a class="ranknum">'.$no.'</a></div>
-												<div class="w-name"><a class="writername">'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
+												<div class="w-name"><a class="writername" href="doccontributor.php?contributorid='.$doccontributorslist->uploaderid.'" target="_blank" >'.$doccontributorslist->uploadusername.'&nbsp;--&nbsp;'.$doccontributorslist->rankcount.'</a></div>
 											</div>';
 								}
 								$no++;

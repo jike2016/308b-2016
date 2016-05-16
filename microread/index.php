@@ -5,6 +5,86 @@ global $USER;
 global $DB;
 $ads = $DB->get_records_sql('select * from mdl_microread_indexad_my where picurl != "" ORDER BY id');
 $picsearchs = $DB->get_records_sql('select * from mdl_pic_recommended_search');
+
+$recommends = $DB->get_records_sql("select em.*,er.*,ea.`name` as authorname from mdl_ebook_recommendlist_my er
+                                     left join mdl_ebook_my em on er.ebookid = em.id
+                                    left join mdl_ebook_author_my ea on em.authorid = ea.id");
+//Start 书库 推荐阅读
+$recommendbooknames = array();
+$recommendwriters = array();
+$recommendbookinfos = array();
+$recommendbookhrefs = array();//链接路径
+for($i=1;$i<6;$i++){
+	$recommendbooknames[]  = $recommends[$i]->name;
+	$recommendwriters[]  = $recommends[$i]->authorname;
+	$recommendbookinfos[]  = mb_substr($recommends[$i]->summary,0,146,"utf-8").'...';
+	$recommendbookhrefs[]  = 'bookroom/bookindex.php?bookid='.$recommends[$i]->ebookid;
+}
+$recommendbooknameStr = '"';
+$recommendbooknameStr .= implode('","',$recommendbooknames);
+$recommendbooknameStr .= '"';
+
+$recommendwriterStr = '"';
+$recommendwriterStr .= implode('","',$recommendwriters);
+$recommendwriterStr .= '"';
+
+$recommendbookinfoStr = '"';
+$recommendbookinfoStr .= implode('","',$recommendbookinfos);
+$recommendbookinfoStr .= '"';
+
+$recommendbookhrefStr = '"';
+$recommendbookhrefStr .= implode('","',$recommendbookhrefs);
+$recommendbookhrefStr .= '"';
+//End 书库 推荐阅读
+
+//Start 获取贡献者推荐
+$doccontributorsrecomends = $DB->get_records_sql("select dr.*,u.firstname as contribuname from mdl_doc_recommend_authorlist_my dr
+													left join mdl_user u on dr.userid = u.id");
+//End 获取贡献者推荐
+
+
+/** Start 截取用户头像字符串*/
+function getUserIcon($userid)
+{
+	global $OUTPUT;
+	global $DB;
+	$user = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
+	$str1 = $OUTPUT->user_picture($user,array('link' => false,'visibletoscreenreaders' => false));
+	$str=substr($str1,10);//去除前面
+	$n=strpos($str,'"');//寻找位置
+	if ($n) $str=substr($str,0,$n);//删除后面
+	return $str;
+}
+/** End 截取用户头像字符串*/
+
+/** Start 文件类型判断 */
+function imagechoise($type){
+	$type = strtolower($type);
+	$doctype = '';
+	switch($type){
+		case '.txt':
+			$doctype = 'ic-txt';
+			break;
+		case '.pdf':
+			$doctype = 'ic-pdf';
+			break;
+		case '.doc':
+		case '.docx':
+			$doctype = 'ic-doc';
+			break;
+		case '.xls':
+		case '.xlsx':
+			$doctype = 'ic-xls';
+			break;
+		case '.ppt':
+		case '.pptx':
+			$doctype = 'ic-ppt';
+			break;
+	}
+	return $doctype;
+}
+/** End  文件类型判断 */
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,14 +97,23 @@ $picsearchs = $DB->get_records_sql('select * from mdl_pic_recommended_search');
 
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 		<script type="text/javascript" src="js/bootstrap.min.js" ></script>
-		
+
+		<!-- 书库 推荐阅读 -->
+		<script>
+			var bookname = new Array(<?php echo $recommendbooknameStr; ?>);//书名数组
+			var writer = new Array(<?php echo $recommendwriterStr; ?>); //作者数组
+			var bookinfo = new Array(<?php echo $recommendbookinfoStr; ?>); //书本介绍文字数组
+			var bookhref = new Array(<?php echo $recommendbookhrefStr; ?>); //书本链接
+		</script>
+		<!-- 书库 推荐阅读 -->
+
 		<!--控制图片轮转js文件-->
 		<script type="text/javascript" src="js/Imagerotation/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/Imagerotation/roundabout.js" ></script>
 		<script type="text/javascript" src="js/Imagerotation/roundabout_shapes.js" ></script>
 		<script type="text/javascript" src="js/Imagerotation/gallery_init.js" ></script>
 		<!--控制图片轮转js文件 end-->
-		
+
 		<!-- 轮播广告 -->
 		<script src="js/slider.js"></script>
 		<script type="text/javascript">
@@ -186,11 +275,13 @@ $picsearchs = $DB->get_records_sql('select * from mdl_pic_recommended_search');
 						<section id="gallery">
 						    <div class="container_image">
 						        <ul id="myRoundabout">
-						            <li id="0"><a href="#" target="_blank" title="图片"><img src="img/tushu_1.jpg" alt='图片' style="border: 0"></a></li>   
-						            <li id="1"><a href="#" target="_blank" title="图片"><img src="img/tushu_2.jpg" alt='图片' style="border: 0"></a></li>   
-						            <li id="2"><a href="#" target="_blank" title="图片"><img src="img/tushu_3.jpg" alt='图片' style="border: 0"></a></li>   
-						            <li id="3"><a href="#" target="_blank" title="图片"><img src="img/tushu_4.jpg" alt='图片' style="border: 0"></a></li>  
-						            <li id="4"><a href="#" target="_blank" title="图片"><img src="img/tushu_5.jpg" alt='图片' style="border: 0"></a></li> 
+									<?php
+										if($recommends!=null){
+											for($i=1;$i<=5;$i++){
+												echo ' <li id="'.($i-1).'"><a href="bookindex.php?bookid='.$recommends[$i]->ebookid.'" target="_blank" title="图片"> <img src="'.$recommends[$i]->pictrueurl.'" alt=\'图片\' style="border: 0"  ></a></li>';
+											}
+										}
+									?>
 						        </ul>
 						    </div>
 						</section>
@@ -209,46 +300,30 @@ $picsearchs = $DB->get_records_sql('select * from mdl_pic_recommended_search');
 						<p>推荐排行榜</p>
 					</div>
 					<div class="ranklist">
-						<div class="ranklist-block">
-							<a class="ranknum top3">1</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum top3">2</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum top3">3</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">4</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">5</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">6</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">7</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">8</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum">9</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
-						<div class="ranklist-block">
-							<a class="ranknum top10">10</a>
-							<a class="bookname">辛亥革命在甘肃</a>
-						</div>
+						<?php
+							if($recommends !=null){
+								$no = 1;
+								foreach($recommends as $recommend){
+									if($no<4){
+										echo ' <div class="ranklist-block">
+												<a class="ranknum top3">'.$no.'</a>
+												<a class="bookname" href="bookroom/bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+											</div>';
+									}elseif($no==10){
+										echo ' <div class="ranklist-block">
+												<a class="ranknum top10">'.$no.'</a>
+												<a class="bookname" href="bookroom/bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+											</div>';
+									}else{
+										echo ' <div class="ranklist-block">
+												<a class="ranknum">'.$no.'</a>
+												<a class="bookname" href="bookroom/bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+											</div>';
+									}
+									$no++;
+								}
+							}
+						?>
 					</div>
 				</div>
 				<!--排行榜 end-->
@@ -262,280 +337,61 @@ $picsearchs = $DB->get_records_sql('select * from mdl_pic_recommended_search');
 			<div class="contribution-writer">
 				<p class="title">文库&nbsp;·&nbsp;贡献作者推荐榜></p>
 				<!--第一行-->
-				<div class="writerblock frist">
-					<div class="userinfo-box">
-						<div class="userimg">
-							<img src="img/user.jpg" />
-						</div>
-						<div class="userinfo">
-							<p class="name">孙敏</p>
-							<p class="articlenum">333</p>
-							<p class="articlenumw">篇文档</p>
-						</div>
-					</div>
-					
-					<div class="articlelist">
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#"><span class="ic ic-doc"></span>&nbsp;高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#"><span class="ic ic-xls"></span>&nbsp;高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#"><span class="ic ic-doc"></span>&nbsp;高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-					</div>
-				</div>
-				
-				<div class="writerblock">
-					<div class="userinfo-box">
-						<div class="userimg">
-							<img src="img/user.jpg" />
-						</div>
-						<div class="userinfo">
-							<p class="name">孙敏</p>
-							<p class="articlenum">333</p>
-							<p class="articlenumw">篇文档</p>
-						</div>
-					</div>
-					
-					<div class="articlelist">
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#"><span class="ic ic-ppt"></span>&nbsp;高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#"><span class="ic ic-pdf"></span>&nbsp;高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#"><span class="ic ic-txt"></span>&nbsp;高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-					</div>
-				</div>
-				
-				<div class="writerblock">
-					<div class="userinfo-box">
-						<div class="userimg">
-							<img src="img/user.jpg" />
-						</div>
-						<div class="userinfo">
-							<p class="name">孙敏</p>
-							<p class="articlenum">333</p>
-							<p class="articlenumw">篇文档</p>
-						</div>
-					</div>
-					
-					<div class="articlelist">
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-					</div>
-				</div>
-				
-				<div class="writerblock">
-					<div class="userinfo-box">
-						<div class="userimg">
-							<img src="img/user.jpg" />
-						</div>
-						<div class="userinfo">
-							<p class="name">孙敏</p>
-							<p class="articlenum">333</p>
-							<p class="articlenumw">篇文档</p>
-						</div>
-					</div>
-					
-					<div class="articlelist">
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-					</div>
-				</div>
+				<?php
+					$index = 0;
+					foreach($doccontributorsrecomends as $doccontributorsrecomend){
+						//统计当前贡献者的文献数
+						$doccount = $DB->get_record_sql("select count(1) as docnum from mdl_doc_my dm where dm.uploaderid = $doccontributorsrecomend->userid");
+						if(($index%4)==0){
+							echo '<div class="writerblock frist">';
+						}else{
+							echo '<div class="writerblock">';
+						}
+						echo '<a href="docroom/doccontributor.php?contributorid='.$doccontributorsrecomend->userid.'">
+									<div class="userinfo-box">
+										<div class="userimg">
+											<img src="'.getUserIcon($doccontributorsrecomend->userid).'" width="64" height="64"/>
+										</div>
+										<div class="userinfo">
+											<p class="name">'.$doccontributorsrecomend->contribuname	.'</p>
+											<p class="articlenum">'.$doccount->docnum.'</p>
+											<p class="articlenumw">篇文档</p>
+										</div>
+									</div>
+									</a>
+									<div class="articlelist">';
+						//获取其3篇文档
+						$docids = array();
+						$docids[] = $doccontributorsrecomend->docid1;
+						$docids[] = $doccontributorsrecomend->docid2;
+						$docids[] = $doccontributorsrecomend->docid3;
+						for($i=0;$i<3;$i++){
+							if($docids[$i] && $docids[$i] != -1){
+								//获取文档信息
+								$doc1 = $DB->get_record_sql("select dm.*,ds.sumscore from mdl_doc_my dm
+																left join mdl_doc_sumscore_my ds on dm.id = ds.docid
+																where dm.id = $docids[$i] ");
+								if($doc1){
+									$doctype = imagechoise($doc1->suffix);
+									echo '<a href="#">
+											<p class="pa">
+												<a class="ca" href="docroom/onlineread.php?docid='.$doc1->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc1->name.'</a>
+												<span class="score">';
+									echo ($doc1->sumscore=="")?0:($doc1->sumscore);
+									echo '分</span>
+											</p>
+										</a>';
+								}
+							}
+						}
+						echo'
+									</div>
+								</div>';
+						$index++;
+					}
+				?>
 				<!--第一行 end-->
-				
-				<!--第二行-->
-				<div class="writerblock frist">
-					<div class="userinfo-box">
-						<div class="userimg">
-							<img src="img/user.jpg" />
-						</div>
-						<div class="userinfo">
-							<p class="name">孙敏</p>
-							<p class="articlenum">333</p>
-							<p class="articlenumw">篇文档</p>
-						</div>
-					</div>
-					
-					<div class="articlelist">
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-					</div>
-				</div>
-				
-				<div class="writerblock">
-					<div class="userinfo-box">
-						<div class="userimg">
-							<img src="img/user.jpg" />
-						</div>
-						<div class="userinfo">
-							<p class="name">孙敏</p>
-							<p class="articlenum">333</p>
-							<p class="articlenumw">篇文档</p>
-						</div>
-					</div>
-					
-					<div class="articlelist">
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-					</div>
-				</div>
-				
-				<div class="writerblock">
-					<div class="userinfo-box">
-						<div class="userimg">
-							<img src="img/user.jpg" />
-						</div>
-						<div class="userinfo">
-							<p class="name">孙敏</p>
-							<p class="articlenum">333</p>
-							<p class="articlenumw">篇文档</p>
-						</div>
-					</div>
-					
-					<div class="articlelist">
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-					</div>
-				</div>
-				
-				<div class="writerblock">
-					<div class="userinfo-box">
-						<div class="userimg">
-							<img src="img/user.jpg" />
-						</div>
-						<div class="userinfo">
-							<p class="name">孙敏</p>
-							<p class="articlenum">333</p>
-							<p class="articlenumw">篇文档</p>
-						</div>
-					</div>
-					
-					<div class="articlelist">
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-						<a href="#">
-							<p class="pa">
-								<a class="ca" href="#">高二是开发商来付款高二是开发商来付款</a>
-								<span class="score">4.3分</span>
-							</p>
-						</a>
-					</div>
-				</div>
-				<!--第二行 end-->
+
 			</div>
 			<!--贡献作者推荐榜 end-->	
 			
@@ -549,7 +405,7 @@ $picsearchs = $DB->get_records_sql('select * from mdl_pic_recommended_search');
 					$n=1;
 					foreach($picsearchs as $search){
 						if($n%5==0){
-							echo '<a href="image-search.php?word='.$search->name.'">
+							echo '<a href="picroom/image-search.php?word='.$search->name.'">
 									<div class="imagebg final" style="background-image: url('.$search->picurl.');">
 										<div class="imageinfo"><p>'.$search->name.'</p></div>
 									</div>
@@ -559,7 +415,7 @@ $picsearchs = $DB->get_records_sql('select * from mdl_pic_recommended_search');
 							}
 						}
 						else{
-							echo '<a href="image-search.php?word='.$search->name.'">
+							echo '<a href="picroom/image-search.php?word='.$search->name.'">
 									<div class="imagebg" style="background-image: url('.$search->picurl.');">
 										<div class="imageinfo"><p>'.$search->name.'</p></div>
 									</div>

@@ -200,7 +200,7 @@ function getUserIcon($userid)
 			<div class="header-center">
 				<div class="a-box">
 					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/index.php">微阅</a>
 					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
 					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
 					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
@@ -373,7 +373,7 @@ function getUserIcon($userid)
 				<div style="clear: both;"></div>
 				<div class="paging">
 				<nav>
-					<?php echo ($totalcount == 0)?'<p>占无相关文档</p>':''; ?>
+					<?php echo ($totalcount == 0)?'<p>暂无相关文档</p>':''; ?>
 					<ul class="pagination" <?php echo ($totalcount == 0)?'style="display: none;"':'style=""'; ?> >
 						<li>
 							<a href="doccontributor.php?contributorid=<?php echo $contributorid; ?>">

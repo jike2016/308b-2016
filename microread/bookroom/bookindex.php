@@ -10,7 +10,7 @@ add_microreadviewlog('view',$bookid,1);//添加日志记录
 
 global $DB;
 global $USER;
-//查找阅读历史
+//查找章节的阅读历史
 $readHistory = $DB->get_record_sql("select * from mdl_ebook_user_read_my eu
 									where eu.userid = $USER->id and eu.ebookid = $bookid ");
 if($readHistory){
@@ -53,8 +53,8 @@ foreach($tags as $tag){
 $tagsStrsql = substr($tagsStr,0,strlen($tagsStr)-1);
 $recomendbooks = array();
 if($tagsStrsql){
-	$recomendbooks = $DB->get_records_sql("select em.*,ea.`name` as authorname from mdl_tag_link tl
-										left join mdl_ebook_my em on tl.link_id = em.id
+	$recomendbooks = $DB->get_records_sql("select em.*,ea.`name` as authorname from mdl_ebook_my em
+										left join mdl_tag_link tl on tl.link_id = em.id
 										left join mdl_ebook_author_my ea on em.authorid = ea.id
 										where tl.tagid in ($tagsStrsql)
 										and tl.link_name = 'mdl_ebook_my'
@@ -328,7 +328,7 @@ function my_get_book_evaluation($bookid, $current_page)
 	<div class="header-center">
 		<div class="a-box">
 			<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
-			<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+			<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/index.php">微阅</a>
 			<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
 			<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
 			<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>

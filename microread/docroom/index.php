@@ -40,8 +40,10 @@ $monthhrefarray = array();
 $totalhrefarray = array();
 
 foreach($weekranks as $weekrank ){
-	$weekrankarray[] = $weekrank->docname.$weekrank->doctype.' -- '.$weekrank->rankcount;
-	$weekhrefarray[] = 'onlineread.php?docid='.$weekrank->contextid;
+	if($weekrank->contextid != 0){
+		$weekrankarray[] = $weekrank->docname.$weekrank->doctype.' -- '.$weekrank->rankcount;
+		$weekhrefarray[] = 'onlineread.php?docid='.$weekrank->contextid;
+	}
 }
 if(count($weekrankarray)<10){
 	$i = 10 - count($weekrankarray);
@@ -51,8 +53,10 @@ if(count($weekrankarray)<10){
 	}
 }
 foreach($monthranks as $monthrank ){
-	$monthrankarray[] = $monthrank->docname.$monthrank->doctype.' -- '.$monthrank->rankcount;
-	$monthhrefarray[] = 'onlineread.php?docid='.$monthrank->contextid;
+	if($monthrank->contextid != 0) {
+		$monthrankarray[] = $monthrank->docname . $monthrank->doctype . ' -- ' . $monthrank->rankcount;
+		$monthhrefarray[] = 'onlineread.php?docid=' . $monthrank->contextid;
+	}
 }
 if(count($monthrankarray)<10){
 	$i = 10 - count($monthrankarray);
@@ -62,8 +66,10 @@ if(count($monthrankarray)<10){
 	}
 }
 foreach($totalranks as $totalrank ){
-	$totalrankarray[] = $totalrank->docname.$totalrank->doctype.' -- '.$totalrank->rankcount;
-	$totalhrefarray[] = 'onlineread.php?docid='.$totalrank->contextid;
+	if($totalrank->contextid != 0){
+		$totalrankarray[] = $totalrank->docname.$totalrank->doctype.' -- '.$totalrank->rankcount;
+		$totalhrefarray[] = 'onlineread.php?docid='.$totalrank->contextid;
+	}
 }
 if(count($totalrankarray)<10){
 	$i = 10 - count($totalrankarray);
@@ -110,7 +116,35 @@ function getUserIcon($userid)
 }
 /** End 截取用户头像字符串*/
 
-//Start 评分榜
+/** Start 文件类型判断 */
+function imagechoise($type){
+	$type = strtolower($type);
+	$doctype = '';
+	switch($type){
+		case '.txt':
+			$doctype = 'ic-txt';
+			break;
+		case '.pdf':
+			$doctype = 'ic-pdf';
+			break;
+		case '.doc':
+		case '.docx':
+			$doctype = 'ic-doc';
+			break;
+		case '.xls':
+		case '.xlsx':
+			$doctype = 'ic-xls';
+			break;
+		case '.ppt':
+		case '.pptx':
+			$doctype = 'ic-ppt';
+			break;
+	}
+	return $doctype;
+}
+/** End 文件类型判断 */
+
+/** Start 评分榜 */
 $scoretables = $DB->get_records_sql("select dm.*,ds.sumscore from mdl_doc_my dm
 							left join mdl_doc_sumscore_my ds on dm.id = ds.docid
 							order by ds.sumscore desc
@@ -121,8 +155,7 @@ if(count($scoretables)<10){
 		$scoretables[] = '';
 	}
 }
-
-//End 评分榜
+/** End 评分榜 */
 
 ?>
 
@@ -267,7 +300,7 @@ if(count($scoretables)<10){
 			<div class="header-center">
 				<div class="a-box">
 					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/index.php">微阅</a>
 					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
 					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
 					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
@@ -391,21 +424,42 @@ if(count($scoretables)<10){
 							<div class="banner">';
 						}
 						if($index%4==0) {
-							echo '<div class="articleblock frist ">
+							if($doccategoryrecomend->docid != -1){
+								echo '<div class="articleblock frist ">
 											<a href="onlineread.php?docid='.$doccategoryrecomend->id.'"><img src="'.$doccategoryrecomend->pictrueurl.'" width="272" height="125" /></a>
 											<div>
 												<a href="onlineread.php?docid='.$doccategoryrecomend->id.'">'.$doccategoryrecomend->name.'</a>
 												<p>'.$doccategoryrecomend->summary	.'</p>
 											</div>
 										</div>';
+							}else{//如果没设置文档
+								echo '<div class="articleblock frist ">
+											<a href=""><img src="'.$doccategoryrecomend->pictrueurl.'" width="272" height="125" /></a>
+											<div>
+												<a href="">'.$doccategoryrecomend->name.'</a>
+												<p>'.$doccategoryrecomend->summary	.'</p>
+											</div>
+										</div>';
+							}
+
 						}else{
-							echo '<div class="articleblock">
+							if($doccategoryrecomend->docid != -1){
+								echo '<div class="articleblock">
 											<a href="onlineread.php?docid='.$doccategoryrecomend->id.'"><img src="'.$doccategoryrecomend->pictrueurl.'"  width="272" height="125" /></a>
 											<div>
 												<a href="onlineread.php?docid='.$doccategoryrecomend->id.'">'.$doccategoryrecomend->name.'</a>
 												<p>'.$doccategoryrecomend->summary	.'</p>
 											</div>
 										</div>';
+							}else{//如果没设置文档
+								echo '<div class="articleblock">
+											<a href=""><img src="'.$doccategoryrecomend->pictrueurl.'"  width="272" height="125" /></a>
+											<div>
+												<a href="">'.$doccategoryrecomend->name.'</a>
+												<p>'.$doccategoryrecomend->summary	.'</p>
+											</div>
+										</div>';
+							}
 						}
 						if((($index+1)%4)==0){
 							echo '<div style="clear: both;"></div>
@@ -447,82 +501,35 @@ if(count($scoretables)<10){
 								</div>
 								</a>
 								<div class="articlelist">';
-						//获取其3篇文章
-						if($doccontributorsrecomend->docid1 != null && $doccontributorsrecomend->docid1 != -1){
-							$doc1 = $DB->get_record_sql("select dm.*,ds.sumscore from mdl_doc_my dm
+						//获取其3篇文档
+						$docids = array();
+						$docids[] = $doccontributorsrecomend->docid1;
+						$docids[] = $doccontributorsrecomend->docid2;
+						$docids[] = $doccontributorsrecomend->docid3;
+						for($i=0;$i<3;$i++){
+							if($docids[$i] && $docids[$i] != -1){
+								//获取文档信息
+								$doc1 = $DB->get_record_sql("select dm.*,ds.sumscore from mdl_doc_my dm
 															left join mdl_doc_sumscore_my ds on dm.id = ds.docid
-															where dm.id = $doccontributorsrecomend->docid1");
-							$doctype = imagechoise($doc1->suffix);
-							echo '<a href="#">
+															where dm.id = $docids[$i] ");
+								if($doc1){
+									$doctype = imagechoise($doc1->suffix);
+									echo '<a href="#">
 										<p class="pa">
 											<a class="ca" href="onlineread.php?docid='.$doc1->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc1->name.'</a>
 											<span class="score">';
-							echo ($doc1->sumscore=="")?0:($doc1->sumscore);
-							echo '分</span>
+									echo ($doc1->sumscore=="")?0:($doc1->sumscore);
+									echo '分</span>
 										</p>
 									</a>';
+								}
+							}
 						}
-						if($doccontributorsrecomend->docid2 != null && $doccontributorsrecomend->docid2 != -1){
-							$doc2 = $DB->get_record_sql("select dm.*,ds.sumscore from mdl_doc_my dm
-															left join mdl_doc_sumscore_my ds on dm.id = ds.docid
-															where dm.id = $doccontributorsrecomend->docid2");
-							$doctype = imagechoise($doc2->suffix);
-							echo '<a href="#">
-										<p class="pa">
-											<a class="ca" href="onlineread.php?docid='.$doc2->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc2->name.'</a>
-											<span class="score">';
-							echo ($doc2->sumscore=="")?0:($doc2->sumscore);
-							echo '分</span>
-										</p>
-									</a>';
-						}
-						if($doccontributorsrecomend->docid3 != null && $doccontributorsrecomend->docid3 != -1){
-							$doc3 = $DB->get_record_sql("select dm.*,ds.sumscore from mdl_doc_my dm
-															left join mdl_doc_sumscore_my ds on dm.id = ds.docid
-															where dm.id = $doccontributorsrecomend->docid3");
-							$doctype = imagechoise($doc3->suffix);
-							echo '<a href="#">
-										<p class="pa">
-											<a class="ca" href="onlineread.php?docid='.$doc3->id.'"><span class="ic '.$doctype.'"></span>&nbsp;'.$doc3->name.'</a>
-											<span class="score">';
-							echo ($doc3->sumscore=="")?0:$doc3->sumscore;
-							echo'分</span>
-										</p>
-									</a>';
-						}
-
 						echo'
 								</div>
 							</div>';
 						$index++;
 					}
-					//文件类型判断
-					function imagechoise($type){
-						$type = strtolower($type);
-						$doctype = '';
-						switch($type){
-							case '.txt':
-								$doctype = 'ic-txt';
-								break;
-							case '.pdf':
-								$doctype = 'ic-pdf';
-								break;
-							case '.doc':
-							case '.docx':
-								$doctype = 'ic-doc';
-								break;
-							case '.xls':
-							case '.xlsx':
-								$doctype = 'ic-xls';
-								break;
-							case '.ppt':
-							case '.pptx':
-								$doctype = 'ic-ppt';
-								break;
-						}
-						return $doctype;
-					}
-
 				?>
 				<!--第一行 end-->
 
@@ -592,20 +599,22 @@ if(count($scoretables)<10){
 								$doctype = imagechoise($scoretable->suffix);
 								if($no<4){
 									echo '<div class="ranklist-block">
-											<a class="ranknum top3">'.$no.'</a>
-											<a class="bookname" href="onlineread.php?docid='.$scoretable->id.'" ><span class="ic '.$doctype.'"></span>&nbsp;'.$scoretable->name.$scoretable->suffix.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
-										</div>';
+											<a class="ranknum top3">'.$no.'</a>';
 								}elseif($no==10){
 									echo '<div class="ranklist-block">
-											<a class="ranknum top10">'.$no.'</a>
-											<a class="bookname" href="onlineread.php?docid='.$scoretable->id.'" ><span class="ic '.$doctype.'"></span>&nbsp;'.$scoretable->name.$scoretable->suffix.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
-										</div>';
+											<a class="ranknum top10">'.$no.'</a>';
 								}else{
 									echo '<div class="ranklist-block">
-											<a class="ranknum">'.$no.'</a>
-											<a class="bookname" href="onlineread.php?docid='.$scoretable->id.'" ><span class="ic '.$doctype.'"></span>&nbsp;'.$scoretable->name.$scoretable->suffix.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
-										</div>';
+											<a class="ranknum">'.$no.'</a>';
 								}
+								if($scoretable != ''){
+									$score = ($scoretable->sumscore == '')?0:$scoretable->sumscore;//分数处理
+									echo '<a class="bookname" href="onlineread.php?docid='.$scoretable->id.'" ><span class="ic '.$doctype.'"></span>&nbsp;'.$scoretable->name.$scoretable->suffix.'&nbsp;--&nbsp;'.$score.'分</a>';
+								}else{
+									echo '<a class="bookname" href="" ></a>';
+								}
+
+								echo '</div>';
 								$no++;
 							}
 						?>

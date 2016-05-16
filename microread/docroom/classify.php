@@ -62,7 +62,7 @@ if($docthirdclassid != ''){//显示三级分类的文档
 	foreach($docsecondclassesnow as $docsecondclass){
 		$docsecondclassesarray[] = $docsecondclass->id;
 	}
-	$docsecondclassStr = implode(',',$docsecondclassesarray);//获取当前文档的二级分类id字符串
+	$docsecondclassStr = implode(',',$docsecondclassesarray);//获取当前顶级分类下的二级分类id字符串
 	//获取当前顶级分类下的三级分类
 	if($docsecondclassStr != null){
 		$docthirdclassesnow = $DB->get_records_sql("select * from mdl_doc_categories_my dc where dc.parent in ($docsecondclassStr)");
@@ -251,7 +251,7 @@ function imagetype($type){
 	<div class="header-center">
 		<div class="a-box">
 			<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
-			<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+			<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/index.php">微阅</a>
 			<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
 			<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
 			<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
@@ -375,7 +375,7 @@ function imagetype($type){
 						foreach($docsecondclassesnow as $docsecondclass){
 							if($docsecondclass->id != null){
 								echo '<li class="J_MenuItem">
-									<h3 class="itemtit1"><span></span><a href="classify.php?docclassid='.$docclass->id.'&docsecondclassid='.$docsecondclass->id.'">'.$docsecondclass->name.'</a></h3>
+									<h3 class="itemtit1"><span></span><a href="classify.php?docclassid='.$docclassid.'&docsecondclassid='.$docsecondclass->id.'">'.$docsecondclass->name.'</a></h3>
 								</li>';
 							}
 
@@ -403,7 +403,7 @@ function imagetype($type){
 										<ul class="shadow-left">
 											<li>';
 								foreach($docthirdclasses as $docthirdclass){
-									echo '<a href="classify.php?docclassid='.$docclass->id.'&docsecondclassid='.$docsecondclass->id.'&docthirdclassid='.$docthirdclass->id.'">'.$docthirdclass->name.'</a>';
+									echo '<a href="classify.php?docclassid='.$docclassid.'&docsecondclassid='.$docsecondclass->id.'&docthirdclassid='.$docthirdclass->id.'">'.$docthirdclass->name.'</a>';
 								}
 								echo'		</li>
 										</ul>
@@ -449,7 +449,7 @@ function imagetype($type){
 		<div style="clear: both;"></div>
 		<div class="paging">
 			<nav>
-				<?php echo ($totalcount == 0)?'<p>占无相关文档</p>':''; ?>
+				<?php echo ($totalcount == 0)?'<p>暂无相关文档</p>':''; ?>
 				<ul class="pagination" <?php echo ($totalcount == 0)?'style="display: none;"':'style=""'; ?> >
 					<li>
 						<a href="classify.php?docclassid=<?php echo $docclassid; ?>&docsecondclassid=<?php echo $docsecondclassid; ?>&docthirdclassid=<?php echo $docthirdclassid; ?>">

@@ -5,11 +5,13 @@ require_once ("../../config.php");
 global $USER;
 global $DB;
 
-$bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");//获取电子书的顶级分类
+//获取电子书的顶级分类
+$bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");
+//获取最新的书籍
 $books = $DB->get_records_sql("select e.*,ea.name as authorname from mdl_ebook_my e
                                 left join  mdl_ebook_author_my ea on e.authorid = ea.id
-                                order by e.timecreated  desc  limit 0,6  ");//获取最新的书籍
-
+                                order by e.timecreated  desc  limit 0,6  ");
+//推荐阅读
 $recommends = $DB->get_records_sql("select em.*,er.*,ea.`name` as authorname from mdl_ebook_recommendlist_my er
                                      left join mdl_ebook_my em on er.ebookid = em.id
                                     left join mdl_ebook_author_my ea on em.authorid = ea.id");
@@ -44,31 +46,16 @@ $recommendbookhrefStr .= '"';
 //Start 热门排行榜
 $weektime = time()-3600*24*7;//一周前
 $monthtime = time()-3600*24*30;//一月前
-
-//$weekranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
-//                                    left join mdl_ebook_my e on m.contextid = e.id
-//                                    where  m.target = 1 and m.action = 'view' and m.timecreated> $weektime
-//                                    group by m.contextid
-//                                    order by rank desc
-//                                    limit 0,10");
+//周记录
 $weekranks = $DB->get_records_sql("select eh.contextid,eh.`name` as bookname,eh.rankcount as rank from mdl_ebook_hot_rank_my eh
 									where eh.ranktype = 1 ");
-//$monthranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
-//                                    left join mdl_ebook_my e on m.contextid = e.id
-//                                    where  m.target = 1 and m.action = 'view' and m.timecreated> $monthtime
-//                                    group by m.contextid
-//                                    order by rank desc
-//                                    limit 0,10");
+//月记录
 $monthranks = $DB->get_records_sql("select eh.contextid,eh.`name` as bookname,eh.rankcount as rank from mdl_ebook_hot_rank_my eh
 									where eh.ranktype = 2 ");
-//$totalranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
-//                                    left join mdl_ebook_my e on m.contextid = e.id
-//                                    where  m.target = 1 and m.action = 'view'
-//                                    group by m.contextid
-//                                    order by rank desc
-//                                    limit 0,10");
+//总记录
 $totalranks = $DB->get_records_sql("select eh.contextid,eh.`name` as bookname,eh.rankcount as rank from mdl_ebook_hot_rank_my eh
 									where eh.ranktype = 3 ");
+
 $weekrankarray = array();//显示书名信息
 $monthrankarray = array();
 $totalrankarray = array();
@@ -309,7 +296,7 @@ if(count($scoretables)<10){
 			<div class="header-center">
 				<div class="a-box">
 					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/index.php">微阅</a>
 					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
 					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
 					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
@@ -499,28 +486,28 @@ if(count($scoretables)<10){
 					</div>
 					<div class="ranklist">
                         <?php
-                        if($recommends !=null){
-                            $no = 1;
-                            foreach($recommends as $recommend){
-                                if($no<4){
-                                    echo ' <div class="ranklist-block">
-                                        <a class="ranknum top3">'.$no.'</a>
-                                        <a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
-                                    </div>';
-                                }elseif($no==10){
-									echo ' <div class="ranklist-block">
-                                        <a class="ranknum top10">'.$no.'</a>
-                                        <a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
-                                    </div>';
-								}else{
-                                    echo ' <div class="ranklist-block">
-                                        <a class="ranknum">'.$no.'</a>
-                                        <a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
-                                    </div>';
-                                }
-                                $no++;
-                            }
-                        }
+							if($recommends !=null){
+								$no = 1;
+								foreach($recommends as $recommend){
+									if($no<4){
+										echo ' <div class="ranklist-block">
+											<a class="ranknum top3">'.$no.'</a>
+											<a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+										</div>';
+									}elseif($no==10){
+										echo ' <div class="ranklist-block">
+											<a class="ranknum top10">'.$no.'</a>
+											<a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+										</div>';
+									}else{
+										echo ' <div class="ranklist-block">
+											<a class="ranknum">'.$no.'</a>
+											<a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+										</div>';
+									}
+									$no++;
+								}
+							}
                         ?>
 					</div>
 				</div>
@@ -592,21 +579,20 @@ if(count($scoretables)<10){
 							foreach($scoretables as $scoretable){
 								if($no<4){
 									echo '<div class="ranklist-block">
-											<a class="ranknum top3">'.$no.'</a>
-											<a class="bookname" href="bookindex.php?bookid='.$scoretable->id.'" >'.$scoretable->name.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
-										</div>';
+											<a class="ranknum top3">'.$no.'</a>';
 								}elseif($no==10){
 									echo '<div class="ranklist-block">
-												<a class="ranknum top10">'.$no.'</a>
-												<a class="bookname" href="bookindex.php?bookid='.$scoretable->id.'" >'.$scoretable->name.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
-											</div>';
+												<a class="ranknum top10">'.$no.'</a>';
 								}
 								else{
 									echo '<div class="ranklist-block">
-												<a class="ranknum">'.$no.'</a>
-												<a class="bookname" href="bookindex.php?bookid='.$scoretable->id.'" >'.$scoretable->name.'&nbsp;--&nbsp;'.$scoretable->sumscore.'分</a>
-											</div>';
+											<a class="ranknum">'.$no.'</a>';
 								}
+								if($scoretable != ''){
+									$score = ($scoretable->sumscore == '')?0:$scoretable->sumscore;
+									echo '<a class="bookname" href="bookindex.php?bookid='.$scoretable->id.'" >'.$scoretable->name.'&nbsp;--&nbsp;'.$score.'分</a>';
+								}
+								echo '</div>';
 								$no++;
 							}
 						?>

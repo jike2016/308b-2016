@@ -123,12 +123,12 @@ function ebook(){
     $weektime = time()-3600*24*7;//一周前
     $monthtime = time()-3600*24*30;//一月前
     //周
-    $weekranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
-                                    left join mdl_ebook_my e on m.contextid = e.id
-                                    where  m.target = 1 and m.action = 'view' and m.timecreated> $weektime
-                                    group by m.contextid
-                                    order by rank desc
-                                    limit 0,10");
+    $weekranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_ebook_my e
+                                        left join  mdl_microread_log m on m.contextid = e.id
+                                        where  m.target = 1 and m.action = 'view' and m.timecreated > $weektime
+                                        group by m.contextid
+                                        order by rank desc
+                                        limit 0,10");
     if(count($weekranks)<10){
         $i = 10 - count($weekranks);
         for($i;$i>0;$i--){
@@ -145,9 +145,9 @@ function ebook(){
         $i++;
     }
     //月
-    $monthranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
-                                    left join mdl_ebook_my e on m.contextid = e.id
-                                    where  m.target = 1 and m.action = 'view' and m.timecreated> $monthtime
+    $monthranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_ebook_my e
+                                    left join  mdl_microread_log m on m.contextid = e.id
+                                    where  m.target = 1 and m.action = 'view' and m.timecreated > $monthtime
                                     group by m.contextid
                                     order by rank desc
                                     limit 0,10");
@@ -167,8 +167,8 @@ function ebook(){
         $i++;
     }
     //总
-    $totalranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_microread_log m
-                                    left join mdl_ebook_my e on m.contextid = e.id
+    $totalranks = $DB->get_records_sql("select m.contextid,count(1) as rank ,m.target,e.id as ebookid,e.name as bookname from mdl_ebook_my e
+                                    left join  mdl_microread_log m on m.contextid = e.id
                                     where  m.target = 1 and m.action = 'view'
                                     group by m.contextid
                                     order by rank desc
@@ -198,9 +198,9 @@ function doc(){
     global $DB;
 
     //更新热门贡献者
-    $doccontributorslists = $DB->get_records_sql("select dm.uploaderid,count(1) as rankcount,u.firstname as uploadusername from mdl_doc_my dm
+    $doccontributorslists = $DB->get_records_sql("select dm.uploaderid,count(1) as rankcount,u.firstname as uploadusername from mdl_user u
+												left join  mdl_doc_my dm on u.id = dm.uploaderid
 												left join mdl_microread_log ml on dm.id = ml.contextid
-												left join mdl_user u on u.id = dm.uploaderid
 												where ml.action = 'view'
 												and ml.target = 2
 												group by dm.uploaderid
@@ -226,8 +226,8 @@ function doc(){
     $monthtime = time()-3600*24*30;//一月前
 
     //周
-    $weekranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_microread_log ml
-									left join mdl_doc_my dm on ml.contextid = dm.id
+    $weekranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_doc_my dm
+									left join mdl_microread_log ml on ml.contextid = dm.id
 									where ml.action = 'view'
 									and ml.target = 2
 									and ml.timecreated > $weektime
@@ -252,8 +252,8 @@ function doc(){
     }
 
     //月
-    $monthranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_microread_log ml
-									left join mdl_doc_my dm on ml.contextid = dm.id
+    $monthranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_doc_my dm
+									left join mdl_microread_log ml on ml.contextid = dm.id
 									where ml.action = 'view'
 									and ml.target = 2
 									and ml.timecreated > $monthtime
@@ -277,8 +277,8 @@ function doc(){
         $i++;
     }
     //总
-    $totalranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_microread_log ml
-									left join mdl_doc_my dm on ml.contextid = dm.id
+    $totalranks = $DB->get_records_sql("select ml.contextid,count(1) as rankcount,dm.`name` as docname,dm.suffix as doctype from mdl_doc_my dm
+									left join mdl_microread_log ml on ml.contextid = dm.id
 									where ml.action = 'view'
 									and ml.target = 2
 									group by ml.contextid

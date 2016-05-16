@@ -372,7 +372,7 @@ function get_doc_sumcore_count($docid)
 		<div class="header-center">
 			<div class="a-box">
 				<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
-				<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/mod/forum/view.php?id=1">微阅</a>
+				<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/index.php">微阅</a>
 				<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
 				<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
 				<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>

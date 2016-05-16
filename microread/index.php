@@ -143,6 +143,14 @@ function imagechoise($type){
 					$('#searchtypebtn').append('&nbsp;<span class="caret"></span>');
 				});
 			});
+			//回车事件
+			document.onkeydown = function (e) {
+				var theEvent = window.event || e;
+				var code = theEvent.keyCode || theEvent.which;
+				if ( $('#searchParam').val() != '' && code == 13) {
+					$("#search_btn").click();
+				}
+			}
 			//搜索
 			function search(){
 				var searchType = document.getElementById("searchtypebtn");//获取查询参数
@@ -214,7 +222,7 @@ function imagechoise($type){
 			      	</div><!-- /btn-group -->
 			      	<input id="searchParam" type="text" class="form-control" >
 			    </div><!-- /input-group -->
-			    <button onclick="search()" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>		    
+			    <button onclick="search()" id="search_btn" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
 			</div>
 			<!--搜索框组 end-->
 		</div>

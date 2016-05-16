@@ -290,7 +290,7 @@ if(isset($_POST["searchcount"])){
 								<div class="book-info-box">
 									<a href="bookindex.php?bookid='.$searchResult->id.'" target="_blank"><p class="bookname">'.$searchResult->name.'</p></a>
 									<p class="writer">作者：<a href="bookauthor.php?authorid='.$searchResult->authorid.'" target="_blank" >'.$searchResult->authorname.'</a>&nbsp;&nbsp;（上传者：'.$searchResult->uploadername.'）</p>
-									<p class="bookinfo">'.substr($searchResult->summary,0,270).'...'.'</p>
+									<p class="bookinfo">'.mb_substr($searchResult->summary,0,270,'utf-8').'...'.'</p>
 									<p>';
 
 					//获取书籍的标签

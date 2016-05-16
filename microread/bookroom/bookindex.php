@@ -487,9 +487,9 @@ function my_get_book_evaluation($bookid, $current_page)
 																	order by es.sectionorder");
 					echo '<p>
 										<a href="#">'.$bookchapter->name.'</a>
-										<ul>';
+										<ul style="font-size:14px;" >';
 					foreach($booksections as $booksection){
-						echo '<li><a href="onlineread.php?bookid='.$bookid.'&booksectionid='.$booksection->id.'" target="_blank">'.$booksection->name.'</a></li>';
+						echo '<li style="list-style-type:none;" ><a href="onlineread.php?bookid='.$bookid.'&booksectionid='.$booksection->id.'" target="_blank">'.$booksection->name.'</a></li>';
 					}
 					echo '</ul>
 								</p>';
@@ -582,7 +582,7 @@ function my_get_book_evaluation($bookid, $current_page)
 										<div class="bookinfobox">
 											<a href="bookindex.php?bookid='.$recomendbook->id.'"><p class="bookname">'.$recomendbook->name.'</p></a>
 											<p>'.$recomendbook->authorname.'</p>
-											<p>'.substr($recomendbook->summary,0,96).'...'.'</p>
+											<p>'.mb_substr($recomendbook->summary,0,96,'utf-8').'...'.'</p>
 											<p>'.userdate($recomendbook->timecreated,'%Y年%m月%d日').'</p>
 										</div>
 									</div>';

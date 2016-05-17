@@ -41,7 +41,13 @@ $totalhrefarray = array();
 
 foreach($weekranks as $weekrank ){
 	if($weekrank->contextid != 0){
-		$weekrankarray[] = $weekrank->docname.$weekrank->doctype.' -- '.$weekrank->rankcount;
+		$docnamelen = strlen($weekrank->docname);
+		if($docnamelen > 36 ){
+			$docname = mb_substr($weekrank->docname,0,12,"utf-8").'...';
+		}else{
+			$docname = $weekrank->docname.$weekrank->doctype;
+		}
+		$weekrankarray[] = $docname.' -- '.$weekrank->rankcount;
 		$weekhrefarray[] = 'onlineread.php?docid='.$weekrank->contextid;
 	}
 }
@@ -54,7 +60,13 @@ if(count($weekrankarray)<10){
 }
 foreach($monthranks as $monthrank ){
 	if($monthrank->contextid != 0) {
-		$monthrankarray[] = $monthrank->docname . $monthrank->doctype . ' -- ' . $monthrank->rankcount;
+		$docnamelen = strlen($monthrank->docname);
+		if($docnamelen > 36 ){
+			$docname = mb_substr($monthrank->docname,0,12,"utf-8").'...';
+		}else{
+			$docname = $monthrank->docname.$monthrank->doctype;
+		}
+		$monthrankarray[] = $docname. ' -- ' . $monthrank->rankcount;
 		$monthhrefarray[] = 'onlineread.php?docid=' . $monthrank->contextid;
 	}
 }
@@ -67,7 +79,13 @@ if(count($monthrankarray)<10){
 }
 foreach($totalranks as $totalrank ){
 	if($totalrank->contextid != 0){
-		$totalrankarray[] = $totalrank->docname.$totalrank->doctype.' -- '.$totalrank->rankcount;
+		$docnamelen = strlen($totalrank->docname);
+		if($docnamelen > 36 ){
+			$docname = mb_substr($totalrank->docname,0,12,"utf-8").'...';
+		}else{
+			$docname = $totalrank->docname.$totalrank->doctype;
+		}
+		$totalrankarray[] = $docname.' -- '.$totalrank->rankcount;
 		$totalhrefarray[] = 'onlineread.php?docid='.$totalrank->contextid;
 	}
 }
@@ -609,7 +627,13 @@ if(count($scoretables)<10){
 								}
 								if($scoretable != ''){
 									$score = ($scoretable->sumscore == '')?0:$scoretable->sumscore;//分数处理
-									echo '<a class="bookname" href="onlineread.php?docid='.$scoretable->id.'" ><span class="ic '.$doctype.'"></span>&nbsp;'.$scoretable->name.$scoretable->suffix.'&nbsp;--&nbsp;'.$score.'分</a>';
+									$docnamelen = strlen($scoretable->name);
+									if($docnamelen > 36 ){
+										$docname = mb_substr($scoretable->name,0,12,"utf-8").'...';
+									}else{
+										$docname = $scoretable->name.$scoretable->suffix;
+									}
+									echo '<a class="bookname" href="onlineread.php?docid='.$scoretable->id.'" ><span class="ic '.$doctype.'"></span>&nbsp;'.$docname.'&nbsp;--&nbsp;'.$score.'分</a>';
 								}else{
 									echo '<a class="bookname" href="" ></a>';
 								}

@@ -10,6 +10,7 @@ function microread_rank(){
 
     inittalbe();//初始化书库、文库表
     del_microreadlog();//删除日志表中已经被删除的书籍、文档日志
+    del_author_upload();//删除日志表中被删除作者、上传者的书籍的记录
     ebook();//更新书库排行表
     doc();//更新文库排行表
 }
@@ -326,4 +327,35 @@ function del_microreadlog(){
     }
 }
 //End 删除日志表中已经被删除的书籍、文档日志
+
+//Start 删除日记中被删除的作者、上传者对应书籍的记录
+/**
+ * 方案：
+ * 作者=》书籍 =》点击记录
+ * 上传者=》文档 =》点击记录
+ * 在后台的操作中，作者被删除后，书籍作者id记录为-1，
+ * 所以、、、、
+ */
+function del_author_upload(){
+    global $DB;
+
+    //书库
+    $errorbooks = $DB->get_records_sql("select ml.id from mdl_microread_log ml
+                                        where ml.action = 'view' and ml.target = 1
+                                        and ml.contextid in (select e.id from mdl_ebook_my e where e.authorid = -1 )");
+    foreach($errorbooks as $errorbook){
+        $book = $DB->delete_records("microread_log",array("id" => $errorbook->id));
+    }
+
+    //文库
+    $errordocs = $DB->get_records_sql("select ml.id from mdl_microread_log ml
+                                        where ml.action = 'view' and ml.target = 2
+                                        and ml.contextid in (select d.id from mdl_doc_my d where d.uploaderid  = -1 )");
+    foreach($errordocs as $errordoc){
+        $doc = $DB->delete_records("microread_log",array("id" => $errordoc->id));
+    }
+}
+
+//End 删除日记中被删除的作者、上传者对应书籍的记录
+
 

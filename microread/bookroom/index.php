@@ -66,7 +66,8 @@ foreach($weekranks as $weekrank ){
 	if($weekrank->contextid == 0){
 		break;
 	}
-    $weekrankarray[] = '《'.$weekrank->bookname.'》'.' -- '.$weekrank->rank;
+	$bookname = (strlen($weekrank->bookname) > 36)?mb_substr($weekrank->bookname,0,12,"utf-8").'...':$weekrank->bookname;
+    $weekrankarray[] = '《'.$bookname.'》'.' -- '.$weekrank->rank;
 	$weekhrefarray[] = 'bookindex.php?bookid='.$weekrank->contextid;
 }
 if(count($weekrankarray)<10){
@@ -80,7 +81,8 @@ foreach($monthranks as $monthrank ){
 	if($monthrank->contextid == 0){
 		break;
 	}
-    $monthrankarray[] = '《'.$monthrank->bookname.'》'.' -- '.$monthrank->rank;
+	$bookname = (strlen($monthrank->bookname) > 36)?mb_substr($monthrank->bookname,0,12,"utf-8").'...':$monthrank->bookname;
+    $monthrankarray[] = '《'.$bookname.'》'.' -- '.$monthrank->rank;
 	$monthhrefarray[] = 'bookindex.php?bookid='.$monthrank->contextid;
 }
 if(count($monthrankarray)<10){
@@ -94,7 +96,8 @@ foreach($totalranks as $totalrank ){
 	if($totalrank->contextid == 0){
 		break;
 	}
-    $totalrankarray[] = '《'.$totalrank->bookname.'》'.' -- '.$totalrank->rank;
+	$bookname = (strlen($totalrank->bookname) > 36)?mb_substr($totalrank->bookname,0,12,"utf-8").'...':$totalrank->bookname;
+    $totalrankarray[] = '《'.$bookname.'》'.' -- '.$totalrank->rank;
 	$totalhrefarray[] = 'bookindex.php?bookid='.$totalrank->contextid;
 }
 if(count($totalrankarray)<10){
@@ -489,20 +492,22 @@ if(count($scoretables)<10){
 							if($recommends !=null){
 								$no = 1;
 								foreach($recommends as $recommend){
+									$bookname = (strlen($recommend->name) > 36)?mb_substr($recommend->name,0,12,"utf-8").'...':$recommend->name;
+									$bookname = '《'.$bookname.'》';
 									if($no<4){
 										echo ' <div class="ranklist-block">
 											<a class="ranknum top3">'.$no.'</a>
-											<a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+											<a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$bookname.'</a>
 										</div>';
 									}elseif($no==10){
 										echo ' <div class="ranklist-block">
 											<a class="ranknum top10">'.$no.'</a>
-											<a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+											<a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$bookname.'</a>
 										</div>';
 									}else{
 										echo ' <div class="ranklist-block">
 											<a class="ranknum">'.$no.'</a>
-											<a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+											<a class="bookname" href="bookindex.php?bookid='.$recommend->ebookid.'" >'.$bookname.'</a>
 										</div>';
 									}
 									$no++;
@@ -590,7 +595,8 @@ if(count($scoretables)<10){
 								}
 								if($scoretable != ''){
 									$score = ($scoretable->sumscore == '')?0:$scoretable->sumscore;
-									echo '<a class="bookname" href="bookindex.php?bookid='.$scoretable->id.'" >'.$scoretable->name.'&nbsp;--&nbsp;'.$score.'分</a>';
+									$bookname = (strlen($scoretable->name) > 36 )?mb_substr($scoretable->name,0,12,"utf-8").'...':$scoretable->name;
+									echo '<a class="bookname" href="bookindex.php?bookid='.$scoretable->id.'" >《'.$bookname.'》&nbsp;--&nbsp;'.$score.'分</a>';
 								}
 								echo '</div>';
 								$no++;

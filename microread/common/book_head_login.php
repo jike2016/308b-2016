@@ -1,5 +1,5 @@
 <?php
-//微阅》首页》登录导航栏
+//微阅》书库》登录导航栏
 //require_once ("../../config.php");//不能重复引用！
 global $USER;
 
@@ -56,6 +56,8 @@ global $USER;
                                         <li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="'.new moodle_url('/message/').'">消息</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="user_upload.php">上传电子书</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
                                     </ul>

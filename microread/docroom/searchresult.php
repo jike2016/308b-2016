@@ -165,83 +165,6 @@ function imagechoise($type){
 				window.location.href="searchresult.php?searchType="+searchType.textContent+"&searchParam="+searchParam.value+"&searchDocType="+searchDocType;
 			}
 		</script>
-		<script>
-			$(document).ready(function(){
-				//聊天室 START 20160314
-				//适配不同大小偏移值
-				var winW=$(window).width();
-				var winH=$(window).height();
-				var leftval = (winW-900)/2;
-				var topval = (winH-600)/3;
-				$('.chat-box').css({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
-				//适配不同大小偏移值 end
-				var chatbox=false;
-				$('.elevator-weixin').click(function(){
-					if(chatbox==false){
-						$('.chat-box1').append('<iframe src="<?php echo $CFG->wwwroot;?>/chat" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
-						chatbox=true;
-					}
-					$('.chat-box1').show();
-				})
-				$('#chat-close').click(function(){
-					$('.chat-box1').hide();
-					//alert("关闭的top: " +$('.chat-box').offset().top);
-				})
-				//聊天室 End
-				//收藏按钮
-				$('#collection-btn').click(function()
-				{
-					$.ajax({
-						url: "<?php echo $CFG->wwwroot;?>/privatecenter/mycollection/collectionpage.php",
-						data: {mytitle: document.title, myurl: window.location.href },
-						success: function(msg){
-							if(msg=='1'){
-								alert('收藏成功，可去个人中心查看')
-							}
-							else{
-								msg=='2' ? alert('您已经收藏过了，请去个人中心查看收藏结果') :alert('收藏失败');
-							}
-						}
-					});
-				});
-				//点赞按钮
-				$('#like-btn').click(function()
-				{
-					$.ajax({
-						url: "<?php echo $CFG->wwwroot;?>/like/courselike.php",
-						data: {mytitle: document.title, myurl: window.location.href },
-						success: function(msg){
-							// alert(msg);
-							if(msg=='1'){
-								alert('点赞成功')
-							}
-							else{
-								msg=='2' ? alert('你已经点赞了，不能再次点赞') :alert('点赞失败');
-							}
-						}
-					});
-				});
-				//笔记20160314
-				var note_personal = false
-				$('#mynote-btn').click(function(){
-					if(note_personal == false)
-					{
-						$('.chat-box2').append('<iframe src="<?php echo $CFG->wwwroot;?>/mod/notemy/newnotemy_personal.php" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
-						note_personal = true;
-					}
-
-					$('.chat-box2').show();
-
-				})
-				//笔记
-				$('#chat-close2').click(function(){
-					$('.chat-box2').hide();
-				})
-
-			});
-		</script>
-
-
 	</head>
 	<body id="articlesearch">
 
@@ -250,37 +173,10 @@ function imagechoise($type){
 		</form>
 
 		<!--顶部导航-->
-		<div class="header">
-			<div class="header-center">
-				<div class="a-box">
-					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/index.php">微阅</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
-					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
-				</div>
 
-				<?php
-					if($USER->id!=0){
-						echo '<div id="usermenu" class="dropdown">
-										<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-											<a href="#" class="username">'.fullname($USER, true).'</a>
-											<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
-										</button>
-										<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-											<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
-											<li role="separator" class="divider"></li>
-											<li><a href="'.new moodle_url('/message/').'">消息</a></li>
-											<li role="separator" class="divider"></li>
-											<li><a href="user_upload.php">上传文档</a></li>
-											<li role="separator" class="divider"></li>
-											<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
-										</ul>
-									</div>';
-					};
-				?>
-			</div>
-		</div>
+		<?php
+			require_once ("../common/doc_head_login.php");//微阅登录导航栏：首页、微阅、微课、、、、
+		?>
 		
 		<div class="header-banner">
 			<a href="index.php"><img  src="../img/logo_WenKu.png"/></a>
@@ -471,39 +367,11 @@ function imagechoise($type){
 
 
 
-		<!--右下角按钮-->
+		<!--页面右下角按钮 Start-->
 		<?php
-			if(isloggedin()){
-				echo '
-						<div id="J_GotoTop" class="elevator">
-						<a class="elevator-msg" id="mynote-btn" style="cursor:pointer"></a>
-						<a class="elevator-weixin" style="cursor:pointer"></a>
-						<a class="elevator-app"  id="collection-btn" style="cursor:pointer"></a>
-						<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
-						<a class="elevator-top" href="#"></a>
-						</div>';
-			}
-			else{
-				echo '
-						<div id="J_GotoTop" class="elevator">
-						<a class="elevator-top" href="#"></a>
-						</div>';
-			}
+			require_once ("../common/all_note_chat.php");//右下角链接：笔记、聊天、收藏、、、、
 		?>
-
-		<div class="chat-box chat-box1">
-			<div class="chat-head">
-				<p>聊天室</p>
-				<p id="chat-close" class="close">x</p>
-			</div>
-		</div>
-		<div class="chat-box chat-box2">
-			<div class="chat-head">
-				<p>个人笔记</p>
-				<p id="chat-close2" class="close">x</p>
-			</div>
-		</div>
-		<!--右下角按钮 end-->
+		<!--页面右下角按钮 end-->
 		
 		<div style="clear: both;"></div>		
 		<!--底部导航条-->

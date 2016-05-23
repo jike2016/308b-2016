@@ -173,35 +173,9 @@ function imagechoise($type){
 	</head>
 	<body id="weiyueindex">
 		<!--顶部导航-->
-		<div class="header">
-			<div class="header-center">
-				<div class="a-box">
-					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/">微阅</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
-					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="img/denglu.png"></a>';?>
-				</div>
-				<?php 
-				
-					if($USER->id!=0){
-						echo '<div id="usermenu" class="dropdown">
-								<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-									<a href="#" class="username">'.fullname($USER, true).'</a>
-									<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
-								</button>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="'.new moodle_url('/message/').'">消息</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
-								</ul>
-							</div>';
-					};
-				?>
-			</div>
-		</div>
+		<?php
+			require_once ("common/micro_head_login.php");//微阅登录导航栏：首页、微阅、微课、、、、
+		?>
 		
 		<div class="header-banner">
 			<a href="index.php"><img  src="img/logo_weiyue.png"/></a>
@@ -310,20 +284,22 @@ function imagechoise($type){
 							if($recommends !=null){
 								$no = 1;
 								foreach($recommends as $recommend){
+									$bookname = (strlen($recommend->name) > 36)?mb_substr($recommend->name,0,12,"utf-8").'...':$recommend->name;
+									$bookname = '《'.$bookname.'》';
 									if($no<4){
 										echo ' <div class="ranklist-block">
 												<a class="ranknum top3">'.$no.'</a>
-												<a class="bookname" href="bookroom/bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+												<a class="bookname" href="bookroom/bookindex.php?bookid='.$recommend->ebookid.'" >'.$bookname.'</a>
 											</div>';
 									}elseif($no==10){
 										echo ' <div class="ranklist-block">
 												<a class="ranknum top10">'.$no.'</a>
-												<a class="bookname" href="bookroom/bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+												<a class="bookname" href="bookroom/bookindex.php?bookid='.$recommend->ebookid.'" >'.$bookname.'</a>
 											</div>';
 									}else{
 										echo ' <div class="ranklist-block">
 												<a class="ranknum">'.$no.'</a>
-												<a class="bookname" href="bookroom/bookindex.php?bookid='.$recommend->ebookid.'" >'.$recommend->name.'</a>
+												<a class="bookname" href="bookroom/bookindex.php?bookid='.$recommend->ebookid.'" >'.$bookname.'</a>
 											</div>';
 									}
 									$no++;
@@ -437,16 +413,12 @@ function imagechoise($type){
 			<!--图库首页 end-->
 		</div>
 		<!--页面主体 end-->
-		
-		<!--右下角按钮-->
-		<div id="J_GotoTop" class="elevator">
-			<a class="elevator-msg" id="mynote-btn" style="cursor:pointer"></a>
-			<a class="elevator-weixin" style="cursor:pointer"></a>
-			<a class="elevator-app"  id="collection-btn" style="cursor:pointer"></a>
-			<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
-			<a class="elevator-top" href="#"></a>
-		</div>
-		<!--右下角按钮 end-->
+
+		<!--页面右下角按钮 Start-->
+		<?php
+			require_once ("common/all_note_chat.php");//右下角链接：笔记、聊天、收藏、、、、
+		?>
+		<!--页面右下角按钮 end-->
 		
 		<div style="clear: both;"></div>		
 		<!--底部导航条-->

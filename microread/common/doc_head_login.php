@@ -1,5 +1,5 @@
 <?php
-//微阅》首页》登录导航栏
+//微阅》文库》登录导航栏
 //require_once ("../../config.php");//不能重复引用！
 global $USER;
 
@@ -45,21 +45,22 @@ global $USER;
             <?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="'.$CFG->wwwroot.'/microread/img/denglu.png"></a>';?>
         </div>
         <?php
-
             if($USER->id!=0){
                 echo '<div id="usermenu" class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <a href="#" class="username">'.fullname($USER, true).'</a>
-                                        <a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="'.new moodle_url('/message/').'">消息</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
-                                    </ul>
-                                </div>';
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <a href="#" class="username">'.fullname($USER, true).'</a>
+                                            <a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="'.new moodle_url('/message/').'">消息</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="user_upload.php">上传文档</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
+                                        </ul>
+                                    </div>';
             };
         ?>
     </div>

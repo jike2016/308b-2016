@@ -114,9 +114,9 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 #weiyueindex .imagebanner{width: 100%;margin-top: 30px;}
 #weiyueindex .imagebanner .imagebox{width: 100%;margin-top: 20px; height: 300px;}
 #weiyueindex .imagebanner .imagebg {height: 180px; width: 18.4%; float: left; margin-right: 2%; margin-bottom: 20px;}
-
 #weiyueindex .imagebanner .final {margin-right: 0%;}
 #weiyueindex .imagebanner .imagebg .imageinfo {color: #FFFFFF; height: 40px;width: 100%; margin-top: 140px; background:rgba(0, 0, 0, 0.4)!important;filter:Alpha(opacity=60); background:#fff; }
+/*#weiyueindex .imagebanner .imagebg:hover {border-radius: 20px 20px 0px 0px;}*/
 #weiyueindex .imagebanner .imagebg {-webkit-transition: transform .3s; -moz-transition: transform .3s; -o-transition: transform .3s; -webkit-perspective: 1000;}
 #weiyueindex .imagebanner .imagebg:hover  {-webkit-transform: scale(1.05); -moz-transform: scale(1.05); -o-transform: scale(1.05); transform: scale(1.05);}
 #weiyueindex .imagebanner .imagebg .imageinfo p {color: #FFFFFF;position: relative; margin-left: 15px; padding-top: 10px;}

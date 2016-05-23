@@ -1,30 +1,55 @@
 <?php
 require_once ("../../config.php");
 global $DB;
+/** START cx开关判断 20160515*/
+if(!$DB->record_exists('microread_upload_switch_my',array('id'=>1,'upload_switch'=>1))){
+	echo '上传功能已关闭，3秒后页面将自动跳转';
+	//等待3秒后跳转
+	header("refresh:3;url=http://".$_SERVER['HTTP_HOST']."/moodle/microread/bookroom");
+	exit;
+}
+/** End 开关判断*/
 global $USER;
 $bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");//获取顶级分类
 if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
 	//处理数据
 	$currenttime=time();
 	$ranknum = rand(100, 200);//随机数
-	$picfilestr=strrchr($_FILES['pictrueurl']['name'],'.');//pic后缀名
-	$picfilestr=strtolower($picfilestr);//全小写
+	$newebook=new stdClass();
+	if(isset($_FILES['pictrueurl'])) {//上传图片
+		if ($_FILES["pictrueurl"]["error"] > 0) {
+			// failure('上传图片失败');
+			// exit;
+			$newebook->pictrueurl= '';
+		} else {
+			$picfilestr=strrchr($_FILES['pictrueurl']['name'],'.');//pic后缀名
+			$picfilestr=strtolower($picfilestr);//全小写
+			move_uploaded_file($_FILES["pictrueurl"]["tmp_name"],"../../../microread_files/ebook/user_upload/ebookpic/" . $currenttime.$ranknum.$picfilestr);
+			//zxf start 2016/5/12 用户上传图片 加水印
+			require_once('../admin/water.php');
+			img_water_mark('../../../microread_files/ebook/user_upload/ebookpic/'.$currenttime . $ranknum . $picfilestr,'http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/Home_Logo.png');
+			//zxf end 2016/5/12 用户上传图片 加水印
+			$newebook->pictrueurl= '/microread_files/ebook/user_upload/ebookpic/'. $currenttime.$ranknum.$picfilestr;
+		}
+	}
+	else{
+		$newebook->pictrueurl= '';
+	}
 	$urlfilestr=strrchr($_FILES['ebookurl']['name'],'.');//url后缀名
 	$urlfilestr=strtolower($urlfilestr);
-	move_uploaded_file($_FILES["pictrueurl"]["tmp_name"],"../../../microread_files/ebook/user_upload/ebookpic/" . $currenttime.$ranknum.$picfilestr);
+
 	move_uploaded_file($_FILES["ebookurl"]["tmp_name"],"../../../microread_files/ebook/user_upload/ebookfordownload/" . $currenttime.$ranknum.$urlfilestr);
-	$newebook=new stdClass();
 	$newebook->uploaderid= $USER->id;
 	$newebook->admin_check= 0;
 	$newebook->name= $_POST['ebookname'];
 	$newebook->summary= $_POST['summary'];
-	$newebook->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/user_upload/ebookfordownload/'. $currenttime.$ranknum.$urlfilestr;
-	$newebook->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/user_upload/ebookpic/'. $currenttime.$ranknum.$picfilestr;
+	$newebook->url= '/microread_files/ebook/user_upload/ebookfordownload/'. $currenttime.$ranknum.$urlfilestr;
+//	$newebook->pictrueurl= '/microread_files/ebook/user_upload/ebookpic/'. $currenttime.$ranknum.$picfilestr;
 	$newebook->timecreated= $currenttime;
 	$newebook->suffix = strrchr($_FILES['ebookurl']['name'],'.');
 	$newebook->size= number_format(($_FILES["ebookurl"]["size"] / 1048576),1).'MB';
 	$ebookid=$DB->insert_record('ebook_user_upload_my',$newebook,true);
-	echo '上传成功!请等待管理员审核，5秒后页面将自动跳转';
+	echo '上传成功!请等待管理员审核，3秒后页面将自动跳转';
 	//等待3秒后跳转
 	header("refresh:3;url=http://".$_SERVER['HTTP_HOST']."/moodle/microread/bookroom");
 	exit;
@@ -106,7 +131,7 @@ if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
 					}
 				}
 				if(!picnamecheck(txt_picurl)){
-					$("#picLabel").text("请上传图片(jpg,gif,png,bmp)");
+					$("#picLabel").text("请上传图片(jpg,gif,png)");
 					$("#picLabel").css({"color":"red"}); 
 					isSuccess = 0; 
 				}
@@ -131,7 +156,7 @@ if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
 			 //获取截取的最后一个字符串，即为后缀名
 			var last=three[three.length-1];
 			//添加需要判断的后缀名类型
-			var tp ="jpg,gif,bmp,png,JPG,GIF,BMP,PNG";
+			var tp ="jpg,gif,png,JPG,GIF,PNG";
 			//返回符合条件的后缀名在字符串中的位置
 			var rs=tp.indexOf(last);
 			//如果返回的结果大于或等于0，说明包含允许上传的文件类型
@@ -221,9 +246,36 @@ if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
  	</head>
 	<body id="uploadpage">
 		<!--顶部导航-->
-		<?php
-			require_once ("../common/book_head_login.php");//登录导航头：首页、微阅、、、
-		?>
+		<div class="header">
+			<div class="header-center">
+				<div class="a-box">
+					<a class="nav-a frist" href="<?php echo $CFG->wwwroot; ?>">首页</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/">微阅</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
+					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
+				</div>
+				<?php
+					if($USER->id!=0){
+						echo '<div id="usermenu" class="dropdown">
+									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+										<a href="#" class="username">'.fullname($USER, true).'</a>
+										<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a href="'.new moodle_url('/message/').'">消息</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a href="user_upload.php">上传电子书</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
+									</ul>
+								</div>';
+					};
+				?>
+			</div>
+		</div>
 
 		<div class="header-banner">
 			<a href="index.php"><img  src="../img/shuku_logo.png"/></a>

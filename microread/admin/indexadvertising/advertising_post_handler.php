@@ -34,7 +34,7 @@ if(isset($_GET['title']) && $_GET['title']){
 					$picmatch=array('.gif','.jpeg','.png','.bmp','.jpg');
 					if(in_array($picstr,$picmatch)) {
 						move_uploaded_file($_FILES["picurl"]["tmp_name"],"../../../../microread_files/index_advertising/" . $currenttime.$ranknum.$picstr);
-						$newadvertising->picurl = 'http://' . $_SERVER['HTTP_HOST'] . '/microread_files/index_advertising/' . $currenttime.$ranknum.$picstr;
+						$newadvertising->picurl =  '/microread_files/index_advertising/' . $currenttime.$ranknum.$picstr;
 						//start zxf 2016/5/11 广告修改，新图片上传 之前的图片 删除
 						require_once('../convertpath.php');
 						global $DB;

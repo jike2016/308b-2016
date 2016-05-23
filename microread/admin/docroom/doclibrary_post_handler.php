@@ -24,8 +24,17 @@ if(isset($_GET['title'])&&$_GET['title']){
         case "delete"://删除
             delete_doclibrary();
             break;
-
+		case "restart_service"://重启文档转换
+			restart_service();
+			break;
     }
+}
+
+function restart_service(){
+		exec("sudo killall soffice.bin");
+		success('重启成功','doclibrary','');
+		// exec("sudo killall soffice.bin &> /etc/test.txt", $a,$b);
+		// success('重启'.$a.' 成功 '.$b,'doclibrary','');
 }
 
 function edit_doclibrary(){
@@ -56,7 +65,7 @@ function edit_doclibrary(){
                 require_once('../water.php');
                 img_water_mark('../../../../microread_files/doclibrary/pictrueurl/'.$currenttime . $ranknum . $picfilestr,'http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/Home_Logo.png');
                 //end zxf 图片加水印
-                $newdoclibrary->pictrueurl = 'http://' . $_SERVER['HTTP_HOST'] . '/microread_files/doclibrary/pictrueurl/' . $currenttime.$ranknum.$picfilestr;
+                $newdoclibrary->pictrueurl = '/microread_files/doclibrary/pictrueurl/' . $currenttime.$ranknum.$picfilestr;
 				//start zxf 2016/5/11 文档修改，有图片上传，删除之前非默认图片
                 //删除文档背景
                 $picpath=convert_url_to_path($updatedoc->pictrueurl);
@@ -99,10 +108,10 @@ function edit_doclibrary(){
                     $txt_outputpath = $documentroot.'/microread_files/doclibrary/txtfile/'.$currenttime.$ranknum.'.txt';
                     txt2swf_linux($filepath,$txt_outputpath, $pdf_filepath, $swf_filepath);
                 }
-                $newdoclibrary->swfurl='http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
+                $newdoclibrary->swfurl='/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
                 /**End*/
 
-                $newdoclibrary->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
+                $newdoclibrary->url= '/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
                 $newdoclibrary->suffix= $urlfilestr;
                 if(($_FILES["url"]["size"] / 1048576)<=0.1){
                     $newdoclibrary->size='0.1MB';
@@ -140,6 +149,7 @@ function edit_doclibrary(){
 //添加
 function  add_doclibrary(){
     $currenttime = time();
+	$ranknum = rand(100, 200);//随机数
     if(isset($_FILES['pictrueurl'])){//上传图片
         if ($_FILES["pictrueurl"]["error"] > 0){
 //          failure('上传图片失败');
@@ -152,7 +162,6 @@ function  add_doclibrary(){
 			$picfilestr=strtolower($picfilestr);//全小写
             $picmatch=array('.gif','.jpeg','.png','.jpg');
             if(in_array($picfilestr,$picmatch)) {
-				$ranknum = rand(100, 200);//随机数
                 move_uploaded_file($_FILES["pictrueurl"]["tmp_name"], "../../../../microread_files/doclibrary/pictrueurl/" .$currenttime.$ranknum.$picfilestr);
                  //start zxf 图片加水印
                 require_once('../water.php');
@@ -183,12 +192,12 @@ function  add_doclibrary(){
             $urlfilestr=strtolower($urlfilestr);
             $docmatch=array('.doc','.docx','.ppt','.pptx','.xls','.xlsx','.pdf','.txt');
             if(in_array($urlfilestr,$docmatch)) {
-                $newdoclibrary->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
+                $newdoclibrary->url= '/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
                 if($picuploadtag){
-                    $newdoclibrary->pictrueurl='http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/doc_default.jpg';
+                    $newdoclibrary->pictrueurl='/moodle/microread/img/doc_default.jpg';
                 }
                 else{
-                    $newdoclibrary->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/pictrueurl/'.$currenttime.$ranknum.$picfilestr;
+                    $newdoclibrary->pictrueurl= '/microread_files/doclibrary/pictrueurl/'.$currenttime.$ranknum.$picfilestr;
                 }
                $newdoclibrary->timecreated= $currenttime;
                 $newdoclibrary->suffix=$urlfilestr;
@@ -209,18 +218,18 @@ function  add_doclibrary(){
 //					word2pdf('http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
 //					'D:/WWW/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf',
 //					'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
-                    // word2swf_linux($filepath,$pdf_filepath ,$swf_filepath);
+                     word2swf_linux($filepath,$pdf_filepath ,$swf_filepath);
                 }
                 elseif(in_array($urlfilestr,array('.pdf'))){
 //					pdf2swf('D:/WWW/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
 //					'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
-                    // pdf2swf_linux($filepath,$swf_filepath);
+                     pdf2swf_linux($filepath,$swf_filepath);
                 }
                 elseif(in_array($urlfilestr,array('.txt'))){
                     $txt_outputpath = $documentroot.'/microread_files/doclibrary/txtfile/'.$currenttime.$ranknum.'.txt';
-                    // txt2swf_linux($filepath,$txt_outputpath, $pdf_filepath, $swf_filepath);
+                     txt2swf_linux($filepath,$txt_outputpath, $pdf_filepath, $swf_filepath);
                 }
-                $newdoclibrary->swfurl='http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
+                $newdoclibrary->swfurl='/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
                 /**End*/
             }
             else{
@@ -245,12 +254,19 @@ function  add_doclibrary(){
     }
 
 }
+function delete_relate($docid){
+    global $DB;
+    $DB->delete_records("doc_comment_my", array("docid" =>$docid));
+    $DB->delete_records("doc_sumscore_my", array("docid" =>$docid));
+    $DB->delete_records("doc_score_my", array("docid" =>$docid));
 
+}
 function  delete_doclibrary(){
     global $DB;
     require_once('doctagmylib.php');
     update_delete_tagmy_by_docid($_GET['doclibraryid']);
     //删除该记录相关文件
+    delete_relate($_GET['doclibraryid']);
     //删除文档
     $deletetodoc=$DB->get_record_sql('select *from mdl_doc_my where id='.$_GET['doclibraryid']);
     require_once('../convertpath.php');

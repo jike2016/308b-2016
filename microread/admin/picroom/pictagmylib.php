@@ -4,7 +4,7 @@
 require_once('../../../config.php');
 function getpictagmylist(){
 	global $DB;
-	$sql='select * FROM mdl_pic_tag_my';
+	$sql='select * FROM mdl_pic_tag_my ORDER BY CONVERT(name USING gbk)';
 	$allpictags = $DB->get_records_sql($sql);
 	return $allpictags;
 }

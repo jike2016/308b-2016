@@ -45,7 +45,7 @@ function edit_indexbg(){
 				require_once('../convertpath.php');
 				$picpath=convert_url_to_path($oldbd->indexbg_url);
 				unlink($picpath);
-				$newbd->indexbg_url = 'http://' . $_SERVER['HTTP_HOST'] . '/microread_files/picture/index_ad/' . $currenttime.$ranknum.$picstr;
+				$newbd->indexbg_url = '/microread_files/picture/index_ad/' . $currenttime.$ranknum.$picstr;
 				
 
 			}

@@ -3,7 +3,7 @@
 //获取全部标签
 function gettagmylist(){
 	global $DB;
-	$alltags = $DB->get_records_sql('select * FROM mdl_tag_my;');
+	$alltags = $DB->get_records_sql('select * FROM mdl_tag_my ORDER BY CONVERT(tagname USING gbk);');
 	return $alltags;
 }
 //获取已经被选取的标签

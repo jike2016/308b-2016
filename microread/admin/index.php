@@ -14,7 +14,7 @@ if($USER->id!=2){//超级管理员
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>微阅</title>
+<title>微阅后台管理</title>
 
 <link href="themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
@@ -160,7 +160,7 @@ $(function(){
 								</ul>
 							</li>
 							<li><a href="indexadvertising/advertising.php" target="navTab" rel="advertising">微阅首页广告栏管理</a></li>
-							
+							<li><a href="http://10.148.216.165/moodle/microread/upload_switch.php" target="_blank" rel="upload_switch">微阅用户上传全局开关</a></li>
 							
 						</ul>
 					</div>
@@ -189,9 +189,9 @@ $(function(){
 					<div class="page unitBox">
 						<div class="accountInfo"></div>
 						<div class="pageFormContent" layoutH="80" style="margin-right:230px"></div>
-						
+
 						<div style="width:230px;position: absolute;top:60px;right:0" layoutH="80">
-							<iframe width="100%" height="430" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?width=0&height=430&fansRow=2&ptype=1&skin=1&isTitle=0&noborder=1&isWeibo=1&isFans=0&uid=1739071261&verifier=c683dfe7"></iframe>
+							<iframe width="100%" height="430" class="share_self"  frameborder="0" scrolling="no" src=""></iframe>
 						</div>
 					</div>
 					

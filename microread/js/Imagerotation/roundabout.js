@@ -414,7 +414,7 @@ jQuery.fn.roundabout_updateChildPositions = function () {
         info.scale = { min: data.minScale, max: data.maxScale, diff: data.maxScale - data.minScale };
 
         // 更新推荐书目录
-       
+
         
         ref.children(data.childSelector).each(function (i) {        //这里是某本书的图片成为当前焦点时，加上class roundabout-in-focus
             if (jQuery.roundabout_updateChildPosition(jQuery(this), ref, info, i) && info.animating === 0) {

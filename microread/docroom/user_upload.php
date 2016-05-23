@@ -2,34 +2,60 @@
 require_once ("../../config.php");
 require_login();
 global $DB;
+/** START cx开关判断 20160515*/
+if(!$DB->record_exists('microread_upload_switch_my',array('id'=>1,'upload_switch'=>1))){
+	echo '上传功能已关闭，3秒后页面将自动跳转';
+	//等待3秒后跳转
+	header("refresh:3;url=http://".$_SERVER['HTTP_HOST']."/moodle/microread/docroom");
+	exit;
+}
+/** End 开关判断*/
 global $USER;
-$bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_doc_categories_my e where e.parent = 0");//获取顶级分类
+//获取文档的顶级分类
+$docclasses = $DB->get_records_sql("select * from mdl_doc_categories_my dc where dc.parent = 0");
 
 if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
 	//处理数据
 	$currenttime=time();
 	$ranknum = rand(100, 200);//随机数
-	$picfilestr=strrchr($_FILES['pictrueurl']['name'],'.');//pic后缀名
-	$picfilestr=strtolower($picfilestr);//全小写
+	$newdoc=new stdClass();
+	if(isset($_FILES['pictrueurl'])) {//上传图片
+		if ($_FILES["pictrueurl"]["error"] > 0) {
+			$newdoc->pictrueurl= '/moodle/microread/img/doc_default.jpg';
+		}
+		else{
+			$picfilestr=strrchr($_FILES['pictrueurl']['name'],'.');//pic后缀名
+			$picfilestr=strtolower($picfilestr);//全小写
+			move_uploaded_file($_FILES["pictrueurl"]["tmp_name"],"../../../microread_files/doclibrary/user_upload/docpic/" . $currenttime.$ranknum.$picfilestr);
+			//zxf start 2016/5/12 用户上传图片 加水印
+			require_once('../admin/water.php');
+			img_water_mark('../../../microread_files/doclibrary/user_upload/docpic/'.$currenttime . $ranknum . $picfilestr,'http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/Home_Logo.png');
+			//zxf end 2016/5/12 用户上传图片 加水印
+
+			$newdoc->pictrueurl= '/microread_files/doclibrary/user_upload/docpic/'. $currenttime.$ranknum.$picfilestr;
+		}
+	}
+	else{
+		$newdoc->pictrueurl= '/moodle/microread/img/doc_default.jpg';
+	}
 	$urlfilestr=strrchr($_FILES['docurl']['name'],'.');//url后缀名
 	$urlfilestr=strtolower($urlfilestr);
 	// move_uploaded_file($_FILES["pictrueurl"]["tmp_name"],"../../../microread_files/doclibrary/user_upload/docpic/" . $currenttime.$_FILES["pictrueurl"]["name"]);
-	move_uploaded_file($_FILES["pictrueurl"]["tmp_name"],"../../../microread_files/doclibrary/user_upload/docpic/" . $currenttime.$ranknum.$picfilestr);
+
 	move_uploaded_file($_FILES["docurl"]["tmp_name"],"../../../microread_files/doclibrary/user_upload/docfordownload/" . $currenttime.$ranknum.$urlfilestr);
-	$newdoc=new stdClass();
 	$newdoc->upload_userid= $USER->id;
 	$newdoc->admin_check= 0;
 	$newdoc->name= $_POST['docname'];
 	$newdoc->summary= $_POST['summary'];
-	$newdoc->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/user_upload/docfordownload/'. $currenttime.$ranknum.$urlfilestr;
-	$newdoc->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/user_upload/docpic/'. $currenttime.$ranknum.$picfilestr;
+	$newdoc->url= '/microread_files/doclibrary/user_upload/docfordownload/'. $currenttime.$ranknum.$urlfilestr;
+//	$newdoc->pictrueurl= '/microread_files/doclibrary/user_upload/docpic/'. $currenttime.$ranknum.$picfilestr;
 	$newdoc->timecreated= $currenttime;
 	$newdoc->suffix = strrchr($_FILES['docurl']['name'],'.');
 	$newdoc->size= number_format(($_FILES["docurl"]["size"] / 1048576),1).'MB';
 	$docid=$DB->insert_record('doc_user_upload_my',$newdoc,true);
-	echo '上传成功!请等待管理员审核，5秒后页面将自动跳转';
+	echo '上传成功!请等待管理员审核，3秒后页面将自动跳转';
 	//等待3秒后跳转
-	header("refresh:3;url=http://".$_SERVER['HTTP_HOST']."/moodle/microread/bookroom");
+	header("refresh:3;url=http://".$_SERVER['HTTP_HOST']."/moodle/microread/docroom");
 	exit;
 }
 
@@ -238,9 +264,37 @@ if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
  	</head>
 	<body id="uploadpage">
 		<!--顶部导航-->
-		<?php
-			require_once ("../common/doc_head_login.php");//登录导航头：首页、微阅、、、
-		?>
+		<div class="header">
+			<div class="header-center">
+				<div class="a-box">
+					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/">微阅</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
+					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
+					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
+				</div>
+
+				<?php
+					if($USER->id!=0){
+						echo '<div id="usermenu" class="dropdown">
+										<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+											<a href="#" class="username">'.fullname($USER, true).'</a>
+											<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
+										</button>
+										<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+											<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
+											<li role="separator" class="divider"></li>
+											<li><a href="'.new moodle_url('/message/').'">消息</a></li>
+											<li role="separator" class="divider"></li>
+											<li><a href="user_upload.php">上传文档</a></li>
+											<li role="separator" class="divider"></li>
+											<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
+										</ul>
+									</div>';
+					};
+				?>
+			</div>
+		</div>
 		
 		<div class="header-banner">
 			<a href="index.php"><img  src="../img/logo_WenKu.png"/></a>
@@ -297,12 +351,12 @@ if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
 		<div class="bookclassified">
 			<div class="bookclassified-center">
 				<?php
-					if($bookclasses != null){
-						foreach($bookclasses as $bookclass){
-							echo '<div class="line"></div>
-												<a href="classify.php?bookclassid='.$bookclass->id.'" class="kinds">'.$bookclass->name.'</a>';
-						}
+				if($docclasses != null){
+					foreach($docclasses as $docclass){
+						echo '<div class="line"></div>
+									<a href="classify.php?docclassid='.$docclass->id.'" class="kinds">'.$docclass->name.'</a>';
 					}
+				}
 				?>
 			</div>
 		</div>

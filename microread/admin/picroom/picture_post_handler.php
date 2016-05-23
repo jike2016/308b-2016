@@ -48,8 +48,8 @@ function edit_picture(){
                require_once('../water.php');
                 img_water_mark('../../../../microread_files/picture/picurl/'.$currenttime . $ranknum . $picstr,'http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/Home_Logo.png');
                 //end zxf 图片加水印
-                $newpicture->picurl = 'http://' . $_SERVER['HTTP_HOST'] . '/microread_files/picture/picurl/' . $currenttime.$ranknum.$picstr;
-				$newpicture->picurl = 'http://' . $_SERVER['HTTP_HOST'] . '/microread_files/picture/picurl/' . $currenttime.$ranknum.$picstr;
+                $newpicture->picurl = '/microread_files/picture/picurl/' . $currenttime.$ranknum.$picstr;
+				$newpicture->picurl = '/microread_files/picture/picurl/' . $currenttime.$ranknum.$picstr;
 				//start zxf 2016/5/11 图片修改，新图片上传 之前的图片 删除
                 require_once('../convertpath.php');
                 global $DB;
@@ -106,7 +106,7 @@ function  add_picture(){
                 global $USER;
                 $newpic=new stdClass();
                 $newpic->name= $_POST['name'];
-                $newpic->picurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/picture/picurl/' . $currenttime.$ranknum.$picstr;
+                $newpic->picurl= '/microread_files/picture/picurl/' . $currenttime.$ranknum.$picstr;
                 $newpic->timeuploaded= $currenttime;
                 $newpic->suffix=$picstr;
                 if(($_FILES['picurl']['size']/1024)<=0.1){

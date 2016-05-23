@@ -128,6 +128,7 @@ $alluploaders=$DB->get_records_sql('select d.id,d.firstname as name from mdl_doc
             <li><a class="add" href="docroom/doclibrary_add.php" target="navTab"><span>添加文档</span></a></li>
             <li><a class="delete" href="docroom/doclibrary_post_handler.php?title=delete&doclibraryid={doclibraryid}" target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
             <li><a class="edit" href="docroom/doclibrary_edit.php?doclibraryid={doclibraryid}" target="navTab"><span>修改</span></a></li>
+			<li><a class="delete" href="docroom/doclibrary_post_handler.php?title=restart_service" target="ajaxTodo" title="确定要重启吗?"><span>重启文档转换服务</span></a></li>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="138">

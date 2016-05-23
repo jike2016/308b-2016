@@ -30,7 +30,7 @@ if(isset($_GET['title']) && $_GET['title']){
 					$picmatch=array('.gif','.jpeg','.png','.bmp','.jpg');
 					if(in_array($picstr,$picmatch)) {
 						move_uploaded_file($_FILES["picurl"]["tmp_name"],"../../../../microread_files/picture/recommendpicurl/" . $currenttime.$ranknum.$picstr);
-						$newrecommendtag->picurl = 'http://' . $_SERVER['HTTP_HOST'] . '/microread_files/picture/recommendpicurl/' . $currenttime.$ranknum.$picstr;
+						$newrecommendtag->picurl = '/microread_files/picture/recommendpicurl/' . $currenttime.$ranknum.$picstr;
 					}
 					else{
 						failure('请上传正确格式的图片');

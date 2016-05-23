@@ -30,11 +30,37 @@ if(isset($_GET['title']) && $_GET['title']){
 else{
 	failure('操作失败');
 }
+function delete_relate($ebookid){
+	global $DB;
+	$DB->delete_records("ebook_comment_my", array("ebookid" =>$ebookid));
+	$DB->delete_records("ebook_score_my", array("ebookid" =>$ebookid));
+	$DB->delete_records("ebook_sumscore_my", array("ebookid" =>$ebookid));
+	$DB->delete_records("ebook_user_read_my", array("ebookid" =>$ebookid));
+	//删除章节信息
+	$chapters=$DB->get_records('ebook_chapter_my',array("ebookid" =>$ebookid));
+	foreach ($chapters as $chapter){
+		$sections=$DB->get_records('ebook_section_my',array("chapterid" =>$chapter->id));
+		foreach ($sections as $section){
+			//删除相关pdf文件
+			if($section->type==2){
+				require_once('../convertpath.php');
+				$filepath=convert_url_to_path($section->pdfurl);
+				unlink($filepath);
+			}
+		}
+		$DB->delete_records("ebook_section_my", array("chapterid" =>$chapter->id));
+
+
+	}
+	$DB->delete_records("ebook_chapter_my", array("ebookid" =>$ebookid));
+}
 
 function delete_ebook(){
 	//先删除标签
 	global $DB;
 	update_delete_tagmy('mdl_ebook_my',$_GET['ebookid']);
+	//删除相关数据表记录
+	delete_relate($_GET['ebookid']);
 	//删除该记录相关文件
 	//删除电子书文件
 	$deletetoebook=$DB->get_record_sql('select *from mdl_ebook_my where id='.$_GET['ebookid']);
@@ -79,7 +105,7 @@ function edit_ebook(){
 				require_once('../water.php');
 				img_water_mark('../../../../microread_files/ebook/pictrueurl/'.$currenttime . $ranknum . $picfilestr,'http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/Home_Logo.png');
 				//end zxf 图片加水印
-				$newebook->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/pictrueurl/'. $currenttime.$ranknum.$picfilestr;
+				$newebook->pictrueurl= '/microread_files/ebook/pictrueurl/'. $currenttime.$ranknum.$picfilestr;
 			// start zxf 2016/5/11 修改电子书，有图片上传，删除之前的封面
 				
 				$picpath=convert_url_to_path($updateebook->pictrueurl);
@@ -105,7 +131,7 @@ function edit_ebook(){
 			if(in_array($urlfilestr,$ebookmatch)){
 				
 				move_uploaded_file($_FILES["url"]["tmp_name"],"../../../../microread_files/ebook/ebookurl_fordownload/" . $currenttime.$ranknum.$urlfilestr);
-				$newebook->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/ebookurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
+				$newebook->url= '/microread_files/ebook/ebookurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
 				$newebook->suffix= $urlfilestr;
 				$newebook->size= number_format(($_FILES["url"]["size"] / 1048576),1).'MB';
 			// start zxf 2016/5/11 修改电子书，有新电子书上传，删除之前的电子书
@@ -184,13 +210,13 @@ function add_ebook(){
 			$newebook->categoryid= $_POST['categoryid'];
 			$newebook->authorid= $_POST['authorid'];
 			$newebook->summary= $_POST['summary'];
-			$newebook->url= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/ebookurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
+			$newebook->url= '/microread_files/ebook/ebookurl_fordownload/'. $currenttime.$ranknum.$urlfilestr;
 			//判断图片是否上传 $picuploadtag false-上传 true-没有上传
 			if($picuploadtag){
-				$newebook->pictrueurl='http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/booklogo_default.jpg';
+				$newebook->pictrueurl='/moodle/microread/img/booklogo_default.jpg';
 			}
 			else{
-				$newebook->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/pictrueurl/'. $currenttime . $ranknum.$picfilestr;
+				$newebook->pictrueurl= '/microread_files/ebook/pictrueurl/'. $currenttime . $ranknum.$picfilestr;
 			}
 			$newebook->timecreated= $currenttime;
 			$newebook->wordcount= $_POST['wordcount'];

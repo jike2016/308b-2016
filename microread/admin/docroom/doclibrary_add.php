@@ -23,7 +23,7 @@
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">
                 <label>简介：</label>
-                <textarea name="summary" cols="80" rows="5" class="required"></textarea>
+                <textarea name="summary" cols="80" rows="5"></textarea>
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">
                 <label>图片：(jpg ,png ,gif)</label>

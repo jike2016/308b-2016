@@ -12,7 +12,7 @@ $(function(){
 			//extraScrollPx: 150,			//触发的剩余滚动高度
 			dataType: 'json',
 			loading: {
-				img: 'images/loading_circle.gif',
+				img: '../img/loading_circle.gif',
 				msgText: "加载中...",
 				finishedMsg: '没有新数据了...',
 				selector: '.loading' // 显示loading信息的div

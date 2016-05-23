@@ -40,10 +40,10 @@ if(isset($_GET['title']) && $_GET['title']){
 				}
 			}
 			if($picuploadtag){
-				$newauthor->pictrueurl='http://'.$_SERVER['HTTP_HOST'].'/moodle/microread/img/user_default.jpg';
+				$newauthor->pictrueurl='/moodle/microread/img/user_default.jpg';
 			}
 			else{
-				$newauthor->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/authorpicurl/'.$currenttime.$ranknum.$picfilestr;
+				$newauthor->pictrueurl= '/microread_files/ebook/authorpicurl/'.$currenttime.$ranknum.$picfilestr;
 			}
             $newauthor->name= $_POST['name'];
 			$newauthor->summary= $_POST['summary'];
@@ -70,7 +70,7 @@ if(isset($_GET['title']) && $_GET['title']){
 						$ranknum = rand(100, 200);//随机数
 						
 						move_uploaded_file($_FILES["pictrueurl"]["tmp_name"],"../../../../microread_files/ebook/authorpicurl/" .$currenttime.$ranknum.$picfilestr);
-						$newauthor->pictrueurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/authorpicurl/'.$currenttime.$ranknum.$picfilestr;
+						$newauthor->pictrueurl= '/microread_files/ebook/authorpicurl/'.$currenttime.$ranknum.$picfilestr;
 						// start zxf 2016/5/11 修改作者，有图片上传，删除之前的头像
 						require_once('../convertpath.php');
 						$picpath=convert_url_to_path($updateauthor->pictrueurl);

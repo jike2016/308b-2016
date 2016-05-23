@@ -32,7 +32,7 @@ $doclibrary = $DB->get_record_sql('select * from mdl_doc_my where id='.$doclibra
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">
                 <label>简介：</label>
-                <textarea name="summary" cols="80" rows="5" class="required"><?php echo $doclibrary->summary?></textarea>
+                <textarea name="summary" cols="80" rows="5" ><?php echo $doclibrary->summary?></textarea>
             </p>
             <p class="pageFormContent" style="margin: 20px 20px">
                 <label>图片：(jpg ,png ,gif)</label>

@@ -40,7 +40,7 @@ function word2pdf_linux($source_file, $output_file){
 function pdf2swf_linux($source_file, $output_file){
 	// $command = "/usr/swftools/bin/pdf2swf $source_file -o $output_file 2>&1";
 	//$result = `$command`;
-    $command = "/usr/swftools/bin/pdf2swf -f -T 9 $source_file -o $output_file ";
+    $command = "/usr/swftools/bin/pdf2swf -f -T 9 -s languagedir=/usr/local/swftools-2013-04-09-1007/xpdf-chinese-simplified $source_file -o $output_file ";
     exec($command);
 	if(file_exists($output_file) && filesize($output_file) > 0){
 		return true;
@@ -59,4 +59,28 @@ function word2swf_linux($word_filepath, $pdf_filepath, $swf_filepath){
     }
     failure('转换pdf失败，请联系开发人员');
     exit;
+}
+function txt2swf_linux($txt_filepath,$txt_ouputpath, $pdf_filepath, $swf_filepath){
+    if(txt_transcoding($txt_filepath,$txt_ouputpath)){
+        if(word2pdf_linux($txt_ouputpath, $pdf_filepath)){
+            if(pdf2swf_linux($pdf_filepath, $swf_filepath)){
+                return true;
+            }
+			failure('转换swf失败，请联系开发人员');
+			exit;
+        }
+		failure('转换pdf失败，请联系开发人员');
+		exit;
+    }
+	failure('转换txt失败，请联系开发人员');
+	exit;
+    return false;
+}
+
+function txt_transcoding($txt_filepath,$txt_ouputpath){
+    $result=`iconv -f GBK -t UTF-8 $txt_filepath -o $txt_ouputpath`;
+    if(file_exists($txt_ouputpath) && filesize($txt_ouputpath) > 0) {
+        return true;
+    }
+    return false;
 }

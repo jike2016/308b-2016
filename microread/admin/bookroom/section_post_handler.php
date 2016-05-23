@@ -43,7 +43,7 @@ if(isset($_GET['title']) && $_GET['title']){
 							$pdffilestr=strrchr($_FILES['pdf_url']['name'],'.');//pic后缀名
 							$pdffilestr=strtolower($pdffilestr);//全小写
                             move_uploaded_file($_FILES["pdf_url"]["tmp_name"],"../../../../microread_files/ebook/onlinereadbook_pdf/" .$currenttime.$ranknum.$pdffilestr);
-                            $newsection->pdfurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/onlinereadbook_pdf/'.$currenttime.$ranknum.$pdffilestr;
+                            $newsection->pdfurl= '/microread_files/ebook/onlinereadbook_pdf/'.$currenttime.$ranknum.$pdffilestr;
                         }
                     }
                 }
@@ -89,7 +89,7 @@ if(isset($_GET['title']) && $_GET['title']){
 								$pdffilestr=strrchr($_FILES['pdf_url']['name'],'.');//pic后缀名
 								$pdffilestr=strtolower($pdffilestr);//全小写
                                 move_uploaded_file($_FILES["pdf_url"]["tmp_name"],"../../../../microread_files/ebook/onlinereadbook_pdf/" .$currenttime.$ranknum.$pdffilestr);
-                                $newsection->pdfurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/onlinereadbook_pdf/'.$currenttime.$ranknum.$pdffilestr;
+                                $newsection->pdfurl= '/microread_files/ebook/onlinereadbook_pdf/'.$currenttime.$ranknum.$pdffilestr;
                             }
                         }
                     }
@@ -116,7 +116,7 @@ if(isset($_GET['title']) && $_GET['title']){
 							$pdffilestr=strrchr($_FILES['pdf_url']['name'],'.');//pic后缀名
 							$pdffilestr=strtolower($pdffilestr);//全小写
                             move_uploaded_file($_FILES["pdf_url"]["tmp_name"],"../../../../microread_files/ebook/onlinereadbook_pdf/" .$currenttime.$ranknum.$pdffilestr);
-                            $newsection->pdfurl= 'http://'.$_SERVER['HTTP_HOST'].'/microread_files/ebook/onlinereadbook_pdf/'.$currenttime.$ranknum.$pdffilestr;
+                            $newsection->pdfurl= '/microread_files/ebook/onlinereadbook_pdf/'.$currenttime.$ranknum.$pdffilestr;
                         }
                     }
                     else {

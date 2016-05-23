@@ -250,37 +250,9 @@ function imagechoise($type){
 		</form>
 
 		<!--顶部导航-->
-		<div class="header">
-			<div class="header-center">
-				<div class="a-box">
-					<a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/microread/index.php">微阅</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
-					<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
-					<?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png"></a>';?>
-				</div>
-
-				<?php
-					if($USER->id!=0){
-						echo '<div id="usermenu" class="dropdown">
-										<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-											<a href="#" class="username">'.fullname($USER, true).'</a>
-											<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
-										</button>
-										<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-											<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
-											<li role="separator" class="divider"></li>
-											<li><a href="'.new moodle_url('/message/').'">消息</a></li>
-											<li role="separator" class="divider"></li>
-											<li><a href="user_upload.php">上传文档</a></li>
-											<li role="separator" class="divider"></li>
-											<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
-										</ul>
-									</div>';
-					};
-				?>
-			</div>
-		</div>
+		<?php
+			require_once ("../common/doc_head_login.php");//登录导航头：首页、微阅、、、
+		?>
 		
 		<div class="header-banner">
 			<a href="index.php"><img  src="../img/logo_WenKu.png"/></a>

@@ -9,6 +9,7 @@ body{font-family: "微软雅黑";}
 .header .header-center {margin: auto;width: 1200px;}
 .header .nav-a {font-size: 18px; color: #000000; margin-left: 60px; text-decoration: none;}
 .header .nav-a:hover{color: #93E1FA;}
+.header .active {color: #93E1FA;}
 .header .userbox {float: right; height: 58px; padding: 10px 20px; cursor: pointer;}
 .header .userbox:hover {background-color: #F0F0F0;}
 .header .username{ margin-left: 0px; font-weight: 600; color:#0D99CA;font-size:16px; text-decoration: none; margin-right: 15px;}

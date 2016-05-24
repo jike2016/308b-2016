@@ -72,8 +72,33 @@ function option_score_comment($type, $userid)
 			}
 			break;
 		case 'comment':
-			$DB->insert_record('ebook_comment_my', array('ebookid'=>$_GET['ebookid'], 'userid'=>$userid, 'comment'=>$_GET['comment'], 'commenttime'=>time()));
-			echo '1';
+//			$DB->insert_record('ebook_comment_my', array('ebookid'=>$_GET['ebookid'], 'userid'=>$userid, 'comment'=>$_GET['comment'], 'commenttime'=>time()));
+//			echo '1';
+			$commentresult = $DB->get_records_sql('SELECT id, comment, commenttime FROM mdl_ebook_comment_my WHERE ebookid = '.$_GET['ebookid'].' AND userid = '.$userid.' ORDER BY commenttime DESC LIMIT 1');
+			if(count($commentresult))
+			{
+				foreach($commentresult as $commentresultvalue)
+				{
+					similar_text($commentresultvalue->comment, $_GET['comment'], $percent);
+					if($commentresultvalue->commenttime + 60 > time())
+					{
+						echo '0';
+					}elseif($percent > 60)
+					{
+						echo '2';
+					}else
+					{
+						$DB->insert_record('ebook_comment_my', array('ebookid'=>$_GET['ebookid'], 'userid'=>$userid, 'comment'=>$_GET['comment'], 'commenttime'=>time()));
+						echo '1';
+					}
+
+				}
+			}
+			else
+			{
+				$DB->insert_record('ebook_comment_my', array('ebookid'=>$_GET['ebookid'], 'userid'=>$userid, 'comment'=>$_GET['comment'], 'commenttime'=>time()));
+				echo '1';
+			}
 			break;
 		default:
 			echo '0';

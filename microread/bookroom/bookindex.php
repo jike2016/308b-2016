@@ -191,11 +191,31 @@ function my_get_book_evaluation($bookid, $current_page)
 			})
 			//评价 end
 
+//			/**   START 书本评论 zzwu 20160512 */
+//			$('#score-btn').click(function() {
+//				var mycomment = $(this).parent().parent().children(".form-control").val();
+//				if(mycomment == ""){
+//					alert('请输入评论内容');
+//				}
+//				else{
+//					$.ajax({
+//						url: "./bookscoreandcomment.php",
+//						data: { comment: mycomment,  ebookid: getQueryString('bookid'), type:'comment' },
+//						success: function(msg){
+//							if(msg=='1'){
+//								location.reload();
+//							}
+//						}
+//					});
+//				}
+//			});
+//			/**   END 书本评论 zzwu 20160512 */
+
 			/**   START 书本评论 zzwu 20160512 */
 			$('#score-btn').click(function() {
 				var mycomment = $(this).parent().parent().children(".form-control").val();
-				if(mycomment == ""){
-					alert('请输入评论内容');
+				if(mycomment.length <= 10){
+					alert('评论内容不能少于10个字');
 				}
 				else{
 					$.ajax({
@@ -204,6 +224,13 @@ function my_get_book_evaluation($bookid, $current_page)
 						success: function(msg){
 							if(msg=='1'){
 								location.reload();
+							}
+							else if(msg=='2')
+							{
+								alert('评论失败，评论内容重复！')
+							}
+							else {
+								alert('评论失败，一分钟內只能评论一次！')
 							}
 						}
 					});
@@ -221,7 +248,6 @@ function my_get_book_evaluation($bookid, $current_page)
 		/**  END 获取书本id zzwu 20160512*/
 		
 	</script>
-
 </head>
 <body id="bookindex">
 <!--顶部导航-->

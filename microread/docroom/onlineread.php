@@ -223,11 +223,31 @@ function get_doc_sumcore_count($docid)
     		})	
     		//评价 end	
 			
+//			/**   START 文档评论 zzwu 20160512 */
+//			$('#score-btn').click(function() {
+//				var mycomment = $(this).parent().parent().children(".form-control").val();
+//				if(mycomment == ""){
+//					alert('请输入评论内容');
+//				}
+//				else{
+//					$.ajax({
+//						url: "./docscoreandcomment.php",
+//						data: { comment: mycomment,  docid: getQueryString('docid'), type:'comment' },
+//						success: function(msg){
+//							if(msg=='1'){
+//								location.reload();
+//							}
+//						}
+//					});
+//				}
+//			});
+//			/**   END 文档评论 zzwu 20160512 */
+
 			/**   START 文档评论 zzwu 20160512 */
 			$('#score-btn').click(function() {
 				var mycomment = $(this).parent().parent().children(".form-control").val();
-				if(mycomment == ""){
-					alert('请输入评论内容');
+				if(mycomment.length <= 10){
+					alert('评论内容不能少于10个字');
 				}
 				else{
 					$.ajax({
@@ -236,6 +256,13 @@ function get_doc_sumcore_count($docid)
 						success: function(msg){
 							if(msg=='1'){
 								location.reload();
+							}
+							else if(msg=='2')
+							{
+								alert('评论失败，评论内容重复！')
+							}
+							else {
+								alert('评论失败，一分钟內只能评论一次！')
 							}
 						}
 					});

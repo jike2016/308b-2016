@@ -6,7 +6,7 @@ global $DB;
 $docclasses = $DB->get_records_sql("select * from mdl_doc_categories_my dc where dc.parent = 0");
 
 //获取推荐分类
-$doccategoryrecomends = $DB->get_records_sql("select dc.id as `index`,dcm.`name` as categoryname,dc.docid,dm.* from mdl_doc_category_recommend_my dc
+$doccategoryrecomends = $DB->get_records_sql("select dc.id as `index`,dcm.id as recomendscategoryid,dcm.`name` as categoryname,dc.docid,dm.* from mdl_doc_category_recommend_my dc
 												left join mdl_doc_categories_my dcm on dc.categoryid = dcm.id
 												left join mdl_doc_my dm on dc.docid = dm.id");
 //获取贡献者推荐
@@ -249,7 +249,7 @@ if(count($scoretables)<10){
 					$index = 0;
 					foreach($doccategoryrecomends as $doccategoryrecomend){
 						if($index%4==0){
-							echo '<p class="title">'.$doccategoryrecomend->categoryname.'></p>
+							echo '<p class="title"><a href="classify.php?docclassid='.$doccategoryrecomend->recomendscategoryid.'"  style="text-decoration:none;" >'.$doccategoryrecomend->categoryname.'></a><a href="classify.php?docclassid='.$doccategoryrecomend->recomendscategoryid.'"><span style="float:right;font-size:16px;margin-top:14px;">更多》</span></a></p>
 							<!--第一行-->
 							<div class="banner">';
 						}

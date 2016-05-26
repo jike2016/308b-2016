@@ -1,11 +1,36 @@
 html, body{margin: 0; padding: 0; min-width: 100%; width:100%; min-height:400px; font-family: "微软雅黑";}
 
 /******** 顶部导航 *******/
+.header{height:46px; width:100%; border-bottom: 2px solid #93e1fa; background-color: #FFFFFF;}
+.header .a-box {padding:10px 0px 0px 0px;float: left;}
+.header .header-center {margin: auto;width: 1200px;}
+.header .nav-a {font-size: 18px; color: #000000; margin-left: 60px; text-decoration: none;position:relative;}
+.header .nav-a:hover{color: #93E1FA;}
+.header .userbox {float: right; height: 58px; padding: 10px 20px; cursor: pointer;position:relative;}
+.header .userbox:hover {background-color: #F0F0F0;}
+.header .username{ margin-left: 0px; font-weight: 600; color:#0D99CA;font-size:16px; text-decoration: none; margin-right: 15px;}
+.header .userimg{ margin-left: 0px; }
+#usermenu {width: 120px; float: right; height: 46px;}
+#usermenu .dropdown-toggle {width: 160px; height: 43px; border-radius: 0px; padding: 0px; border: 0px;}
+#usermenu a {margin-left: 0px;position:relative;}
+#usermenu .dropdown-menu > li {height: 30px;}
+#usermenu .dropdown-menu .divider {height: 1px; margin: 0px;}
+#usermenu .dropdown-menu > li > a { color: #000000; float: inherit;height: 30px;padding-top: 5px;}
+#usermenu .dropdown-menu > li > a:hover {background-color: #2EBEFF; color: #FFFFFF;}
+#usermenu .dropdown-menu {z-index: 1040;}
+
+.header .frist {margin-left:446px;}
+.header .login {margin-left: 240px;}
+.header-banner{height:85px; width:1200px; margin: auto;}
+.header-banner img{margin-top: 8px;}
+.header .uploadbtn {margin-left: 10px;}
+
 .navbar {
 	background-color: #fff;
 	box-shadow: 0 0 5px #888;
     border-bottom: 1px solid #bebebe;
     padding-left: 30px;
+    margin-top: 46px;
 }
 .user-block {
 	float: right;
@@ -87,7 +112,7 @@ html, body{margin: 0; padding: 0; min-width: 100%; width:100%; min-height:400px;
 /******** 顶部导航 @end *******/
 
 /*******页面主体内容*******/
-.main {width: 1200px; margin: auto; min-height: 600px; padding: 130px 20px;}
+.main {width: 1200px; margin: auto; min-height: 600px; padding: 20px 20px;}
 .left  {width: 10%; min-height: 200px; float: left;}
 .form-control1{
 	display: block;

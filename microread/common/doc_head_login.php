@@ -15,6 +15,9 @@ global $USER;
             $(this).removeClass("open");
             $(this).children('.nav-a').removeClass("active");
         });
+        $('.mouse .dropdown-toggle').click(function() {
+            window.location.href="<?php echo $CFG->wwwroot; ?>/microread";
+        });
     });
 </script>
 <style>
@@ -31,7 +34,7 @@ global $USER;
         <div class="a-box">
             <a class="nav-a frist"  href="<?php echo $CFG->wwwroot; ?>">首页</a>
 					<span class="mouse dropdown">
-						<a class="nav-a dropdown-toggle" href="<?php echo $CFG->wwwroot; ?>/microread/" id="weiyue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">微阅&nbsp;<span class="caret"></span></a>
+						<a class="nav-a dropdown-toggle" href="" id="weiyue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">微阅&nbsp;<span class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby="weiyue">
                             <li><a href="<?php echo $CFG->wwwroot; ?>/microread/picroom/">图库</a></li>
                             <li role="separator" class="divider"></li>

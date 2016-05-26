@@ -5,7 +5,34 @@ body {font-family: "Microsoft YaHei";}
 /****总体样式@end*****/
 
 /******** 顶部导航 *******/
-.navbar {background-color: #fff; box-shadow: 0 0 5px #888; border-bottom: 1px solid #bebebe; padding-left: 30px;}
+
+/*****新加最顶部导航条*****/
+.header{height:46px; width:100%; border-bottom: 2px solid #93e1fa; background-color: #FFFFFF; }
+.header .a-box {padding:10px 0px 0px 0px;float: left;}
+.header .header-center {margin: auto;width: 1200px;}
+.header .nav-a {font-size: 18px; color: #000000; margin-left: 60px; text-decoration: none;position:relative;}
+.header .nav-a:hover{color: #93E1FA;}
+.header .userbox {float: right; height: 58px; padding: 10px 20px; cursor: pointer;position:relative;}
+.header .userbox:hover {background-color: #F0F0F0;}
+.header .username{ margin-left: 0px; font-weight: 600; color:#0D99CA;font-size:16px; text-decoration: none; margin-right: 15px;}
+.header .userimg{ margin-left: 0px; }
+#usermenu {width: 120px; float: right; height: 46px;}
+#usermenu .dropdown-toggle {width: 160px; height: 43px; border-radius: 0px; padding: 0px; border: 0px;}
+#usermenu a {margin-left: 0px;position:relative;}
+#usermenu .dropdown-menu > li {height: 30px;}
+#usermenu .dropdown-menu .divider {height: 1px; margin: 0px;}
+#usermenu .dropdown-menu > li > a { color: #000000; float: inherit;height: 30px;padding-top: 5px;}
+#usermenu .dropdown-menu > li > a:hover {background-color: #2EBEFF; color: #FFFFFF;}
+
+.header .frist {margin-left:446px;}
+.header .login {margin-left: 240px;}
+.header-banner{height:85px; width:1200px; margin: auto;}
+.header-banner img{margin-top: 8px;}
+.header .uploadbtn {margin-left: 10px;}
+#usermenu .dropdown-menu {z-index: 1040;}
+/*****新加最顶部导航条 end*****/	
+			
+.navbar {background-color: #fff; box-shadow: 0 0 5px #888; border-bottom: 1px solid #bebebe; padding-left: 30px; margin-top: 46px;}
 .user-block {float: right;}
 .user-block > .btn {background-color: transparent; width: 160px;}
 .username {color: #333;}
@@ -28,7 +55,7 @@ body {font-family: "Microsoft YaHei";}
 /******** 顶部导航 @end *******/
 
 /******** 主体内容 *******/
-.main {margin: auto; margin-top: 88px; padding: 0 45px;}
+.main {margin: auto; margin-top: 80px; padding: 0 45px;}
 .home_search {margin-top: 100px; text-align: center;}
 .img-list {list-style: none; padding: 0; overflow: hidden; padding-top: 20px;}
 /* 页码 */

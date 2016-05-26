@@ -117,32 +117,35 @@ for($i=1;$i<mb_strlen($word,'utf8');$i++){
 	<body>
 		<div class="wrap">
 			<!-- 顶部导航 -->
+			<?php
+				require_once ("../common/pic_head_login.php");//微阅登录导航栏：首页、微阅、微课、、、、
+			?>
 			<div class="navbar navbar-fixed-top">
-				<div class="user-block dropdown">
-						<?php 
-							if($USER->id!=0){
-								echo '<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-									<a href="#" class="username">'.fullname($USER, true).'</a>
-									<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
-									</button>';
-							}
-							else{
-								echo '<a class="nav-a login " href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png" style="padding:10px 30px 0px 0px"></a>';
-							}
-						?>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-						<?php 
-						echo '<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="'.new moodle_url('/message/').'">消息</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="image-upload.php">上传图片</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>';
-						?>
-					</ul>
-
-				</div>
+<!--				<div class="user-block dropdown">-->
+<!--						--><?php //
+//							if($USER->id!=0){
+//								echo '<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+//									<a href="#" class="username">'.fullname($USER, true).'</a>
+//									<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
+//									</button>';
+//							}
+//							else{
+//								echo '<a class="nav-a login " href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png" style="padding:10px 30px 0px 0px"></a>';
+//							}
+//						?>
+<!--					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+<!--						--><?php //
+//						echo '<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
+//								<li role="separator" class="divider"></li>
+//								<li><a href="'.new moodle_url('/message/').'">消息</a></li>
+//								<li role="separator" class="divider"></li>
+//								<li><a href="image-upload.php">上传图片</a></li>
+//								<li role="separator" class="divider"></li>
+//								<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>';
+//						?>
+<!--					</ul>-->
+<!---->
+<!--				</div>-->
 				<div class="search-box">
 					<div class="search-top">
 						<a href="index.php"><img src="../img/logo.png" alt="" class="logoimg" /></a>

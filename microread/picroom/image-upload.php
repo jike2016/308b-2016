@@ -102,46 +102,49 @@ if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
 	<body>
 		<div class="wrap">
 			<!-- 顶部导航 -->
-			<div class="navbar navbar-fixed-top">
-				<div class="user-block dropdown">
-						<?php 
-							if($USER->id!=0){
-								echo '<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-									<a href="#" class="username">'.fullname($USER, true).'</a>
-									<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
-									</button>';
-							}
-							else{
-								echo '<a class="nav-a login " href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png" style="padding:10px 30px 0px 0px"></a>';
-							}
-						?>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-						<?php 
-						echo '<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="'.new moodle_url('/message/').'">消息</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="user_upload.php">上传图片</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>';
-						?>
-					</ul>
-
-				</div>
-				<div class="search-box">
-					<div class="search-top">
-						<a href="index.php"><img src="../img/logo.png" alt="" class="logoimg" /></a>
-						<form action="#" method="get" id="search-form">
-							<input type="text" name="word" id="search-word" value="<?php echo $word?>">
-							<input type="submit" value="图库搜索" id="search-submit">
-						</form>
-					</div>
-					<div class="search-relative">
-						<div class="search-relative-left"></div>
-						
-					</div>
-				</div>
-			</div>
+			<?php
+				require_once ("../common/pic_head_login.php");//微阅登录导航栏：首页、微阅、微课、、、、
+			?>
+<!--			<div class="navbar navbar-fixed-top">-->
+<!--				<div class="user-block dropdown">-->
+<!--						--><?php //
+//							if($USER->id!=0){
+//								echo '<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+//									<a href="#" class="username">'.fullname($USER, true).'</a>
+//									<a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
+//									</button>';
+//							}
+//							else{
+//								echo '<a class="nav-a login " href="'.$CFG->wwwroot.'/login/index.php"><img src="../img/denglu.png" style="padding:10px 30px 0px 0px"></a>';
+//							}
+//						?>
+<!--					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+<!--						--><?php //
+//						echo '<li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
+//								<li role="separator" class="divider"></li>
+//								<li><a href="'.new moodle_url('/message/').'">消息</a></li>
+//								<li role="separator" class="divider"></li>
+//								<li><a href="user_upload.php">上传图片</a></li>
+//								<li role="separator" class="divider"></li>
+//								<li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>';
+//						?>
+<!--					</ul>-->
+<!---->
+<!--				</div>-->
+<!--				<div class="search-box">-->
+<!--					<div class="search-top">-->
+<!--						<a href="index.php"><img src="../img/logo.png" alt="" class="logoimg" /></a>-->
+<!--						<form action="#" method="get" id="search-form">-->
+<!--							<input type="text" name="word" id="search-word" value="--><?php //echo $word?><!--">-->
+<!--							<input type="submit" value="图库搜索" id="search-submit">-->
+<!--						</form>-->
+<!--					</div>-->
+<!--					<div class="search-relative">-->
+<!--						<div class="search-relative-left"></div>-->
+<!---->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
 			<!-- 顶部导航 end -->
 
 			<!--页面主体-->

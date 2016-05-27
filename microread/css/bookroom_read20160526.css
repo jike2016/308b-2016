@@ -4,25 +4,20 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 /****总体样式@end*****/
 
 
+#bookroom_readonline {font-family: "微软雅黑";}
 			
 /*******页面主体内容*******/
 #bookroom_readonline .main {width: 1200px; margin: auto; min-height: 600px;}
 #bookroom_readonline .book-box {width: 100%; margin-top: 30px; border: 1px solid #31B0D5; min-height:600px;}
-#bookroom_readonline .book-box .head-info {height: 40px; padding-top:10px; padding-left: 30px; background-color: #31B0D5; float: left;}
+#bookroom_readonline .book-box .head-info {height: 40px; padding-top:10px; padding-left: 30px; background-color: #31B0D5;}
 #bookroom_readonline .book-box .head-info a{color: #FFFFFF;}
 #bookroom_readonline .book-box .head-info span{color: #FFFFFF;}
 #bookroom_readonline .title {font-size: 30px; font-weight: 600; text-align: center; color: #777777; padding: 20px 0px;    border-bottom: 1px dashed #31B0D5;}
-#bookroom_readonline .article {padding:10px 30px;}
+#bookroom_readonline .article {padding:10px 30px; min-height: 700px;}
 #bookroom_readonline .article p{text-indent:2em; font-size: 24px; line-height: 40px;}  
 #bookroom_readonline .bottom-info {height: 60px; padding-top: 10px; text-align: center; width: 100%;}
 #bookroom_readonline .bottom-info a{color: #31B0D5; font-size: 20px; text-decoration: none; font-weight: 600;}
 #bookroom_readonline .bottom-info a:hover {color: #000000;}
-
-#bookroom_readonline .book-box .head-option {height: 40px; padding-top:7px; background-color: #31B0D5; float:right; padding-right: 17px;}
-#bookroom_readonline .book-box .headback{ background-color: #31B0D5; }
-#bookroom_readonline .book-box .head-option select{height: 25px; padding: 0px 10px; width: 80px;  margin-right: 13px; display: inline-block;}
-#bookroom_readonline .book-box .head-option #fontfamily{width: 110px;}
-#bookroom_readonline .book-box .head-option span {color: #FFFFFF;}
 /*******页面主体内容 @end*******/			
 			
 /*******底部导航条*******/

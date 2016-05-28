@@ -192,4 +192,10 @@ $THEME->layouts = array(
 			'regions' => array('side-pre', 'side-post'),
 			'defaultregion' => 'side-pre',
 	),
+	//课程搜索结果页
+	'coursesearchresult' => array(
+		'file' => 'coursesearchresult.php',
+		'regions' => array('side-pre', 'side-post'),
+		'defaultregion' => 'side-pre',
+	),
 );

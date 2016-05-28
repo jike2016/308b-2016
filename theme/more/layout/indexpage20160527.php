@@ -189,17 +189,6 @@ $(document).ready(function(){
 	$('#chat-close2').click(function(){
 		$('.chat-box2').hide();
 	})
-	$('.dropdown-toggle').click(function(){
-		if($('.search-box .dropdown-menu').hasClass('show'))
-			$('.search-box .dropdown-menu').removeClass('show');
-		else
-			$('.search-box .dropdown-menu').addClass('show');
-	})
-	$('.search-box .dropdown-menu li').click(function(){		
-		$('.search-box .dropdown-toggle').text($(this).children('a').text());
-		$('.search-box .dropdown-toggle').append('<span class="caret"></span>');
-		$('.search-box .dropdown-menu').removeClass('show');
-	})
 
 });
 </script>
@@ -233,24 +222,6 @@ $(document).ready(function(){
 				</div-->
 				<div class="usermenu-box">
 					<?php echo $OUTPUT->user_menu(); ?>					
-				</div>
-				<div class="search-box">
-					<div class="input-group">
-				     	<div class="input-group-btn">
-				        	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #000000;">课程<span class="caret"></span></button>
-				        	<ul class="dropdown-menu">
-				          		<li><a href="#">课程</a></li>
-				          		<li role="separator" class="divider"></li>
-				          		<li><a href="#">书籍</a></li>
-				          		<li role="separator" class="divider"></li>
-				          		<li><a href="#">文档</a></li>
-				          		<li role="separator" class="divider"></li>
-				          		<li><a href="#">图片</a></li>
-				        	</ul>
-				      	</div><!-- /btn-group -->
-			      		<input type="text" class="form-control" >
-			    	</div><!-- /input-group -->
-			    	<button class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>					
 				</div>
 			</div>
 		</nav>

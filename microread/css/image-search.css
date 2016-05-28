@@ -48,14 +48,14 @@ body {font-family: "Microsoft YaHei";}
 #search-word:focus {border-color: #38f;}
 #search-submit {cursor: pointer; width: 100px; height: 30px; padding: 0; margin: 0; border: 0; background-color: #38f; font-size: 16px; color: white; float: left;}
 .search-relative {margin-top: 10px; line-height: 30px; padding-left: 8px; overflow: hidden;}
-.search-relative-left {float: left; font-size: 14px; padding-left: 20px; background: url(../images/icon-search.png) no-repeat 3px;}
+.search-relative-left {float: left; font-size: 14px; padding-left: 20px; background: url(../img/icon-search.png) no-repeat 3px;}
 .search-relative > ul > li {float: left; margin-left: 20px;}
 /********** 搜索 @end **********/
 
 /******** 顶部导航 @end *******/
 
 /******** 主体内容 *******/
-.main {margin: auto; margin-top: 80px; padding: 0 45px;}
+.main {margin: auto; margin-top: 120px; padding: 0 45px;}
 .home_search {margin-top: 100px; text-align: center;}
 .img-list {list-style: none; padding: 0; overflow: hidden; padding-top: 20px;}
 /* 页码 */
@@ -64,7 +64,7 @@ body {font-family: "Microsoft YaHei";}
 .img-item {float: left; height: 180px; overflow: hidden; margin-left: 8px; margin-top: 8px; overflow: hidden; position: relative;}
 .img-item img {height: 100%;}
 .img-label {position: absolute; bottom: -64px; width: 100%; height: 64px; padding-top: 22px; padding-left: 15px; padding-right: 10px;
-	font-size: 12px; line-height: 20px; color: #fff; text-shadow: 1px 1px #000; background: url(../images/img-label-shadow.png) repeat-x;
+	font-size: 12px; line-height: 20px; color: #fff; text-shadow: 1px 1px #000; background: url(../img/img-label-shadow.png) repeat-x;
 	background-size: cover; -webkit-transition: bottom .4s; -o-transition: bottom .4s; transition: bottom .4s;}
 .img-item:hover .img-label {bottom: 0;}
 .img-title, .img-size {display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}

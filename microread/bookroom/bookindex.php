@@ -214,8 +214,10 @@ function my_get_book_evaluation($bookid, $current_page)
 			/**   START 书本评论 zzwu 20160512 */
 			$('#score-btn').click(function() {
 				var mycomment = $(this).parent().parent().children(".form-control").val();
-				if(mycomment.length <= 10){
-					alert('评论内容不能少于10个字');
+				var textmy = mycomment;
+				textmy = textmy.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
+				if(textmy.length <= 10){
+					alert('评论内容不能少于10个汉字');
 				}
 				else{
 					$.ajax({

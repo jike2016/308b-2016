@@ -7,7 +7,7 @@ body {font-family: "Microsoft YaHei";}
 /******** 顶部导航 *******/
 
 /*****新加最顶部导航条*****/
-.header{height:46px; width:100%; border-bottom: 2px solid #93e1fa; background-color: #FFFFFF; }
+.header{height:46px; width:100%; border-bottom: 2px solid #93e1fa; background-color: #FFFFFF;z-index:1050; }
 .header .a-box {padding:10px 0px 0px 0px;float: left;}
 .header .header-center {margin: auto;width: 1200px;}
 .header .nav-a {font-size: 18px; color: #000000; margin-left: 60px; text-decoration: none;position:relative;}
@@ -55,7 +55,7 @@ body {font-family: "Microsoft YaHei";}
 /******** 顶部导航 @end *******/
 
 /******** 主体内容 *******/
-.main {margin: auto; margin-top: 120px; padding: 0 45px;}
+.main {margin: auto; margin-top: 166px; padding: 0 45px;}
 .home_search {margin-top: 100px; text-align: center;}
 .img-list {list-style: none; padding: 0; overflow: hidden; padding-top: 20px;}
 /* 页码 */

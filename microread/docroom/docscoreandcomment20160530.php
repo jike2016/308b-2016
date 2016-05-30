@@ -76,35 +76,15 @@ function option_score_comment($type, $userid)
 //			$DB->insert_record('doc_comment_my', array('docid'=>$_GET['docid'], 'userid'=>$userid, 'comment'=>$_GET['comment'], 'commenttime'=>time()));
 //			echo '1';
 			$commentresult = $DB->get_records_sql('SELECT id, comment, commenttime FROM mdl_doc_comment_my WHERE docid = '.$_GET['docid'].' AND userid = '.$userid.' ORDER BY commenttime DESC LIMIT 1');
-			$commentallresult = $DB->get_records_sql('SELECT id, comment, docid, userid FROM mdl_doc_comment_my ORDER BY commenttime DESC');
-			$similarresult = new stdClass();
-			if(count($commentallresult)){
-
-				foreach($commentallresult as $commentallresultvalue)
-				{
-					similar_text($commentallresultvalue->comment, $_GET['comment'], $percent);
-					if($percent > $similarresult->percent)
-					{
-						$similarresult->percent = $percent;
-						$similarresult->userid = $commentallresultvalue->userid;
-						$similarresult->docid = $commentallresultvalue->docid;
-					}
-				}
-			}
-
 			if(count($commentresult))
 			{
 				foreach($commentresult as $commentresultvalue)
 				{
-//					similar_text($commentresultvalue->comment, $_GET['comment'], $percent);
-
+					similar_text($commentresultvalue->comment, $_GET['comment'], $percent);
 					if($commentresultvalue->commenttime + 60 > time())
 					{
 						echo '0';
-					}elseif($similarresult->percent > 90 && $similarresult->userid == $userid)
-					{
-						echo '2';
-					}elseif($similarresult->percent > 90 && $similarresult->docid == $_GET['docid'])
+					}elseif($percent > 60)
 					{
 						echo '2';
 					}else {
@@ -112,12 +92,6 @@ function option_score_comment($type, $userid)
 						echo '1';
 					}
 				}
-			}elseif($similarresult->percent > 90 && $similarresult->userid == $userid)
-			{
-				echo '2';
-			}elseif($similarresult->percent > 90 && $similarresult->docid == $_GET['docid'])
-			{
-				echo '2';
 			}
 			else {
 				$DB->insert_record('doc_comment_my', array('docid' => $_GET['docid'], 'userid' => $userid, 'comment' => $_GET['comment'], 'commenttime' => time()));

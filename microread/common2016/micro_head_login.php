@@ -1,5 +1,5 @@
 <?php
-//微阅》书库》登录导航栏
+//微阅》首页》登录导航栏
 //require_once ("../../config.php");//不能重复引用！
 global $USER;
 
@@ -18,11 +18,10 @@ global $USER;
         $('.mouse .dropdown-toggle').click(function() {
             window.location.href="<?php echo $CFG->wwwroot; ?>/microread";
         });
-
     });
 </script>
 <style>
-    .a-box .dropdown-menu {top: 16px;left: 0px; float: left;min-width: 60px;text-align: center; padding: 0px;}
+    .a-box .dropdown-menu {top: 20px;left: 0px; float: left;min-width: 60px;text-align: center; padding: 0px;}
     .a-box .dropdown-menu > li > a { color: #000000; float: inherit;height: 35px;padding-top: 5px; font-size: 16px;}
     .a-box .dropdown-menu > li {height: 35px;}
     .a-box .dropdown-menu .divider {height: 1px; margin: 0px;}
@@ -37,11 +36,11 @@ global $USER;
 					<span class="mouse dropdown">
 						<a class="nav-a dropdown-toggle" href="" id="weiyue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">微阅&nbsp;<span class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby="weiyue">
-                             <li><a href="<?php echo $CFG->wwwroot; ?>/microread/docroom/">文库</a></li>
+                            <li><a href="<?php echo $CFG->wwwroot; ?>/microread/picroom/">图库</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="<?php echo $CFG->wwwroot; ?>/microread/bookroom/">书库</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="<?php echo $CFG->wwwroot; ?>/microread/picroom/">图库</a></li>
+                            <li><a href="<?php echo $CFG->wwwroot; ?>/microread/docroom/">文库</a></li>
                         </ul>
 					</span>
             <a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
@@ -60,8 +59,6 @@ global $USER;
                                         <li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="'.new moodle_url('/message/').'">消息</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="user_upload.php">上传电子书</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
                                     </ul>

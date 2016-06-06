@@ -918,5 +918,159 @@ class theme_more_core_course_renderer extends core_course_renderer {
 		$output .= '</div>';
 		return $output;
 	}
-	
+
+	/** Start 课程搜索结果页 xdw 20160530 */
+	public function my_course_searchresult($search,$page,$perpage){
+
+		global $CFG;
+		global $DB;
+
+		$course = $DB->get_record_sql("select * from mdl_course where id = 3");
+
+		$output = '
+
+	<head>
+		<meta charset="UTF-8">
+		<title>课程搜索结果页</title>
+		<link rel="stylesheet" href="'.$CFG->wwwroot.'/theme/more/style/bootstrap.css" />
+		<link rel="stylesheet" href="'.$CFG->wwwroot.'/theme/more/style/coursesearch/classsearch.css" />
+		<script type="text/javascript" src="'.$CFG->wwwroot.'/theme/more/js/jquery-1.11.3.min.js" ></script>
+		<script type="text/javascript" src="'.$CFG->wwwroot.'/theme/more/js/bootstrap.min.js" ></script>
+
+	</head>
+	<body>
+		<div class="main">
+			<div class="classbanner">
+				<!--课程图片-->
+				<a href="#">
+					<div class="course-pic">
+						<div class="course-pic-cover"><span>点击查看</span></div>
+						<img src="'.$CFG->wwwroot.'/theme/more/style/coursesearch/img/xiangji.png" />
+					</div>
+				</a>
+				<!--课程图片 end-->
+
+				<!--课程信息-->
+				<div class="classinfo">
+					<p class="classname"><a href="#">'.$course->fullname.'</a></p>
+					<p class="info">PHP7的新特性与高性能；PHP的异步并行编程；PHP安全编程；用PHP在SAE上创业；手机微博V5项目经验分享；公众号开发；程序员职业规划；Php技术创业</p>
+					<p class="starbox">
+						<span class="glyphicon glyphicon-star active"></span>
+						<span class="glyphicon glyphicon-star"></span>
+						<span class="glyphicon glyphicon-star"></span>
+						<span class="glyphicon glyphicon-star"></span>
+						<span class="glyphicon glyphicon-star"></span>
+					</p>
+				</div>
+				<!--课程信息 end-->
+
+				<div class="course-data">
+					<a href="#">开始学习</a>
+					<p>学习人数:</p>&nbsp;<p>3</p>
+				</div>
+			</div>
+
+			<div class="classbanner">
+				<!--课程图片-->
+				<a href="#">
+					<div class="course-pic">
+						<div class="course-pic-cover"><span>点击查看</span></div>
+						<img src="'.$CFG->wwwroot.'/theme/more/style/coursesearch/img/xiangji.png" />
+					</div>
+				</a>
+				<!--课程图片 end-->
+
+				<!--课程信息-->
+				<div class="classinfo">
+					<p class="classname"><a href="#">我的第一堂摄影课</a></p>
+					<p class="info">PHP7的新特性与高性能；PHP的异步并行编程；PHP安全编程；用PHP在SAE上创业；手机微博V5项目经验分享；公众号开发；程序员职业规划；Php技术创业</p>
+					<p class="starbox">
+						<span class="glyphicon glyphicon-star active"></span>
+						<span class="glyphicon glyphicon-star active"></span>
+						<span class="glyphicon glyphicon-star"></span>
+						<span class="glyphicon glyphicon-star"></span>
+						<span class="glyphicon glyphicon-star"></span>
+					</p>
+				</div>
+				<!--课程信息 end-->
+
+				<div class="course-data">
+					<a href="#">开始学习</a>
+					<p>学习人数:</p>&nbsp;<p>3</p>
+				</div>
+			</div>
+
+			<div class="classbanner">
+				<!--课程图片-->
+				<a href="#">
+					<div class="course-pic">
+						<div class="course-pic-cover"><span>点击查看</span></div>
+						<img src="'.$CFG->wwwroot.'/theme/more/style/coursesearch/img/xiangji.png" />
+					</div>
+				</a>
+				<!--课程图片 end-->
+
+				<!--课程信息-->
+				<div class="classinfo">
+					<p class="classname"><a href="#">我的第一堂摄影课</a></p>
+					<p class="info">PHP7的新特性与高性能；PHP的异步并行编程；PHP安全编程；用PHP在SAE上创业；手机微博V5项目经验分享；公众号开发；程序员职业规划；Php技术创业</p>
+					<p class="starbox">
+						<span class="glyphicon glyphicon-star active"></span>
+						<span class="glyphicon glyphicon-star active"></span>
+						<span class="glyphicon glyphicon-star active"></span>
+						<span class="glyphicon glyphicon-star"></span>
+						<span class="glyphicon glyphicon-star"></span>
+					</p>
+				</div>
+				<!--课程信息 end-->
+
+				<div class="course-data">
+					<a href="#">开始学习</a>
+					<p>学习人数:</p>&nbsp;<p>3</p>
+				</div>
+			</div>
+
+			<!--分页-->
+			<div style="clear: both;"></div>
+			<div class="paging">
+			<nav>
+			  	<ul class="pagination">
+			  		<li>
+			     	 	<a class="active" href="#">
+			       	 		<span aria-hidden="true">首页</span>
+			      		</a>
+			    	</li>
+			    	<li>
+			     	 	<a href="#" aria-label="Previous">
+			       	 		<span aria-hidden="true">上一页</span>
+			      		</a>
+			    	</li>
+				    <li><a href="#">1</a></li>
+				    <li><a href="#">2</a></li>
+				    <li><a href="#">3</a></li>
+				    <li><a href="#">4</a></li>
+				    <li><a href="#">5</a></li>
+				    <li>
+				      	<a href="#" aria-label="Next">
+				       		<span aria-hidden="true">下一页</span>
+				      	</a>
+			    	</li>
+			    	<li>
+			     	 	<a href="#">
+			       	 		<span aria-hidden="true">尾页</span>
+			      		</a>
+			    	</li>
+			  	</ul>
+			</nav>
+			</div>
+			<!--分页 end-->
+		</div>
+	</body>
+
+';
+
+		return $output;
+	}
+	/** End 课程搜索结果页 xdw 20160530 */
+
 }

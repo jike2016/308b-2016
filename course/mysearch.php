@@ -20,7 +20,7 @@ $paramarray["perpage"] = $perpage;
 $PAGE->set_url('/course/mysearch.php', $paramarray);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('coursesearchresult');//设置layout
-$coursesearchrenderer = $PAGE->get_renderer('core', 'coursesearchresult');//设置renderer
+$coursesearchrenderer = $PAGE->get_renderer('core', 'course');//设置renderer
 
 if ($CFG->forcelogin) {
     require_login();
@@ -36,5 +36,6 @@ $PAGE->set_title("xx搜索页");
 $PAGE->set_heading("xx搜索");
 
 echo $OUTPUT->header();
-echo $coursesearchrenderer->search_courses($search,$page,$perpage);
+//echo $coursesearchrenderer->search_courses($search,$page,$perpage);
+echo $coursesearchrenderer->my_course_searchresult($search,$page,$perpage);
 echo $OUTPUT->footer();

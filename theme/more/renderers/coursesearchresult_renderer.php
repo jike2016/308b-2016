@@ -8,8 +8,8 @@ require_once($CFG->dirroot . "/course/renderer.php");
 require_once($CFG->dirroot . "/lib/dml/moodle_database.php");
 require_once($CFG->dirroot . "/lib/coursecatlib.php");
 
-class theme_more_coursesearchresult_renderer extends plugin_renderer_base {
-//class theme_more_coursesearchresult_renderer extends core_course_renderer {
+class coursesearchresult_renderer extends core_course_searchresult_renderer {
+//class theme_more_core_course_renderer extends core_course_renderer {
 //class theme_more_coursesearchresult_core_renderer extends core_renderer {
 
 //	public function __construct(moodle_page $page, $target) {

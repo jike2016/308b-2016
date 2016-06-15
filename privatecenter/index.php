@@ -201,6 +201,7 @@ function my_get_date(){
 				<div id="mymedal" class="menubtn"><h4><span class="glyphicon glyphicon-tasks"></span>&nbsp;我的证书</h4></div>
 				<div id="mymission"  class="menubtn"><h4><span class="glyphicon glyphicon-bookmark"></span>&nbsp;学习任务</h4></div>
 				<div id="mybookdata" class="menubtn"><h4><span class="glyphicon glyphicon-list-alt"></span>&nbsp;台账数据</h4></div>
+				<div id="microreaddata" class="menubtn"><h4><span class="glyphicon glyphicon-list-alt"></span>&nbsp;微阅台账</h4></div>
 				<div id="learning_circles" class="menubtn"><h4><span class="glyphicon glyphicon-education"></span>&nbsp;学习圈</h4></div>
 				<!--a href="../blog/" style="text-decoration:none;""><div class="menubtn"><h4><span class="glyphicon glyphicon-education"></span>&nbsp;学习圈</h4></div>	</a-->
 				<div id="mycollection" class="menubtn"><h4><span class="glyphicon glyphicon-heart-empty"></span>&nbsp;我的收藏</h4></div>				

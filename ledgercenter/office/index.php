@@ -42,16 +42,22 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 	$('#documentlist-second-son li').on('click', function(){   //文档_子类型下拉表单 2 动作
 		documentlist_second_son_id = $(this).val();       //获取文档_子类型下拉菜单 2选择项的id
 		if(documentlist_second_son_id==1){//学习统计
-			document.getElementById("mytime").style.display="";
+//			document.getElementById("mytime").style.display="";
 			document.getElementById("mymission").style.display="none";
 			document.getElementById("start_time_content").style.display="";
 			document.getElementById("end_time_content").style.display="";
 		}
-		else{
-			document.getElementById("mytime").style.display="none";
+		else if(documentlist_second_son_id==2){//台账任务统计
+//			document.getElementById("mytime").style.display="none";
 			document.getElementById("mymission").style.display="";
 			document.getElementById("start_time_content").style.display="none";
 			document.getElementById("end_time_content").style.display="none";
+		}
+		else if(documentlist_second_son_id==3){//微阅统计
+//			document.getElementById("mytime").style.display="";
+			document.getElementById("mymission").style.display="none";
+			document.getElementById("start_time_content").style.display="";
+			document.getElementById("end_time_content").style.display="";
 		}
 	});
 	$('#documentlist-third-son li').on('click', function(){   //文档_子类型下拉表单 3动作
@@ -77,17 +83,19 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 		 // alert(documentlist_fourth_son_id+'f');
 
 		//Start 添加时间段 xdw
-		var start_time = $('#start_time').val();//开始时间
-		var end_time = $('#end_time').val();//结束时间
-		if(start_time=='' || end_time==''){
-			alert('开始、结束时间不能为空！');
-			return;
-		}
-		start_time = get_unix_time(start_time);
-		end_time = get_unix_time(end_time);
-		if(start_time >= end_time){
-			alert('结束时间不能小于开始时间！');
-			return;
+		if(documentlist_second_son_id != 2){
+			var start_time = $('#start_time').val();//开始时间
+			var end_time = $('#end_time').val();//结束时间
+			if(start_time=='' || end_time==''){
+				alert('开始、结束时间不能为空！');
+				return;
+			}
+			start_time = get_unix_time(start_time);
+			end_time = get_unix_time(end_time);
+			if(start_time >= end_time){
+				alert('结束时间不能小于开始时间！');
+				return;
+			}
 		}
 		//End 添加时间段 xdw
 
@@ -95,19 +103,25 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 			alert('请选择组织架构');
 			$('.lockpage').hide();
 		}
-		else if(documentlist_first_son_id==1&&documentlist_second_son_id==1){
+		else if(documentlist_first_son_id==1&&documentlist_second_son_id==1){//单位单位》学习统计
 //			$(".table-box").load('office/officelearn.php?timeid='+documentlist_third_son_id+'&orgid='+orgid);
 			$(".table-box").load('office/officelearn.php?timeid='+documentlist_third_son_id+'&start_time='+start_time+'&end_time='+end_time+'&orgid='+orgid);
 		}
-		else if(documentlist_first_son_id==1&&documentlist_second_son_id==2){
+		else if(documentlist_first_son_id==1&&documentlist_second_son_id==2){//单位单位》台账任务统计
 			$(".table-box").load('office/officemission.php?missionid='+documentlist_fourth_son_id+'&orgid='+orgid);
 		}
-		else if(documentlist_first_son_id==2&&documentlist_second_son_id==1){
+		else if(documentlist_first_son_id==1&&documentlist_second_son_id==3){//单位单位》微阅统计
+			$(".table-box").load('office/officemicroread.php?start_time='+start_time+'&end_time='+end_time+'&orgid='+orgid);
+		}
+		else if(documentlist_first_son_id==2&&documentlist_second_son_id==1){//单位个人》学习统计
 //			$(".table-box").load('office/personlearn.php?timeid='+documentlist_third_son_id+'&orgid='+orgid);
 			$(".table-box").load('office/personlearn.php?timeid='+documentlist_third_son_id+'&start_time='+start_time+'&end_time='+end_time+'&orgid='+orgid);
 		}
-		else if(documentlist_first_son_id==2&&documentlist_second_son_id==2){
+		else if(documentlist_first_son_id==2&&documentlist_second_son_id==2){//单位个人》台账任务统计
 			$(".table-box").load('office/personmission.php?missionid='+documentlist_fourth_son_id+'&orgid='+orgid);
+		}
+		else if(documentlist_first_son_id==2&&documentlist_second_son_id==3){//单位个人》微阅统计
+			$(".table-box").load('office/personmicroread.php?orgid='+orgid+'&start_time='+start_time+'&end_time='+end_time);
 		}
 		
 		//alert("1:"+documentlist_first_son_id+"    2:"+documentlist_second_son_id+"   3:"+documentlist_third_son_id)
@@ -126,7 +140,7 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 	ol,ul{list-style:none}
 	body{font:12px/18px Tahoma, Helvetica, Arial, Verdana, "\5b8b\4f53", sans-serif; color:#51555C;}
 	img{border:none}
-	input{width:200px; height:20px; line-height:20px; padding:2px; border:1px solid #d3d3d3}
+	input{width:140px; height:30px; line-height:20px; padding:2px; border:1px solid #d3d3d3}
 	pre{padding:6px 0 0 0; color:#666; line-height:20px; background:#f7f7f7}
 
 	.ui-timepicker-div .ui-widget-header { margin-bottom: 8px;}
@@ -136,6 +150,8 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 	.ui-timepicker-div td { font-size: 90%; }
 	.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 	.ui_tpicker_hour_label,.ui_tpicker_minute_label,.ui_tpicker_second_label,.ui_tpicker_millisec_label,.ui_tpicker_time_label{padding-left:20px}
+	.dropdownlist-box .dropdownlist1 {  float: left;  width: 210px;  height: 36px;  margin: 13px 10px;  }
+	.timetitle{float: left; font-size: 14px; margin-top: 5px}
 </style>
 <script type="text/javascript" >
 
@@ -183,25 +199,26 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 				<ul id="documentlist-second-son" class="dropdown-menu dropdown-menu-right">
 					<li id="documentlist-second-son-1" value="1"><a>学习统计</a></li>
 					<li id="documentlist-second-son-2" value="2"><a>台账任务统计</a></li>
+					<li id="documentlist-second-son-3" value="3"><a>微阅统计</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<!--文档_子类型下拉菜单 2end-->
 <!--文档_子类型下拉菜单 3-->
-	<div class="dropdownlist" id="mytime">
-		<div class="input-group">
-			<input type="text" class="form-control classkinds" value="周" readOnly="true" style="background-color:#ffffff;">
-			<div class="input-group-btn">
-				<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-				<ul id="documentlist-third-son" class="dropdown-menu dropdown-menu-right">
-					<li id="documentlist-third-son-1" value="1"><a>周</a></li>
-					<li id="documentlist-third-son-2" value="2"><a>月</a></li>
-					<li id="documentlist-third-son-3" value="3"><a>总</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+<!--	<div class="dropdownlist" id="mytime">-->
+<!--		<div class="input-group">-->
+<!--			<input type="text" class="form-control classkinds" value="周" readOnly="true" style="background-color:#ffffff;">-->
+<!--			<div class="input-group-btn">-->
+<!--				<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>-->
+<!--				<ul id="documentlist-third-son" class="dropdown-menu dropdown-menu-right">-->
+<!--					<li id="documentlist-third-son-1" value="1"><a>周</a></li>-->
+<!--					<li id="documentlist-third-son-2" value="2"><a>月</a></li>-->
+<!--					<li id="documentlist-third-son-3" value="3"><a>总</a></li>-->
+<!--				</ul>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
 	<!--文档_子类型下拉菜单 3end-->
 
 	<div class="dropdownlist" id="mymission">
@@ -213,22 +230,22 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 				?>
 					
 				</ul>
-			</div>
 		</div>
 	</div>
+</div>
 	<!--文档_子类型下拉菜单 3end-->
 
 <!--Start 添加时间日期控件 xwd-->
-<div class="dropdownlist" id="start_time_content">
+<div class="dropdownlist1" id="start_time_content">
 	<div class="input-group">
-		<div>开始时间：</div>
-		<div><input type="text" id="start_time" /></div>
+		<div class="timetitle">开始时间：</div>
+		<div style="float: right"><input type="text" id="start_time" /></div>
 	</div>
 </div>
-<div class="dropdownlist" id="end_time_content">
+<div class="dropdownlist1" id="end_time_content">
 	<div class="input-group">
-		<div>结束时间：</div>
-		<div><input type="text" id="end_time" /></div>
+		<div  class="timetitle">结束时间：</div>
+		<div style="float: right"><input type="text" id="end_time"  /></div>
 	</div>
 </div>
 <!--End 添加时间日期控件 xwd-->

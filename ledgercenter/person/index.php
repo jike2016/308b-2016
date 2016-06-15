@@ -6,7 +6,7 @@
 	ol,ul{list-style:none}
 	body{font:12px/18px Tahoma, Helvetica, Arial, Verdana, "\5b8b\4f53", sans-serif; color:#51555C;}
 	img{border:none}
-	input{width:200px; height:20px; line-height:20px; padding:2px; border:1px solid #d3d3d3}
+	input{width:140px; height:30px; line-height:20px; padding:2px; border:1px solid #d3d3d3}
 	pre{padding:6px 0 0 0; color:#666; line-height:20px; background:#f7f7f7}
 
 	.ui-timepicker-div .ui-widget-header { margin-bottom: 8px;}
@@ -16,6 +16,8 @@
 	.ui-timepicker-div td { font-size: 90%; }
 	.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 	.ui_tpicker_hour_label,.ui_tpicker_minute_label,.ui_tpicker_second_label,.ui_tpicker_millisec_label,.ui_tpicker_time_label{padding-left:20px}
+	.dropdownlist-box .dropdownlist1 {  float: left;  width: 210px;  height: 36px;  margin: 13px 10px;  }
+	.timetitle{float: left; font-size: 14px; margin-top: 5px}
 </style>
 <script type="text/javascript" >
 
@@ -85,17 +87,20 @@
 			alert('请选择组织架构');
 			$('.lockpage').hide();
 		}
-		else if(documentlist_first_son_id==1){
+		else if(documentlist_first_son_id==1){//学习任务
 //			$(".table-box").load('person/learnledger.php?timeid='+documentlist_second_son_id+'&personid='+personid);
 			$(".table-box").load('person/learnledger.php?start_time='+start_time+'&end_time='+end_time+'&personid='+personid);
 		}
-		else if(documentlist_first_son_id==2){
+		else if(documentlist_first_son_id==2){//考试统计
 //			$(".table-box").load('person/quizledger.php?timeid='+documentlist_second_son_id+'&personid='+personid);
 			$(".table-box").load('person/quizledger.php?start_time='+start_time+'&end_time='+end_time+'&personid='+personid);
 		}
-		else if(documentlist_first_son_id==3){
+		else if(documentlist_first_son_id==3){//台账任务
 //			$(".table-box").load('person/missionledger.php?timeid='+documentlist_second_son_id+'&personid='+personid);
 			$(".table-box").load('person/missionledger.php?start_time='+start_time+'&end_time='+end_time+'&personid='+personid);
+		}
+		else if(documentlist_first_son_id==4){//微阅统计
+			$(".table-box").load('person/microreadledger.php?start_time='+start_time+'&end_time='+end_time+'&personid='+personid);
 		}
 		
 		// alert("1:"+documentlist_first_son_id+"    2:"+documentlist_second_son_id+" personid="+personid);
@@ -114,6 +119,7 @@
 					<li id="documentlist-first-son-1" value="1"><a>学习统计</a></li>
 					<li id="documentlist-first-son-2" value="2"><a>考试统计</a></li>
 					<li id="documentlist-first-son-3" value="3"><a>台账任务统计</a></li>
+					<li id="documentlist-first-son-4" value="4"><a>微阅统计</a></li>
 				</ul>
 			</div>
 		</div>
@@ -122,37 +128,37 @@
 
 <!--Start 将周月总选项去掉 xwd-->
  	<!--文档_子类型下拉菜单 2-->
-	<div class="dropdownlist">
-		<div class="input-group">
-			<input type="text" class="form-control classkinds" value="周" readOnly="true" style="background-color:#ffffff;">
-			<div class="input-group-btn">
-				<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-				<ul id="documentlist-second-son" class="dropdown-menu dropdown-menu-right">
-					<li id="documentlist-second-son-1" value="1"><a>周</a></li>
-					<li id="documentlist-second-son-2" value="2"><a>月</a></li>
-					<li id="documentlist-second-son-3" value="3"><a>总</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+<!--	<div class="dropdownlist">-->
+<!--		<div class="input-group">-->
+<!--			<input type="text" class="form-control classkinds" value="周" readOnly="true" style="background-color:#ffffff;">-->
+<!--			<div class="input-group-btn">-->
+<!--				<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>-->
+<!--				<ul id="documentlist-second-son" class="dropdown-menu dropdown-menu-right">-->
+<!--					<li id="documentlist-second-son-1" value="1"><a>周</a></li>-->
+<!--					<li id="documentlist-second-son-2" value="2"><a>月</a></li>-->
+<!--					<li id="documentlist-second-son-3" value="3"><a>总</a></li>-->
+<!--				</ul>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
 	<!--文档_子类型下拉菜单 2end-->
 <!--End 将周月总选项去掉 xwd-->
 
 <!--Start 添加时间日期控件 xwd-->
 	<!--文档_子类型下拉菜单 2-->
-	<div class="dropdownlist">
+	<div class="dropdownlist1">
 		<div class="input-group">
-			<div>开始时间：</div>
-			<div><input type="text" id="start_time" /></div>
+			<div class="timetitle">开始时间：</div>
+			<div style="float: right" ><input type="text" id="start_time" /></div>
 		</div>
 	</div>
 	<!--文档_子类型下拉菜单 2end-->
 
 	<!--文档_子类型下拉菜单 3-->
-	<div class="dropdownlist">
+	<div class="dropdownlist1">
 		<div class="input-group">
-			<div>结束时间：</div>
-			<div><input type="text" id="end_time" /></div>
+			<div class="timetitle">结束时间：</div>
+			<div style="float: right" ><input type="text" id="end_time" /></div>
 		</div>
 	</div>
 	<!--文档_子类型下拉菜单 3end-->

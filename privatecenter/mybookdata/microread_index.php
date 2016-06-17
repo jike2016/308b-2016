@@ -11,7 +11,8 @@ $('.lockpage').hide();
 	.head-box2 {width: 100%;height: 60px;}
 	/***下拉菜单 以及 饼状图 @end**/
 	
-	.maininfo-box {width: 100%;background-color: #FFFFFF; min-height: 665px; border: 1px solid #ccc; padding: 0px 20px 20px 20px;}
+	/*.maininfo-box {width: 100%;background-color: #FFFFFF; min-height: 665px; border: 1px solid #ccc; padding: 0px 20px 20px 20px;}*/
+	.maininfo-box {width: 100%;background-color: #FFFFFF; min-height: 665px; border: 0px solid #ccc; padding: 0px 20px 20px 20px;}
 	.maininfo-box h3 {color: #777777; font-size: 23px;}
 	.maininfo-box .line {width: 100%; height: 2px; background-color: #CCCCCC;}
 	.bookdata-box {width:100%;height: 50px; margin-top: 15px;}
@@ -65,7 +66,8 @@ function echo_detial(){
 	$starCommentsum = $starComment_doc->count + $starComment_ebook->count;//文库和书库‘星评’之和
 	$upload_doc = $DB->get_record_sql("SELECT count(1) AS count FROM mdl_doc_user_upload_my d WHERE d.upload_userid = $USER->id");
 	$upload_ebook = $DB->get_record_sql("SELECT count(1) AS count FROM mdl_ebook_user_upload_my e WHERE e.uploaderid = $USER->id");
-	$uploadsum = $upload_doc->count + $upload_ebook->count;//文库和书库‘上传’之和
+	$upload_pic = $DB->get_record_sql("SELECT count(1) AS count FROM mdl_pic_user_upload_my p WHERE p.uploaderid = $USER->id");
+	$uploadsum = $upload_doc->count + $upload_ebook->count + $upload_pic->count;//文库和书库‘上传’之和
 
 	echo '
 		<div class="maininfo-box">
@@ -303,15 +305,18 @@ function calculate_day_onlinetime($records){
 		/** Start 评论、星评、上传和审核状态的链接 */
 		$('#comment-data').click(function(){   //查看评论数据详情
 			$('.lockpage').show();
-			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('microreaddata/comment_data.php');
-		});	
+//			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('mybookdata/microreadComment_data.php');
+			$(this).parent().parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/microreadComment_data.php');
+		});
 		$('#starComment-data').click(function(){   //查看星评数据详情
 			$('.lockpage').show();
-			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('microreaddata/starComment_data.php');
+//			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('mybookdata/starComment_data.php');
+			$(this).parent().parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/microreadStarComment_data.php');
 		});
 		$('#upload-data').click(function(){     //查看上传数据详情
 			$('.lockpage').show();
-			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('microreaddata/upload_data.php');
+//			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('mybookdata/upload_data.php');
+			$(this).parent().parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/microreadUpload_data.php');
 		});
 		/** end 评论、星评、上传和审核状态的链接 */
 

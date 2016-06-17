@@ -35,6 +35,7 @@ $sql="and a.timecreated >= $start_time and  a.timecreated <= $end_time ";
 
 
 //Start 输出饼状图
+//$haspiechar = echo_piechar($personid,$sql);
 if($courseid == 1){//如果是搜索全部课程，则显示饼状图
 	$haspiechar = echo_piechar($personid,$sql);
 }else{//单个课程不需要输出饼状图
@@ -58,9 +59,7 @@ if( ($end_time-$start_time) > 86400 ){//如果查询时间段大于一天，则�
 }
 //End 输出折线图
 
-
-//////////////////////////////////////////////////////////////////////
-//饼状图 根据用户id，时间，查询所有课程和在所有课程操作比例
+//根据用户id，时间，查询所有课程和在所有课程操作比例
 function echo_piechar($personid,$sql){
 	
 	global $DB;
@@ -123,8 +122,7 @@ function echo_piechar($personid,$sql){
 	
 }
 
-
-//柱状图 数据查询 '课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
+//柱状图数据查询 '课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
 function echo_histogram($personid,$mytime){
 	if($mytime!=0){
 		$notesql='select notetype,count(1)as count from mdl_note_my where userid='.$personid.' and time >'.$mytime.'  GROUP BY notetype';
@@ -171,7 +169,7 @@ function echo_histogram($personid,$mytime){
 }
 
 /**Start （添加单课程的统计） 徐东威 20160426*/
-//柱状图 数据查询 '课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
+//柱状图数据查询 '课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
 function echo_histogram2($personid,$mytime,$courseid){
 
 	if($courseid != 1){//选择单门课程
@@ -253,74 +251,46 @@ function echo_histogram2($personid,$mytime,$courseid){
 }
 /**End*/
 
-/**Start （改为按时间段查询） xwd 20160525*/
-//柱状图 数据查询 全部课程：'课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
-//                  单课程：'课程笔记', '评论'
+/**Start （改为按时间查询） xwd 20160525*/
+//柱状图数据查询 '课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
 function echo_histogram3($personid,$start_time,$end_time,$courseid){
 
-	if($courseid != 1) {//选择单门课程
-		$notesql='select notetype,count(1)as count from mdl_note_my where userid='.$personid.' and courseid ='.$courseid.' and time >'.$start_time.' and time < '.$end_time.'  GROUP BY notetype';
-		$commentsql='select 1,count(1)as count from mdl_comment_course_my where commenttime>'.$start_time.' and commenttime < '.$end_time.' and userid='.$personid.' and courseid ='.$courseid;
-		$commentsql2="select 1,count(1)as count from mdl_comment_video_my v where commenttime>$start_time and commenttime< $end_time and userid=$personid and v.modid in (select m.id from mdl_course_modules m where m.course = $courseid)";
-		$commentsql3 = "select 1,count(1)as count from mdl_comment_article_my m where commenttime>$start_time and commenttime< $end_time and m.userid = $personid and m.articleid in (select m.id from mdl_course_modules m where m.course = $courseid )";
+	$notesql='select notetype,count(1)as count from mdl_note_my where userid='.$personid.' and time >='.$start_time.' and time <='.$end_time.'  GROUP BY notetype';
+	$commentsql='select 1,count(1)as count from mdl_comment_course_my where commenttime>='.$start_time.' and commenttime<='.$end_time.' and userid='.$personid;
+	$collectionsql='select 1,count(1)as count from mdl_collection_my where collectiontime>='.$start_time.' and collectiontime<='.$end_time.' and userid='.$personid;
+	$badgesql='select 1,count(1)as count from mdl_badge_issued where dateissued>='.$start_time.' and dateissued<='.$end_time.' and userid='.$personid;
+	$loginsql='select 1,count(1)as count from mdl_logstore_standard_log where timecreated>='.$start_time.' and timecreated<='.$end_time.' and action=\'loggedin\' and userid='.$personid;
 
-		global $DB;
-		$histogramcounts = '';
-		//笔记
-		$notecounts = $DB -> get_records_sql($notesql);//1:课程笔记2：个人笔记
+	global $DB;
+	$histogramcounts = '';
+	//笔记
+	$notecounts = $DB -> get_records_sql($notesql);//1:课程笔记2：个人笔记
 
-		if(!isset($notecounts[1]->count))
-			$histogramcounts .= '0, ';
-		else
-			$histogramcounts .= $notecounts[1]->count.', ';
+	if(!isset($notecounts[1]->count))
+		$histogramcounts .= '0, ';
+	else
+		$histogramcounts .= $notecounts[1]->count.', ';
+	if(!isset($notecounts[2]->count))
+		$histogramcounts .= '0, ';
+	else
+		$histogramcounts .= $notecounts[2]->count.', ';
 
-		//评论
-		$comments = $DB -> get_records_sql($commentsql);//课程评论
-		$comments2 = $DB -> get_records_sql($commentsql2);//视屏评论
-		$comments3 = $DB -> get_records_sql($commentsql3);//文章评论
-		$histogramcounts .=  $comments[1]->count + $comments2[1]->count + $comments3[1]->count .' ';
-
-		return $histogramcounts;
-
-	}else{//全部课程
-		$notesql='select notetype,count(1)as count from mdl_note_my where userid='.$personid.' and time >='.$start_time.' and time <='.$end_time.'  GROUP BY notetype';
-		$commentsql='select 1,count(1)as count from mdl_comment_course_my where commenttime>='.$start_time.' and commenttime<='.$end_time.' and userid='.$personid;
-		$collectionsql='select 1,count(1)as count from mdl_collection_my where collectiontime>='.$start_time.' and collectiontime<='.$end_time.' and userid='.$personid;
-		$badgesql='select 1,count(1)as count from mdl_badge_issued where dateissued>='.$start_time.' and dateissued<='.$end_time.' and userid='.$personid;
-		$loginsql='select 1,count(1)as count from mdl_logstore_standard_log where timecreated>='.$start_time.' and timecreated<='.$end_time.' and action=\'loggedin\' and userid='.$personid;
-
-		global $DB;
-		$histogramcounts = '';
-		//笔记
-		$notecounts = $DB -> get_records_sql($notesql);//1:课程笔记2：个人笔记
-
-		if(!isset($notecounts[1]->count))
-			$histogramcounts .= '0, ';
-		else
-			$histogramcounts .= $notecounts[1]->count.', ';
-		if(!isset($notecounts[2]->count))
-			$histogramcounts .= '0, ';
-		else
-			$histogramcounts .= $notecounts[2]->count.', ';
-
-		//评论
-		$comments = $DB -> get_records_sql($commentsql);//1:课程笔记2：个人笔记
-		$histogramcounts .= $comments[1]->count.', ';
-		//收藏
-		$collections = $DB -> get_records_sql($collectionsql);//1:课程笔记2：个人笔记
-		$histogramcounts .= $collections[1]->count.', ';
-		//勋章
-		$badges = $DB -> get_records_sql($badgesql);//1:课程笔记2：个人笔记
-		$histogramcounts .= $badges[1]->count.', ';
-		//登录
-		$logins = $DB -> get_records_sql($loginsql);//1:课程笔记2：个人笔记
-		$histogramcounts .= $logins[1]->count.' ';
-		return $histogramcounts;
-	}
+	//评论
+	$comments = $DB -> get_records_sql($commentsql);//1:课程笔记2：个人笔记
+	$histogramcounts .= $comments[1]->count.', ';
+	//收藏
+	$collections = $DB -> get_records_sql($collectionsql);//1:课程笔记2：个人笔记
+	$histogramcounts .= $collections[1]->count.', ';
+	//勋章
+	$badges = $DB -> get_records_sql($badgesql);//1:课程笔记2：个人笔记
+	$histogramcounts .= $badges[1]->count.', ';
+	//登录
+	$logins = $DB -> get_records_sql($loginsql);//1:课程笔记2：个人笔记
+	$histogramcounts .= $logins[1]->count.' ';
+	return $histogramcounts;
 
 }
 /**End*/
-
 
 /** 计算每天的学习时间 岑霄20160308 （全部的学习时间统计）
 1、获取第一个事件的时间，
@@ -361,7 +331,6 @@ function calculate_day_onlinetime($records){
 	}
 	return round($sumtime/3600,1);//小时
 }
-/** end */
 
 /** 计算每天的学习时间 岑霄20160308 （单课程的学习时间统计）
 获取事件数目，每个数目算在线1分钟
@@ -371,7 +340,6 @@ function calculate_day_onlinetime2($records){
 	$sumtime = 60*$records->recordcount;
 	return round($sumtime/3600,1);//小时
 }
-/** end */
 
 //处理每天的学习时间
 function handler_day_onlinetime($starttime,$endtime,$personid){
@@ -437,7 +405,7 @@ function handler_day_onlinetime2($starttime,$endtime,$personid,$courseid){
 /**End*/
 
 
-/**Start 折线图 输出7日学时情况 */
+//输出7日学时情况
 function echo_week_learn($personid){
 	$weekday = array('"周末"','"周一"','"周二"','"周三"','"周四"','"周五"','"周六"');
 	// echo $weekday[date('w', time())];
@@ -457,11 +425,10 @@ function echo_week_learn($personid){
 	}
 	 return array($day_week,$day_onlinetime);
 }
-/** end */
 
-/**Start 折线图 （添加对单课程的学习统计）徐东威 20160426
- *输出7日学时情况
- */
+
+/**Start （添加对单课程的学习统计）徐东威 20160426*/
+//输出7日学时情况
 function echo_week_learn2($personid,$courseid){
 	$weekday = array('"周末"','"周一"','"周二"','"周三"','"周四"','"周五"','"周六"');
 	// echo $weekday[date('w', time())];

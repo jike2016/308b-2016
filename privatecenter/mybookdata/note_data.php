@@ -37,7 +37,7 @@
 	$('.lockpage').hide();
 	$("#return-index").click(function(){
 		$('.lockpage').show();
-		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index.php');
+		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load('mybookdata/index.php');
 	})
 	
 	//上下页的跳转

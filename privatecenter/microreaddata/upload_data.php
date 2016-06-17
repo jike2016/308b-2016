@@ -13,10 +13,11 @@
 	.pagination-box {width: 100%;  text-align: center;}
 	.pagination-box nav {margin: auto;}
 	.td1 {width: 10%;}
-	.td2 {width: 15%;}
-	.td3 {width: 25%;}
-	.td4 {width: 22.5%;}
-	.td5 {width: 22.5%;}
+	.td2 {width: 20%;}
+	.td3 {width: 10%;}
+	.td4 {width: 20%;}
+	.td5 {width: 25%;}
+	.td6 {width: 15%;}
 	.table tr td{text-align: center;}
 	/*******分页*******/
 	.footer-box {background-color: #F0F0F0;  border: 1px solid #ccc; border-top: 0px;}
@@ -74,16 +75,20 @@ function echo_comments($page){
 
 	$userID = $USER->id;
 	$comments= $DB->get_records_sql("
-		SELECT d.timecreated,d.admin_check,d.`name`,d.summary,d.suffix,d.id AS docid,null AS ebookid FROM mdl_doc_user_upload_my d WHERE d.upload_userid = $userID
+		SELECT d.timecreated,d.admin_check,d.`name`,d.summary,d.suffix,d.id AS docid,null AS ebookid,null AS picid,d.url FROM mdl_doc_user_upload_my d WHERE d.upload_userid = $userID
 		UNION ALL
-		SELECT e.timecreated,e.admin_check,e.`name`,e.summary,e.suffix,null AS docid,e.id AS ebookid from mdl_ebook_user_upload_my e WHERE e.uploaderid = $userID
+		SELECT e.timecreated,e.admin_check,e.`name`,e.summary,e.suffix,null AS docid,e.id AS ebookid,null AS picid,e.url FROM mdl_ebook_user_upload_my e WHERE e.uploaderid = $userID
+		UNION ALL
+		SELECT p.timecreated,p.admin_check,p.`name`,null as summary,p.suffix,null AS docid,null AS ebookid,p.id as picid,p.picurl as url FROM mdl_pic_user_upload_my p WHERE p.uploaderid = $userID
 		ORDER BY timecreated desc
 		LIMIT $offset,$numofpage
 	");
 	$commentscount = $DB->get_records_sql("
-		SELECT d.timecreated,d.admin_check,d.`name`,d.summary,d.suffix,d.id AS docid,null AS ebookid FROM mdl_doc_user_upload_my d WHERE d.upload_userid = $userID
+		SELECT d.timecreated,d.admin_check,d.`name`,d.summary,d.suffix,d.id AS docid,null AS ebookid,null AS picid,d.url FROM mdl_doc_user_upload_my d WHERE d.upload_userid = $userID
 		UNION ALL
-		SELECT e.timecreated,e.admin_check,e.`name`,e.summary,e.suffix,null AS docid,e.id AS ebookid from mdl_ebook_user_upload_my e WHERE e.uploaderid = $userID
+		SELECT e.timecreated,e.admin_check,e.`name`,e.summary,e.suffix,null AS docid,e.id AS ebookid,null AS picid,e.url FROM mdl_ebook_user_upload_my e WHERE e.uploaderid = $userID
+		UNION ALL
+		SELECT p.timecreated,p.admin_check,p.`name`,null as summary,p.suffix,null AS docid,null AS ebookid,p.id as picid,p.picurl as url FROM mdl_pic_user_upload_my p WHERE p.uploaderid = $userID
 		ORDER BY timecreated desc
 	");
 	$no = ($page-1)*$numofpage+1;//序号
@@ -115,14 +120,29 @@ function echo_comments($page){
 		if(isset($comment->docid)){//文库上传
 			$coursename = (strlen($comment->name)>30)?mb_substr(strip_tags($comment->name),0,30,'utf-8').'...' : $comment->name;
 			$coursename .= $comment->suffix;
-			$commenttype='文档';
+			$commenttype='文库文档';
 		}
 		elseif(isset($comment->ebookid)){//书库上传
 			$coursename = (strlen($comment->name)>30)?mb_substr(strip_tags($comment->name),0,30,'utf-8').'...':$comment->name;
 			$coursename = '《'.$coursename.'》';
-			$commenttype='书籍';
+			$commenttype='书库书籍';
 		}
-		$checkState = ($comment->admin_check == 0)?'已通过':'未通过';
+		elseif(isset($comment->picid)){//图库上传
+			$coursename = (strlen($comment->name)>30)?mb_substr(strip_tags($comment->name),0,30,'utf-8').'...':$comment->name;
+			$coursename .= $coursename.$comment->suffix;
+			$commenttype='图库图片';
+		}
+
+		//审核状态 0：未审核 1：已通过 2：未通过
+		if($comment->admin_check == 0){
+			$checkState = '待审核';
+		}
+		elseif($comment->admin_check == 1){
+			$checkState = '已通过';
+		}
+		elseif($comment->admin_check == 2){
+			$checkState = '未通过';
+		}
 
 		echo '<tr>
 				<td>'.$no.'</td>

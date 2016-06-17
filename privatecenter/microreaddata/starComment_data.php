@@ -12,11 +12,10 @@
 	.table .td3_text { color:#000000}
 	.pagination-box {width: 100%;  text-align: center;}
 	.pagination-box nav {margin: auto;}
-	.td1 {width: 10%;}
-	.td2 {width: 15%;}
-	.td3 {width: 25%;}
-	.td4 {width: 22.5%;}
-	.td5 {width: 22.5%;}
+	.td1 {width: 15%;}
+	.td2 {width: 20%;}
+	.td3 {width: 15%;}
+	.td4 {width: 50%;}
 	.table tr td{text-align: center;}
 	/*******分页*******/
 	.footer-box {background-color: #F0F0F0;  border: 1px solid #ccc; border-top: 0px;}
@@ -103,8 +102,7 @@ function echo_comments($page){
 					<td class="td1">序号</td>
 					<td class="td2">时间</td>
 					<td class="td3">分数</td>
-					<td class="td4">星评类型</td>
-					<td class="td5">针对</td>
+					<td class="td4">位置</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -115,21 +113,20 @@ function echo_comments($page){
 			$course = $DB->get_record_sql('SELECT d.`name`,d.suffix FROM mdl_doc_my d WHERE d.id = '.$comment->docid);
 			$coursename = (strlen($course->name)>30)?mb_substr(strip_tags($course->name),0,30,'utf-8').'...' : $course->name;
 			$coursename .= $course->suffix;
-			$commenttype='文档星评';
+			$commenttype='文库——';
 		}
 		elseif(isset($comment->ebookid)){//书库星评
 			$course = $DB->get_record_sql('SELECT e.`name` FROM mdl_ebook_my e WHERE e.id = '.$comment->ebookid);
 			$coursename = (strlen($course->name)>30)?mb_substr(strip_tags($course->name),0,30,'utf-8').'...':$course->name;
 			$coursename = '《'.$coursename.'》';
-			$commenttype='书籍星评';
+			$commenttype='书库——';
 		}
 
 		echo '<tr>
 				<td>'.$no.'</td>
 				<td>'.userdate($comment->scoretime,'%Y-%m-%d %H:%M').'</td>
 				<td class="td3_text"><p>'.mb_substr(strip_tags($comment->score),0,30,'utf-8').'</p></td>
-				<td>'.$commenttype.'</td>
-				<td>'.$coursename.'</td>
+				<td>'.$commenttype.$coursename.'</td>
 			</tr>';
 		$no++;
 	}

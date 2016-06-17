@@ -46,13 +46,25 @@
 
 	var documentlist_first_son_id=1;
 	var documentlist_second_son_id=1;
-//	 var documentlist_third_son_id;
+//	var documentlist_third_son_id = 1;//课程id
 	var personid=<?php echo $_GET['personid'];?>;
+
+	$('#documentlist-first-son li').on('click', function(){   //下拉表单 动作
+		documentlist_first_son_id = $(this).val();       //获取下拉菜单 选择项的id
+		if(documentlist_first_son_id  != 1){
+			$('#courseTest').css('display','none');//隐藏课程下拉框
+		}else{
+			$('#courseTest').css('display','block');//显示课程下拉框
+		}
+	});
 	$('#documentlist-first-son li').on('click', function(){   //文档_子类型下拉表单 1 动作
 		documentlist_first_son_id = $(this).val();       //获取文档_子类型下拉菜单 1选择项的id
 	});	
 	$('#documentlist-second-son li').on('click', function(){   //文档_子类型下拉表单 2 动作
 		documentlist_second_son_id = $(this).val();       //获取文档_子类型下拉菜单 2选择项的id
+	});
+	$('#documentlist-third-son li').on('click', function(){   //文档_子类型下拉表单 3 动作
+		documentlist_third_son_id = $(this).val();       //获取文档_子类型下拉菜单 3选择项的id
 	});
 
 	//时间字符串转换为时间戳 dateStr = 2016-05-25 12:12:12
@@ -68,6 +80,7 @@
 
 		var start_time = $('#start_time').val();//开始时间
 		var end_time = $('#end_time').val();//结束时间
+
 		if(start_time=='' || end_time==''){
 			alert('开始、结束时间不能为空！');
 			return;
@@ -80,8 +93,8 @@
 		}
 
 		$('.lockpage').show();
-		// var treenodeactiveid = $(".curSelectedNode").attr("id");  //获取激活的树节点的id	
-		// var documentlistactive_id = $("#documentlist .li_active").val(); //获取文档类型下拉菜单选择项的id		
+		// var treenodeactiveid = $(".curSelectedNode").attr("id");  //获取激活的树节点的id
+		// var documentlistactive_id = $("#documentlist .li_active").val(); //获取文档类型下拉菜单选择项的id
 		//判断类型，输出页面documentlist_first_son_id
 		if(personid==null){
 			alert('请选择组织架构');
@@ -89,7 +102,7 @@
 		}
 		else if(documentlist_first_son_id==1){//学习任务
 //			$(".table-box").load('person/learnledger.php?timeid='+documentlist_second_son_id+'&personid='+personid);
-			$(".table-box").load('person/learnledger.php?start_time='+start_time+'&end_time='+end_time+'&personid='+personid);
+			$(".table-box").load('person/learnledger.php?start_time='+start_time+'&end_time='+end_time+'&courseid='+documentlist_third_son_id+'&personid='+personid);
 		}
 		else if(documentlist_first_son_id==2){//考试统计
 //			$(".table-box").load('person/quizledger.php?timeid='+documentlist_second_son_id+'&personid='+personid);
@@ -102,14 +115,14 @@
 		else if(documentlist_first_son_id==4){//微阅统计
 			$(".table-box").load('person/microreadledger.php?start_time='+start_time+'&end_time='+end_time+'&personid='+personid);
 		}
-		
+
 		// alert("1:"+documentlist_first_son_id+"    2:"+documentlist_second_son_id+" personid="+personid);
 		//alert("激活的树节点:  "+treenodeactiveid+"\r台账类型:  "+documentlistactive_id+"\r统计类型:  "+documentlist_first_son_id+"\r文档_子类型2:  "+documentlist_second_son_id+"\r文档_子类型3:  "+documentlist_third_son_id);
 	});
 </script>
 
 <div class="dropdownlist-box">
-			<!--文档_子类型下拉菜单 1-->
+	<!--文档_子类型下拉菜单 1-->
 	<div class="dropdownlist">
 		<div class="input-group">
 			<input type="text" class="form-control classkinds" value="学习统计" readOnly="true" style="background-color:#ffffff;">
@@ -124,7 +137,7 @@
 			</div>
 		</div>
 	</div>
-	<!--文档子类型下拉菜单 1end-->
+	<!--文档子类型下拉菜单 1 end-->
 
 <!--Start 将周月总选项去掉 xwd-->
  	<!--文档_子类型下拉菜单 2-->
@@ -145,24 +158,51 @@
 <!--End 将周月总选项去掉 xwd-->
 
 <!--Start 添加时间日期控件 xwd-->
-	<!--文档_子类型下拉菜单 2-->
 	<div class="dropdownlist1">
 		<div class="input-group">
 			<div class="timetitle">开始时间：</div>
 			<div style="float: right" ><input type="text" id="start_time" /></div>
 		</div>
 	</div>
-	<!--文档_子类型下拉菜单 2end-->
 
-	<!--文档_子类型下拉菜单 3-->
 	<div class="dropdownlist1">
 		<div class="input-group">
 			<div class="timetitle">结束时间：</div>
 			<div style="float: right" ><input type="text" id="end_time" /></div>
 		</div>
 	</div>
-	<!--文档_子类型下拉菜单 3end-->
 <!--End 添加时间日期控件 xwd-->
+
+	<!--start 课程下拉菜单-->
+	<div class="dropdownlist" id="courseTest">
+		<div class="input-group">
+			<input type="text" class="form-control classkinds" value="全部课程" readOnly="true" style="background-color:#ffffff;">
+			<div class="input-group-btn">
+				<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+				<ul id="documentlist-third-son" class="dropdown-menu dropdown-menu-right">
+					<li value="1"><a>全部课程</a></li>
+					<?php
+						require_once("../../config.php");
+						global $DB;
+						$useid = $_GET['personid'];
+						$courses=$DB->get_records_sql('select
+											c.id,c.fullname
+											from mdl_user_enrolments a
+											join mdl_enrol b on b.id=a.enrolid
+											join mdl_course c on c.id=b.courseid
+											where a.userid='.$useid.'
+											GROUP BY courseid ORDER BY a.timecreated DESC');
+						$index = 1;
+						foreach($courses as $course){
+							echo '<li id="documentlist-third-son-'.$index.'" value="'.$course->id.'"><a>'.$course->fullname.'</a></li>';
+							$index++;
+						}
+					?>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--end 课程下拉菜单-->
 
 	<button class="btn btn-primary search">搜索</button>
 </div>

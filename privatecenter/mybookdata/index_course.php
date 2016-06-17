@@ -34,7 +34,7 @@
 		<div class="maininfo-box">
 	<!--新加下拉菜单 修改-->
 	<div class="head-box1">
-		<h3>学习报告</h3>
+		<h3>课程学习报告</h3>
 		
 		<!--学习报告类型下拉表单-->
 		<div class="dropdownlist">
@@ -205,10 +205,12 @@ function calculate_day_onlinetime($records){
 			$(this).parent().parent().parent().children('.learnreportkinds').val($(this).text());
 			// $(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index2.html');
 			if($(this).val()==1){
-				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index.php');
+//				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index.php');
+				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load('mybookdata/index.php');
 			}
 			else{
-				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index_course.php?courseid='+$(this).val());
+//				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index_course.php?courseid='+$(this).val());
+				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/index_course.php?courseid='+$(this).val());
 			}
 		});	
 		//课程排序下拉菜单点击局部刷新事件 end

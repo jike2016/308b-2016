@@ -1,17 +1,17 @@
 <script>
 	/** Start 功能显示判断*/
-	if(getQueryString('class') == 'zhibo'){
-		$('.maininfo-box').load('myclass/course_zhibo.php');
-		 //直播样式的修改
-		$('.kinds-a ').removeClass('a-active');
-		$('#course_zhibo').addClass('a-active');
-	}
-	else{
-		$('.maininfo-box').load('myclass/course_inprogress.php');
-		 //正在播放的样式修改
-		$('.kinds-a ').removeClass('a-active');
-		$('#course_inprogress').addClass('a-active');
-	}
+//	if(getQueryString('class') == 'zhibo'){
+//		$('.maininfo-box').load('myclass/course_zhibo.php');
+//		 //直播样式的修改
+//		$('.kinds-a ').removeClass('a-active');
+//		$('#course_zhibo').addClass('a-active');
+//	}
+//	else{
+//		$('.maininfo-box').load('myclass/course_inprogress.php');
+//		 //正在播放的样式修改
+//		$('.kinds-a ').removeClass('a-active');
+//		$('#course_inprogress').addClass('a-active');
+//	}
 	/** end 功能显示判断*/
 
 	//点击时样式的切换	

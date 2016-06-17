@@ -13,10 +13,9 @@
 	.pagination-box {width: 100%;  text-align: center;}
 	.pagination-box nav {margin: auto;}
 	.td1 {width: 10%;}
-	.td2 {width: 25%;}
-	.td3 {width: 25%;}
-	.td4 {width: 45%;}
-
+	.td2 {width: 20%;}
+	.td3 {width: 35%;}
+	.td4 {width: 35%;}
 	.table tr td{text-align: center;}
 	/*******分页*******/
 	.footer-box {background-color: #F0F0F0;  border: 1px solid #ccc; border-top: 0px;}
@@ -36,8 +35,8 @@
 	$('.lockpage').hide();
 	$("#return-index").click(function(){
 		$('.lockpage').show();
-//		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index.php');
-		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load('mybookdata/index.php');
+//		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.right-banner').load('microreaddata/index.php');
+		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load("mybookdata/index.php");
 	})
 	
 	//上下页的跳转
@@ -46,28 +45,27 @@
 		var page=parseInt($('#pageid').text());//获取当前页码
 		//alert(page);
 		page--;
-		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/like_data.php?page="+page);
+		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data.php?page="+page);
 	});
 	$('.next-btn').click(function() {  //下一页
 		$('.lockpage').show();
 		var page=parseInt($('#pageid').text());
 		page++;
 		// alert(page);
-		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/like_data.php?page="+page);
+		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data.php?page="+page);
 	});
 </script>
 
 <?php
 require_once("../../config.php");
 $page = optional_param('page', 1, PARAM_INT);
-// $categoryid = optional_param('categoryid', 0, PARAM_INT);
 global $DB;
 global $USER;
 
-echo_likes($page);//输出笔记列表
+echo_comments($page);//输出评论列表
 
-/**STATR  输出笔记列表*/
-function echo_likes($page){
+/**STATR  输出评论列表*/
+function echo_comments($page){
 	$numofpage=15;
 	$offset=($page-1)*$numofpage;//获取limit的第一个参数的值 offset ，假如第一页则为(1-1)*10=0,第二页为(2-1)*10=10。
 	
@@ -75,15 +73,26 @@ function echo_likes($page){
 	global $USER;
 
 	$userID = $USER->id;
-	$likes = $DB->get_records_sql("select * from mdl_course_like_my where userid=$userID order by liketime desc limit $offset,$numofpage");//分页查询，获取课程笔记中的10条记录
-	$likescount = $DB->get_record_sql("select count(*) as record_count from mdl_course_like_my where userid=$userID");
+	$comments= $DB->get_records_sql("
+		SELECT d.commenttime,d.`comment`,d.docid,null as ebookid FROM mdl_doc_comment_my d WHERE d.userid = $userID
+		UNION ALL
+		SELECT e.commenttime,e.`comment`,null as docid,e.ebookid FROM mdl_ebook_comment_my e WHERE e.userid = $userID
+		ORDER BY commenttime desc
+		LIMIT $offset,$numofpage
+	");
+	$commentscount = $DB->get_records_sql("
+		SELECT d.commenttime,d.`comment`,d.docid,null as ebookid FROM mdl_doc_comment_my d WHERE d.userid = $userID
+		UNION ALL
+		SELECT e.commenttime,e.`comment`,null as docid,e.ebookid FROM mdl_ebook_comment_my e WHERE e.userid = $userID
+		ORDER BY commenttime desc
+	");
 	$no = ($page-1)*$numofpage+1;//序号
 	echo'
 		<div class="maininfo-box">
 		<div class="head-box">
 		<div class="a-box"><a id="return-index"><span class="glyphicon glyphicon-menu-left"></span>返回</a></div>
-		<h3>点赞台账&nbsp;:&nbsp;&nbsp;</h3>
-		<h3 id="num">'.$likescount->record_count.'</h3>
+		<h3>微阅评论&nbsp;:&nbsp;&nbsp;</h3>
+		<h3 id="num">'.count($commentscount).'</h3>
 	</div>
 
 	
@@ -93,20 +102,32 @@ function echo_likes($page){
 				<tr class="active">
 					<td class="td1">序号</td>
 					<td class="td2">时间</td>
-					<td class="td3">内容</td>
-					<td class="td4">位置</td>
+					<td class="td3">位置</td>
+					<td class="td4">内容</td>
 				</tr>
 			</thead>
 			<tbody>
 	';
-	foreach($likes as $like){
-	
+	//////////////////////////////////////////////////////////
+	foreach($comments as $comment){
+		if(isset($comment->docid)){//文库评论
+			$course = $DB->get_record_sql('SELECT d.`name`,d.suffix FROM mdl_doc_my d WHERE d.id = '.$comment->docid);
+			$coursename = (strlen($course->name)>30)?mb_substr(strip_tags($course->name),0,30,'utf-8').'...' : $course->name;
+			$coursename .= $course->suffix;
+			$commenttype='文库》';
+		}
+		elseif(isset($comment->ebookid)){//书库评论
+			$course = $DB->get_record_sql('SELECT e.`name` FROM mdl_ebook_my e WHERE e.id = '.$comment->ebookid);
+			$coursename = (strlen($course->name)>30)?mb_substr(strip_tags($course->name),0,30,'utf-8').'...':$course->name;
+			$coursename = '《'.$coursename.'》';
+			$commenttype='书库》';
+		}
+
 		echo '<tr>
 				<td>'.$no.'</td>
-				<td>'.userdate($like->liketime,'%Y-%m-%d %H:%M').'</td>
-				<td class="td3_text"><p>你点了一个赞</p></td>
-				<td>'.$like->title.'</td>
-
+				<td>'.userdate($comment->commenttime,'%Y-%m-%d %H:%M').'</td>
+				<td>'.$commenttype.$coursename.'</td>
+				<td class="td3_text"><p>'.mb_substr(strip_tags($comment->comment),0,30,'utf-8').'</p></td>
 			</tr>';
 		$no++;
 	}
@@ -116,13 +137,15 @@ function echo_likes($page){
 		</div>
 		</div>';
 
-	 echo_end($page,$likescount,$numofpage);//输出上下页按钮
+	 echo_end($page,count($commentscount),$numofpage);//输出上下页按钮
 
 }
-/**END  输出笔记列表*/
+/**END  输出评论列表*/
+
+/**Start 输出分页按钮  */
 function echo_end($page,$count,$numofpage){
 
-	$total = $count->record_count;//总记录数
+	$total = $count;//总记录数
 	$pagenum=ceil($total/$numofpage);//总页数
 	echo '
 	<div class="footer-box">
@@ -191,5 +214,7 @@ function echo_end($page,$count,$numofpage){
 	}
 
 }
+/**end 输出分页按钮  */
+
 ?>
 

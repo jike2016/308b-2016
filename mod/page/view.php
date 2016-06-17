@@ -54,12 +54,14 @@ $course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
 require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/page:view', $context);
-/** START 岑霄 为学生设置Layout */
+
+/** START 岑霄 为学生设置 Layout */
 if(!has_capability('mod/page:addinstance', $context)){
     $PAGE->set_pagelayout('pageforstud');
     //默认为incourse管理员可见
 }
 /** End  */
+
 // Trigger module viewed event.
 $event = \mod_page\event\course_module_viewed::create(array(
    'objectid' => $page->id,
@@ -101,6 +103,13 @@ if (!empty($options['printintro'])) {
     }
 }
 
+if($page->swfurl)
+{
+    /** Start 增加在线阅读office内容 岑霄 20160425 */
+    echo '<div id="documentViewer" class="flexpaper_viewer" style="width:100%;height:900px;align-content:center" ></div>';
+    /**End */
+}
+
 $content = file_rewrite_pluginfile_urls($page->content, 'pluginfile.php', $context->id, 'mod_page', 'content', $page->revision);
 $formatoptions = new stdClass;
 $formatoptions->noclean = true;
@@ -113,7 +122,9 @@ $strlastmodified = get_string("lastmodified");
 echo "<div class=\"modified\">$strlastmodified: ".userdate($page->timemodified)."</div>";
 
 /** Start 获取设置的评论page 朱子武 20160315*/
-$count_page = my_get_article_evaluation_count($id);
+$evaluationCount = my_get_article_evaluation_count($id);
+$count_page = $evaluationCount->ceilcount;
+
 $current_page = $_SESSION['pageid'];
 unset ($_SESSION['pageid']);
 
@@ -123,11 +134,14 @@ echo '
 			<!--评论-->
                     <div class="commentbox">
                         <div class="commentboxtitle">
-                            <div><h3>评论</h3></div>
+                            <div style="width:110px"><h3 style="width:100%">评论('.$evaluationCount->count.')</h3></div>
                         </div>
                         <div class="mycomment">
-                                <textarea class="form-control" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                                  <!-- 2016.3.29 毛英东 添加表情-->
+								<textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                                <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
                                 <button id="commentBtn" class="btn btn-success">发表评论</button>
+                                <!-- end  2016.3.29 毛英东 添加表情 -->
                             </div>
                             '.my_get_article_evaluation($id, $current_page - 1).'
                     </div>
@@ -140,7 +154,7 @@ echo '
 					<li>
 						<a href="../../mod/page/view.php?id='.$id.'&page='.($current_page <= 1 ? 1: $current_page - 1).'">上一页</a>
 					</li>
-					'.my_get_article_evaluation_current_count($count_page, $id).'
+					'.my_get_article_evaluation_current_count($count_page, $id, $current_page).'
 					<li>
 						<a href="../../mod/page/view.php?id='.$id.'&page='.($current_page < $count_page ? ($current_page + 1): $count_page).'">下一页</a>
 					</li>
@@ -162,19 +176,38 @@ function my_get_article_evaluation_count($articleid)
     $evaluation = $DB->get_records_sql('SELECT id as mycount FROM mdl_comment_article_my WHERE articleid = ? ', array($articleid));
     //$evaluation = $DB->get_records_sql('SELECT courseid, count(*) as mycount FROM mdl_comment_course_my WHERE courseid = ? ', array($course->id));
     //$mycount = $evaluation[$course->id]->mycount;
-    $mycount = count($evaluation);
+//    $mycount = count($evaluation);
+//    $mycount = ceil($mycount/10);
+//    return ($mycount <= 1 ? 1: $mycount);
+
+    $mycount = count($evaluation) < 0 ? 0 : count($evaluation);
+    $evaluationCount = new stdClass();
+    $evaluationCount->count = $mycount;
     $mycount = ceil($mycount/10);
-    return ($mycount <= 1 ? 1: $mycount);
+    $evaluationCount->ceilcount = ($mycount <= 1 ? 1: $mycount);
+    return $evaluationCount;
 }
 /** 获取评价数目页数 END*/
 
 /** START 输出页码 朱子武 20160315*/
-function my_get_article_evaluation_current_count($count_page, $articleid)
+function my_get_article_evaluation_current_count($count_page, $articleid, $current_page)
 {
     $pagestr = '';
-    for($num = 1; $num <= $count_page; $num ++)
+    /** Start 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
+    $numstart = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page - 2):1):($count_page - 4)):1;
+    $numend = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page + 2):5):($count_page)):$count_page;
+    /** End 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
+    for($num = $numstart; $num <= $numend; $num ++)
     {
-        $pagestr.='<li><a href="../../mod/page/view.php?id='.$articleid.'&page='.$num.'">'.$num.'</a></li>';
+//          $pagestr.='<li><a href="../../mod/page/view.php?id='.$articleid.'&page='.$num.'">'.$num.'</a></li>';
+        if($num == $current_page)
+        {
+            $pagestr.='<li><a class="pagination_li_active" href="../../mod/page/view.php?id='.$articleid.'&page='.$num.'">'.$num.'</a></li>';
+        }
+        else
+        {
+            $pagestr.='<li><a href="../../mod/page/view.php?id='.$articleid.'&page='.$num.'">'.$num.'</a></li>';
+        }
     }
     return $pagestr;
 }

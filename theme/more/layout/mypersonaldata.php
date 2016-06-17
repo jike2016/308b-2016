@@ -46,6 +46,9 @@ echo $OUTPUT->doctype() ?>
     <script src="../theme/more/js/jquery-1.11.3.min.js"></script>
     
 	<style>
+	html, body {
+			background-color: #ffffff;
+		}
 		.navbar-form {padding: 10px 0px; }
 		@media (max-width: 1199px){
 			body #region-main .mform:not(.unresponsive) .fitem .fitemtitle {
@@ -53,7 +56,7 @@ echo $OUTPUT->doctype() ?>
 			    margin-top: 0px;
 			    margin-bottom: 4px;
 			    text-align: left;
-				 float: left;
+				float: left;
 			    width: 10%;
 			}
 			body #region-main .mform:not(.unresponsive) .fitem .felement {
@@ -104,7 +107,7 @@ echo $OUTPUT->doctype() ?>
 			    font-size: 16px;
 			    color: #000;
 			}
-			
+			.ffilemanager {width: 30% !important;float:left !important;}	
 		}
 	</style>
 </head>

@@ -59,12 +59,10 @@ echo $OUTPUT->doctype() ?>
     <link rel="stylesheet" href="../theme/more/style/courseforstu/share_style0_16.css" type="text/css" />
     <link rel="stylesheet" href="../theme/more/style/courseforstu/saved_resource_old.css" type="text/css" />
     <link rel="stylesheet" href="../theme/more/style/courseforstu/saved_resource.css" type="text/css" />
-    
     <link rel="stylesheet" href="../theme/more/style/courseforstu/layer.css" type="text/css" />
     <link rel="stylesheet" href="../theme/more/style/courseforstu/courserecommend.css" type="text/css" />
-
-    <link rel="stylesheet" href="../theme/more/style/courseforstu/rankinglist.css" type="text/css" />
-
+	<link rel="stylesheet" href="../theme/more/style/QQface.css" /><!-- 2016.3.25 毛英东 添加表情CSS -->
+	 <link rel="stylesheet" href="../theme/more/style/courseforstu/rankinglist.css" type="text/css" />
 <style>
 	.mycomment {width: 100%; height: 160px; margin-bottom: 20px; border-bottom: 1px solid #edf1f2;}
 	.mycomment textarea {width: 100%; height:80px;}
@@ -78,7 +76,8 @@ echo $OUTPUT->doctype() ?>
 	.navstyle-bottom {margin-top:0px}
 </style>
     <script src="../theme/more/js/jquery-1.11.3.min.js"></script>
-    <script>
+	<script src="../theme/more/js/jquery.qqFace.js"></script><!-- 2016.3.25 毛英东 添加表情 -->
+	<script>
 		$(document).ready(function() {	
 			//聊天室 START 20160314
 			//适配不同大小偏移值
@@ -151,9 +150,11 @@ echo $OUTPUT->doctype() ?>
 			});	
 			
 			$('#comment-btn').click(function() {
-				var mytext =$(this).parent().children('.form-control').val();	
-				if(mytext==""){
-					alert('请输入评论内容');
+				var mytext =$(this).parent().children('.form-control').val();
+				var textmy = mytext;
+				textmy = textmy.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
+				if(textmy.length <= 10){
+					alert('评论内容不能少于10个汉字');
 				}
 				else{
 					$.ajax({
@@ -163,8 +164,13 @@ echo $OUTPUT->doctype() ?>
 								if(msg=='1'){
 									// location.reload();
 									window.location.href=window.location.href+'&page=1';
-								}else{
-									alert('评论失败');
+								}
+								else if(msg=='2')
+								{
+									alert('评论失败，评论内容重复！')
+								}
+								else {
+									alert('评论失败，一分钟內只能评论一次！')
 								}
 							}
 					});		
@@ -245,5 +251,26 @@ echo $OUTPUT->doctype() ?>
 </div>
 <!--<button id="collection-btn" class="btn btn-info">收藏当前页面</button>
 <button id="like-btn" class="btn btn-info">喜欢</button>-->
+<!-- 2016.3.25 毛英东 添加表情-->
+<script>
+	$(function(){
+		$('.emotion').qqFace({
+			id : 'facebox',
+			assign:'comment-text',
+			path:'../theme/more/img/arclist/'	//表情存放的路径
+		});
+	});
+
+	$('.content-box .content').each(
+	function(){
+		var str = $(this).html();
+		str = str.replace(/\[(微笑|撇嘴|色|发呆|流泪|害羞|闭嘴|睡|大哭|尴尬|发怒|调皮|呲牙|惊讶|难过|冷汗|抓狂|吐|偷笑|可爱|白眼|傲慢|饥饿|困|惊恐|流汗|憨笑|大兵|奋斗|咒骂|疑问|嘘|晕|折磨|衰|敲打|再见|擦汗|抠鼻|糗大了|坏笑|左哼哼|右哼哼|哈欠|鄙视|快哭了|委屈|阴险|亲亲|吓|可怜|拥抱|月亮|太阳|炸弹|骷髅|菜刀|猪头|西瓜|咖啡|饭|爱心|强|弱|握手|胜利|抱拳|勾引|OK|NO|玫瑰|凋谢|红唇|飞吻|示爱)\]/g, function(w,word){
+			return '<img src="../theme/more/img/arclist/'+ em_obj[word] + '.gif" border="0" />';
+		});
+		$(this).html(str);
+	}
+);
+</script>
+<!-- end  2016.3.25 毛英东 添加表情 -->
 </body>
 </html>

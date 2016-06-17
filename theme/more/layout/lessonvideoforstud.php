@@ -55,7 +55,9 @@ echo $OUTPUT->doctype() ?>
     <link rel="stylesheet" href="../../theme/more/style/bootstrap.css" type="text/css">	<!--全局-->
     <link rel="stylesheet" href="../../theme/more/style/navstyle.css" /><!-- 全局-->
     <link rel="stylesheet" href="../../theme/more/style/lessonvideo/lessonvideo.css" />
+	<link rel="stylesheet" href="../../theme/more/style/QQface.css" /><!-- 2016.3.25 毛英东 添加表情CSS -->
     <script src="../../theme/more/js/jquery-1.11.3.min.js"></script>
+	<script src="../../theme/more/js/jquery.qqFace.js"></script><!-- 2016.3.25 毛英东 添加表情 -->
     <script>
         $(document).ready(function() {
 			//聊天室 START
@@ -112,9 +114,11 @@ echo $OUTPUT->doctype() ?>
 			
             $('#commentBtn').click(function() {
                 var mytext =$(this).parent().children('.form-control').val();
-                if(mytext==""){
-                    alert('请输入评论内容');
-                }
+				var textmy = mytext;
+				textmy = textmy.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
+				if(textmy.length <= 10){
+					alert('评论内容不能少于10个汉字');
+				}
                 else{
                     $.ajax({
                         url: "../../mod/lesson/mygetvideocomment.php",
@@ -123,9 +127,14 @@ echo $OUTPUT->doctype() ?>
                             if(msg=='1'){
                                 // location.reload();
                                 window.location.href=window.location.href+'&page=1';
-                            }else{
-                                alert('评论失败');
                             }
+							else if(msg=='2')
+							{
+								alert('评论失败，评论内容重复！')
+							}
+							else {
+								alert('评论失败，一分钟內只能评论一次！')
+							}
                         }
                     });
                 }
@@ -152,6 +161,18 @@ echo $OUTPUT->doctype() ?>
 			})		
 
         });
+
+		/** START 视频列表弹出 陈振安*/
+		$(function(){
+			$(".courselist").mouseenter(function(){
+				$(this).find('.courselist-content').stop().slideDown();
+			}).mouseleave(function(){
+				$(this).find('.courselist-content').stop().slideUp();
+			});
+			$('.ckplayer').parent().nextAll('br,p:empty').remove();
+		});
+		/** END 视频列表弹出 陈振安*/
+
         function getQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             var r = window.location.search.substr(1).match(reg);
@@ -175,7 +196,7 @@ echo $OUTPUT->doctype() ?>
             <div class="row-fluid">
 <!--                <section id="region-main" class="--><?php //echo $regionmain; ?><!--">	<!-- 注释，使得页面居中 -->
                <!--   <section id="region-main"  style="margin-left: auto;margin-right: auto; width: 74.35897436%;">-->
-			    <section  style="margin-left: auto;margin-right: auto; width: 74.35897436%;">
+			    <section  style="margin-left: auto;margin-right: auto;  min-height:760px;">
                     <?php
                     echo $OUTPUT->course_content_header();
                     echo $OUTPUT->main_content();
@@ -205,6 +226,25 @@ echo $OUTPUT->doctype() ?>
 <!--底部导航条-->
 	<nav class="navstyle-bottom navbar-static-bottom"></nav>
 	<!--底部导航条 end-->
-	
+<!-- 2016.3.25 毛英东 添加表情-->
+<script>
+	$(function(){
+		$('.emotion').qqFace({
+			id : 'facebox',
+			assign:'comment-text',
+			path:'../../theme/more/img/arclist/'	//表情存放的路径
+		});
+	});
+	$('.commentinfo').each(
+		function(){
+			var str = $(this).html();
+			str = str.replace(/\[(微笑|撇嘴|色|发呆|流泪|害羞|闭嘴|睡|大哭|尴尬|发怒|调皮|呲牙|惊讶|难过|冷汗|抓狂|吐|偷笑|可爱|白眼|傲慢|饥饿|困|惊恐|流汗|憨笑|大兵|奋斗|咒骂|疑问|嘘|晕|折磨|衰|敲打|再见|擦汗|抠鼻|糗大了|坏笑|左哼哼|右哼哼|哈欠|鄙视|快哭了|委屈|阴险|亲亲|吓|可怜|拥抱|月亮|太阳|炸弹|骷髅|菜刀|猪头|西瓜|咖啡|饭|爱心|强|弱|握手|胜利|抱拳|勾引|OK|NO|玫瑰|凋谢|红唇|飞吻|示爱)\]/g, function(w,word){
+				return '<img src="../../theme/more/img/arclist/'+ em_obj[word] + '.gif" border="0" />';
+			});
+			$(this).html(str);
+		}
+	);
+</script>
+<!-- end  2016.3.25 毛英东 添加表情 -->
 </body>
 </html>

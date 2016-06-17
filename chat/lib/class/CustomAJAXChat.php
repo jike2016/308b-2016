@@ -8,6 +8,24 @@
  */
 
 class CustomAJAXChat extends AJAXChat {
+	/** wepeng(20160330) 
+	* 收到反馈有些时候回退出，修改退出登录功能，直接跳到link.php
+	*/
+	function logout($type=null) {
+		header("Location:link.php");
+		// Update the socket server authentication for the user:
+		if($this->getConfig('socketServerEnabled')) {
+			$this->updateSocketAuthentication($this->getUserID());
+		}
+		if($this->isUserOnline()) {
+			$this->chatViewLogout($type);
+		}	
+		$this->setLoggedIn(false);		
+		$this->destroySession();
+
+		// Re-initialize the view:
+		$this->initView();
+	}
 	
 	/** wepeng(20160307) 
 	* 强制所使用的编码

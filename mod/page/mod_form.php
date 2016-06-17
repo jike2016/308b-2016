@@ -32,9 +32,11 @@ require_once($CFG->libdir.'/filelib.php');
 class mod_page_mod_form extends moodleform_mod {
     function definition() {
         global $CFG, $DB;
-
+		/**START cx 每次进来先杀死office进程，会自动重启*/
+		// exec("sudo killall soffice.bin");
+		/**END */
         $mform = $this->_form;
-
+		
         $config = get_config('page');
 
         //-------------------------------------------------------
@@ -51,6 +53,10 @@ class mod_page_mod_form extends moodleform_mod {
 
         //-------------------------------------------------------
         $mform->addElement('header', 'contentsection', get_string('contentheader', 'page'));
+		        /** START 添加上传文档转为swf 朱子武 20160507 */
+        $filemanageroptions = array('subdirs'=>0,'maxfiles'=>1,'accepted_types'=>array('.doc','.docx','.xls', '.xlsx','.ppt','.pptx', '.pdf','.txt'));
+        $mform->addElement('filemanager', 'swfid', '上传文档:', '', $filemanageroptions);
+        /** END 添加上传文档转为swf 朱子武 20160507 */
         $mform->addElement('editor', 'page', get_string('content', 'page'), null, page_get_editor_options($this->context));
         $mform->addRule('page', get_string('required'), 'required', null, 'client');
 

@@ -189,17 +189,6 @@ $(document).ready(function(){
 	$('#chat-close2').click(function(){
 		$('.chat-box2').hide();
 	})
-	$('.dropdown-toggle').click(function(){
-		if($('.search-box .dropdown-menu').hasClass('show'))
-			$('.search-box .dropdown-menu').removeClass('show');
-		else
-			$('.search-box .dropdown-menu').addClass('show');
-	})
-	$('.search-box .dropdown-menu li').click(function(){		
-		$('.search-box .dropdown-toggle').text($(this).children('a').text());
-		$('.search-box .dropdown-toggle').append('<span class="caret"></span>');
-		$('.search-box .dropdown-menu').removeClass('show');
-	})
 
 });
 </script>
@@ -216,7 +205,7 @@ $(document).ready(function(){
 					<a href="<?php echo $CFG->wwwroot;?>">
 						<li class="li-normol">首页</li>
 					</a>
-					<a href="<?php echo $CFG->wwwroot;?>/mod/forum/view.php?id=1">
+					<a href="<?php echo $CFG->wwwroot;?>/microread/">
 						<li class="li-normol">微阅</li>
 					</a>
 					<a href="<?php echo $CFG->wwwroot;?>/course/index.php">
@@ -233,24 +222,6 @@ $(document).ready(function(){
 				</div-->
 				<div class="usermenu-box">
 					<?php echo $OUTPUT->user_menu(); ?>					
-				</div>
-				<div class="search-box">
-					<div class="input-group">
-				     	<div class="input-group-btn">
-				        	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #000000;">课程<span class="caret"></span></button>
-				        	<ul class="dropdown-menu">
-				          		<li><a href="#">课程</a></li>
-				          		<li role="separator" class="divider"></li>
-				          		<li><a href="#">书籍</a></li>
-				          		<li role="separator" class="divider"></li>
-				          		<li><a href="#">文档</a></li>
-				          		<li role="separator" class="divider"></li>
-				          		<li><a href="#">图片</a></li>
-				        	</ul>
-				      	</div><!-- /btn-group -->
-			      		<input type="text" class="form-control" >
-			    	</div><!-- /input-group -->
-			    	<button class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>					
 				</div>
 			</div>
 		</nav>
@@ -350,8 +321,42 @@ $(document).ready(function(){
                 <?php //echo $OUTPUT->blocks('side-pre', $sidepre); ?>
             
         <?php //echo $OUTPUT->blocks('side-post', $sidepost); ?>
+    	<!------全部课程@end------>
+		<?php global $DB; global $CFG; $result_course_Count = $DB->get_records_sql('SELECT id FROM mdl_course where visible=1');
+		$course_count = count($result_course_Count)>0 ? (count($result_course_Count)-1) : 0;
+		echo '<div class="btn-all-course-container">
+				<a class="btn btn-default btn-all-course" href="'.$CFG->wwwroot.'/course/index.php" role="button">全部课程 <span>('.$course_count.')</span></a>
+			 </div>' ?>
+		<!------全部课程@end------>
+
+		<!--
     	<div class="divison2"></div>
-		
+		-->
+		<!-- 学习排行榜开始 毛英东 20160414-->
+		<div class="charts-wrap">
+			<h1 class="charts">学习排行榜</h1>
+			<div class="course-charts-container">
+				<ul class="course-charts list-unstyled">
+					<?php
+						global $DB;
+						$study_rank_users = $DB -> get_records_sql('select r.id, u.*, r.complete_count, r.complete_time from mdl_user as u,   mdl_course_index_rank_my as r where r.userid=u.id order by r.complete_count desc, r.complete_time asc limit 0 , 10');
+						$rank_i = 1;
+						foreach($study_rank_users as $rank_user ){
+							$str1 = $OUTPUT->user_picture($study_rank_users[$rank_user->id],array('link' => false,'visibletoscreenreaders' => false));
+							echo '<li class="col-lg-2dot4">
+								<a href="#">
+									<!-- '.$rank_user->id.' -->
+									'.$str1.'
+									<h2>NO.'.$rank_i .' '.$rank_user->firstname.'</h2>
+								</a>
+							</li>';
+							$rank_i++;
+						}
+					?>
+				</ul>
+			</div>
+		</div>
+		<!-- 学习排行榜 结束 -->
 		
 		<!--底部导航条-->
 		<nav class="navstyle-bottom navbar-static-bottom"></nav>

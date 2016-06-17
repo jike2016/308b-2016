@@ -46,7 +46,11 @@ class send_form extends moodleform {
         $editoroptions = array();
 
         //width handled by css so cols is empty. Still present so the page validates.
-        $displayoptions = array('rows'=>'4', 'cols'=>'', 'class'=>'messagesendbox');
+        
+        /**Start cx 消息内容输出修改 20160608*/
+//        $displayoptions = array('rows'=>'4', 'cols'=>'', 'class'=>'messagesendbox');
+        $displayoptions = array('class'=>'form-control');
+        /**End cx 消息内容输出修改 20160608*/
 
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);

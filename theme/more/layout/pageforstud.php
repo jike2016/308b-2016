@@ -45,6 +45,33 @@ if (right_to_left()) {
     $sidepost = 'span3 desktop-first-column';
 }
 
+/** START 获取上传在线阅读 朱子武 20160509*/
+function get_office_online_url($page_id = 0)
+{
+	global $DB;
+	unset($CFG);
+	global $CFG;
+	require_once($CFG->dirroot.'/config.php');
+	require_once($CFG->dirroot.'/mod/page/locallib.php');
+	require_once($CFG->libdir.'/completionlib.php');
+
+	$p       = optional_param('p', 0, PARAM_INT);  // Page instance ID
+
+	if ($p) {
+		if (!$page = $DB->get_record('page', array('id'=>$p))) {
+			print_error('invalidaccessparameter');
+		}
+		$cm = get_coursemodule_from_instance('page', $page->id, $page->course, false, MUST_EXIST);
+
+	} else {
+		if (!$cm = get_coursemodule_from_id('page', $page_id)) {
+			print_error('invalidcoursemodule');
+		}
+		$page = $DB->get_record('page', array('id'=>$cm->instance), '*', MUST_EXIST);
+	}
+	return $page->swfurl;
+}
+
 echo $OUTPUT->doctype() ?>
 <html <?php echo $OUTPUT->htmlattributes(); ?>>
 <head>
@@ -56,10 +83,16 @@ echo $OUTPUT->doctype() ?>
     
     <link rel="stylesheet" href="../../theme/more/style/bootstrap.css" type="text/css"><!--全局-->
     <link rel="stylesheet" href="../../theme/more/style/navstyle.css" /> <!--全局-->
-		<!-- Start 添加css样式 朱子武 20160315-->
-	<link rel="stylesheet" href="../../theme/more/style/articlecomment/articlecomment.css" />
+	<link rel="stylesheet" href="../../theme/more/style/QQface.css" /><!-- 2016.3.29 毛英东 添加表情CSS -->
+	<link rel="stylesheet" href="../../theme/more/style/articlecomment/articlecomment.css" /><!-- Start 添加css样式 朱子武 20160315-->
+	<link rel="stylesheet" href="../../theme/more/style/flexpaper/flexpaper.css" /><!-- 2016.4.25 岑霄 在线阅读office -->
+	
 	<!-- End 添加css样式 朱子武 20160315-->
 	<script src="../../theme/more/js/jquery-1.11.3.min.js"></script>
+	<script src="../../theme/more/js/jquery.qqFace.js"></script><!-- 2016.3.29 毛英东 添加表情 -->
+	
+	<script src="../../theme/more/js/flexpaper/flexpaper.js"></script><!-- 2016.4.25 岑霄 在线阅读office -->
+	<script src="../../theme/more/js/flexpaper/flexpaper_handlers.js"></script><!-- 2016.4.25 岑霄 在线阅读office -->
     
 	<style>
 		.navbar-form {
@@ -124,8 +157,10 @@ $(document).ready(function(){
 	/** Start 添加评论按钮点击事件 朱子武 20160315*/
 		$('#commentBtn').click(function() {
 			var mytext =$(this).parent().children('.form-control').val();
-			if(mytext==""){
-				alert('请输入评论内容');
+			var textmy = mytext;
+			textmy = textmy.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
+			if(textmy.length <= 10){
+				alert('评论内容不能少于10个汉字');
 			}
 			else{
 				$.ajax({
@@ -135,8 +170,13 @@ $(document).ready(function(){
 						if(msg=='1'){
 							// location.reload();
 							window.location.href=window.location.href+'&page=1';
-						}else{
-							alert('评论失败');
+						}
+						else if(msg=='2')
+						{
+							alert('评论失败，评论内容重复！')
+						}
+						else {
+							alert('评论失败，一分钟內只能评论一次！')
 						}
 					}
 				});
@@ -173,7 +213,10 @@ $(document).ready(function(){
 		if (r != null) return unescape(r[2]);
 		return null;
 	}
-	/** End 获取url中的文章id 朱子武 20160315*/
+/** End 获取url中的文章id 朱子武 20160315*/
+	
+	
+	
 </script>
 </head>
 <body <?php echo $OUTPUT->body_attributes(); ?>>
@@ -238,5 +281,60 @@ $(document).ready(function(){
 			</div>
 		
 		<div class="mask"></div>
+<!-- 2016.3.29 毛英东 添加表情 -->
+<script>
+$(function(){
+	$('.emotion').qqFace({
+		id : 'facebox',
+		assign:'comment-text',
+		path:'../../theme/more/img/arclist/'	//表情存放的路径
+	});
+});
+$('.commentinfo').each(
+	function(){
+		var str = $(this).html();
+		str = str.replace(/\[(微笑|撇嘴|色|发呆|流泪|害羞|闭嘴|睡|大哭|尴尬|发怒|调皮|呲牙|惊讶|难过|冷汗|抓狂|吐|偷笑|可爱|白眼|傲慢|饥饿|困|惊恐|流汗|憨笑|大兵|奋斗|咒骂|疑问|嘘|晕|折磨|衰|敲打|再见|擦汗|抠鼻|糗大了|坏笑|左哼哼|右哼哼|哈欠|鄙视|快哭了|委屈|阴险|亲亲|吓|可怜|拥抱|月亮|太阳|炸弹|骷髅|菜刀|猪头|西瓜|咖啡|饭|爱心|强|弱|握手|胜利|抱拳|勾引|OK|NO|玫瑰|凋谢|红唇|飞吻|示爱)\]/g, function(w,word){
+			return '<img src="../../theme/more/img/arclist/'+ em_obj[word] + '.gif" border="0" />';
+		});
+		$(this).html(str);
+	}
+);
+
+/**Start 显示office 岑霄 */
+ $('#documentViewer').FlexPaperViewer(
+            { config : {
+
+                SWFFile: '<?php echo get_office_online_url($_GET['id']); ?>',
+//				SWFFile: 'http://localhost/document_doc_swf/swf/d.swf',
+
+                Scale : 1,
+                ZoomTransition : 'easeOut',
+                ZoomTime : 0.5,
+                ZoomInterval : 0.2,
+                FitPageOnLoad : true,
+                FitWidthOnLoad : true,//自适应宽度
+                FullScreenAsMaxWindow : false,
+                ProgressiveLoading : false,
+                MinZoomSize : 0.2,
+                MaxZoomSize : 5,
+                SearchMatchAll : false,
+                InitViewMode : 'Portrait',
+                RenderingOrder : 'flash',
+                StartAtPage : '',
+				//ProgressiveLoading: true,//当设置为true的时候，展示文档时不会加载完整个文档，而是逐步加载，但是需要将文档转化为9以上的flash版本（使用pdf2swf的时候使用-T 9 标签）。
+				
+                ViewModeToolsVisible : true,
+                ZoomToolsVisible : true,
+                NavToolsVisible : true,
+                CursorToolsVisible : true,
+                SearchToolsVisible : true,
+                WMode : 'window',
+                localeChain: 'zh_CN'
+            }}
+    );
+	 
+	/** End */
+</script>
+<!-- End 2016.3.29 毛英东 添加表情 -->
 </body>
 </html>

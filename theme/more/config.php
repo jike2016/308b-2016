@@ -192,10 +192,17 @@ $THEME->layouts = array(
 			'regions' => array('side-pre', 'side-post'),
 			'defaultregion' => 'side-pre',
 	),
-	//课程搜索结果页
-	'coursesearchresult' => array(
-		'file' => 'coursesearchresult.php',
+	//openmetting页面
+	'openmettingmy' => array(
+		'file' => 'openmettingmy.php',
 		'regions' => array('side-pre', 'side-post'),
 		'defaultregion' => 'side-pre',
 	),
+	//message消息页面
+	'message' => array(
+		'file' => 'message.php',
+		'regions' => array('side-pre', 'side-post'),
+		'defaultregion' => 'side-pre',
+	),
+	
 );

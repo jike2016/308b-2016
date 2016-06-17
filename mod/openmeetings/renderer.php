@@ -87,7 +87,7 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 	}
 	
 	protected function render_openmeetings(openmeetings $openmeetings) {
-		global $cm, $course, $CFG, $USER, $PAGE;
+		global $cm, $course, $CFG, $USER, $PAGE, $DB;
 
 		$out .= $this->_header($openmeetings);
 		$context = context_module::instance($cm->id);
@@ -95,6 +95,14 @@ class mod_openmeetings_renderer extends plugin_renderer_base {
 		if (has_capability('mod/openmeetings:becomemoderator', $context)) {
 			$becomemoderator = 1;
 		}
+
+		/** Start 判断主持人 20160411 毛英东 */
+		if($openmeetings->om->is_moderated_room == 4){	//自定义主持人
+			if($USER->id == $openmeetings->om->hostname_id){		//判断当前用户是否是主持人
+				$becomemoderator = 1;	//主持人权限
+			}
+		}
+		/** End 判断主持人 20160411 毛英东 */
 		
 		$gateway = new openmeetings_gateway(getOmConfig());
 		if ($gateway->loginuser()) {

@@ -54,10 +54,6 @@ $(document).ready(function() {
 		$('.lockpage').show();
 		$('.right-banner').load('mybookdata/index.php');
 	});
-	$('#microreaddata').click(function() {    //微阅台账
-		$('.lockpage').show();
-		$('.right-banner').load('microreaddata/index.php');
-	});
 	$('#personaldata').click(function() {    //个人资料
 		$('.lockpage').show();
 		$('.right-banner').load('mypersonaldata/personaldata.html');//用iframe 加载页面 、、\moodle\user\my_description.php

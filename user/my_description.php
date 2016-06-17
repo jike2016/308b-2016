@@ -16,6 +16,7 @@
 
 require_once('../config.php');
 require_once("$CFG->libdir/formslib.php");
+require_once('lib.php');
 
 $PAGE->set_url('/user/my_description.php');
 $PAGE->set_title('个人资料');
@@ -41,9 +42,15 @@ class simplehtml_form extends moodleform {
         $mform->disabledIf('username', '', '');
 
         $mform->addElement('checkbox', 'createpassword', '修改密码:');//修改密码开关
+        $mform->addElement('passwordunmask', 'oldpassword', '原密码:', 'size="20"');
+        $mform->setType('oldpassword', PARAM_RAW);
+        $mform->disabledIf('oldpassword', 'createpassword');
         $mform->addElement('passwordunmask', 'newpassword', '新密码:', 'size="20"');
         $mform->setType('newpassword', PARAM_RAW);
         $mform->disabledIf('newpassword', 'createpassword');
+        $mform->addElement('passwordunmask', 'verifynewpassword', '确认密码:', 'size="20"');
+        $mform->setType('verifynewpassword', PARAM_RAW);
+        $mform->disabledIf('verifynewpassword', 'createpassword');
 
         $mform->addElement('text', 'phone1', '电话:', 'maxlength="20" size="25"');
         $mform->setType('phone1', PARAM_NOTAGS);
@@ -52,9 +59,12 @@ class simplehtml_form extends moodleform {
         $mform->setType('unit_name', PARAM_FILE);                  //Set type of element
         $mform->addRule('unit_name', get_string('maximumchars', '', 100), 'maxlength', 100, 'client');
         $mform->disabledIf('unit_name', '', '');
-        $editoroptions =  array( 'height' =>100, 'width'=>200, 'maxfiles' => 1, 'maxbytes'=>$CFG->maxbytes, 'trusttext'=>false, 'noclean'=>true,'enable_filemanagement' =>false);
-        $mform->addElement('editor', 'description_editor',  '自述:', null, $editoroptions);
-        $mform->setType('description_editor', PARAM_CLEANHTML);
+
+//        $editoroptions = array( 'height' =>10, 'width'=>20, 'maxfiles' => EDITOR_UNLIMITED_FILES, 'maxbytes'=>$CFG->maxbytes, 'trusttext'=>false, 'noclean'=>true);
+//        $mform->addElement('editor', 'description_editor',  '自述:', null, $editoroptions);
+//        $mform->setType('description_editor', PARAM_CLEANHTML);
+        $editoroptions = array( 'style'=>"height:100px;width: 500px;",'placeholder'=>'建议在200字以内......','maxlength'=>'300', 'wrap'=>'virtual', 'rows'=>10 ,'cols'=>10);
+        $mform->addElement('textarea', 'description_editor', '自述:', $editoroptions);
 
         //头像组合
         if (empty($USER->newadminuser)) {
@@ -65,7 +75,7 @@ class simplehtml_form extends moodleform {
 
             $mform->addElement('static', 'currentpicture', '当前头像:');
 
-            $filemanageroptions = array('maxbytes' => '0','subdirs'=>0,'maxfiles'=>1,'accepted_types'=>'web_image');
+            $filemanageroptions = array( 'maxbytes' => '5242880','subdirs'=>0,'maxfiles'=>1,'accepted_types'=>'web_image');
             $mform->addElement('filemanager', 'imagefile', '上传新头像:', '', $filemanageroptions);
 
         }
@@ -75,7 +85,36 @@ class simplehtml_form extends moodleform {
     //Custom validation should be added here	在这里添加自定义验证
     function validation($data, $files) {
         //验证标签名是否重复
+        global  $DB;
+        global  $USER;
 
+        //如果开启了密码修改按钮
+        if($data['createpassword'] == 1){
+            $oldpassword = $data['oldpassword'];//输入的验证密码
+            $errorcode = 0;
+            $user = authenticate_user_login($USER->username, $oldpassword, false, $errorcode);//用验证密码登录检验
+
+            /** Start 叶靖华 20160326 */
+            if ($data['newpassword']!=$data['verifynewpassword']){
+                $errors['verifynewpassword']='密码不一致！';
+            }
+            if ($user==false){
+                $errors['oldpassword'] = '原密码错误！';
+            }
+        }
+        if(strlen($data['description_editor']) > 250){
+            $errors['description_editor'] = '抱歉，建议在200字左右！';
+        }
+
+        return $errors;
+        /*
+        $password2 = $DB->get_record_sql("select u.id,u.password from mdl_user u where u.id = $USER->id");//原密码
+        if($user->password != $password2->password){
+            $errors['oldpassword'] = '原密码错误！';
+        }
+        return $errors;
+        */
+        /**End */
     }
 
     /**
@@ -142,8 +181,9 @@ if ($mform->is_cancelled()) {
     }else{//如果设置新密码，则对新密码加密
         $newpassword = hash_internal_user_password($fromform->newpassword);
     }
-    $description_editor = $fromform->description_editor['text'];//自述
-    $imagefile = $fromform->imagefile;//获取视屏id
+//    $description_editor = $fromform->description_editor['text'];//自述
+    $description_editor = $fromform->description_editor;//自述
+    $imagefile = $fromform->imagefile;//获取头像id
 
     $newform = new stdClass();
     $newform->id = $USER->id;
@@ -165,15 +205,21 @@ if ($mform->is_cancelled()) {
     $description = $user->description;
     $phone1 = $user->phone1;
     //获取单位
-    $unitName = $DB->get_record_sql("select o.name from mdl_org o where o.id = ( select olu.org_id from mdl_org_link_user olu where olu.user_id = $USER->id )");
+    //    $unitName = $DB->get_record_sql("select o.name from mdl_org o where o.id = ( select olu.org_id from mdl_org_link_user olu where olu.user_id = $USER->id )");
+    $unit = $DB->get_record_sql("select o.name,o.parent from mdl_org o where o.id = ( select olu.org_id from mdl_org_link_user olu where olu.user_id = $USER->id )");
+    $unitName = $unit->name;
+    while($unit->parent != -1){
+        $unit = $DB->get_record_sql("select o.name,o.parent from mdl_org o where o.id = $unit->parent");//获取上一级的单位信息
+        $unitName = $unit->name.'-'.$unitName;
+    }
 
     $personaldata  = new stdClass();
-    $personaldata->username = $userName;//这里需要将
-    // $personaldata->newpassword = $password;//这里需要将
-    $personaldata->phone1 = $phone1;//这里需要将
-    $personaldata->unit_name = $unitName->name;//这里需要将
-    $personaldata->description_editor = array('text'=> $description);//这里需要将
-//    $personaldata->currentpicture = array('text'=> $description);//这里需要将
+    $personaldata->username = $userName;
+    $personaldata->phone1 = $phone1;
+    $personaldata->unit_name = $unitName;
+//    $personaldata->description_editor = array('text'=> $description);
+    $personaldata->description_editor = $description;
+//    $personaldata->currentpicture = array('text'=> $description);
 
     $mform->set_data($personaldata);
     $mform->display();

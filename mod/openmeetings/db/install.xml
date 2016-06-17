@@ -23,9 +23,14 @@
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" ENUM="false" COMMENT="Course whiteboard activity belongs to" PREVIOUS="id" NEXT="teacher"/>
         <FIELD NAME="teacher" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" ENUM="false" COMMENT="Teacher id" PREVIOUS="course" NEXT="type"/>
 		
-		<FIELD NAME="timeopen" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="open time of the meeting" />       
-	   
-	    <FIELD NAME="type" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" ENUM="false" COMMENT="RoomType id" PREVIOUS="teacher" NEXT="is_moderated_room"/>
+		<FIELD NAME="timeopen" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="open time of the meeting" />
+
+        <FIELD NAME="teachername" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" ENUM="false" COMMENT="name for teacher" />
+
+        <FIELD NAME="hostname" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" ENUM="false" COMMENT="name for hostname" />
+        <FIELD NAME="hostname_id" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" ENUM="false" COMMENT="name for hostname_id" />
+
+        <FIELD NAME="type" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" ENUM="false" COMMENT="RoomType id" PREVIOUS="teacher" NEXT="is_moderated_room"/>
         <FIELD NAME="is_moderated_room" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" ENUM="false" COMMENT="RoomType id" PREVIOUS="type" NEXT="max_user"/>
         <FIELD NAME="max_user" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="4" SEQUENCE="false" ENUM="false" COMMENT="RoomType id" PREVIOUS="is_moderated_room" NEXT="language"/>
         <FIELD NAME="language" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" ENUM="false" COMMENT="RoomType id" PREVIOUS="max_user" NEXT="name"/>

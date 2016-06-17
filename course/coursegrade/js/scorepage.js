@@ -47,8 +47,10 @@ $(document).ready(function() {
 		mystarnum = $("#comment-star").children(".star-active").length;
 		mystarnum > 0 ? (mystarnum = mystarnum * 2.0) : 10.0;
 		mycomment = $(this).parent().children(".form-control").val();
-		if(mycomment == ""){
-			alert('请输入评论内容');
+		var textmy = mycomment;
+		textmy = textmy.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
+		if(textmy.length <= 10){
+			alert('评论内容不能少于10个汉字');
 		}
 		else{
 			$.ajax({

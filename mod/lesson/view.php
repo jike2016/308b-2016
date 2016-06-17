@@ -605,6 +605,14 @@ if ($pageid != LESSON_EOL) {
             /** Start 岑霄 删除教程终点文字 */
             //$lessoncontent .= $progressbar;
             /** END */
+            
+            /** Start 岑霄 提示已学完20160421 */
+            $mymodule = $DB->get_record('course_modules_completion',array('coursemoduleid'=>$id, 'userid'=>$USER->id));
+            if($mymodule->completionstate==1){
+                $attributes['class'] = 'center';
+                $lessoncontent .= html_writer::tag('p', '恭喜,您已学习完本节教程！', $attributes);
+            }
+            /** END */
         }
     } else {
         // display for teacher

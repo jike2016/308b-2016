@@ -27,6 +27,7 @@
                 <FIELD NAME="required_course_id" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the requires course" />
                 <FIELD NAME="optional_course_num" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the num of the optional course" />
                 <FIELD NAME="optional_course_id" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the optional course" />
+				<FIELD NAME="optional_choice_compeltions" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the optional course" />
                 <FIELD NAME="time_start" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the time of the mission" />
                 <FIELD NAME="time_end" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the id of the mission" />
                 <FIELD NAME="enable" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"  COMMENT="the enable of the mission" />

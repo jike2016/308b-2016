@@ -25,58 +25,8 @@ function html_head()
 				<link rel="stylesheet" href="css/all-content.css" />
 				<link rel="stylesheet" href="css/blog.css" / type="text/css"> <!--全局-->
 				<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
-				<!--<script type="text/javascript" src="js/maincontents.js" ></script>-->
-				<script>
-				$(document).ready(function(){
-						$(".people-box").click(function() {
-							 var userid = $(this).children(".name").attr("value");
-							// window.open(window.location.protocol+"//"+window.location.host+"/moodle/circlesoflearning/index.php?userid="+userid);
-							window.location.href="index.php?userid="+userid; 
-						});
 
-						<!-- Start 搜索按钮点击事件  朱子武 20160315-->
-						$(".submit").click(function(){
-						var nameval = $(this).siblings(".search_key").val();
-							searchDataFromTable(nameval);
-						});
-						<!-- End 搜索按钮点击事件  朱子武 20160315-->
-					})
-
-
-
-					/** Start 搜索学员信息 朱子武 20160315*/
-				 function searchDataFromTable(searchtext)
-				 {
-	//             alert("dsgfhsdjfsdgj");
-					 $.ajax({
-						 url: "../circlesoflearning/blogbackground.php",
-						 dataType:"json",
-						 data: {type: "searchuser", searchtext: searchtext},
-						 success: function(msg) {
-							 $(".concerned-list").children().remove();
-							 $.each(msg, function(commentIndex, comment){
-								 var user_name = comment["lastname"] + comment["firstname"];
-								 var concernID = comment["concernid"];
-								 var userIcon = comment["userIcon"];
-								   addDataInBox(concernID, user_name, userIcon);
-							 });
-							 $(".people-box").click(function()
-							 {
-								 var userid = $(this).children(".name").attr("value");
-								 window.open(window.location.protocol+"//"+window.location.host+"/moodle/circlesoflearning/index.php?userid="+userid);
-							});
-						 }
-					 });
-				 }
-				 /** End 搜索学员信息 朱子武 20160315*/
-
-				/** Start 显示学员信息 朱子武 20160315*/
-				 function addDataInBox(concernID, userName, userIcon)
-				 {
-					$(".concerned-list").append(\'<div class="people-box" style="cursor: pointer;"><div class="Learnerimg-box"><img src ="\'+userIcon+\'"></div><div class="line"></div><p class="name" value = \'+concernID+\'>\'+userName+\'</p></div>\');
-				 }
-				/** End 显示学员信息 朱子武 20160315*/
-				</script>
+				<script type="text/javascript" src="js/maincontents.js" ></script>
 			</head>
 			<body>';
 	$contents .= myconcerned();

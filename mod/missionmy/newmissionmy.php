@@ -71,6 +71,12 @@ class simplehtml_form extends moodleform {
 		$optionalSelect = $mform->addElement('select', 'optionalSelect', '选修课', $optionalCourseOfOptions);
 		$optionalSelect->setMultiple(true);
 
+		$select_optional_choice_compeltions = array();
+		for($i=0;$i<11;$i++){
+			$select_optional_choice_compeltions[$i] = $i;
+		}
+		$mform->addElement('select', 'optional_choice_compeltions', '设定选修课必须完成数',$select_optional_choice_compeltions); // Add elements to your form
+
 		$mform->addElement('date_time_selector', 'startTime', '任务开始时间');
 		$mform->addElement('date_time_selector', 'endTime', '任务结束时间');
 
@@ -132,6 +138,12 @@ class simplehtml_form extends moodleform {
             $errors['requiredSelect'] = '选课冲突!（可能是必修课和选修课重复了）';
             $errors['optionalSelect'] = '选课冲突!（可能是必修课和选修课重复了）';
         }
+
+		//判断选修课设定数是否大于选修课数
+		if($data['optional_choice_compeltions'] > count($optionalSelect)){
+			$errors['optional_choice_compeltions'] = '设定的课程数量大于现有选修课数量！';
+		}
+
 		return $errors;
 	}
 
@@ -171,6 +183,7 @@ if ($mform->is_cancelled()) {
 	}
 	$missionArray->optional_course_num = $optionalCourseNum;//选修课数量
 	$missionArray->optional_course_id = $optionalCourseID;//选修课
+	$missionArray->optional_choice_compeltions = $fromform->optional_choice_compeltions;//选修课规定完成数量
 	$missionArray->time_start = $fromform->startTime;//开始时间
 	$missionArray->time_end = $fromform->endTime;//结束时间
 	$missionArray->enable = $fromform->enable;//任务开关

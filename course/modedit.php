@@ -275,7 +275,10 @@ if (!empty($type)) { //TODO: hopefully will be removed in 2.0
     $pagepath .= 'mod';
 }
 $PAGE->set_pagetype($pagepath);
-$PAGE->set_pagelayout('admin');
+//$PAGE->set_pagelayout('admin');
+/** Start 替换系统原来的layout 20160411 */
+$PAGE->set_pagelayout('openmettingmy');//设置layout文件
+/** End 替换系统原来的layout 20160411 */
 
 $modmoodleform = "$CFG->dirroot/mod/$module->name/mod_form.php";
 if (file_exists($modmoodleform)) {
@@ -303,9 +306,24 @@ if ($mform->is_cancelled()) {
     }
 
     if (!empty($fromform->update)) {
+        if($fromform->swfid)
+        {
+            $fromform->swfurl = convert_file_swf($fromform->swfid);
+        }
         list($cm, $fromform) = update_moduleinfo($cm, $fromform, $course, $mform);
     } else if (!empty($fromform->add)) {
-        $fromform = add_moduleinfo($fromform, $course, $mform);
+        /** START 在这里做处理上传的文件转为swf类型操作 朱子武 */
+        if($fromform->swfid)
+        {
+
+            $fromform->swfurl = convert_file_swf($fromform->swfid);
+
+            $fromform = add_moduleinfo($fromform, $course, $mform);
+        }
+        else
+        {
+            $fromform = add_moduleinfo($fromform, $course, $mform);
+        }
     } else {
         print_error('invaliddata');
     }
@@ -353,3 +371,131 @@ if ($mform->is_cancelled()) {
 
     echo $OUTPUT->footer();
 }
+
+/** START 转换文件格式 朱子武 20160510*/
+function convert_file_swf($swfid)
+{
+    $file_path_my = get_document_file_url($swfid);
+    $file_type = pathinfo($file_path_my->filename, PATHINFO_EXTENSION);
+    $houzhui = substr(strrchr($file_path_my->filename, '.'), 1);
+    $filename = rand(1000,9999).time().rand(1000,9999);
+    $documentroot = $_SERVER['DOCUMENT_ROOT'];   // 文档的服务器绝对路径
+    $httproot = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];  // 文档的服务器远程路径
+    if(in_array($file_type, array('doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx')))
+    {
+        $swf_filepath = $documentroot.'/document_doc_swf/swf/'.$filename.'.swf';
+        $pdf_filepath = $documentroot.'/document_doc_swf/pdf/'.$filename.'.pdf';
+//        $swf_filepath = $documentroot.'/document_doc_swf/swf/'.$filename.'.swf';
+//        $pdf_filepath = $documentroot.'/document_doc_swf/pdf/'.$filename.'.pdf';
+        if(!word2swf($file_path_my->filepath, $pdf_filepath, $swf_filepath))
+        {
+//                转换出错，提示用户
+            print_error('cannotreadfile', 'error', '', $filename.'.'.$houzhui);
+        }
+    }
+    elseif(in_array($file_type, array('pdf')))
+    {
+        $swf_filepath = $documentroot.'/document_doc_swf/swf/'.$filename.'.swf';
+        if(!pdf2swf($file_path_my->filepath, $swf_filepath))
+        {
+//                转换出错，提示用户
+            print_error('cannotreadfile', 'error', '', $filename.'.'.$houzhui);
+        }
+    }
+    elseif(in_array($file_type, array('txt'))){
+        $swf_filepath = $documentroot.'/document_doc_swf/swf/'.$filename.'.swf';
+        $pdf_filepath = $documentroot.'/document_doc_swf/pdf/'.$filename.'.pdf';
+        $txt_outputpath = $documentroot.'/document_doc_swf/txt/'.$filename.'.txt';
+        if(!txt2swf($file_path_my->filepath,$txt_outputpath, $pdf_filepath, $swf_filepath))
+        {
+//                转换出错，提示用户
+            print_error('cannotreadfile', 'error', '', $filename.'.'.$houzhui.'.'.$file_path_my->filepath.'.'.$txt_outputpath);
+        }
+    }
+    $swf_filepath = str_replace($documentroot, $httproot, $swf_filepath);
+    return $swf_filepath;
+}
+/** END 转换文件格式 朱子武 20160510*/
+
+/** START 获取上传的文件路径对象  朱子武  20160507 */
+function get_document_file_url($itemid)
+{
+    global $USER, $CFG;
+    $context = context_user::instance($USER->id, MUST_EXIST);
+    $fs = get_file_storage();
+    if ($documentfiles = $fs->get_area_files($context->id, 'user', 'draft', $itemid))
+    {
+        $fileclass = new stdClass();
+        foreach($documentfiles as $documentValue)
+        {
+            $filename = $documentValue->get_filename();
+            if($filename==='.')
+            {
+                continue;
+            }
+            else
+            {
+                $contenthash = $documentValue->get_contenthash();
+                $filepath = $documentValue->get_filepath();
+                $fileclass->filepath = $CFG->dataroot.$filepath.'filedir'.$filepath.substr($contenthash, 0, 2).$filepath.substr($contenthash, 2, 2).$filepath.$contenthash;
+                $fileclass->filename = $documentValue->get_filename();
+            }
+        }
+        return $fileclass;
+    }
+}
+/** END 获取上传的文件路径  朱子武  20160507 */
+
+/** START 转换文件  毛英东  20160508 */
+function word2pdf($source_file, $output_file){
+    $result =  `unoconv --format pdf --output "$output_file" "$source_file" 2>&1`;
+    if(file_exists($output_file) && filesize($output_file) > 0){
+        return true;
+    }else{
+        exit($result);
+        return false;
+    }
+}
+
+function pdf2swf($source_file, $output_file){
+    $command = "/usr/swftools/bin/pdf2swf -f -T 9 -s languagedir=/usr/local/swftools-2013-04-09-1007/xpdf-chinese-simplified $source_file -o $output_file";
+    $result = `$command`;
+    if(file_exists($output_file) && filesize($output_file) > 0){
+        return true;
+    }else{
+        echo $result;
+        exit();
+        return false;
+    }
+
+}
+
+function word2swf($word_filepath, $pdf_filepath, $swf_filepath){
+    if(word2pdf($word_filepath, $pdf_filepath)){
+        if(pdf2swf($pdf_filepath, $swf_filepath)){
+            return true;
+        }
+    }
+    return false;
+
+}
+
+function txt2swf($txt_filepath,$txt_ouputpath, $pdf_filepath, $swf_filepath){
+    if(txt_transcoding($txt_filepath,$txt_ouputpath)){
+        if(word2pdf($txt_ouputpath, $pdf_filepath)){
+            if(pdf2swf($pdf_filepath, $swf_filepath)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function txt_transcoding($txt_filepath,$txt_ouputpath){
+    $result=`iconv -f GBK -t UTF-8 $txt_filepath -o $txt_ouputpath`;
+    if(file_exists($txt_ouputpath) && filesize($txt_ouputpath) > 0) {
+        return true;
+    }
+    return false;
+}
+/** END 转换文件  毛英东  20160508 */

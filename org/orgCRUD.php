@@ -129,6 +129,32 @@ switch($type)
 		}
 		echo json_encode($re);
 		break;
+	case 'addroot':
+		$org->addRoot();
+		echo '1';
+		break;
+	case 'moveNodeAnyWhere':
+		$moveid = $_GET['moveid'];
+		$newparentid = $_GET['newparentid'];
+		if(isset($moveid) && isset($newparentid))
+		{
+			if($moveid != $newparentid)
+			{
+				$org->moveNodeAnyWhere($moveid, $newparentid);
+				echo '1';
+			}
+			else
+			{
+				echo '0';
+			}
+
+		}
+		else
+		{
+			echo '0';
+		}
+
+		break;
 	default: // 其他
 		echo '0';
 }

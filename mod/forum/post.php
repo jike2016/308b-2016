@@ -566,11 +566,10 @@ if (!$cm = get_coursemodule_from_instance('forum', $forum->id, $course->id)) { /
 $modcontext = context_module::instance($cm->id);
 require_login($course, false, $cm);
 /** START 岑霄 为学生设置Layout */
-if(!has_capability('mod/forum:addinstance', $context)){
-    $PAGE->set_pagelayout('incourseforstudent');
-    //默认为incourse管理员可见
-}
+$PAGE->set_pagelayout('incourseforstudent');
 /** End  */
+
+
 if (isguestuser()) {
     // just in case
     print_error('noguest');

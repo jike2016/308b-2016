@@ -13,7 +13,7 @@ ul.list {margin-left: 17px;}
 @media only screen and (min-width:1200px ) {.main {width:65%;}}
 .main { margin: auto;margin-top:50px;}
 
-.main div.left{float: left; width:24%; margin-top:20px;height:562px;}
+.main div.left{float: left; width:24%; margin-top:30px;height:704px;background-color: #FFFFFF;border: 1px solid #CCCCCC;}
 .main div.right{border: 1px solid #CCCCCC;float: right; width:74%; margin-left: 2%; margin-top: 5px;  padding: 10px; height: 650px;background-color: #FFFFFF;}
 .main div.right-top{border: 1px solid #CCCCCC;height:50px;width:74%;background-color: #FFFFFF; float: right;margin-top: 30px;padding: 10px 10px; }
 .right .table-box {width: 100%;overflow-y:scroll; height: 580px;}
@@ -23,7 +23,7 @@ ul.list {margin-left: 17px;}
 
 div.zTreeDemoBackground {width:100%;height:362px;text-align:left;}
 
-ul.ztree {height:700px;margin-top: 10px; border: 1px solid #CCCCCC;background: #FFFFFF;width:100%;overflow-y:scroll;overflow-x:auto;}
+ul.ztree {height:655px;margin-top: 10px;background: #FFFFFF;width:100%;overflow-y:scroll;overflow-x:auto; border-top: 1px solid #cccccc}
 .main .right table thead tr td{color: #737373;font-weight: 600; background-color: #F0F0F0; text-align: center;}
 .td1, .td3{text-align: center;}
 

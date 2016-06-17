@@ -20,7 +20,7 @@ $config = array();
 // Database connection values:
 $config['dbConnection'] = array();
 // Database hostname:
-$config['dbConnection']['host'] = '10.148.216.166';
+// $config['dbConnection']['host'] = '10.148.216.166';
 $config['dbConnection']['host'] = 'localhost';
 // Database username:
 $config['dbConnection']['user'] = 'root';

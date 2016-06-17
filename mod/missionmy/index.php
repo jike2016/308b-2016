@@ -84,19 +84,20 @@ $table->head = array(
 		'必修课',
 		'选修课数量',
 		'选修课',
+		'选修课应完成数量',
 		'任务开始时间',
 		'任务结束时间',
 		'开启或关闭',
 		'动作'
 	);
-$table->colclasses = array('mission_name', 'required_course_num', 'required_course_id','optional_course_num','optional_course_id','start_time','end_time','enable','action');
+$table->colclasses = array('mission_name', 'required_course_num', 'required_course_id','optional_course_num','optional_course_id','optional_choice_compeltions','start_time','end_time','enable','action');
 //取数据展示
 global $DB;
 global $USER;
 
 $userid = $USER->id;//获取用户id
 //$mission_my = $DB->get_records_sql('select * from mdl_mission_my m join mdl_mission_user_my mu  where m.id = mu.mission_id and mu.user_id = '.$userid.' ORDER BY m.id DESC;');
-$mission_my = $DB->get_records_sql('select * from mdl_mission_my m order by m.id desc');
+$mission_my = $DB->get_records_sql('select * from mdl_mission_my m order by m.time_start desc');
 foreach ($mission_my as $mission) {
 	$actions=null;
 	$mission_name = $mission->mission_name;//台账标题
@@ -132,6 +133,7 @@ foreach ($mission_my as $mission) {
 	}
 	$optional_course_id = $optionalCourseNames;//选修课
 
+	$optional_choice_compeltions = $mission->optional_choice_compeltions;//选修课应完成数量
 	$time_start = userdate($mission->time_start,'%Y-%m-%d %H:%M');//开始时间
 	$time_end = userdate($mission->time_end,'%Y-%m-%d %H:%M');//结束时间
 	$enable = $mission->enable;//任务开关
@@ -151,7 +153,7 @@ foreach ($mission_my as $mission) {
     $actions .= $OUTPUT->action_icon($url, new pix_icon('t/delete', get_string('delete'))) . " ";
 
 	//将各字段的数据填充到表格相应的位置中
-	$row = array($mission_name,$required_course_num,$required_course_id,$optional_course_num,$optional_course_id,$time_start,$time_end,$enable,$actions);
+	$row = array($mission_name,$required_course_num,$required_course_id,$optional_course_num,$optional_course_id,$optional_choice_compeltions,$time_start,$time_end,$enable,$actions);
 	$table->data[] = $row;
 }
 

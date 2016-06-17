@@ -1,4 +1,82 @@
 body {font-family: "微软雅黑";}
+
+/* 详细信息 开始*/
+.detailInfo{
+	position: absolute;
+	z-index: 10;
+	display: none;
+	opacity: 0;
+	padding-left: 19px;
+}
+.detailInfo-box{
+	position: relative;
+	width: 450px;
+	min-height: 180px;
+	background: #fff;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 20px 1px rgba(0,0,0,0.2);
+}
+/* 内箭头 */
+.detailInfo .arrow-inner{
+	position: absolute;
+	top: 21px;
+	left: -16px;
+	border: 8px solid transparent;
+	border-right-color: #fff;
+}
+/* 外箭头 描边用 */
+.detailInfo .arrow-outer{
+	position: absolute;
+	top: 20px;
+	left: -18px;
+	border: 9px solid transparent;
+	border-right-color: #ccc;
+}
+
+/* loading图标 */
+.detailInfo .loading{
+	width: 100px;
+	height: 100px;
+	margin: auto;
+	margin-top: 40px;
+}
+.detailInfo .loading > img{
+	width: 100%;
+	height: 100%;
+}
+
+/* 详细信息内顶部的头像 */
+.detailInfo .portarit{
+	display: block;
+	width: 60px;
+	height:60px;
+	text-decoration: none;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.detailInfo .portarit > img {
+	width: 100%;
+	height:100%;
+}
+/* 信息的一行 */
+.detailInfo-item{
+	line-height: 30px;
+	font-family: 'Microsoft YaHei';
+	font-size: 16px;
+	padding-left: 3em;
+	padding-right: 1em;
+	text-indent:-1em;
+}
+.detailInfo-item > .glyphicon{
+	margin-right: 10px;
+}
+/* 详细信息 结束*/
+
+
 .trends-block {width: 100%; margin: auto; margin-top: 0px;}
 
 .trends-block > li{background-color: #fff;box-shadow: 0 0 2px rgba(0,0,0,0.2); border-radius: 2px; margin-bottom: 0px;}
@@ -36,20 +114,23 @@ body {font-family: "微软雅黑";}
 .trends-block .user-info{margin-top: 5px;margin-bottom: 8px;}
 
 /* 昵称 */
-.trends-block .nickname{color: #333;font-family: Arial, 'Microsoft YaHei';font-weight: bold;text-decoration: none;}
+.trends-block .nickname{color: #10adf3;font-family: Arial, 'Microsoft YaHei';font-weight: bold;text-decoration: none;}
 .trends-block .nickname:hover{color: #eb7350;}
 
 
 /* 内容部分 */
 
 /* 缩略图 */
-.trends-content > .thumb {margin-top: 10px;height: 120px; display: inline-block;}
-.trends-content > .thumb > img {cursor: url('../images/zoom-in.cur'), auto;height: 100%;}
+
+/*.trends-content > .thumb {margin-top: 10px;height: 120px;width: 120px; }*/
+/*.trends-content > .thumb > img {cursor: url('../images/zoom-in.cur'), auto;height: 100%;}*/
+
+/*.trends-content > .thumb { border:1px solid #000; width:200px; height:200px}*/
+/*.trends-content > .thumb > img {width:200px; height:200px}*/
 
 /* 大图 */
-.trends-content > .pic-big {margin-top: 10px;width: 650px; height:100%}
-.trends-content > .pic-big > img {cursor: url('../images/zoom-out.cur'), auto;width: 100%;}
-
+/*.trends-content > .pic-big {margin-top: 10px;width: 650px; height:100%}*/
+/*.trends-content > .pic-big > img {cursor: url('../images/zoom-out.cur'), auto;width: 100%;}*/
 
 /* 时间 */
 .trends-date {color: #808080;font-size: 12px;margin: 5px 0;}
@@ -86,7 +167,7 @@ body {font-family: "微软雅黑";}
 .comment {width: 100%; height: 100px; border-top: 1px solid #EEEEEE; padding: 10px 0px 0px 0px ;}
 .comment-l {float:left; width: 5%; height: 100%; margin-right: 1%;}
 .comment-r {float:right; width: 94%; height: 100%; padding: 10px 0px;}
-.comment-r .name{font-size: 12px; font-weight: 600; color: #555; margin: 0;}	
+.comment-r .name{font-size: 12px; font-weight: 600; color: #eb7350; margin: 0;}	
 .mycomment {width: 100%; height: 150px; margin-bottom: 20px;}
 .mycomment textarea {width: 100%; height:80px;}
 .mycomment button {float: right; width: 120px; height: 40px; margin: 15px 0px;}
@@ -105,3 +186,16 @@ body {font-family: "微软雅黑";}
 .blog-right{width: 91%; float: left;}
 
 .pagination > li > .pagination_li_active {color: #FFFFFF; background-color: #5bc0de;}
+
+
+#images a {
+	margin-right: 15px;
+}
+
+#images a img {
+	border: 1px solid #888;
+	padding: 3px;
+	width: 150px;
+	height: 150px;
+	vertical-align: top;
+}

@@ -2,7 +2,7 @@
 require_once ("../../config.php");
 global $DB;
 /** START cx开关判断 20160515*/
-if(!$DB->record_exists('microread_upload_switch_my',array('id'=>1,'upload_switch'=>2))){
+if(!$DB->record_exists('microread_upload_switch_my',array('id'=>1,'upload_switch'=>1))){
 	echo '上传功能已关闭，3秒后页面将自动跳转';
 	//等待3秒后跳转
 	header("refresh:3;url=http://".$_SERVER['HTTP_HOST']."/moodle/microread/bookroom");

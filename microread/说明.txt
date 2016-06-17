@@ -1,0 +1,5 @@
+
+D:\WWW\moodle\microread
+
+替换目录下面的文件夹及index.php文件
+

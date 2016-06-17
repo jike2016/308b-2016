@@ -1,0 +1,36 @@
+/*页面原有样式整合*/
+.empty-region-side-post.used-region-side-pre .mainbanner {padding:20px 20px ;background-color:#ffffff; width:1200px !important;margin:0 auto;}
+.navbar-form {padding: 10px 0px; }
+/*页面原有样式整合 @end*/
+
+/*页面新样式*/
+.infotitle {font-size: 20px; margin-bottom: 10px;}
+.infoselect {width: 100%; }
+.infoselect optgroup{background-color: #777; color: #FFFFFF; padding-top: 10px; padding-bottom: 10px;}
+.headingtitle {margin-top: 10px;}
+.messagebanner {padding-bottom: 50px; border-bottom: 2px solid #298ae6;}
+.message .messagearea .messagehistory .between {margin: 0 0% 0 0%;width: 60px;}
+.message .messagearea .messagehistory .between {padding-top: 10px;}
+.message .messagearea {padding: 35px 40px 0px 40px;}
+.message .messagearea .messagehistory .user:first-child {  margin-left: 22%;}
+.message .messagearea .messagehistorytype {font-size: 18px; margin-top: 50px;font-weight: 600; padding-bottom:3px; border-bottom: 2px solid #298ae6;}
+.a-blue {color: #2eb8f2; text-decoration:none;}
+.a-blue:hover {color: #154BAF;text-decoration:none;}
+.messagehistorytype span:hover {color: #154BAF; cursor: pointer;}
+.news_num {color: #C9302C; font-family: "times new roman";}
+.massagetitle {margin-top: 40px;}
+.massagetitle .massage {color: #2eb8f2; font-size: 16px; margin-right: 10px; text-decoration: none;}
+.massagetitle .username {margin-right: 25px;}
+.massagetitle.student a{color: #008800;}
+.message .imgbox {text-align: center;}
+.message .imgbox img{height: 250px;}
+.fitem_ftextarea .title {font-size: 14px; font-weight: 600; text-align: left;}
+.fitem_ftextarea textarea{height: 80px;}
+.mform .submitbtn {float: right; margin-top: 15px;}
+.mform .fitem div.fitemtitle {width: 100%;}
+.mform .fitem div.fitemtitle label{float: left;}
+.mform .fitem div.ftextarea textarea{float: left;}
+.mform .fitem .felement {margin-left: 0px;}
+.messagesend { text-align: right;}
+#fitem_id_submitbutton{ padding: 5px 0px 20px 20px;border-top: 0px;margin-top: 0px;}
+/*页面新样式 @end*/

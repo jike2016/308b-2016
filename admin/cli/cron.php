@@ -57,5 +57,18 @@ Example:
     echo $help;
     die;
 }
+/**Start 课程排名:定时更新数据库中的信息 徐东威 20160407 */
+require_once('../my_course_complete_rank.php');
+course_rank();
+/** End */
 
+/**Start 首页的学习排名:定时更新数据库中的信息 毛英东 20160413 */
+require_once('../course_index_rank_my.php');
+index_rank();
+/** End */
+
+/**Start 微阅排名:定时更新数据库中的信息 徐东威 20160514 */
+require_once('../my_microread_rank.php');
+microread_rank();
+/** End */
 cron_run();

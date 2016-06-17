@@ -21,9 +21,81 @@ class org
 	function __construct()
 	{
 		$charset = "utf8"; 
-//		$this->conn = new mysqli('10.148.216.166', 'root', 'Gcmooc@401', 'moodle');
+		// $this->conn = new mysqli('10.148.216.166', 'root', 'Gcmooc@401', 'moodle');
 		$this->conn = new mysqli('localhost', 'root', 'root', 'moodle');
 		$sql="SET character_set_connection=$charset, character_set_results=$charset, character_set_client=binary";
+		$this->conn->query($sql);
+	}
+
+	/**
+	 * 函数功能：添加顶级根节点
+	 * 作者：韦鲲鹏
+	 * 修改时间：20160511
+	 *
+	 * $name:  节点的名称
+	 */
+	function addRoot($name = 'Root')
+	{
+		//获取根节点的信息
+		$root_id = $this->get_root_node_id();
+		$root = $this->get_node($root_id);
+		//所有节点的左值、level和右值都+1
+		$sql = "update `".$this->table."` set `lft`=`lft`+1,`rgt`=`rgt`+1,`level`=`level`+1";
+		$this->conn->query($sql);
+		//插入新节点
+		$rgt = $root['rgt'] + 2;
+		$sql = "INSERT INTO `".$this->table."` (`id`, `name`, `level`, `lft`, `rgt`, `parent`,  `rank`) VALUES (NULL, '$name', '1','1', '$rgt', '-1', '0')";
+		$this->conn->query($sql);
+		$new_root_id = $this->conn->insert_id;
+		//更新原根节点的标识符
+		$sql = "update `".$this->table."` set `parent`='".$new_root_id."' where `id`='".$root_id."'";
+		$this->conn->query($sql);
+		return $new_root_id;
+	}
+
+	/**
+	 * 函数功能        ：任意移动节点树
+	 * 作者            ：韦鲲鹏
+	 * 修改时间        ：20160511
+	 *
+	 * $move_id        : 需要移动的ID
+	 * $new_parent_id  ：移动到的上级节点ID。
+	 */
+	function moveNodeAnyWhere($move_id, $new_parent_id)
+	{
+		//获取当前节点的信息
+		$node = $this->get_node($move_id);
+
+		//剥离出当前节点树
+		$sub = $this->get_all_num($node)*2 + $node['rgt'] + 10000;
+		$sql = "update `".$this->table."` set `lft`=`lft`-$sub,`rgt`=`rgt`-$sub where `lft`>='".$node['lft']."' and `rgt`<='".$node['rgt']."'";
+		$this->conn->query($sql);
+
+		//拼接前一节点和后一节点,将当前节点之后的节点全部减掉当前节点数的数量
+		$sum = $this->get_all_num($node)*2;
+		$sql = "update `".$this->table."` set `lft`=`lft`-$sum where `lft`>'".$node['lft']."'";
+		$this->conn->query($sql);
+		$sql = "update `".$this->table."` set `rgt`=`rgt`-$sum where `rgt`>'".$node['lft']."'";
+		$this->conn->query($sql);
+
+		//将新节点插入新的位置(腾出空位)
+		$parent_node = $this->get_node($new_parent_id);
+		$sql = "update `".$this->table."` set `lft`=`lft`+$sum where `lft`>'".$parent_node['lft']."'";
+		$this->conn->query($sql);
+		$sql = "update `".$this->table."` set `rgt`=`rgt`+$sum where `rgt`>'".$parent_node['lft']."'";
+		$this->conn->query($sql);
+
+		//移回当前节点树
+		//*更新level
+		$len =  $parent_node['level'] - $node['level'] + 1;
+		$sql = "update `".$this->table."` set `level`=`level`+$len where `lft`<0";
+		$this->conn->query($sql);
+		//*更新左右值
+		$len = $parent_node['lft'] - ($node['lft'] - $sub) + 1;
+		$sql = "update `".$this->table."` set `lft`=`lft`+$len,`rgt`=`rgt`+$len where `lft`<0";
+		$this->conn->query($sql);
+		//*更新当前树的顶点节点
+		$sql = "update `".$this->table."` set `parent`='$new_parent_id',`rank`='".$this->get_max_rank($parent_node)."' where `id`='".$move_id."'";
 		$this->conn->query($sql);
 	}
 	

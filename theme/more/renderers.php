@@ -24,7 +24,6 @@
 
 require_once('renderers/core_renderer.php');
 require_once('renderers/core_course_renderer.php');
-//require_once('renderers/coursesearchresult_renderer.php');
 //require_once('renderers/indexpage_renderer.php');
 //require_once('renderers/format_section_renderer_base.php');
 //require_once('renderers/core_login_renderer.php');

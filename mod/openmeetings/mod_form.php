@@ -59,6 +59,21 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$mform->addElement('text', 'teachername', '讲课人', array(
 				'size' => '64'
 		));
+
+		/** Start 添加主持人 朱子武 20160411*/
+		$mform->addElement('text', 'hostname', '主持人', array(
+			'size' => '64',
+			'readonly'=>'readonly',
+			'autocomplete'=>'off'
+		));
+		$mform->addElement('hidden', 'hostname_id', '0', array(
+			'size' => '64'
+		));
+		$mform->setType('hostname_id', PARAM_INT);
+
+		$mform->addElement('button', 'add_person', "添加主持人");
+		/** End 添加主持人 朱子武 20160411*/
+
 		$mform->addElement('hidden', 'room_id', '0', array(
 				'size' => '64'
 		));
@@ -143,6 +158,7 @@ class mod_openmeetings_mod_form extends moodleform_mod {
 		$mform->addElement('static', 'description', '', '(系统管理员，教师角色，会自动成为主持人)');
 		// Adding the "Is Moderated Room" field
 		$mform->addElement('select', 'is_moderated_room', '验证方法', array(
+				'4' => '设定前面的主持人为主持人',
 				'1' => '学生需要等待直到教师进入直播间',
 				'2' => '学生可以自己开始直播（第一个进入直播间的用户成为主持人）',
 				'3' => '每一个进入直播间的人能自动成为主持人'

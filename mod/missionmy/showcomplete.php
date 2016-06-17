@@ -59,28 +59,41 @@ function show_complete(){
 		global $DB;
 		global $USER;
 
-		$mission = $DB->get_record_sql("select mm.id,mm.mission_name,mm.required_course_id,mm.optional_course_id from mdl_mission_my mm where mm.id = $missionID");
+//		$mission = $DB->get_record_sql("select mm.id,mm.mission_name,mm.required_course_id,mm.optional_course_id from mdl_mission_my mm where mm.id = $missionID");
+		$mission = $DB->get_record_sql("select * from mdl_mission_my mm where mm.id = $missionID");
 
 		if($mission){//有任务记录
 			$missionName = $mission->mission_name;//任务名称
 			$requiredCouresID = $mission->required_course_id;//必修课
 			$optionalCouresID = $mission->optional_course_id;//选修课
+			$optionalNeedCompleteCount = $mission->optional_choice_compeltions;//选修课应完成数量
 
 			$requiredCoures = $DB->get_records_sql("select c.id,c.fullname from mdl_course c where c.id in ($requiredCouresID)");//必修课程
 			$optionalCoures = $DB->get_records_sql("select c.id,c.fullname from mdl_course c where c.id in ($optionalCouresID)");//选修课程
 
 			//START 输出必修课任务状态
+			$requiredResult = echo_courseStateTable($requiredCoures);
+			$requiredState = '未完成';
+			if($requiredResult->courseCompleteCount == count($requiredCoures)){
+				$requiredState = '完成';
+			}
 			echo ' <div>
-                    <h4>必修课</h4>
+                    <h4>必修课('.$requiredState.')</h4>
                 </div>';
-			echo_courseStateTable($requiredCoures);
+			echo $requiredResult->htmltable;
 			//END 输出必修课任务状态
 
 			//START 输出选修课任务状态
+			$optionalResult = echo_courseStateTable($optionalCoures);
+			$optionalState = '未完成';
+			//如果完成的数量大于等于规定的课程数，则判为完成
+			if($optionalResult->courseCompleteCount >= $mission->optional_choice_compeltions ){
+				$optionalState = '完成';
+			}
 			echo '<div>
-                    <h4>选修课</h4>
+                    <h4>选修课(需完成数量：'.$optionalNeedCompleteCount.'&nbsp;&nbsp;&nbsp;&nbsp;'.$optionalState .')</h4>
                </div>';
-			echo_courseStateTable($optionalCoures);
+			echo $optionalResult->htmltable;
 			//END 输出选修课任务状态
 
 		}//END 有任务记录
@@ -93,7 +106,11 @@ function show_complete(){
 /** END 任务完成状态 */
 
 
-/** START 表格输出 */
+/** START 表格输出
+ *
+ *@param $courses 课程集
+ * @return $result 返回结果集 htmltable:表格数据 ;courseCompleteCount:完成的课程数
+ */
 function echo_courseStateTable($courses){
 
 	$table = new html_table();//定义表格
@@ -110,6 +127,7 @@ function echo_courseStateTable($courses){
 	global $USER;
 	global $CFG;
 
+	$courseCompleteCount = 0;//记录课程的完成数量
 	$no = 1;//序号
 	foreach($courses as $course){
 
@@ -127,6 +145,7 @@ function echo_courseStateTable($courses){
 			$state = '100%';
 			$time = $completeState->timecompleted;
 			$completeTime = userdate($time,'%Y-%m-%d %H:%M');
+			$courseCompleteCount = $courseCompleteCount + 1;
 		}
 
 		//将各字段的数据填充到表格相应的位置中
@@ -136,7 +155,13 @@ function echo_courseStateTable($courses){
 		$no++;//序号自增
 	}
 
-	echo $htmltable = html_writer::table($table);
+	$htmltable = html_writer::table($table);
+
+	$result = new stdClass();
+	$result->htmltable = $htmltable;//表格html
+	$result->courseCompleteCount = $courseCompleteCount;//完成的课程数
+
+	return $result;
 }
 /** END 表格输出 */
 

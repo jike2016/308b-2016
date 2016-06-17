@@ -12,12 +12,49 @@
 			var noteTitle = document.getElementById('id_title').value;//笔记标题
 			var noteContent = document.getElementById('id_mycontenteditable').innerHTML; //笔记内容
 			var userName = document.getElementById('userName').innerHTML; //笔记作者
-			var time = document.getElementById('time').innerHTML; //笔记作者
+			var time = document.getElementById('time').innerHTML;
 			var flag = document.getElementById('flag').innerHTML; //笔记类型判断
 			//对内容的处理
-			var newNoteContent = noteContent.replace(/<p>/g, "<p>&nbsp;&nbsp;");//段落开头的空两格
-			var courseTitle = '';
 
+			/**Start  叶靖华  打印页面的布局20160325*/
+			var newNoteContent = noteContent.replace(/<p>/g, "&nbsp;&nbsp;");//段落开头的空两格
+			var unitName=document.getElementById('unitName').innerHTML;
+			var headstr = '<html><head><meta charset="UTF-8" /><style type="text/css">'+
+				'body {margin: 0;font-family: \'Microsoft YaHei\';}'+
+				'.note {width: 1100px;margin: 10px auto;border-collapse: collapse;border: 1px solid #ccc;}'+
+				'.note .thead > *{border: 1px solid #ccc;}'+
+				'.note .thead > th {width: 10%;}'+
+				'.note-content {min-height: 320px;margin: 0;}'+
+				'.note-date {text-align: right;margin: 0;}'+
+				'</style><title></title></head><body>';
+			var text = '<table class="note note-course" border="1" cellspacing="0" cellpadding="10">';
+			if(flag == 1){//课程笔记
+				var courseName = document.getElementById('courseName').innerHTML; //课程名称
+
+				text+='<tr><th colspan="6">课程笔记</th></tr>';
+				text+='<tr class="thead">';
+				text+='<th>名字</th>		<td>'+userName+'</td>';
+				text+='<th>单位名称</th>	<td>'+unitName+'</td>';
+				text+='<th>课程名</th>		<td>'+courseName+'</td></tr>';
+
+
+			}else if(flag == 2) {//个人笔记
+				text+='<tr><th colspan="6">个人笔记</th></tr>';
+				text+='<tr class="thead">';
+				text+='<th>名字</th>		<td>'+userName+'</td>';
+				text+='<th>单位名称</th>	<td>'+unitName+'</td></tr>';
+			}
+			text+='<tr><td colspan="6">';
+			text+='<p class="note-content">'+newNoteContent;
+			text+='<p class="note-date">'+time+'</p>'
+			text+='</td></tr></table>';
+			var footstr = "</body></html>";
+
+			/** End */
+			/**Start  叶靖华  注释20160325*/
+/*
+ 			var newNoteContent = noteContent.replace(/<p>/g, "<p>&nbsp;&nbsp;");//段落开头的空两格
+ 			var courseTitle = '';
 			if(flag == 1){
 //				alert('课程笔记');
 				var courseName = document.getElementById('courseName').innerHTML; //课程名称
@@ -38,7 +75,8 @@
 				text += '<tr><td></td><td></td><td  width="20%">'+ time +'</td></tr>';
 				text += '</table>';
 			var footstr = "</body></html>";
-
+*/
+			/** End */
 			var html = headstr + text + footstr;
 
 			var printpage = window.open();
@@ -107,6 +145,21 @@ class simplehtml_form extends moodleform {
 		global $DB;
 		$notemyid = required_param('id', PARAM_INT);
 		$notemydata = $DB->get_record('note_my', array('id' => $notemyid));
+
+		/**Start  叶靖华 获取user单位 20160325*/
+		$unitName='';
+		$OrgId = $DB->get_record('org_link_user', array('user_id' => $notemydata->userid))->org_id;
+		do {
+			$OrgData=$DB->get_record('org', array('id' => $OrgId));
+			$OrgId=$OrgData->parent;
+			if($unitName!=NULL)
+				$unitName=$OrgData->name.'-'.$unitName;
+			else
+				$unitName=$OrgData->name.$unitName;
+		}while($OrgId!=-1);
+		echo "<p id='unitName' style='display:none;'>$unitName </p>";
+
+		/**End	*/
 		/**Start 打印 */
 		$userName = fullname($USER);//用户名
 		$time = userdate(time(),'%Y年%m月%d日');

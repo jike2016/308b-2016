@@ -73,7 +73,7 @@ $(document).ready(function(){
 	var winH=$(window).height();
 	var leftval = (winW-900)/2;	
 	var topval = (winH-600)/3;	
-	$('.chat-box').offset({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
+	$('.chat-box').css({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
 	//适配不同大小偏移值 end	
 	var chatbox=false;
 	$('.elevator-weixin').click(function(){

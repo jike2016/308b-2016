@@ -46,7 +46,8 @@ class mod_lesson_renderer extends plugin_renderer_base {
         $videoid = $_REQUEST['id'];
 
         $courseID = $lesson->properties()->course;//课程id
-        $course = $DB->get_record_sql("select c.id,c.fullname from mdl_course c where c.id = $courseID");//课程
+//        $course = $DB->get_record_sql("select c.id,c.fullname from mdl_course c where c.id = $courseID");//课程
+        $course = $DB->get_record_sql("select c.id,c.fullname, c.cacherev from mdl_course c where c.id = $courseID");//课程
         $courseName = $course->fullname;//课程名称
         $courseURL = '';//课程URL
         $shipingName = $lesson->properties()->name;//视屏名称
@@ -54,13 +55,15 @@ class mod_lesson_renderer extends plugin_renderer_base {
         //视屏缓存
         ob_start();
         echo $page->display($this, $attempt);
-        $contents = file_rewrite_pluginfile_urls($page->properties->contents, 'pluginfile.php', $this->page->context->id, 'mod_lesson', 'page_contents', $this->page->subpage);
         $output = ob_get_contents();//包含有视屏和结束按钮
         ob_end_clean();
 
         $shiping = '<p style="height: 10px;"></p>';
-        $shiping .= $this->my_htmlcut($output,'<p>','</p>');//获取视屏
-        $shiping .= '</p>';
+//        $shiping .= $this->my_htmlcut($output,'<p>','</p>');//获取视屏
+        $shipingTemp = $this->my_htmlcut($output,'<p>','<div class="box branchbuttoncontainer horizontal">');//获取视屏
+        $subTemp = strlen('</div></div>');
+        $shiping .= substr($shipingTemp,0,strlen($shipingTemp)-$subTemp);
+//        $shiping .= '</p>';
 
 //        $shiping = str_replace('style="max-width: 640px;','style="max-width: 500px;',$shiping);//修改视屏宽度
 
@@ -68,10 +71,16 @@ class mod_lesson_renderer extends plugin_renderer_base {
         $btn .= '</form>';
         $oldbtn = $this->my_htmlcut($btn,'<input type="submit"','/>');//获取原有按钮
         $oldbtn .= '/>';
-        $newbtn  = str_replace($oldbtn,'<button class="btn btn-danger">结束</button>',$btn);//按钮的替换
+        $newbtn  = str_replace($oldbtn,'<button class="btn btn-danger">查看学习进度</button>',$btn);//按钮的替换
+//        $newbtn  = str_replace($oldbtn,'',$btn);//按钮的替换
+        $oldInput = $this->my_htmlcut($newbtn,'<input type="hidden" name="jumpto"','</div>');//获取原有 <input type="hidden" name="jumpto" value="?" />
+        $newbtn  = str_replace($oldInput,'<input type="hidden" name="jumpto" value="-9" />',$newbtn);//统一改为 ‘-9’ ：跳转
 
-        $html =  $this->my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID);//输出页面拼接
 
+
+//        $html =  $this->my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID);//输出页面拼接
+
+        $html =  $this->my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID,$course);//输出页面拼接
 
         return $html;
     }
@@ -107,9 +116,17 @@ class mod_lesson_renderer extends plugin_renderer_base {
         $evaluation = $DB->get_records_sql('SELECT id as mycount FROM mdl_comment_video_my WHERE modid = ? ', array($videoid));
         //$evaluation = $DB->get_records_sql('SELECT courseid, count(*) as mycount FROM mdl_comment_course_my WHERE courseid = ? ', array($course->id));
         //$mycount = $evaluation[$course->id]->mycount;
-        $mycount = count($evaluation);
+//        $mycount = count($evaluation);
+//        $mycount = ceil($mycount/10);
+//        return ($mycount <= 1 ? 1: $mycount);
+
+        $mycount = count($evaluation) < 0 ? 0 : count($evaluation);
+        $evaluationCount = new stdClass();
+        $evaluationCount->count = $mycount;
         $mycount = ceil($mycount/10);
-        return ($mycount <= 1 ? 1: $mycount);
+        $evaluationCount->ceilcount = ($mycount <= 1 ? 1: $mycount);
+        return $evaluationCount;
+
     }
     /** 获取评价数目页数 END*/
 
@@ -174,11 +191,49 @@ class mod_lesson_renderer extends plugin_renderer_base {
     /** 获取课程评价 END*/
 
     /**
+     * START 获取视屏列表 朱子武 20160521
+     */
+    function zzwu_get_video_list($course)
+    {
+        $modinfo = get_fast_modinfo($course);//获取课程的全部信息
+        $output = '';
+        $videoid = $_GET['id'];
+        for($i=1;$i<count($modinfo->sections);$i++){
+
+            $session = $modinfo->sections[$i];//获取每个主题下的活动ID列表
+            for($k=0;$k<count($session);$k++){
+                $cms=$modinfo->cms[$session[$k]];//每个课程中的各个活动的信息
+                $cms_name=$cms->name;//活动的名称
+                $cms_url=$cms->url;//活动的URL对象
+                if(!empty($cms_url)){//如果不是空
+                    $cms_url_path=$cms_url->get_path();//从URL对象中获取path，注意：这里是的path是protect属性，要调用系统的方法进行获取
+                }else{
+                    $cms_url_path='#';
+                }
+                $cms_id=$cms->id;//获取活动id
+                $cms_url_path=$cms_url_path.'?id='.$cms_id;//拼接URL
+                $status = '';
+                if($cms_id == $videoid)
+                {
+                    $status = 'class="active"';
+                }
+                $output.='<li><a href="'.$cms_url_path.'" '.$status.'>'.$cms_name.'</a></li>';
+            }
+        }
+        return $output;
+    }
+    /**END 获取视屏列表 朱子武 20160521*/
+
+    /**
      * Start 徐东威 2016-03-02 输出页面拼接
      */
-    function my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID){
+//    function my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID){
+    function my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID,$course){
 
-        $count_page = $this->my_get_course_evaluation_count($videoid);
+        $evaluationCount = $this->my_get_course_evaluation_count($videoid);
+        $count_page = $evaluationCount->ceilcount;
+
+        $courselist = $this->zzwu_get_video_list($course);
 
         $current_page = $_SESSION['pageid'];
         unset ($_SESSION['pageid']);
@@ -189,11 +244,11 @@ class mod_lesson_renderer extends plugin_renderer_base {
                 <div class="main container">
                         <!--视频标题-->
                     <div class="videotitle">
-                       <a href="'.$CFG->wwwroot.'/course/view.php?id='.$courseID.'"><span class="glyphicon glyphicon-expand"></span>&nbsp;'.$courseName.'</a>
+                        <a href="'.$CFG->wwwroot.'/course/view.php?id='.$courseID.'"><span class="glyphicon glyphicon-expand"></span>&nbsp;'.$courseName.'</a>
                     </div>
                     <div class="videotitle-son">
                         <p>'.$shipingName.'</p>
-                       <!-- '.$newbtn.'-->
+                       '.$newbtn.'
                     </div>
                     <!--视频标题 end-->
 
@@ -202,14 +257,26 @@ class mod_lesson_renderer extends plugin_renderer_base {
                         '.$shiping.'
                     </div>
                     <!--视频播放end-->
+                    
+                    <!-- 视频列表 2016年5月8日 陈振安 -->
+					<div class="courselist">
+						<ul class="courselist-content">
+							'.$courselist.'
+						</ul>
+						<div class="courselist-trigger"><<目录</div>
+					</div>
+					<!-- 视频列表end -->
 
                     <!--评论-->
                     <div class="commentbox">
                         <div class="commentboxtitle">
-                            <div><h3>评论</h3></div>
+                            <div style="width:110px"><h3 style="width:100%">评论('.$evaluationCount->count.')</h3></div>
                         </div>
                         <div class="mycomment">
-                                <textarea class="form-control" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                                 <!-- 2016.3.25 毛英东 添加表情-->
+                                <textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                                <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
+                                <!-- end  2016.3.25 毛英东 添加表情 -->
                                 <button id="commentBtn" class="btn btn-success">发表评论</button>
                             </div>
                             '.$this->my_get_course_evaluation($videoid, $current_page - 1).'

@@ -20,10 +20,12 @@ $('.lockpage').hide();
 	.table > thead > tr > td, .table > tbody > tr > td { vertical-align: middle;}
 	.td1 {width: 5%;}
 	.td2 {width: 19%;}
-	.td3 {width: 23%;}
-	.td4 {width: 24%;}
-	.td5 {width: 24%;}
-	.td6 {width: 5%;}
+	.td3 {width: 20%;}
+	.td4 {width: 22%;}
+	.td5 {width: 5%;}
+	.td6 {width: 24%;}
+	.td7 {width: 5%;}
+	.td8 {width: 5%;}
 </style>
 
 <script type="text/javascript">
@@ -73,8 +75,10 @@ function echo_missions($page){
 					<td class="td2">任务名称</td>
 					<td class="td3">必修课</td>
 					<td class="td4">选修课</td>
-					<td class="td5">时间</td>
+					<td class="td5">选修课需完成数</td>
 					<td class="td6">时间</td>
+					<td class="td7">完成状态</td>
+					<td class="td8"></td>
 				</tr>
 			</thead>
 			<tbody>';
@@ -89,6 +93,7 @@ function echo_missions($page){
 		$optionalCourseIDs = $mission->optional_course_id;//选修课课程id
 		$requiredCourses = $DB->get_records_sql("select * from mdl_course c where c.id in ($requiredCourseIDs) ");//获取必修课课程
 		$optionalCourses = $DB->get_records_sql("select * from mdl_course c where c.id in ($optionalCourseIDs) ");//获取选修课课程
+		$optionalNeedCompleteCount = $mission->optional_choice_compeltions;//选修课应完成数量
 		$requiredCourseNames = '';//必修课课程名称
 		$optionalCourseNames = '';//选修课课程名称
 		$requiredCourseNum = count($requiredCourses);//必修课课程数量
@@ -117,13 +122,37 @@ function echo_missions($page){
 		$startTime = $mission->time_start;//开始时间
 		$endTime = $mission->time_end;//结束时间
 		$time = '开始：'.userdate($startTime,'%Y-%m-%d %H:%M').' </br> 结束：'.userdate($endTime,'%Y-%m-%d %H:%M');
+		$optional_choice_compeltions = $mission->optional_choice_compeltions;//必须完成的选修课数
+
+		//台账任务完成情况
+		$completion = '完成';
+		//必修课的判断,若有一门没完成，整个任务便不算完成
+		foreach($requiredCourses as $requiredCourse){
+			$state = courseCompeleteRate($requiredCourse->id);
+			if($state != '100%'){
+				$completion = '未完成';
+			}
+		}
+		//选修课的判断，如果达到要求完成的课程数即视为完成
+		$optionalCompleteCount = 0;
+		foreach($optionalCourses as $optionalCourse){
+			$state = courseCompeleteRate($optionalCourse->id);
+			if($state == '100%'){
+				$optionalCompleteCount = $optionalCompleteCount + 1;
+			}
+		}
+		if($optionalCompleteCount < $optional_choice_compeltions){
+			$completion = '未完成';
+		}
 
 		echo '<tr>
 				<td>'.$no.'</td>
 				<td>'.$missionName.'</td>
 				<td>'.$requiredCourseNames.'</td>
 				<td>'.$optionalCourseNames.'</td>
+				<td>'.$optionalNeedCompleteCount.'</td>
 				<td>'.$time.'</td>
+				<td>'.$completion.'</td>
 				<td><a href="../mod/missionmy/showcomplete.php?id='.$mission->mission_id.'&action=details" target="_blank"><button class="btn btn-info checkexam">查看</button></a></td>
 			</tr>';
 		$no++;
@@ -137,6 +166,45 @@ function echo_missions($page){
 	echo_end($page,$missionscount);//输出上下页按钮
 }
 /**END 输出任务列表 */
+
+
+/**Start 课程完成率 徐东威 20160310
+ * @param	$courseID 课程
+ * @return  $completeRate 完成进度
+ */
+function courseCompeleteRate($courseID){
+
+	global $DB;
+	global $USER;
+
+	$completeRate = '0%';//课程完成率,这里是台账任务，默认都会设置进度跟踪，所以这里初始为‘0%’
+	//获取课程的进度跟踪启停状态 enablecompletion = 1 为开启状态
+	$openState = $DB->get_record_sql("select c.enablecompletion from mdl_course c where c.id = $courseID ");
+	//如果课程开启了活动
+	if($openState->enablecompletion == 1 ){
+		//开启了进度的活动数，其中除去那些不设为进度跟踪的活动（处理方式：如果该课程有活动，但没有一个是设置为进度跟踪的，那么就让其显示为‘无统计’）
+		$activeCount = $DB->get_record_sql("select count(*) as count from mdl_course_modules cm  where cm.course = $courseID and cm.`completion` in (1,2) ");
+		//如果设置有开启进度的活动，则求完成率
+		if($activeCount->count != 0){
+			//完成的活动数
+			$completeCount = $DB->get_record_sql("select  count(*) as count from mdl_course_modules_completion cmc
+												where cmc.userid = $USER->id
+												and cmc.coursemoduleid in (select cm.id from mdl_course_modules cm  where cm.course = $courseID and cm.`completion` in (1,2) )
+												and cmc.completionstate = 1");
+			$completeRate = round($completeCount->count / $activeCount->count, 2) * 100;//求完成率
+			$completeRate .= '%';
+		}
+	}
+
+	$completeState = $DB->get_record_sql("select c.id,c.timecompleted from mdl_course_completion_crit_compl c where c.userid = $USER->id and c.course = $courseID");
+	if($completeState){//如果有记录,（即活动没有完成，但由管理员手工设为完成的情况）
+		$completeRate = '100%';
+	}
+
+	return $completeRate;
+}
+/** End */
+
 
 /** START 输出上下页按钮等
  * @param  $page 页码

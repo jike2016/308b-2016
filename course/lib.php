@@ -2719,19 +2719,23 @@ function update_course($data, $editoroptions = NULL) {
     // Update with the new data
     $DB->update_record('course', $data);
 	//更新course_link_categories表，先删除记录，再加入记录
-	$DB->delete_records("course_link_categories", array("mdl_course_id" => $data->id));
-	for ($x=0; $x<count($data->multicategory); $x++) {
-		$DB->insert_record('course_link_categories',array('mdl_course_id'=>$data->id, 'mdl_course_categories_id'=>$data->multicategory[$x]) );
-	} 
+	if(isset($data->multicategory)){
+		$DB->delete_records("course_link_categories", array("mdl_course_id" => $data->id));
+		for ($x=0; $x<count($data->multicategory); $x++) {
+			$DB->insert_record('course_link_categories',array('mdl_course_id'=>$data->id, 'mdl_course_categories_id'=>$data->multicategory[$x]) );
+		} 
+	}
 	//结束
 	
 	//更新tag_link表，先删除记录，再加入记录
-	$DB->delete_records("tag_link", array('link_name'=>'mdl_course' , 'link_id'=>$data->id));
-	for ($x=0; $x<count($data->multitagmy); $x++) {
-		$DB->insert_record('tag_link', array('tagid'=>$data->multitagmy[$x], 'link_name'=>'mdl_course' , 'link_id'=>$data->id));
-	} 
-	//更新tag_my表里的num
-	update_tagmy_num();
+	if(isset($data->multitagmy)){
+		$DB->delete_records("tag_link", array('link_name'=>'mdl_course' , 'link_id'=>$data->id));
+		for ($x=0; $x<count($data->multitagmy); $x++) {
+			$DB->insert_record('tag_link', array('tagid'=>$data->multitagmy[$x], 'link_name'=>'mdl_course' , 'link_id'=>$data->id));
+		} 
+		//更新tag_my表里的num
+		update_tagmy_num();
+	}
 	//结束
     // make sure the modinfo cache is reset
     rebuild_course_cache($data->id);

@@ -176,8 +176,8 @@ class format_studtopics_renderer extends format_section_renderer_base {
     //输出课程的简介图片栏
     public function my_print_course_infos($course){
 
-        echo '<div class="course-infos"  style="background-color: #5b5b5a;">
-				<div class="w pr">
+        echo '<div class="course-infos"  style="background-color: #f0f0f0;">
+				<div class="w pr" style="background-color: #5b5b5a;">
 
 					<div class="banner-left">
                         <img '.$this->my_get_course_formatted_summary_pix(new course_in_list($course)).' />
@@ -384,9 +384,13 @@ class format_studtopics_renderer extends format_section_renderer_base {
 						</div>
 						<div class="mod-tab-menu">
 							<ul class="course-menu clearfix">';
+
+        $evaluationCount = $this->my_get_course_evaluation_count($course);
+        $count_page = $evaluationCount->ceilcount;
+
         if(!isset($_GET['page'])){
             echo '<li><a id="zhangjie" class="active"  href="javascript:void(0);"><span>课程提纲</span></a></li>
-								<li><a id="pingjia"  class="" href="javascript:void(0);"><span>课程评价</span></a></li>
+								<li><a id="pingjia"  class="" href="javascript:void(0);" style="width:150px"><span>课程评价('.$evaluationCount->count.')</span></a></li>
 								</ul>
 						</div>
 
@@ -411,7 +415,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
         }
         else{
             echo '<li><a id="zhangjie" class=""  href="javascript:void(0);"><span>课程提纲</span></a></li>
-								<li><a id="pingjia"  class="active" href="javascript:void(0);"><span>课程评价</span></a></li>
+								<li><a id="pingjia"  class="active" href="javascript:void(0);" style="width:150px"><span>课程评价('.$evaluationCount->count.')</span></a></li>
 								</ul>
 						</div>
 
@@ -434,7 +438,6 @@ class format_studtopics_renderer extends format_section_renderer_base {
 
 							<!--evaluation-info end-->';
         }
-        $count_page = $this->my_get_course_evaluation_count($course);
 
         $current_page = $_SESSION['pageid'];
         unset ($_SESSION['pageid']);
@@ -554,7 +557,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 						<!--排行榜-->
 						<div class="ranking-list">
 							<div class="ranking-list-title">
-								<h2>&nbsp;<span class="glyphicon glyphicon-signal"></span><p>&nbsp;&nbsp;排行榜</p></h2>
+								<h2><span class="glyphicon glyphicon-signal"></span><p>&nbsp;学习排行榜</p></h2>
 							</div>
 							<table class="ranking-list-table">
 								<tbody>
@@ -579,7 +582,7 @@ class format_studtopics_renderer extends format_section_renderer_base {
 						<!--排行榜-->
 						<div class="ranking-list">
 							<div class="ranking-list-title">
-								<h2><span class="glyphicon glyphicon-user"></span><p>&nbsp;排行榜</p></h2>
+								<h2><span class="glyphicon glyphicon-signal"></span><p>&nbsp;学习排行榜</p></h2>
 							</div>
 							<table class="ranking-list-table">
 								<tbody>
@@ -653,9 +656,12 @@ class format_studtopics_renderer extends format_section_renderer_base {
         $evaluation = $DB->get_records_sql('SELECT id as mycount FROM mdl_comment_course_my WHERE courseid = ? ', array($course->id));
         //$evaluation = $DB->get_records_sql('SELECT courseid, count(*) as mycount FROM mdl_comment_course_my WHERE courseid = ? ', array($course->id));
         //$mycount = $evaluation[$course->id]->mycount;
-        $mycount = count($evaluation);
+        $mycount = count($evaluation) < 0 ? 0 : count($evaluation);
+        $evaluationCount = new stdClass();
+        $evaluationCount->count = $mycount;
         $mycount = ceil($mycount/10);
-        return ($mycount <= 1 ? 1: $mycount);
+        $evaluationCount->ceilcount = ($mycount <= 1 ? 1: $mycount);
+        return $evaluationCount;
     }
  /** START 朱子武 获取课程评分星星 20160226*/
     function my_get_glyphicon_star($num)

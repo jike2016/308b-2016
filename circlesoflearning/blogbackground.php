@@ -208,37 +208,117 @@ switch($type)
         /** Start 插入评论 朱子武 20160316*/
         $mycomment = $_GET['mycomment'];
         $blogid = $_GET['blogid'];
-        $newcmt = new stdClass;
-        $newcmt->commentarea  = 'format_blog';
-        $newcmt->itemid       = $blogid;
-        $newcmt->component    = 'blog';
-        $newcmt->content      = $mycomment;
-        $newcmt->format       = '0';
-        $newcmt->userid       = $USER->id;
-        $newcmt->timecreated  = time();
-        $DB->insert_record('learning_comments', $newcmt);
-        echo '1';
-        /**  START 增加判断添加与我相关  朱子武 20160308*/
 
-        $myresult = $DB->get_records_sql('SELECT id, userid, summary FROM mdl_circles_of_learning WHERE id = '.$newcmt->itemid);
 
-        $blogtitle= $myresult[$newcmt->itemid]->summary;
-        $blogurl = '/circlesoflearning/index.php?entryid='.$newcmt->itemid;
-        $newrelated =  new stdClass;
+        $commentresult = $DB->get_records_sql(sprintf('SELECT id, content, timecreated FROM mdl_learning_comments WHERE itemid = '.$blogid.' AND userid = '.$USER->id.' ORDER BY timecreated DESC LIMIT 1'));
+        $commentallresult = $DB->get_records_sql(sprintf('SELECT id, content, timecreated, itemid, userid FROM mdl_learning_comments ORDER BY timecreated DESC'));
+        $similarresult = new stdClass();
+        if(count($commentallresult))
+        {
+            foreach($commentallresult as $commentallresultvalue)
+            {
+                similar_text($commentallresultvalue->content, $_GET['mycomment'], $percent);
+                if($percent > $similarresult->percent)
+                {
+                    $similarresult->percent = $percent;
+                    $similarresult->userid = $commentallresultvalue->userid;
+                    $similarresult->itemid = $commentallresultvalue->itemid;
+                }
+            }
+        }
+        if(count($commentresult))
+        {
+            foreach($commentresult as $commentresultvalue)
+            {
+//                similar_text($commentresultvalue->content, $_GET['mycomment'], $percent);
 
-        // 保存微博作者
-        $newrelated->authorid = $myresult[$newcmt->itemid]->userid;
+                if($commentresultvalue->timecreated + 60 > time())
+                {
+                    echo '0';
+                }elseif($similarresult->percent > 90 && $similarresult->userid == $USER->id)
+                {
+                    echo '2';
+                }elseif($similarresult->percent > 90 && $similarresult->itemid == $blogid)
+                {
+                    echo '2';
+                }else
+                {
+                    $newcmt = new stdClass;
+                    $newcmt->commentarea  = 'format_blog';
+                    $newcmt->itemid       = $blogid;
+                    $newcmt->component    = 'blog';
+                    $newcmt->content      = $mycomment;
+                    $newcmt->format       = '0';
+                    $newcmt->userid       = $USER->id;
+                    $newcmt->timecreated  = time();
+                    $DB->insert_record('learning_comments', $newcmt);
+                    echo '1';
+                    /**  START 增加判断添加与我相关  朱子武 20160308*/
 
-        $newrelated->userid = $USER->id;
+                    $myresult = $DB->get_records_sql('SELECT id, userid, summary FROM mdl_circles_of_learning WHERE id = '.$newcmt->itemid);
 
-        $newrelated->blogid = $newcmt->itemid;
-        $newrelated->blogurl = $blogurl;
-        $newrelated->blogtitle = $blogtitle;
-        $newrelated->relatedtype = '1';
-        $newrelated->relatedtime = $newcmt->timecreated;
-        $DB->insert_record('blog_related_me_my', $newrelated, true);
+                    $blogtitle= $myresult[$newcmt->itemid]->summary;
+                    $blogurl = '/circlesoflearning/index.php?entryid='.$newcmt->itemid;
+                    $newrelated =  new stdClass;
 
-        /**  END 增加判断添加与我相关  朱子武 20160308*/
+                    // 保存微博作者
+                    $newrelated->authorid = $myresult[$newcmt->itemid]->userid;
+
+                    $newrelated->userid = $USER->id;
+
+                    $newrelated->blogid = $newcmt->itemid;
+                    $newrelated->blogurl = $blogurl;
+                    $newrelated->blogtitle = $blogtitle;
+                    $newrelated->relatedtype = '1';
+                    $newrelated->relatedtime = $newcmt->timecreated;
+                    $DB->insert_record('blog_related_me_my', $newrelated, true);
+
+                    /**  END 增加判断添加与我相关  朱子武 20160308*/
+                }
+            }
+        }elseif($similarresult->percent > 90 && $similarresult->userid == $USER->id)
+        {
+            echo '2';
+        }elseif($similarresult->percent > 90 && $similarresult->itemid == $blogid)
+        {
+            echo '2';
+        }
+        else
+        {
+            $newcmt = new stdClass;
+            $newcmt->commentarea  = 'format_blog';
+            $newcmt->itemid       = $blogid;
+            $newcmt->component    = 'blog';
+            $newcmt->content      = $mycomment;
+            $newcmt->format       = '0';
+            $newcmt->userid       = $USER->id;
+            $newcmt->timecreated  = time();
+            $DB->insert_record('learning_comments', $newcmt);
+            echo '1';
+            /**  START 增加判断添加与我相关  朱子武 20160308*/
+
+            $myresult = $DB->get_records_sql('SELECT id, userid, summary FROM mdl_circles_of_learning WHERE id = '.$newcmt->itemid);
+
+            $blogtitle= $myresult[$newcmt->itemid]->summary;
+            $blogurl = '/circlesoflearning/index.php?entryid='.$newcmt->itemid;
+            $newrelated =  new stdClass;
+
+            // 保存微博作者
+            $newrelated->authorid = $myresult[$newcmt->itemid]->userid;
+
+            $newrelated->userid = $USER->id;
+
+            $newrelated->blogid = $newcmt->itemid;
+            $newrelated->blogurl = $blogurl;
+            $newrelated->blogtitle = $blogtitle;
+            $newrelated->relatedtype = '1';
+            $newrelated->relatedtime = $newcmt->timecreated;
+            $DB->insert_record('blog_related_me_my', $newrelated, true);
+
+            /**  END 增加判断添加与我相关  朱子武 20160308*/
+        }
+
+
         break;
     //    删除微博信息 朱子武 201603157
     case 'delete':

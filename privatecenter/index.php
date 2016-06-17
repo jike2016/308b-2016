@@ -71,12 +71,12 @@ echo '
 		<!--导航条-->
 		<nav class="navstyle navbar-fixed-top">
 			<div class="nav-main">
-				<img id="logo" src="img/Home_Logo.png" onMouseOver="this.style.cursor=\'pointer\'" onClick="document.location='.$CFG->wwwroot.';">
+				<img id="logo" src="img/Home_Logo.png" onMouseOver="this.style.cursor=\'pointer\'" onClick="document.location=\''.$CFG->wwwroot.'\'">
 				<ul class="nav-main-li">
 					<a href="'.$CFG->wwwroot.'">
 						<li class="li-normol">首页</li>
 					</a>
-					<a href="'.$CFG->wwwroot.'/mod/forum/view.php?id=1">
+					<a href="'.$CFG->wwwroot.'/microread/">
 						<li class="li-normol">微阅</li>
 					</a>
 					<a href="'.$CFG->wwwroot.'/course/index.php">
@@ -201,7 +201,6 @@ function my_get_date(){
 				<div id="mymedal" class="menubtn"><h4><span class="glyphicon glyphicon-tasks"></span>&nbsp;我的证书</h4></div>
 				<div id="mymission"  class="menubtn"><h4><span class="glyphicon glyphicon-bookmark"></span>&nbsp;学习任务</h4></div>
 				<div id="mybookdata" class="menubtn"><h4><span class="glyphicon glyphicon-list-alt"></span>&nbsp;台账数据</h4></div>
-				<div id="microreaddata" class="menubtn"><h4><span class="glyphicon glyphicon-list-alt"></span>&nbsp;微阅台账</h4></div>
 				<div id="learning_circles" class="menubtn"><h4><span class="glyphicon glyphicon-education"></span>&nbsp;学习圈</h4></div>
 				<!--a href="../blog/" style="text-decoration:none;""><div class="menubtn"><h4><span class="glyphicon glyphicon-education"></span>&nbsp;学习圈</h4></div>	</a-->
 				<div id="mycollection" class="menubtn"><h4><span class="glyphicon glyphicon-heart-empty"></span>&nbsp;我的收藏</h4></div>				
@@ -217,7 +216,102 @@ function my_get_date(){
 			<!--右边内容end-->
 		</div>
 		<!--主体内容end-->
-		
+		<!--添加蒙版显示学习圈图片 Start-->
+		<style>
+			.shadow{
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 1031;
+				background:  rgba(0,0,0,0.5);
+				cursor: pointer;
+			}
+			.img-box{
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				z-index: 1032;
+				cursor: pointer;
+			}
+			.img-inner{
+				height: 100%;
+				display:inline-block;
+				margin: auto;
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				padding: 100px;
+				z-index: 1032;
+				background-color: transparent;
+			}
+			/*加载动画*/
+			.img-inner>img:nth-child(1){
+				width: 100px;
+				height: 100px;
+				display: block;
+				margin: 0 auto;
+				/*position: absolute;*/
+				/*top: 0;*/
+				opacity: 1;
+				-webkit-transition: opacity 0.5s;
+				-moz-transition: opacity 0.5s;
+				-ms-transition: opacity 0.5s;
+				-o-transition: opacity 0.5s;
+				transition: opacity 0.5s;
+			}
+			/*图片*/
+			.img-inner>img:nth-child(2){
+				max-width: 100%;
+				max-height: 100%;
+				display: block;
+				margin: 0 auto;
+				opacity: 0;
+				position: relative;
+				top: -100px;
+				-webkit-transition: opacity 0.8s;
+				-moz-transition: opacity 0.8s;
+				-ms-transition: opacity 0.5s;
+				-o-transition: opacity 0.5s;
+				transition: opacity 0.8s;
+			}
+			.close-i{
+				width: 50px;
+				height: 50px;
+				position: fixed;
+				top: 10px;
+				right: 10px;
+				z-index: 1032;
+				cursor: pointer;
+			}
+			.close-i img{
+				width: 50px;
+				height: 50px;
+			}
+		</style>
+
+		<div class="shadow" style="display: none"></div>
+		<div class="img-box" style="display: none">
+			<div class="img-inner">
+				<img class="img-thumbnail" src="img/loading.jpg" alt="">
+				<img class="img-thumbnail" src="" onload="$(this).css('opacity',1);$('.img-inner img:nth-child(1)').css('opacity','0')" alt="">
+			</div>
+			<div class="close-i">
+				<img src="../circlesoflearning/images/imgbox-close.png" alt="">
+			</div>
+		</div>
+		<script>
+			$('.close-i, .shadow, .img-box').on('click',function(){
+				$('.shadow, .img-box').hide();
+				$('.img-inner img:nth-child(1)').css('opacity',1);
+				$('.img-inner img:nth-child(2)').css('opacity',0);
+			})
+		</script>
+		<!--添加蒙版显示学习圈图片 end-->
 	</body>
 
 </html>

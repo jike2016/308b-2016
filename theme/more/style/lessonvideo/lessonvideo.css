@@ -30,3 +30,12 @@
 	#page-mod-lesson-view .pagination > li > a:hover,.pagination > li > span:hover,.pagination > li > a:focus,.pagination > li > span:focus {color: #FFFFFF; background-color: #B30000;}
 	
 	/*************@end主体内容**************/
+
+/************ 视频列表 ************/
+.courselist {position: relative; float: right; margin-bottom: -25px}
+.courselist-content {background-color: rgba(255, 255, 255, 0.5); list-style: none; position: absolute; bottom: 100%; right: 0; margin: 0; width: 280px; max-height: 702px; overflow-y: auto; display: none}
+.courselist-content a {display: block; color: #14191e; padding-left: 25px; text-decoration: none; font-size: 14px; line-height: 30px}
+.courselist-content a:hover {color: #cc0000;}
+.courselist-content a.active {color: #cc0000; /*background-color: #ADABAB;*/}
+.courselist-trigger {color: #cc0000;font-weight: 600;font-size: 18px; margin-top: 10px; cursor: default}
+/************ @end视频列表 ************/

@@ -122,9 +122,12 @@ if (substr($viewing, 0, 7) == MESSAGE_VIEW_COURSE) {
     $courseid = intval(substr($viewing, 7));
     require_login($courseid);
     require_capability('moodle/course:viewparticipants', context_course::instance($courseid));
-    $PAGE->set_pagelayout('incourse');
+    /**Start cx  设置消息页面layout,统一用standard*/
+    $PAGE->set_pagelayout('message');
+//    $PAGE->set_pagelayout('incourse');
+    /** End cx */
 } else {
-    $PAGE->set_pagelayout('standard');
+    $PAGE->set_pagelayout('message');
 }
 // Page context should always be set to user.
 $PAGE->set_context(context_user::instance($user1->id));
@@ -247,9 +250,9 @@ $blockedusers = message_get_blocked_users($user1, $user2);
 $countblocked = count($blockedusers);
 
 list($onlinecontacts, $offlinecontacts, $strangers) = message_get_contacts($user1, $user2);
-
+/**Start说明：左边的下拉搜索栏 */
 message_print_contact_selector($countunreadtotal, $viewing, $user1, $user2, $blockedusers, $onlinecontacts, $offlinecontacts, $strangers, $showactionlinks, $page);
-
+/**End说明：左边的下拉搜索栏 */
 echo html_writer::start_tag('div', array('class' => 'messagearea mdl-align'));
     if (!empty($user2)) {
 
@@ -258,7 +261,13 @@ echo html_writer::start_tag('div', array('class' => 'messagearea mdl-align'));
             $visible = 'visible';
             $hidden = 'hiddenelement'; //cant just use hidden as mform adds that class to its fieldset for something else
 
-            $recentlinkclass = $recentlabelclass = $historylinkclass = $historylabelclass = $visible;
+            /**Start cx 消息界面修改20160607*/
+            $visibleblue = 'visible a-blue';
+//            $recentlinkclass = $recentlabelclass = $historylinkclass = $historylabelclass = $visible;
+            $recentlinkclass =  $historylinkclass = $visibleblue;
+            $recentlabelclass =  $historylabelclass = $visible;
+            /**End cx 消息界面修改20160607*/
+
             if ($history == MESSAGE_HISTORY_ALL) {
                 $displaycount = 0;
 
@@ -278,8 +287,10 @@ echo html_writer::start_tag('div', array('class' => 'messagearea mdl-align'));
 
                 $recentlinkclass = $historylabelclass = $hidden;
             }
-
-            $messagehistorylink =  html_writer::start_tag('div', array('class' => 'mdl-align messagehistorytype'));
+            /**Start cx 消息界面修改20160607*/
+//            $messagehistorylink =  html_writer::start_tag('div', array('class' => 'mdl-align messagehistorytype'));
+            $messagehistorylink =  html_writer::start_tag('div', array('class' => 'messagehistorytype'));
+            /**End cx 消息界面修改20160607*/
                 $messagehistorylink .= html_writer::link($PAGE->url->out(false).'&history='.MESSAGE_HISTORY_ALL,
                     get_string('messagehistoryfull','message'),
                     array('class' => $historylinkclass));
@@ -298,12 +309,15 @@ echo html_writer::start_tag('div', array('class' => 'messagearea mdl-align'));
 
                 if ($viewingnewmessages) {
                     $messagehistorylink .=  '&nbsp;|&nbsp;'.html_writer::start_tag('span');//, array('class' => $historyclass)
-                        $messagehistorylink .= get_string('unreadnewmessages','message',$displaycount);
+                    /**Start cx 消息界面修改20160607*/
+//                  $messagehistorylink .= get_string('unreadnewmessages','message',$displaycount);
+                    $messagehistorylink .= get_string('unreadnewmessages','message','<span class="news_num">'.$displaycount.'</span>');
+                    /**End cx 消息界面修改20160607*/
                     $messagehistorylink .= html_writer::end_tag('span');
                 }
 
             $messagehistorylink .= html_writer::end_tag('div');
-
+            //说明：输出右边消息
             message_print_message_history($user1, $user2, $search, $displaycount, $messagehistorylink, $viewingnewmessages, $showactionlinks);
         echo html_writer::end_tag('div');
 

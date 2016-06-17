@@ -1,6 +1,6 @@
 <div class="pageContent" >
     <form method="post" enctype="multipart/form-data" action="bookroom/section_post_handler.php?title=add" class="pageForm required-validate" onsubmit="return iframeCallback(this, navTabAjaxDone);"">
-    <div  layoutH="56" style="margin: 20px 20px 0px 20px">
+    <div  layoutH="56" style="margin: 20px 20px 0px ">
             <p class="pageFormContent">
                 <label>节名称：</label>
                 <input name="chapterid" type="hidden" size="30" value="<?php echo $_GET['chapterid'];?>" class="required"/>
@@ -20,11 +20,8 @@
             </p>
             <p id="text" style="display: none" class="pageFormContent">
                 <label>输入文本内容：</label>
-                <textarea class="editor" name="text" rows="8" cols="100"
-                          upLinkUrl="upload.php" upLinkExt="zip,rar,txt"
-                          upImgUrl="upload.php" upImgExt="jpg,jpeg,gif,png"
-                          upFlashUrl="upload.php" upFlashExt="swf"
-                          upMediaUrl="upload.php">
+                <textarea class="editor" name="text" rows="30" cols="150"
+                          upImgUrl="bookroom/section_upload_image.php?title=addimg" upImgExt="jpg,jpeg,gif,png">
                 </textarea>
             </p>
             <p id="pdf" style="display: none" class="pageFormContent">

@@ -53,6 +53,7 @@ function get_contents_all($content_page, $userid=null, $entryid=null, $static= n
 		return $contents;
 	}
 /** End 添加判断 如果没有数据 提醒用户 朱子武 20160318 */
+	$emotion_i = 0; //表情模块循环变量 毛英东 20160330
 	foreach($allresult as $blogValue)
 	{
 		$user = $DB->get_record('user', array('id' => $blogValue->userid), '*', MUST_EXIST);
@@ -63,21 +64,39 @@ function get_contents_all($content_page, $userid=null, $entryid=null, $static= n
 				'visibletoscreenreaders' => false
 			)
 		);
-		$userIcon = str_replace('width="35" height="35"', " ", $userIcon);
+//		$userIcon = str_replace('width="35" height="35"', " ", $userIcon);
 
-		$contents .= '<li>
+		$contents .= '<li uid="'.$blogValue->userid.'">
 						<!-- 顶部 开始 -->
 						<div class="trends-top">
 							<!-- 左侧 -->
 							<div class="blog-left">
-								<!-- 头像 -->
+								';
+
+		/** Start 判断图片URL字符串截取 朱子武 20160329*/
+		$pos = strpos($userIcon, 'alt');
+		if($pos !== false)
+		{
+			$userIcon = substr($userIcon, 10, $pos - 12);
+			$contents .= '		<!-- 头像 -->
+								<a class="portarit" href="'.$CFG->wwwroot .'/circlesoflearning/index.php?userid='.$blogValue->userid.'">
+									<img src="'.$userIcon.'" />
+								</a>
+								<!-- 头像  end-->';
+		}
+		else
+		{
+			$userIcon = str_replace('width="35" height="35"', " ", $userIcon);
+			$contents .= '		<!-- 头像 -->
 								<a class="portarit" href="'.$CFG->wwwroot .'/circlesoflearning/index.php?userid='.$blogValue->userid.'">
 									<!--<img src=" images/learnner.jpg" alt="" />-->
 									'.$userIcon.'
 								</a>
-								<!-- 头像  end-->
+								<!-- 头像  end-->';
+		}
+		/** Start 判断图片URL字符串截取 朱子武 20160329*/
 
-								<!-- 关注 -->
+		$contents .= '		<!-- 关注 -->
 								<div id="add-attendtion">
 									<a id="followUser-btn" onclick="followUser('.$blogValue->userid.')" style="cursor:pointer"><span class="glyphicon glyphicon-plus"></span>&nbsp;'.follow_or_not($blogValue->userid).'</a>
 								</div>
@@ -102,13 +121,14 @@ function get_contents_all($content_page, $userid=null, $entryid=null, $static= n
 			if(count($pictures))
 			{
 				$contents .= '<!--显示图片代码-->
-								<div class="trends-content">';
+								<div id="images" class="trends-content">';
 				foreach($pictures as $pictureValue)
 				{
-					$contents .= '	<div class="thumb">
-										<!-- 缩略图 -->
-										<img src="'.$pictureValue.'" data-pic-big="" alt="" />
-									</div>';
+//					$contents .= '	<div class="thumb">
+//										<!-- 缩略图 -->
+//										<img src="'.$pictureValue.'" data-pic-big="" alt="" />
+//									</div>';
+					$contents .= '<a class="thumbimg" title="" href="javascript:void(0)"><img alt="" src="'.$pictureValue.'" /></a>';
 				}
 				$contents .= '		</div>
 								<!--显示图片代码 end-->';
@@ -129,17 +149,17 @@ function get_contents_all($content_page, $userid=null, $entryid=null, $static= n
 		if(($blogValue->userid == $USER->id) || ($USER->id == '2'))	{
 			if($entryid){
 				$contents .= '<ul class="trends-bottom list-unstyled">
-							<li class="like-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">点赞('.my_get_blog_like_count($blogValue->id).')</a></li>
-							<li class="comment-btn a-active"><a href="javascript:void(0)">评论('.$current->count.')</a></li>
-							<li class="forward-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">转发('.my_get_blog_forwarded_count($blogValue->id).')</a></li>
-							<li class="delete-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">删除</a></li>
+							<li class="like-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp&nbsp点赞('.my_get_blog_like_count($blogValue->id).')</a></li>
+							<li class="comment-btn a-active"><a href="javascript:void(0)"><span class="glyphicon glyphicon-comment"></span>&nbsp&nbsp评论('.$current->count.')</a></li>
+							<li class="forward-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-share-alt"></span>&nbsp&nbsp转发('.my_get_blog_forwarded_count($blogValue->id).')</a></li>
+							<li class="delete-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-trash"></span>&nbsp&nbsp删除</a></li>
 					      </ul>';
 			}else{
 				$contents .= '<ul class="trends-bottom list-unstyled">
-							<li class="like-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">点赞('.my_get_blog_like_count($blogValue->id).')</a></li>
-							<li class="comment-btn"><a href="javascript:void(0)">评论('.$current->count.')</a></li>
-							<li class="forward-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">转发('.my_get_blog_forwarded_count($blogValue->id).')</a></li>
-							<li class="delete-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">删除</a></li>
+							<li class="like-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp&nbsp点赞('.my_get_blog_like_count($blogValue->id).')</a></li>
+							<li class="comment-btn"><a href="javascript:void(0)"><span class="glyphicon glyphicon-comment"></span>&nbsp&nbsp评论('.$current->count.')</a></li>
+							<li class="forward-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-share-alt"></span>&nbsp&nbsp转发('.my_get_blog_forwarded_count($blogValue->id).')</a></li>
+							<li class="delete-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-trash"></span>&nbsp&nbsp删除</a></li>
 					      </ul>';
 			}
 			
@@ -148,15 +168,15 @@ function get_contents_all($content_page, $userid=null, $entryid=null, $static= n
 		{
 			if($entryid){
 				$contents .= '<ul class="trends-bottom list-unstyled nodelete">
-							<li class="like-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">点赞('.my_get_blog_like_count($blogValue->id).')</a></li>
-							<li class="comment-btn a-active"><a href="javascript:void(0)">评论('.$current->count.')</a></li>
-							<li class="forward-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">转发('.my_get_blog_forwarded_count($blogValue->id).')</a></li>
+							<li class="like-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp&nbsp点赞('.my_get_blog_like_count($blogValue->id).')</a></li>
+							<li class="comment-btn a-active"><a href="javascript:void(0)"><span class="glyphicon glyphicon-comment"></span>&nbsp&nbsp评论('.$current->count.')</a></li>
+							<li class="forward-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-share-alt"></span>&nbsp&nbsp转发('.my_get_blog_forwarded_count($blogValue->id).')</a></li>
 						  </ul>';
 			}else{
 				$contents .= '<ul class="trends-bottom list-unstyled nodelete">
-							<li class="like-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">点赞('.my_get_blog_like_count($blogValue->id).')</a></li>
-							<li class="comment-btn"><a href="javascript:void(0)">评论('.$current->count.')</a></li>
-							<li class="forward-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)">转发('.my_get_blog_forwarded_count($blogValue->id).')</a></li>
+							<li class="like-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp&nbsp点赞('.my_get_blog_like_count($blogValue->id).')</a></li>
+							<li class="comment-btn"><a href="javascript:void(0)"><span class="glyphicon glyphicon-comment"></span>&nbsp&nbsp评论('.$current->count.')</a></li>
+							<li class="forward-btn" value = "'.$blogValue->id.'"><a href="javascript:void(0)"><span class="glyphicon glyphicon-share-alt"></span>&nbsp&nbsp转发('.my_get_blog_forwarded_count($blogValue->id).')</a></li>
 						  </ul>';
 			}
 			
@@ -166,7 +186,10 @@ function get_contents_all($content_page, $userid=null, $entryid=null, $static= n
 						<div class="comment-banner" style="display:block">
 							<div class="commentbox">
 								<div class="mycomment">
-									<textarea class="form-control" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+									<!-- 2016.3.30 毛英东 添加表情-->
+									<textarea class="form-control" id="comment-text-'.$emotion_i.'" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                                	<img src="../theme/more/img/emotion.png" class="pull-left emotion'.$emotion_i.'" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
+                               	 	<!-- end  2016.3.30 毛英东 添加表情 -->
 									<button id="commentBtnClick" class="commentBtnClick btn btn-info" value="'.$blogValue->id.'">发表评论</button>
 								</div>';
 		}else{
@@ -174,11 +197,14 @@ function get_contents_all($content_page, $userid=null, $entryid=null, $static= n
 						<div class="comment-banner" >
 							<div class="commentbox">
 								<div class="mycomment">
-									<textarea class="form-control" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+									<!-- 2016.3.30 毛英东 添加表情-->
+									<textarea class="form-control" id="comment-text-'.$emotion_i.'" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                                	<img src="../theme/more/img/emotion.png" class="pull-left emotion'.$emotion_i.'" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
+                               	 	<!-- end  2016.3.30 毛英东 添加表情 -->
 									<button id="commentBtnClick" class="commentBtnClick btn btn-info" value="'.$blogValue->id.'">发表评论</button>
 								</div>';
 		}
-		
+		$emotion_i++;	//表情 循环变量 毛英东 20160330
 
 //		$current_page = $_SESSION['pageid'];
 
@@ -319,7 +345,13 @@ function my_get_blog_evaluation_current_count($count_page, $blogid,$content_page
 {
 	global $CFG;
 	$res = '';
-	for($num = 1; $num <= $count_page; $num ++)
+	/** Start 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
+	$content_page += 1;
+	$numstart = ($count_page > 5)?(($content_page < $count_page - 2)?(($content_page > 2)?($content_page - 2):1):($count_page - 4)):1;
+	$numend = ($count_page > 5)?(($content_page < $count_page - 2)?(($content_page > 2)?($content_page + 2):5):($count_page)):$count_page;
+//	for($num = 1; $num <= $count_page; $num ++)
+	for($num = $numstart; $num <= $numend; $num ++)
+	/** End 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
 	{
 		 /** Start 添加按钮高亮效果 朱子武 20160318*/
 		if($num == $content_page)
@@ -392,13 +424,47 @@ function html_head()
 				<title></title>
 				<link rel="stylesheet" href="css/bootstrap.css" />
 				<link rel="stylesheet" href="css/all-content.css" />
-				<link rel="stylesheet" href="css/blog.css" / type="text/css"> <!--全局-->
+				<link rel="stylesheet" href="css/blog.css" type="text/css" /> <!--全局-->
+				<link rel="stylesheet" href="../theme/more/style/QQface.css" /><!-- 2016.3.30 毛英东 添加表情CSS -->
 				<script type="text/javascript" src="js/jquery-1.11.3.min.js" ></script>
 				<script type="text/javascript" src="js/maincontents.js"></script>
+				<script src="../theme/more/js/jquery.qqFace.js"></script><!-- 2016.3.30 毛英东 添加表情 -->
 			</head>
 			<body>';
 	$contents .= contents();
+	$contents .= <<<EOT
+	<script>
+		$(function(){
+			var em_i = 0;
+			for(em_i = 0; em_i < 5; em_i++){
+				$('.emotion'+em_i).qqFace({
+					id : 'facebox-'+em_i,
+					assign:'comment-text-'+em_i,
+					path:'../theme/more/img/arclist/'	//表情存放的路径
+				});
+			}
+		});
+		$('.commentinfo, .trends-content').each(
+			function(){
+				var str = $(this).html();
+				str = str.replace(/\[(微笑|撇嘴|色|发呆|流泪|害羞|闭嘴|睡|大哭|尴尬|发怒|调皮|呲牙|惊讶|难过|冷汗|抓狂|吐|偷笑|可爱|白眼|傲慢|饥饿|困|惊恐|流汗|憨笑|大兵|奋斗|咒骂|疑问|嘘|晕|折磨|衰|敲打|再见|擦汗|抠鼻|糗大了|坏笑|左哼哼|右哼哼|哈欠|鄙视|快哭了|委屈|阴险|亲亲|吓|可怜|拥抱|月亮|太阳|炸弹|骷髅|菜刀|猪头|西瓜|咖啡|饭|爱心|强|弱|握手|胜利|抱拳|勾引|OK|NO|玫瑰|凋谢|红唇|飞吻|示爱)\]/g, function(w,word){
+					return '<img src="../theme/more/img/arclist/'+ em_obj[word] + '.gif" border="0" />';
+				});
+				$(this).html(str);
+			}
+		);
+	</script>
+EOT;
+	/** End 表情 毛英东 20160330 */
 	$contents .= '
+				<script>
+					$(".thumbimg img").each(function(){
+						$(this).on("click", function(){
+							parent.$(".img-inner img:nth-child(2)").attr("src", $(this)[0].src);
+							parent.$(".shadow, .img-box").show();
+						})
+					});
+				</script>
 			</body>
 		</html>';
 	return $contents;
@@ -413,12 +479,43 @@ function contents()
 	$entryid = $_GET['entryid'];
 	$static = $_GET['static'];
 //	$currentCount_page = $_GET['page'];
-	$str = '	<div class="trends-box">
+	$str = '<div class="trends-box">
+	
+				<!-- 详细信息div -->
+				<div class="detailInfo">
+					<div class="detailInfo-box">
+						<span class="arrow-outer"></span>
+						<span class="arrow-inner"></span>
+
+						<div class="loading">
+							<img src="../privatecenter/img/loading.jpg" alt="" />
+						</div>
+						<div class="content">
+							<a class="portarit" href="#"></a>
+							<div class="detailInfo-item">
+								<!-- 姓名 -->
+								<span class="glyphicon glyphicon-user"></span>
+								<span class="username"></span>
+							</div>
+							<div class="detailInfo-item">
+								<!-- 电话 -->
+								<span class="glyphicon glyphicon-earphone"></span>
+								<span class="phone"></span>
+							</div>
+							<div class="detailInfo-item">
+								<!-- 组织机构 -->
+								<span class="glyphicon glyphicon-briefcase"></span>
+								<span class="organ"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+	
 				<!-- 学习动态 -->
 				<ul class="trends-block list-unstyled">
 					'.get_contents_all($current_page - 1, $userid, $entryid, $static).get_page($userid, $current_page, $entryid, $static).'
 				</ul>
-				</div>
+			</div>
 		';
 	return $str;
 }
@@ -505,9 +602,16 @@ function get_blog_page($blogCount, $userid=null, $current_page=0)
 {
 	global $CFG;
 	$res = '';
+
+	/** Start 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
+	$numstart = ($blogCount > 5)?(($current_page < $blogCount - 2)?(($current_page > 2)?($current_page - 2):1):($blogCount - 4)):1;
+	$numend = ($blogCount > 5)?(($current_page < $blogCount - 2)?(($current_page > 2)?($current_page + 2):5):($blogCount)):$blogCount;
+//	for($num = $numstart; $num <= $numend; $num ++)
+	/** End 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
+
 	if($userid)
 	{
-		for($num = 1; $num <= $blogCount; $num ++)
+		for($num = $numstart; $num <= $numend; $num ++)
 		{
 			/** Start 添加翻页高亮效果 朱子武 20160318  */
 			if($num == $current_page)
@@ -522,7 +626,7 @@ function get_blog_page($blogCount, $userid=null, $current_page=0)
 		}
 	}else
 	{
-		for($num = 1; $num <= $blogCount; $num ++)
+		for($num = $numstart; $num <= $numend; $num ++)
 		{
 			/** Start 添加翻页高亮效果 朱子武 20160318  */
 			if($num == $current_page)

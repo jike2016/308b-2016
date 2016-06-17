@@ -77,7 +77,11 @@ function get_related_page($relatedCount,$current_page=0)
 {
 	global $CFG;
 	$res = '';
-	for($num = 1; $num <= $relatedCount; $num ++)
+
+	$numstart = ($relatedCount > 5)?(($current_page < $relatedCount - 2)?(($current_page > 2)?($current_page - 2):1):($relatedCount - 4)):1;
+	$numend = ($relatedCount > 5)?(($current_page < $relatedCount - 2)?(($current_page > 2)?($current_page + 2):5):($relatedCount)):$relatedCount;
+
+	for($num = $numstart; $num <= $numend; $num ++)
 	{
 		if($num == $current_page)
 		{
@@ -122,7 +126,7 @@ function myrelated($current_page)
 						<a href="'.$CFG->wwwroot.'/user/view.php?id='.$value->authorid.'&course=1">'.$value->lastname.$value->firstname.'</a>
 						<a style="text-decoration:none;">在</a>
 						<a style="text-decoration:none;">'.userdate($value->relatedtime,'%Y-%m-%d %H:%M').'</a>
-						<a style="text-decoration:none;">'.switch_value($value->relatedtype).'了你的博客</a>
+						<a style="text-decoration:none;">'.switch_value($value->relatedtype).'了你的动态</a>
 						<a href="'.$CFG->wwwroot.$value->blogurl.'">'.$value->blogtitle.'</a>
 					</div>';
 		}

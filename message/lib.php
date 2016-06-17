@@ -20,6 +20,7 @@
  * @package   core_message
  * @copyright 2008 Luis Rodrigues
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * cx:全局替换 加上了headingtitle
  */
 
 require_once($CFG->libdir.'/eventslib.php');
@@ -183,7 +184,7 @@ function message_print_participants($context, $courseid, $contactselecturl=null,
 
     echo html_writer::start_tag('div', array('id' => 'message_participants', 'class' => 'boxaligncenter'));
 
-    echo html_writer::tag('div' , $titletodisplay, array('class' => 'heading'));
+    echo html_writer::tag('div' , $titletodisplay, array('class' => 'heading headingtitle'));
 
     $users = '';
     foreach ($participants as $participant) {
@@ -277,11 +278,11 @@ function message_print_blocked_users($blockedusers, $contactselecturl=null, $sho
     echo html_writer::start_tag('div', array('id' => 'message_contacts', 'class' => 'boxaligncenter'));
 
     if (!empty($titletodisplay)) {
-        echo html_writer::tag('div', $titletodisplay, array('class' => 'heading'));
+        echo html_writer::tag('div', $titletodisplay, array('class' => 'heading headingtitle'));
     }
 
     if ($countblocked) {
-        echo html_writer::tag('div', get_string('blockedusers', 'message', $countblocked), array('class' => 'heading'));
+        echo html_writer::tag('div', get_string('blockedusers', 'message', $countblocked), array('class' => 'heading headingtitle'));
 
         $isuserblocked = true;
         $isusercontact = false;
@@ -418,11 +419,11 @@ function message_print_contacts($onlinecontacts, $offlinecontacts, $strangers, $
     $isuserblocked = null;
 
     if ($countonlinecontacts + $countofflinecontacts == 0) {
-        echo html_writer::tag('div', get_string('contactlistempty', 'message'), array('class' => 'heading'));
+        echo html_writer::tag('div', get_string('contactlistempty', 'message'), array('class' => 'heading headingtitle'));
     }
 
     if (!empty($titletodisplay)) {
-        echo html_writer::tag('div', $titletodisplay, array('class' => 'heading'));
+        echo html_writer::tag('div', $titletodisplay, array('class' => 'heading headingtitle'));
     }
 
     if($countonlinecontacts) {
@@ -431,7 +432,7 @@ function message_print_contacts($onlinecontacts, $offlinecontacts, $strangers, $
         if (empty($titletodisplay)) {
             echo html_writer::tag('div',
                 get_string('onlinecontacts', 'message', $countonlinecontacts),
-                array('class' => 'heading'));
+                array('class' => 'heading headingtitle'));
         }
 
         $isuserblocked = false;
@@ -455,7 +456,7 @@ function message_print_contacts($onlinecontacts, $offlinecontacts, $strangers, $
         if (empty($titletodisplay)) {
             echo html_writer::tag('div',
                 get_string('offlinecontacts', 'message', $countofflinecontacts),
-                array('class' => 'heading'));
+                array('class' => 'heading headingtitle'));
         }
 
         $isuserblocked = false;
@@ -476,7 +477,7 @@ function message_print_contacts($onlinecontacts, $offlinecontacts, $strangers, $
 
     // Print out list of incoming contacts.
     if ($countstrangers) {
-        echo html_writer::tag('div', get_string('incomingcontacts', 'message', $countstrangers), array('class' => 'heading'));
+        echo html_writer::tag('div', get_string('incomingcontacts', 'message', $countstrangers), array('class' => 'heading headingtitle'));
 
         $isuserblocked = false;
         $isusercontact = false;
@@ -552,8 +553,11 @@ function message_print_usergroup_selector($viewing, $courses, $coursecontexts, $
     }
 
     $select = new single_select($PAGE->url, 'viewing', $options, $viewing, false);
-    $select->set_label(get_string('messagenavigation', 'message'));
-
+    /**Start cx 信息界面修改 20160607*/
+    $select->class .=' infoselect';
+    //$select->set_label(get_string('messagenavigation', 'message'));
+    $select->set_label('信息导航',array('class'=>'infotitle'));
+    /**End cx 信息界面修改 20160607*/
     $renderer = $PAGE->get_renderer('core');
     echo $renderer->render($select);
 }
@@ -837,7 +841,7 @@ function message_get_recent_notifications($user, $limitfrom=0, $limitto=100) {
 function message_print_recent_conversations($user1 = null, $showicontext = false, $showactionlinks = true) {
     global $USER;
 
-    echo html_writer::start_tag('p', array('class' => 'heading'));
+    echo html_writer::start_tag('p', array('class' => 'heading headingtitle'));
     echo get_string('mostrecentconversations', 'message');
     echo html_writer::end_tag('p');
 
@@ -865,7 +869,7 @@ function message_print_recent_conversations($user1 = null, $showicontext = false
 function message_print_recent_notifications($user=null) {
     global $USER;
 
-    echo html_writer::start_tag('p', array('class' => 'heading'));
+    echo html_writer::start_tag('p', array('class' => 'heading headingtitle'));
     echo get_string('mostrecentnotifications', 'message');
     echo html_writer::end_tag('p');
 
@@ -1410,7 +1414,7 @@ function message_print_search_results($frm, $showicontext=false, $currentuser=nu
             echo html_writer::end_tag('table');
 
         } else {
-            echo html_writer::tag('p', get_string('keywordssearchresults', 'message', 0), array('class' => 'heading'));
+            echo html_writer::tag('p', get_string('keywordssearchresults', 'message', 0), array('class' => 'heading headingtitle'));
         }
     }
 
@@ -2020,21 +2024,26 @@ function message_print_message_history($user1, $user2 ,$search = '', $messagelim
     echo $OUTPUT->box_start('center', 'message_user_pictures');
     echo $OUTPUT->box_start('user');
     echo $OUTPUT->box_start('generalbox', 'user1');
-    echo $OUTPUT->user_picture($user1, array('size' => 100, 'courseid' => SITEID));
+    /**Start cx 头像大小调整（全局） 20160607*/
+//    echo $OUTPUT->user_picture($user1, array('size' => 100, 'courseid' => SITEID));
+    echo $OUTPUT->user_picture($user1, array('size' => 80, 'courseid' => SITEID));
+    /**End cx 头像大小调整 20160607*/
     echo html_writer::tag('div', fullname($user1), array('class' => 'heading'));
     echo $OUTPUT->box_end();
     echo $OUTPUT->box_end();
-
-    $imgattr = array('src' => $OUTPUT->pix_url('i/twoway'), 'alt' => '', 'width' => 16, 'height' => 16);
+    /**Start cx 箭头调整 20160607*/
+//    $imgattr = array('src' => $OUTPUT->pix_url('i/twoway'), 'alt' => '', 'width' => 16, 'height' => 16);
+    $imgattr = array('src' => new moodle_url('/theme/more/pix/jiantou.png'), 'alt' => '');
+    /**End cx 箭头调整 20160607*/
     echo $OUTPUT->box(html_writer::empty_tag('img', $imgattr), 'between');
 
     echo $OUTPUT->box_start('user');
     echo $OUTPUT->box_start('generalbox', 'user2');
     // Show user picture with link is real user else without link.
     if (core_user::is_real_user($user2->id)) {
-        echo $OUTPUT->user_picture($user2, array('size' => 100, 'courseid' => SITEID));
+        echo $OUTPUT->user_picture($user2, array('size' => 80, 'courseid' => SITEID));
     } else {
-        echo $OUTPUT->user_picture($user2, array('size' => 100, 'courseid' => SITEID, 'link' => false));
+        echo $OUTPUT->user_picture($user2, array('size' => 80, 'courseid' => SITEID, 'link' => false));
     }
     echo html_writer::tag('div', fullname($user2), array('class' => 'heading'));
 
@@ -2055,6 +2064,9 @@ function message_print_message_history($user1, $user2 ,$search = '', $messagelim
     echo $OUTPUT->box_end();
 
     if (!empty($messagehistorylink)) {
+        /**Start cx 消息界面修改20160607*/
+        echo '<div style="clear: both;"></div>  ';
+        /**End cx 消息界面修改20160607*/
         echo $messagehistorylink;
     }
 
@@ -2068,38 +2080,73 @@ function message_print_message_history($user1, $user2 ,$search = '', $messagelim
         $current->year = '';
         $messagedate = get_string('strftimetime');
         $blockdate   = get_string('strftimedaydate');
+        /**Start cx 消息内容输出修改 20160608*/
+//        foreach ($messages as $message) {
+//            if ($message->notification) {
+//                $notificationclass = ' notification';
+//            } else {
+//                $notificationclass = null;
+//            }
+//            $date = usergetdate($message->timecreated);
+//            if ($current->mday != $date['mday'] | $current->month != $date['month'] | $current->year != $date['year']) {
+//                $current->mday = $date['mday'];
+//                $current->month = $date['month'];
+//                $current->year = $date['year'];
+//
+//                $datestring = html_writer::empty_tag('a', array('name' => $date['year'].$date['mon'].$date['mday']));
+//                $tablecontents .= html_writer::tag('div', $datestring, array('class' => 'mdl-align heading'));
+//
+//                $tablecontents .= $OUTPUT->heading(userdate($message->timecreated, $blockdate), 4, 'mdl-align');
+//            }
+//
+//            $formatted_message = $side = null;
+//            if ($message->useridfrom == $user1->id) {
+//                $formatted_message = message_format_message($message, $messagedate, $search, 'me');
+//                $side = 'left';
+//            } else {
+//                $formatted_message = message_format_message($message, $messagedate, $search, 'other');
+//                $side = 'right';
+//            }
+//            $tablecontents .= html_writer::tag('div', $formatted_message, array('class' => "mdl-left $side $notificationclass"));
+//        }
         foreach ($messages as $message) {
             if ($message->notification) {
                 $notificationclass = ' notification';
             } else {
                 $notificationclass = null;
             }
-            $date = usergetdate($message->timecreated);
-            if ($current->mday != $date['mday'] | $current->month != $date['month'] | $current->year != $date['year']) {
-                $current->mday = $date['mday'];
-                $current->month = $date['month'];
-                $current->year = $date['year'];
-
-                $datestring = html_writer::empty_tag('a', array('name' => $date['year'].$date['mon'].$date['mday']));
-                $tablecontents .= html_writer::tag('div', $datestring, array('class' => 'mdl-align heading'));
-
-                $tablecontents .= $OUTPUT->heading(userdate($message->timecreated, $blockdate), 4, 'mdl-align');
-            }
-
-            $formatted_message = $side = null;
             if ($message->useridfrom == $user1->id) {
-                $formatted_message = message_format_message($message, $messagedate, $search, 'me');
-                $side = 'left';
-            } else {
-                $formatted_message = message_format_message($message, $messagedate, $search, 'other');
-                $side = 'right';
-            }
-            $tablecontents .= html_writer::tag('div', $formatted_message, array('class' => "mdl-left $side $notificationclass"));
-        }
+                $tablecontents .='<div class="heading">
+                    						<a name="201616"></a>
+                    					</div>
+                    					<h4 class="massagetitle student">
+                    						<a class="massage username">'.$user1->firstname.'</a>
+                    						<a name="201616" class="massage">'.userdate($message->timecreated, $blockdate).'</a>
+                    						<a class="massage">'.userdate($message->timecreated, $messagedate).'</a>
+                    					</h4>';
 
-        echo html_writer::nonempty_tag('div', $tablecontents, array('class' => 'mdl-left messagehistory'));
+                $tablecontents .= message_format_message_my($message, $messagedate, $search );
+            } else {
+                $tablecontents .='<div class="heading">
+                    						<a name="201616"></a>
+                    					</div>
+                    					<h4 class="massagetitle">
+                    						<a class="massage username">'.$user2->firstname.'</a>
+                    						<a name="201616" class="massage">'.userdate($message->timecreated, $blockdate).'</a>
+                    						<a class="massage">'.userdate($message->timecreated, $messagedate).'</a>
+                    					</h4>';
+
+                $tablecontents .= message_format_message_my($message, $messagedate, $search);
+            }
+        }
+        /**End cx 消息内容输出修改 20160608*/
+/**Start cx 消息界面修改20160607*/
+//        echo html_writer::nonempty_tag('div', $tablecontents, array('class' => 'mdl-left messagehistory'));
+        echo html_writer::nonempty_tag('div', $tablecontents, array('class' => 'messagehistory messagebanner'));
     } else {
-        echo html_writer::nonempty_tag('div', '('.get_string('nomessagesfound', 'message').')', array('class' => 'mdl-align messagehistory'));
+//        echo html_writer::nonempty_tag('div', '('.get_string('nomessagesfound', 'message').')', array('class' => 'mdl-align messagehistory'));
+        echo html_writer::nonempty_tag('div', '('.get_string('nomessagesfound', 'message').')', array('class' => 'messagehistory messagebanner'));
+/**End cx 消息界面修改20160607*/
     }
 }
 
@@ -2143,7 +2190,41 @@ function message_format_message($message, $format='', $keywords='', $class='othe
 </div>
 TEMPLATE;
 }
+/**START CX 新的消息输出格式 20160608*/
+function message_format_message_my($message, $format='', $keywords='') {
 
+//    static $dateformat;
+//
+//    //if we haven't previously set the date format or they've supplied a new one
+//    if ( empty($dateformat) || (!empty($format) && $dateformat != $format) ) {
+//        if ($format) {
+//            $dateformat = $format;
+//        } else {
+//            $dateformat = get_string('strftimedatetimeshort');
+//        }
+//    }
+//    $time = userdate($message->timecreated, $dateformat);
+
+    $messagetext = message_format_message_text($message, false);
+
+    if ($keywords) {
+        $messagetext = highlight($keywords, $messagetext);
+    }
+
+    $messagetext .= message_format_contexturl($message);
+
+    $messagetext = clean_text($messagetext, FORMAT_HTML);
+
+    return <<<TEMPLATE
+    <div class="">
+        <div class="message me">
+            <a name="201616"></a><a name="m3"></a>                    							
+            <p class="text">$messagetext</p>
+        </div>
+    </div>
+TEMPLATE;
+}
+/**End CX 新的消息输出格式 20160608*/
 /**
  * Format a the context url and context url name of a message for display
  *

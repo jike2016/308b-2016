@@ -45,13 +45,14 @@
 }
 
 .imgbox-wrap {
-	all:initial;
 	position: absolute;
 	top: 0;
 	left: 0;
 	background: #FFF;
 	display: none;
-	z-index: 1031 !important;
+	z-index: 90;
+	box-sizing: content-box;
+
 }
 
 .imgbox-img {
@@ -88,7 +89,6 @@
 	padding: 0;
 	margin: 0;
 	display: none;
-	z-index: 1030 !important;
 }
 
 .imgbox-bg {

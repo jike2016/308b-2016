@@ -54,6 +54,7 @@ class mod_lesson_renderer extends plugin_renderer_base {
         //视屏缓存
         ob_start();
         echo $page->display($this, $attempt);
+        $contents = file_rewrite_pluginfile_urls($page->properties->contents, 'pluginfile.php', $this->page->context->id, 'mod_lesson', 'page_contents', $this->page->subpage);
         $output = ob_get_contents();//包含有视屏和结束按钮
         ob_end_clean();
 

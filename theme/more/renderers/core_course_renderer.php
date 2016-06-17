@@ -919,158 +919,103 @@ class theme_more_core_course_renderer extends core_course_renderer {
 		return $output;
 	}
 
-	/** Start 课程搜索结果页 xdw 20160530 */
+	/** Start 课程搜索结果页 xdw 20160530
+	 *@param  $page 当前显示页
+	 *@param $perpage 每页显示记录数
+	 */
 	public function my_course_searchresult($search,$page,$perpage){
 
 		global $CFG;
 		global $DB;
 
-		$course = $DB->get_record_sql("select * from mdl_course where id = 3");
+		//获取课程信息
+		$courses = $DB->get_records_sql("SELECT * FROM mdl_course c WHERE c.fullname LIKE '%$search%' ORDER BY c.timecreated DESC LIMIT $page,$perpage");
+		$coursescount = $DB->get_record_sql("SELECT count(1) as `count` FROM mdl_course c WHERE c.fullname LIKE '%$search%' ");
 
 		$output = '
+				<body>
+					<div class="main">';
 
-	<head>
-		<meta charset="UTF-8">
-		<title>课程搜索结果页</title>
-		<link rel="stylesheet" href="'.$CFG->wwwroot.'/theme/more/style/bootstrap.css" />
-		<link rel="stylesheet" href="'.$CFG->wwwroot.'/theme/more/style/coursesearch/classsearch.css" />
-		<script type="text/javascript" src="'.$CFG->wwwroot.'/theme/more/js/jquery-1.11.3.min.js" ></script>
-		<script type="text/javascript" src="'.$CFG->wwwroot.'/theme/more/js/bootstrap.min.js" ></script>
+		// start 输出查询结果
+		foreach($courses as $course){
 
-	</head>
-	<body>
-		<div class="main">
-			<div class="classbanner">
-				<!--课程图片-->
-				<a href="#">
-					<div class="course-pic">
-						<div class="course-pic-cover"><span>点击查看</span></div>
-						<img src="'.$CFG->wwwroot.'/theme/more/style/coursesearch/img/xiangji.png" />
+			$output .= '<div class="classbanner">
+							<!--课程图片-->
+							<a href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'" target="_blank" >
+								<div class="course-pic">
+									<div class="course-pic-cover"><span>点击查看</span></div>
+									<img '.$this->my_get_course_formatted_summary_pix(new course_in_list($course)).' style="width:267px;height:178px;" />
+								</div>
+							</a>
+							<!--课程图片 end-->
+
+							<!--课程信息-->
+							<div class="classinfo">
+								<p class="classname"><a href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'" target="_blank" >'.$course->fullname.'</a></p>
+								<p class="info">'.mb_substr(strip_tags($course->summary),0,196,'UTF-8').'</p>
+							</div>
+							<!--课程信息 end-->
+
+							<div class="course-data">
+								<a href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'" target="_blank">开始学习</a>
+								<p>学习人数:</p>&nbsp;<p>'.$this->my_get_course_student_count($course).'</p>
+							</div>
+						</div>';
+		}
+		// end 输出查询结果
+
+		$output .='
+						<!--分页-->
+						<div style="clear: both;"></div>
+						<div class="paging">
+						<nav>
+							<ul class="pagination">
+								<li>
+									<a class="active" href="#">
+										<span aria-hidden="true">首页</span>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-label="Previous">
+										<span aria-hidden="true">上一页</span>
+									</a>
+								</li>';
+
+//		$pagenum =  ceil($coursescount->count/$perpage);
+//		for($i=1;$i<=$pagenum;$i++){
+//			echo '<li><a href="#">'.$i.'</a></li>';
+//		}
+
+		$output .='
+								<li>
+									<a href="#" aria-label="Next">
+										<span aria-hidden="true">下一页</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<span aria-hidden="true">尾页</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+						</div>
+						<!--分页 end-->
 					</div>
-				</a>
-				<!--课程图片 end-->
+				</body>
 
-				<!--课程信息-->
-				<div class="classinfo">
-					<p class="classname"><a href="#">'.$course->fullname.'</a></p>
-					<p class="info">PHP7的新特性与高性能；PHP的异步并行编程；PHP安全编程；用PHP在SAE上创业；手机微博V5项目经验分享；公众号开发；程序员职业规划；Php技术创业</p>
-					<p class="starbox">
-						<span class="glyphicon glyphicon-star active"></span>
-						<span class="glyphicon glyphicon-star"></span>
-						<span class="glyphicon glyphicon-star"></span>
-						<span class="glyphicon glyphicon-star"></span>
-						<span class="glyphicon glyphicon-star"></span>
-					</p>
-				</div>
-				<!--课程信息 end-->
-
-				<div class="course-data">
-					<a href="#">开始学习</a>
-					<p>学习人数:</p>&nbsp;<p>3</p>
-				</div>
-			</div>
-
-			<div class="classbanner">
-				<!--课程图片-->
-				<a href="#">
-					<div class="course-pic">
-						<div class="course-pic-cover"><span>点击查看</span></div>
-						<img src="'.$CFG->wwwroot.'/theme/more/style/coursesearch/img/xiangji.png" />
-					</div>
-				</a>
-				<!--课程图片 end-->
-
-				<!--课程信息-->
-				<div class="classinfo">
-					<p class="classname"><a href="#">我的第一堂摄影课</a></p>
-					<p class="info">PHP7的新特性与高性能；PHP的异步并行编程；PHP安全编程；用PHP在SAE上创业；手机微博V5项目经验分享；公众号开发；程序员职业规划；Php技术创业</p>
-					<p class="starbox">
-						<span class="glyphicon glyphicon-star active"></span>
-						<span class="glyphicon glyphicon-star active"></span>
-						<span class="glyphicon glyphicon-star"></span>
-						<span class="glyphicon glyphicon-star"></span>
-						<span class="glyphicon glyphicon-star"></span>
-					</p>
-				</div>
-				<!--课程信息 end-->
-
-				<div class="course-data">
-					<a href="#">开始学习</a>
-					<p>学习人数:</p>&nbsp;<p>3</p>
-				</div>
-			</div>
-
-			<div class="classbanner">
-				<!--课程图片-->
-				<a href="#">
-					<div class="course-pic">
-						<div class="course-pic-cover"><span>点击查看</span></div>
-						<img src="'.$CFG->wwwroot.'/theme/more/style/coursesearch/img/xiangji.png" />
-					</div>
-				</a>
-				<!--课程图片 end-->
-
-				<!--课程信息-->
-				<div class="classinfo">
-					<p class="classname"><a href="#">我的第一堂摄影课</a></p>
-					<p class="info">PHP7的新特性与高性能；PHP的异步并行编程；PHP安全编程；用PHP在SAE上创业；手机微博V5项目经验分享；公众号开发；程序员职业规划；Php技术创业</p>
-					<p class="starbox">
-						<span class="glyphicon glyphicon-star active"></span>
-						<span class="glyphicon glyphicon-star active"></span>
-						<span class="glyphicon glyphicon-star active"></span>
-						<span class="glyphicon glyphicon-star"></span>
-						<span class="glyphicon glyphicon-star"></span>
-					</p>
-				</div>
-				<!--课程信息 end-->
-
-				<div class="course-data">
-					<a href="#">开始学习</a>
-					<p>学习人数:</p>&nbsp;<p>3</p>
-				</div>
-			</div>
-
-			<!--分页-->
-			<div style="clear: both;"></div>
-			<div class="paging">
-			<nav>
-			  	<ul class="pagination">
-			  		<li>
-			     	 	<a class="active" href="#">
-			       	 		<span aria-hidden="true">首页</span>
-			      		</a>
-			    	</li>
-			    	<li>
-			     	 	<a href="#" aria-label="Previous">
-			       	 		<span aria-hidden="true">上一页</span>
-			      		</a>
-			    	</li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
-				    <li>
-				      	<a href="#" aria-label="Next">
-				       		<span aria-hidden="true">下一页</span>
-				      	</a>
-			    	</li>
-			    	<li>
-			     	 	<a href="#">
-			       	 		<span aria-hidden="true">尾页</span>
-			      		</a>
-			    	</li>
-			  	</ul>
-			</nav>
-			</div>
-			<!--分页 end-->
-		</div>
-	</body>
-
-';
+			';
 
 		return $output;
 	}
 	/** End 课程搜索结果页 xdw 20160530 */
+
+	/** start 获取课程学习人数 */
+	public function my_get_course_student_count($course){
+		global $DB;
+		$studentsNum = $DB->get_record_sql('select b.courseid,count(*) num from mdl_user_enrolments a join mdl_enrol b where b.courseid='.$course->id.' and b.id=a.enrolid');
+		return $studentsNum->num;
+	}
+	/** end 获取课程学习人数 */
 
 }

@@ -45,13 +45,11 @@ echo $OUTPUT->doctype() ?>
 
     <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css">	<!--全局-->
     <link rel="stylesheet" href="../theme/more/style/navstyle.css" /><!-- 全局-->
-    <link rel="stylesheet" href="../theme/more/style/coursecategory/coursecategorystyle.css" type="text/css" />
+    <link rel="stylesheet" href="../theme/more/style/coursesearch/classsearch.css" />
 
     <script src="../theme/more/js/jquery-1.11.3.min.js"></script><!--全局-->
-    <script src="../theme/more/js/jquery.easing.min.js"></script><!--全局-->
-    <script src="../theme/more/js/custom.js"></script><!--全局-->
-    <script src="../theme/more/js/course_category.js"></script><!--coursecategory.php-->
-    <script src="../theme/more/js/coursecategory.js"></script><!--coursecategory.php-->
+    <script type="text/javascript" src="../theme/more/js/bootstrap.min.js" ></script>
+
     <script>
         //聊天室 START
         $(document).ready(function(){
@@ -126,6 +124,7 @@ echo $OUTPUT->doctype() ?>
             })
         });
     </script>
+
 </head>
 
 <body <?php echo $OUTPUT->body_attributes(); ?>>
@@ -134,15 +133,15 @@ echo $OUTPUT->doctype() ?>
 
 <?php require_once("includes/header.php"); ?>
 
-<div style="margin-top:120px; width: 300px;height: 200px;background: red;"></div>
+<!--<div style="margin-top:120px; width: 300px;height: 200px;background: red;"></div>-->
 
-
-<div id="page" class="container-fluid">
+<div id="page" class="container-fluid" style="height: 1200px;">
 
     <?php echo $OUTPUT->full_header(); ?>
 
     <div id="page-content" class="row-fluid">
-        <section id="region-main" class="span12">
+<!--        <section id="region-main" class="span12">-->
+        <section id="..." class="span12">
             <?php
             echo $OUTPUT->course_content_header();
             echo $OUTPUT->main_content();//renderer内容
@@ -151,19 +150,13 @@ echo $OUTPUT->doctype() ?>
         </section>
     </div>
 
-    <footer id="page-footer">
-        <div id="course-footer"><?php echo $OUTPUT->course_footer(); ?></div>
-        <p class="helplink"><?php echo $OUTPUT->page_doc_link(); ?></p>
-        <?php
-        echo $html->footnote;
-        echo $OUTPUT->login_info();
-        echo $OUTPUT->home_link();
-        echo $OUTPUT->standard_footer_html();
-        ?>
-    </footer>
-
     <?php echo $OUTPUT->standard_end_of_body_html() ?>
 
 </div>
+
+<!--底部导航条-->
+<nav class="navstyle-bottom navbar-static-bottom"></nav>
+<!--底部导航条 end-->
+
 </body>
 </html>

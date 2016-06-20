@@ -24,26 +24,31 @@ $('.lockpage').hide();
  * 徐东威 台账数据中心 台账任务统计
  */
 require_once("../../config.php");
-$timeid = optional_param('timeid', 1, PARAM_INT);//1周2月3总
+//$timeid = optional_param('timeid', 1, PARAM_INT);//1周2月3总
 $personid = optional_param('personid', 0, PARAM_INT);//人员id
+$start_time = optional_param('start_time', 1, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 1, PARAM_TEXT);//结束时间
 
 global $DB;
 
-$mytime = 0;
-//$mytimeName = '';
-if($timeid==1){
-	$mytime= time()-3600*24*7;//从当前时间往前推一周
-	$sql = ' and mm.time_start > '.$mytime; //任务的开始时间 与 当前时间比较
-//	$mytimeName = '周';
-}
-elseif($timeid==2){
-	$mytime= time()-3600*24*30;//从当前时间往前推一月
-	$sql = ' and mm.time_start > '.$mytime;//任务的开始时间 与 当前时间比较
-//	$mytimeName = '月';
-}
-elseif($timeid==3){//总
-	$sql='';
-}
+//根据周、月、总查询
+//$mytime = 0;
+////$mytimeName = '';
+//if($timeid==1){
+//	$mytime= time()-3600*24*7;//从当前时间往前推一周
+//	$sql = ' and mm.time_start > '.$mytime; //任务的开始时间 与 当前时间比较
+////	$mytimeName = '周';
+//}
+//elseif($timeid==2){
+//	$mytime= time()-3600*24*30;//从当前时间往前推一月
+//	$sql = ' and mm.time_start > '.$mytime;//任务的开始时间 与 当前时间比较
+////	$mytimeName = '月';
+//}
+//elseif($timeid==3){//总
+//	$sql='';
+//}
+//根据时间段查询
+$sql = "and mm.time_start > $start_time and mm.time_start < $end_time ";
 
 $user = $DB->get_record_sql("select u.id,u.lastname,u.firstname from mdl_user u where u.id = $personid ");
 $username = $user->lastname.$user->firstname;

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 	if(getQueryString('note')){
 		$('.right-banner').load('mynote/index.php?note='+getQueryString('note'));//课程笔记：1  个人笔记：2
 		//修改样式

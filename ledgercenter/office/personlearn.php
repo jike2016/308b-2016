@@ -3,8 +3,10 @@ $('.lockpage').hide();
 </script>
 <?php 
 require_once("../../config.php");
-$timeid = optional_param('timeid', 1, PARAM_INT);//1周2月3总
+//$timeid = optional_param('timeid', 1, PARAM_INT);//1周2月3总
 $orgid = optional_param('orgid', 0, PARAM_INT);
+$start_time = optional_param('start_time', 1, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 1, PARAM_TEXT);//结束时间
 
 global $DB;
 $orgname=$DB -> get_record_sql('select name from mdl_org where id='.$orgid);
@@ -20,21 +22,30 @@ $sumusers = $DB -> get_records_sql('
 	)
 ');
 
-echo_activelist($orgid,$timeid,$sumusers,$orgname->name);
-echo_learnlist($orgid,$timeid,$sumusers,$orgname->name);
+//echo_activelist($orgid,$timeid,$sumusers,$orgname->name);//积极榜，按月周总
+//echo_learnlist($orgid,$timeid,$sumusers,$orgname->name);//学习榜，按月周总
+echo_activelist($orgid,$start_time,$end_time,$sumusers,$orgname->name);//积极榜，按时间段
+echo_learnlist($orgid,$start_time,$end_time,$sumusers,$orgname->name);//学习榜，按时间段
 
-function echo_activelist($orgid,$timeid,$sumusers,$orgname){
-	if($timeid==1){
-	$mytime= time()-3600*24*7;
-	$sql='and a.timecreated>'.$mytime;
-	}
-	elseif($timeid==2){
-		$mytime= time()-3600*24*30;
-		$sql='and a.timecreated>'.$mytime;
-	}
-	elseif($timeid==3){
-		$sql='';
-	}
+//活动排行榜
+function echo_activelist($orgid,$start_time,$end_time,$sumusers,$orgname){
+//function echo_activelist($orgid,$timeid,$sumusers,$orgname){
+//Start 去掉月周总的查询
+//	if($timeid==1){
+//	$mytime= time()-3600*24*7;
+//	$sql='and a.timecreated>'.$mytime;
+//	}
+//	elseif($timeid==2){
+//		$mytime= time()-3600*24*30;
+//		$sql='and a.timecreated>'.$mytime;
+//	}
+//	elseif($timeid==3){
+//		$sql='';
+//	}
+//End 去掉月周总的查询
+	//按照时间段查询
+	$sql = 'and a.timecreated > '.$start_time .' and a.timecreated < '.$end_time;
+
 	global $DB;
 	$users = $DB -> get_records_sql('
 		select 
@@ -97,18 +108,25 @@ function echo_activelist($orgid,$timeid,$sumusers,$orgname){
 	echo $output;
 }
 
-function echo_learnlist($orgid,$timeid,$sumusers,$orgname){
-	if($timeid==1){
-	$mytime= time()-3600*24*7;
-	$sql='and a.timemodified>'.$mytime;
-	}
-	elseif($timeid==2){
-		$mytime= time()-3600*24*30;
-		$sql='and a.timemodified>'.$mytime;
-	}
-	elseif($timeid==3){
-		$sql='';
-	}
+//学习排行榜
+function echo_learnlist($orgid,$start_time,$end_time,$sumusers,$orgname){
+//Start 去掉月周总的查询
+//function echo_learnlist($orgid,$timeid,$sumusers,$orgname){
+//	if($timeid==1){
+//	$mytime= time()-3600*24*7;
+//	$sql='and a.timemodified>'.$mytime;
+//	}
+//	elseif($timeid==2){
+//		$mytime= time()-3600*24*30;
+//		$sql='and a.timemodified>'.$mytime;
+//	}
+//	elseif($timeid==3){
+//		$sql='';
+//	}
+//End 去掉月周总的查询
+	//按时间段查询
+	$sql = 'and a.timemodified > '.$start_time .' and a.timemodified < '.$end_time;
+
 	global $DB;
 	$users = $DB -> get_records_sql('
 		select 
@@ -170,7 +188,9 @@ function echo_learnlist($orgid,$timeid,$sumusers,$orgname){
 	';
 	echo $output;
 }
+
 ?>
+
 <style>
      td {text-align:center}
-  </style>
+</style>

@@ -1,50 +1,66 @@
 <?php
 require_once("../../config.php");
-$timeid = optional_param('timeid', 1, PARAM_INT);//1周2月3总
+//$timeid = optional_param('timeid', 1, PARAM_INT);//1周2月3总
 $courseid = optional_param('courseid', 1, PARAM_INT);//1全部，其他
 $personid = optional_param('personid', 0, PARAM_INT);
+$start_time = optional_param('start_time', 1, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 1, PARAM_TEXT);//结束时间
 
 if($courseid == 1){
 	$categories_date = "'课程笔记', '个人笔记', '评论', '收藏', '勋章', '登录'";
 }else{
-	$categories_date = "'课程笔记',  '课程评论'";
+//	$categories_date = "'课程笔记',  '课程评论'";
+	$categories_date = "'课程笔记',  '评论'";
 }
 
 global $DB;
 $user = $DB -> get_records_sql('select id,lastname,firstname from mdl_user where id='.$personid);
 echo $user[$personid]->lastname.$user[$personid]->firstname;
 echo '</br>学习统计';
-$mytime = 0;
-if($timeid==1){
-	$mytime= time()-3600*24*7;
-	$sql='and a.timecreated>'.$mytime;
-}
-elseif($timeid==2){
-	$mytime= time()-3600*24*30;
-	$sql='and a.timecreated>'.$mytime;
-}
-elseif($timeid==3){
-	$sql='';
-}
+//$mytime = 0;
+//if($timeid==1){
+//	$mytime= time()-3600*24*7;
+//	$sql='and a.timecreated>'.$mytime;
+//}
+//elseif($timeid==2){
+//	$mytime= time()-3600*24*30;
+//	$sql='and a.timecreated>'.$mytime;
+//}
+//elseif($timeid==3){
+//	$sql='';
+//}
+$sql="and a.timecreated >= $start_time and  a.timecreated <= $end_time ";
 
 
-
-//输出饼状图
+//Start 输出饼状图
 //$haspiechar = echo_piechar($personid,$sql);
 if($courseid == 1){//如果是搜索全部课程，则显示饼状图
 	$haspiechar = echo_piechar($personid,$sql);
 }else{//单个课程不需要输出饼状图
 	$haspiechar = 0;
 }
-//输出柱状图
+//End 输出饼状图
+
+//Start 输出柱状图
 //$histogramcounts = echo_histogram($personid,$mytime);
-$histogramcounts = echo_histogram2($personid,$mytime,$courseid);
-if($timeid==1){
-	//输出折线图
-//	$Histogram_data = echo_week_learn($personid);
-	$Histogram_data = echo_week_learn2($personid,$courseid);
+//$histogramcounts = echo_histogram2($personid,$mytime,$courseid);
+$histogramcounts = echo_histogram3($personid,$start_time,$end_time,$courseid);//按照时间段查询
+//End 输出柱状图
+
+//Start 输出折线图
+//if($timeid==1){
+//	//输出折线图
+////	$Histogram_data = echo_week_learn($personid);
+//	$Histogram_data = echo_week_learn2($personid,$courseid);
+//}
+if( ($end_time-$start_time) > 86400 ){//如果查询时间段大于一天，则显示折线图
+	$Histogram_data = echo_week_learn3($personid,$start_time,$end_time,$courseid);//按照时间段显示
 }
-//根据用户id，时间，查询所有课程和在所有课程操作比例
+//End 输出折线图
+
+
+//////////////////////////////////////////////////////////////////////
+//饼状图 根据用户id，时间，查询所有课程和在所有课程操作比例
 function echo_piechar($personid,$sql){
 	
 	global $DB;
@@ -107,7 +123,7 @@ function echo_piechar($personid,$sql){
 	
 }
 
-//柱状图数据查询 '课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
+//柱状图 数据查询 '课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
 function echo_histogram($personid,$mytime){
 	if($mytime!=0){
 		$notesql='select notetype,count(1)as count from mdl_note_my where userid='.$personid.' and time >'.$mytime.'  GROUP BY notetype';
@@ -154,7 +170,7 @@ function echo_histogram($personid,$mytime){
 }
 
 /**Start （添加单课程的统计） 徐东威 20160426*/
-//柱状图数据查询 '课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
+//柱状图 数据查询 '课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
 function echo_histogram2($personid,$mytime,$courseid){
 
 	if($courseid != 1){//选择单门课程
@@ -236,6 +252,76 @@ function echo_histogram2($personid,$mytime,$courseid){
 }
 /**End*/
 
+/**Start （改为按时间段查询） xwd 20160525*/
+//柱状图 数据查询 全部课程：'课程笔记', '个人笔记', '评论', '登录', '收藏', '勋章'
+//                	单课程：'课程笔记', '评论'
+function echo_histogram3($personid,$start_time,$end_time,$courseid){
+
+	if($courseid != 1) {//选择单门课程
+		$notesql='select notetype,count(1)as count from mdl_note_my where userid='.$personid.' and courseid ='.$courseid.' and time >'.$start_time.' and time < '.$end_time.'  GROUP BY notetype';
+		$commentsql='select 1,count(1)as count from mdl_comment_course_my where commenttime>'.$start_time.' and commenttime < '.$end_time.' and userid='.$personid.' and courseid ='.$courseid;
+		$commentsql2="select 1,count(1)as count from mdl_comment_video_my v where commenttime>$start_time and commenttime< $end_time and userid=$personid and v.modid in (select m.id from mdl_course_modules m where m.course = $courseid)";
+		$commentsql3 = "select 1,count(1)as count from mdl_comment_article_my m where commenttime>$start_time and commenttime< $end_time and m.userid = $personid and m.articleid in (select m.id from mdl_course_modules m where m.course = $courseid )";
+
+		global $DB;
+		$histogramcounts = '';
+		//笔记
+		$notecounts = $DB -> get_records_sql($notesql);//1:课程笔记2：个人笔记
+
+		if(!isset($notecounts[1]->count))
+			$histogramcounts .= '0, ';
+		else
+			$histogramcounts .= $notecounts[1]->count.', ';
+
+		//评论
+		$comments = $DB -> get_records_sql($commentsql);//课程评论
+		$comments2 = $DB -> get_records_sql($commentsql2);//视屏评论
+		$comments3 = $DB -> get_records_sql($commentsql3);//文章评论
+		$histogramcounts .=  $comments[1]->count + $comments2[1]->count + $comments3[1]->count .' ';
+
+		return $histogramcounts;
+
+	}else{//全部课程
+		$notesql='select notetype,count(1)as count from mdl_note_my where userid='.$personid.' and time >='.$start_time.' and time <='.$end_time.'  GROUP BY notetype';
+		$commentsql='select 1,count(1)as count from mdl_comment_course_my where commenttime>='.$start_time.' and commenttime<='.$end_time.' and userid='.$personid;
+		$collectionsql='select 1,count(1)as count from mdl_collection_my where collectiontime>='.$start_time.' and collectiontime<='.$end_time.' and userid='.$personid;
+		$badgesql='select 1,count(1)as count from mdl_badge_issued where dateissued>='.$start_time.' and dateissued<='.$end_time.' and userid='.$personid;
+		$loginsql='select 1,count(1)as count from mdl_logstore_standard_log where timecreated>='.$start_time.' and timecreated<='.$end_time.' and action=\'loggedin\' and userid='.$personid;
+
+		global $DB;
+		$histogramcounts = '';
+		//笔记
+		$notecounts = $DB -> get_records_sql($notesql);//1:课程笔记2：个人笔记
+
+		if(!isset($notecounts[1]->count))
+			$histogramcounts .= '0, ';
+		else
+			$histogramcounts .= $notecounts[1]->count.', ';
+		if(!isset($notecounts[2]->count))
+			$histogramcounts .= '0, ';
+		else
+			$histogramcounts .= $notecounts[2]->count.', ';
+
+		//评论
+		$comments = $DB -> get_records_sql($commentsql);//1:课程笔记2：个人笔记
+		$histogramcounts .= $comments[1]->count.', ';
+		//收藏
+		$collections = $DB -> get_records_sql($collectionsql);//1:课程笔记2：个人笔记
+		$histogramcounts .= $collections[1]->count.', ';
+		//勋章
+		$badges = $DB -> get_records_sql($badgesql);//1:课程笔记2：个人笔记
+		$histogramcounts .= $badges[1]->count.', ';
+		//登录
+		$logins = $DB -> get_records_sql($loginsql);//1:课程笔记2：个人笔记
+		$histogramcounts .= $logins[1]->count.' ';
+		return $histogramcounts;
+	}
+
+}
+/**End*/
+
+
+
 /** 计算每天的学习时间 岑霄20160308 （全部的学习时间统计）
 1、获取第一个事件的时间，
 2、从第二个事件开始，判断寻找登录和登出事件，然后相减获取一段时间，
@@ -275,6 +361,7 @@ function calculate_day_onlinetime($records){
 	}
 	return round($sumtime/3600,1);//小时
 }
+/** end */
 
 /** 计算每天的学习时间 岑霄20160308 （单课程的学习时间统计）
 获取事件数目，每个数目算在线1分钟
@@ -284,6 +371,7 @@ function calculate_day_onlinetime2($records){
 	$sumtime = 60*$records->recordcount;
 	return round($sumtime/3600,1);//小时
 }
+/** end */
 
 //处理每天的学习时间
 function handler_day_onlinetime($starttime,$endtime,$personid){
@@ -309,6 +397,7 @@ function handler_day_onlinetime($starttime,$endtime,$personid){
 	return calculate_day_onlinetime($records);
 	// return 7;
 }
+
 /** Start （添加对单课程的学习统计） 徐东威 20160426 */
 //处理每天的学习时间
 function handler_day_onlinetime2($starttime,$endtime,$personid,$courseid){
@@ -348,8 +437,7 @@ function handler_day_onlinetime2($starttime,$endtime,$personid,$courseid){
 }
 /**End*/
 
-
-//输出7日学时情况
+/**Start 折线图 输出7日学时情况 */
 function echo_week_learn($personid){
 	$weekday = array('"周末"','"周一"','"周二"','"周三"','"周四"','"周五"','"周六"');
 	// echo $weekday[date('w', time())];
@@ -369,10 +457,11 @@ function echo_week_learn($personid){
 	}
 	 return array($day_week,$day_onlinetime);
 }
+/** end */
 
-
-/**Start （添加对单课程的学习统计）徐东威 20160426*/
-//输出7日学时情况
+/**Start 折线图 （添加对单课程的学习统计）徐东威 20160426
+ *输出7日学时情况
+ */
 function echo_week_learn2($personid,$courseid){
 	$weekday = array('"周末"','"周一"','"周二"','"周三"','"周四"','"周五"','"周六"');
 	// echo $weekday[date('w', time())];
@@ -393,6 +482,70 @@ function echo_week_learn2($personid,$courseid){
 	return array($day_week,$day_onlinetime);
 }
 /**End*/
+
+/**Start （折线图，按照时间段显示）xdw 20160525*/
+//只提供
+//日折线：时间段在31天以内
+//月折线：时间段大于31天
+//从结束时间往前开始计算
+function echo_week_learn3($personid,$start_time,$end_time,$courseid){
+
+	$day_onlinetime='';//存放每点的数据
+	$day_week = '""';//存放每点的日期
+	$timeslot = $end_time - $start_time;//查询的时间段
+	//时间段长度的划分
+	if($timeslot > 2678400){//如果( 时间段 > 一个月)，用月线显示
+		$endtime = $end_time;//结束时间
+		$starttime = strtotime(date('Y-m', $endtime).'-01'); // 结束时间当月1号的零点
+		$day_week = '"'.date('Y-m', $starttime).'"';//存放每点的日期
+		$day_onlinetime = handler_day_onlinetime2($starttime,$endtime,$personid,$courseid).','.$day_onlinetime;
+		$timeslot = $timeslot - ($endtime - $starttime);//重新计算时间段
+
+		while($timeslot > 0){
+			//计算月时间段长度
+			$monthend = $starttime-1;//下月初 - 1，即为上月末
+			$monthstart = strtotime(date('Y-m', $monthend).'-01');//上月初
+			$monthtimeslot = ($monthend - $monthstart) + 1;//月时间段，注意时间的精确性
+			//更新时间点
+			$endtime = $starttime;
+			if($timeslot > $monthtimeslot){//如果剩余时间大于月时间段
+				$starttime = $endtime-$monthtimeslot;
+			}else{
+				$starttime = $start_time;
+			}
+			//查询时间段内的数据
+			$day_onlinetime = handler_day_onlinetime2($starttime,$endtime,$personid,$courseid).','.$day_onlinetime;
+			$day_week = '"'.date('Y-m', $starttime).'",'.$day_week;
+			$timeslot = $timeslot - $monthtimeslot;//时间段减去月时间段。同时，这里是循环的出口
+		}
+
+	}elseif($timeslot >= 86400){//如果( 一天 < 时间段 < 一个月)，用日线显示
+
+		$endtime = $end_time;//结束时间
+		$starttime = strtotime(date('Y-m-d', $endtime)); // 结束时间当天的零点
+		$day_week = '"'.date('Y-m-d', $starttime).'"';//存放每点的日期
+		$day_onlinetime = handler_day_onlinetime2($starttime,$endtime,$personid,$courseid).','.$day_onlinetime;
+		$timeslot = $timeslot - ($endtime - $starttime);//重新计算时间段
+
+		while($timeslot > 0){
+			//更新时间点
+			$endtime = $starttime;
+			if($timeslot > 86400){//如果剩余时间大于一天
+				$starttime = $endtime-86400;
+			}else{
+				$starttime = $start_time;
+			}
+			//查询时间段内的数据
+			$day_onlinetime = handler_day_onlinetime2($starttime,$endtime,$personid,$courseid).','.$day_onlinetime;
+			$day_week = '"'.date('Y-m-d', $starttime).'",'.$day_week;
+			$timeslot = $timeslot - 86400;//时间段减去一天。同时，这里是循环的出口
+
+		}
+	}
+	return array($day_week,$day_onlinetime);
+}
+/**End*/
+
 ?>
 
 <script>
@@ -416,6 +569,7 @@ function echo_week_learn2($personid,$courseid){
 		}
 	});
 </script>
+
 <script type="text/javascript">
 	$(function() {
 		$('#Histogram').highcharts({
@@ -464,7 +618,8 @@ function echo_week_learn2($personid,$courseid){
 		});
 	});
 
-	if(<?php if($timeid==1)echo 'true';else echo 'false';?>){
+//	if(<?php //if($timeid==1)echo 'true';else echo 'false';?>//){
+	if(<?php if($end_time - $start_time >= 86400)echo 'true';else echo 'false';?>){
 		$(function() {
 		$('#Histogram2').highcharts({
 			
@@ -512,6 +667,7 @@ function echo_week_learn2($personid,$courseid){
 	}
 	
 </script>
+
 <style>
 	.highcharts-button{
 		display: none;
@@ -538,15 +694,31 @@ function echo_week_learn2($personid,$courseid){
 <!--柱状图-->
 <div id="Histogram" style="width: 100%; height: 400px; margin: 0 auto"></div>
 <!--柱状图 end-->
+
 <?php 
-if($timeid==1)
+//if($timeid==1)
+//	echo '<div class="learningsituation-box">
+//		<h3>七日学习情况</h3><h5>单位：课时</h5>
+//
+//		<!--折线图-->
+//		<div id="Histogram2" style="width: 100%; height: 400px; margin: 0 auto"></div>
+//		<!--折线图 end-->
+//</div>';
+if($end_time - $start_time > 2678400){
 	echo '<div class="learningsituation-box">
-		<h3>七日学习情况</h3><h5>单位：课时</h5>
-		
-		<!--折线图-->
-		<div id="Histogram2" style="width: 100%; height: 400px; margin: 0 auto"></div>
-		<!--折线图 end-->
-</div>';
+			<h3>学习情况（月折线图）</h3><h5>单位：课时</h5>
+			<!--折线图-->
+			<div id="Histogram2" style="width: 100%; height: 400px; margin: 0 auto"></div>
+			<!--折线图 end-->
+		</div>';
+}elseif($end_time - $start_time > 86400){
+	echo '<div class="learningsituation-box">
+			<h3>学习情况（日折线图）</h3><h5>单位：课时</h5>
+			<!--折线图-->
+			<div id="Histogram2" style="width: 100%; height: 400px; margin: 0 auto"></div>
+			<!--折线图 end-->
+		</div>';
+}
 ?>
 
 <!--表格

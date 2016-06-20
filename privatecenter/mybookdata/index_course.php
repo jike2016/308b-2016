@@ -34,7 +34,7 @@
 		<div class="maininfo-box">
 	<!--新加下拉菜单 修改-->
 	<div class="head-box1">
-		<h3>课程学习报告</h3>
+		<h3>学习报告</h3>
 		
 		<!--学习报告类型下拉表单-->
 		<div class="dropdownlist">
@@ -204,11 +204,11 @@ function calculate_day_onlinetime($records){
 			$('.lockpage').show();		
 			$(this).parent().parent().parent().children('.learnreportkinds').val($(this).text());
 			// $(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index2.html');
-			if($(this).val()==1){
+			if($(this).val()==1){//全部课程
 //				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index.php');
 				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load('mybookdata/index.php');
 			}
-			else{
+			else{//单门课程
 //				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index_course.php?courseid='+$(this).val());
 				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/index_course.php?courseid='+$(this).val());
 			}
@@ -218,14 +218,16 @@ function calculate_day_onlinetime($records){
 		
 		$('#note-data').click(function(){      //查看笔记数据详情
 			$('.lockpage').show();
-			$(this).parent().parent('.maininfo-box').parent('.right-banner').load("mybookdata/note_data_course.php?courseid=<?php echo $courseid;?>");
+//			$(this).parent().parent('.maininfo-box').parent('.right-banner').load("mybookdata/note_data_course.php?courseid=<?php //echo $courseid;?>//");
+			$(this).parent().parent('.maininfo-box').parent('.maininfo-box-index').load("mybookdata/note_data_course.php?courseid=<?php echo $courseid;?>");
 		});	
 		$('#comment-data').click(function(){   //查看评论数据详情
 			$('.lockpage').show();
-			$(this).parent().parent('.maininfo-box').parent('.right-banner').load("mybookdata/comment_data_course.php?courseid=<?php echo $courseid;?>");
+			<!--$(this).parent().parent('.maininfo-box').parent('.right-banner').load("mybookdata/comment_data_course.php?courseid=<?php echo $courseid;?>");-->
+			$(this).parent().parent('.maininfo-box').parent('.maininfo-box-index').load("mybookdata/comment_data_course.php?courseid=<?php echo $courseid;?>");
 		});	
-		$('#like-data').click(function(){      //查看点赞数据详情
-			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('mybookdata/like-data.html');
-		});	
+//		$('#like-data').click(function(){      //查看点赞数据详情
+//			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('mybookdata/like-data.html');
+//		});
 	})
 </script>

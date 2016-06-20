@@ -49,7 +49,7 @@ echo '
 	</div>
 </div>';
 
-///////////////////////////////////////////////////////////////////////////
+
 /** 计算每天的学习时间 岑霄20160308
 1、获取第一个事件的时间，
 2、从第二个事件开始，判断寻找登录和登出事件，然后相减获取一段时间，
@@ -207,6 +207,7 @@ function echo_detial(){
 	';
 }
 
+//输出饼状图
 function echo_piechar($personid,$sql){
 	global $DB;
 	$coursecounts = $DB -> get_records_sql('
@@ -270,7 +271,7 @@ function echo_piechar($personid,$sql){
 
 ?>
 
-
+<!--折线图-->
 <script type="text/javascript">
 	$(function() {
 		$('#Histogram').highcharts({
@@ -317,11 +318,13 @@ function echo_piechar($personid,$sql){
 		});
 	});
 </script>
+<!--折线图-->
+	
 
-<!--饼状图-->
 <script>
 	gvChartInit();
 	$(document).ready(function() {
+		<!--饼状图-->
 		if(<?php echo $haspiechar;?>){
 			$('#piechart').gvChart({
 				chartType: 'PieChart',
@@ -337,16 +340,18 @@ function echo_piechar($personid,$sql){
 				}
 			});
 		}
+		<!--饼状图 end-->
+
 		//课程排序下拉菜单点击局部刷新事件
 		$('#learnreportkindslist li').click(function(){ 
 			$('.lockpage').show();		
 			$(this).parent().parent().parent().children('.learnreportkinds').val($(this).text());
 			 // alert($(this).val());
-			if($(this).val()==1){
+			if($(this).val()==1){//全部课程
 //				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index.php');
-				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.maininfo-box-index').parent('.right-banner').load('mybookdata/index.php');
+				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load('mybookdata/index.php');
 			}
-			else{
+			else{//单门课程
 //				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index_course.php?courseid='+$(this).val());
 				$(this).parent().parent().parent().parent().parent('.head-box1').parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/index_course.php?courseid='+$(this).val());
 			}
@@ -364,22 +369,21 @@ function echo_piechar($personid,$sql){
 			$('.lockpage').show();
 //			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('mybookdata/comment_data.php');
 			$(this).parent().parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/comment_data.php');
-		});
+		});	
 		$('#like-data').click(function(){      //查看点赞数据详情
 			$('.lockpage').show();
 //			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('mybookdata/like_data.php');
 			$(this).parent().parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/like_data.php');
-		});
+		});	
 		$('#star-data').click(function(){      //查看星评数据详情
 			$('.lockpage').show();
 //			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('mybookdata/star_data.php');
 			$(this).parent().parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/star_data.php');
-		});
+		});	
 		$('#medal-data').click(function(){     //查看勋章数据详情
 			$('.lockpage').show();
 //			$(this).parent().parent('.maininfo-box').parent('.right-banner').load('mybookdata/medal_data.php');
 			$(this).parent().parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/medal_data.php');
-		});
+		});	
 	});
 </script>
-<!--饼状图 end-->

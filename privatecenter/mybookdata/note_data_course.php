@@ -180,7 +180,8 @@ function echo_end($page,$count,$numofpage){
 	$('.lockpage').hide();
 	$("#return-index").click(function(){
 		$('.lockpage').show();
-		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.right-banner').load("mybookdata/index_course.php?courseid=<?php echo $courseid;?>");
+		<!--$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.right-banner').load("mybookdata/index_course.php?courseid=<?php echo $courseid;?>");-->
+		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').load("mybookdata/index_course.php?courseid=<?php echo $courseid;?>");
 	})
 	
 	//上下页的跳转

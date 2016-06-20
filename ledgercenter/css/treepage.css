@@ -50,3 +50,7 @@ ul.ztree {margin-top: 10px; border: 1px solid #CCCCCC;background: #FFFFFF;width:
 .navbar {margin-bottom: 0px;}
 
 /******导航条样式 @end*******/
+
+/* 下拉菜单选项文字显示 */
+.a_overflow{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+/* 下拉菜单选项文字显示 end */

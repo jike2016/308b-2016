@@ -3,8 +3,11 @@ $('.lockpage').hide();
 </script>
 <?php 
 require_once("../../config.php");
-$timeid = optional_param('timeid', 1, PARAM_INT);//1周2月3总
+//$timeid = optional_param('timeid', 1, PARAM_INT);//1周2月3总
 $orgid = optional_param('orgid', 0, PARAM_INT);
+$start_time = optional_param('start_time', 1, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 1, PARAM_TEXT);//结束时间
+
 global $DB;
 $orgname=$DB -> get_record_sql('select name from mdl_org where id='.$orgid);
 //查询所有下级单位id
@@ -24,10 +27,12 @@ foreach($sumorgs as $org){
 		)
 	');
 	//积极榜处理
-	$avg_org_active = calculate_active_org($org->id,count($sumusers),$timeid);
+//	$avg_org_active = calculate_active_org($org->id,count($sumusers),$timeid);//按照周月总查询
+	$avg_org_active = calculate_active_org($org->id,count($sumusers),$start_time,$end_time);//按照时间段查询
 	$rank_active[]= array('orgname'=>$org->name,'avgcount'=>$avg_org_active);
 	//学习榜处理
-	$avg_org_learn = calculate_learn_org($org->id,count($sumusers),$timeid);
+//	$avg_org_learn = calculate_learn_org($org->id,count($sumusers),$timeid);//按照周月总查询
+	$avg_org_learn = calculate_learn_org($org->id,count($sumusers),$start_time,$end_time);//按照时间段查询
 	$rank_learn[]= array('orgname'=>$org->name,'avgcount'=>$avg_org_learn);
 	
 }
@@ -82,6 +87,7 @@ function echo_learn_org($rank_learn,$orgname){
 	';
 	echo $output;
 }
+
 //输出积极榜
 function echo_active_org($rank_active,$orgname){
 	$output = '
@@ -113,19 +119,27 @@ function echo_active_org($rank_active,$orgname){
 	';
 	echo $output;
 }
+
 //计算单位在积极榜的平均事件数
-function calculate_active_org($orgid,$sumuserscount,$timeid){
-	if($timeid==1){
-	$mytime= time()-3600*24*7;
-	$sql='and b.timecreated>'.$mytime;
-	}
-	elseif($timeid==2){
-		$mytime= time()-3600*24*30;
-		$sql='and b.timecreated>'.$mytime;
-	}
-	elseif($timeid==3){
-		$sql='';
-	}
+function calculate_active_org($orgid,$sumuserscount,$start_time,$end_time){
+//function calculate_active_org($orgid,$sumuserscount,$timeid){
+//Start 去掉周月总的查询
+//	if($timeid==1){
+//	$mytime= time()-3600*24*7;
+//	$sql='and b.timecreated>'.$mytime;
+//	}
+//	elseif($timeid==2){
+//		$mytime= time()-3600*24*30;
+//		$sql='and b.timecreated>'.$mytime;
+//	}
+//	elseif($timeid==3){
+//		$sql='';
+//	}
+//End 去掉周月总的查询
+
+	//按照时间段进行查询
+	$sql = 'and b.timecreated > '.$start_time .' and b.timecreated < '.$end_time;
+
 	global $DB;
 	$sumcount = $DB -> get_record_sql('
 		select COUNT(a.user_id) as count 
@@ -145,19 +159,26 @@ function calculate_active_org($orgid,$sumuserscount,$timeid){
 		return round($sumcount->count/$sumuserscount);
 	}
 }
+
 //计算单位在学习榜的平均事件数
-function calculate_learn_org($orgid,$sumuserscount,$timeid){
-	if($timeid==1){
-	$mytime= time()-3600*24*7;
-	$sql='and b.timemodified>'.$mytime;
-	}
-	elseif($timeid==2){
-		$mytime= time()-3600*24*30;
-		$sql='and b.timemodified>'.$mytime;
-	}
-	elseif($timeid==3){
-		$sql='';
-	}
+function calculate_learn_org($orgid,$sumuserscount,$start_time,$end_time){
+//function calculate_learn_org($orgid,$sumuserscount,$timeid){
+//Start 去掉周月总的查询
+//	if($timeid==1){
+//	$mytime= time()-3600*24*7;
+//	$sql='and b.timemodified>'.$mytime;
+//	}
+//	elseif($timeid==2){
+//		$mytime= time()-3600*24*30;
+//		$sql='and b.timemodified>'.$mytime;
+//	}
+//	elseif($timeid==3){
+//		$sql='';
+//	}
+//End 去掉周月总的查询
+	//按照时间段进行查询
+	$sql = 'and b.timemodified > '.$start_time .' and b.timemodified < '.$end_time;
+
 	global $DB;
 	$sumcount = $DB -> get_record_sql('
 		select count(1) as count
@@ -199,5 +220,6 @@ function quick_sort_swap(&$array, $start, $end) {
  quick_sort_swap($array, $start, $right - 1);
  quick_sort_swap($array, $right+1, $end);
 }
+
 ?>
 

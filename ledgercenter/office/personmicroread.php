@@ -242,7 +242,7 @@ function echo_passCheck($orgid,$start_time,$end_time,$sumusers,$orgname){
 				<tr>
 					<td>排名</td>
 					<td>姓名</td>
-					<td>通诺审查总数</td>
+					<td>通过审查总数</td>
 				</tr>
 			</thead>
 			<tbody>';

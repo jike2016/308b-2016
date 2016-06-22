@@ -50,7 +50,8 @@ function echo_missions($orgid,$missionid,$sumusers,$orgname){
 		");
 
     //获取任务的具体信息
-    $mission = $DB->get_record_sql("select m.mission_name,m.required_course_id,m.optional_course_id,m.time_end from mdl_mission_my m where m.id = $missionid");
+//    $mission = $DB->get_record_sql("select m.mission_name,m.required_course_id,m.optional_course_id,m.time_end from mdl_mission_my m where m.id = $missionid");
+    $mission = $DB->get_record_sql("select * from mdl_mission_my m where m.id = $missionid");
     $missionName = $mission->mission_name;//任务名称
     $requiredCoursesID = explode(',',$mission->required_course_id);//必修课
     $optionalCoursesID = explode(',',$mission->optional_course_id);//选修课
@@ -92,18 +93,20 @@ function echo_missions($orgid,$missionid,$sumusers,$orgname){
     }
     array_multisort($sumArray, SORT_DESC,$requiredArray, SORT_DESC, $optionalArray, SORT_DESC, $userArray);//排序：按照必修课数和选修课数排
 
-    echo_missionTable($userArray,$sumusers,$orgname,$missionName);//输出任务榜单列表
+//    echo_missionTable($userArray,$sumusers,$orgname,$missionName);//输出任务榜单列表
+    echo_missionTable($userArray,$sumusers,$orgname,$mission);//输出任务榜单列表
 
 }
+/** end */
 
 
 /** 输出任务榜单列表 */
-function echo_missionTable($users,$sumusers,$orgname,$missionName){
+function echo_missionTable($users,$sumusers,$orgname,$mission){
 
     $output = '
 		<!-- <div style= "width:80%; float:left; margin-left:5%;text-align:center;"> -->
 		<div style= "width:90%; margin-left:5%;text-align:center;">
-		<div style= "font-weight:600;">'. $orgname .':'. $missionName .' 排行榜</div>
+		<div style= "font-weight:600;">'. $orgname .':'. $mission->missionName .' 排行榜</div>
 		<p></p>
 		<table class="table table-striped table-bordered" >
 			<thead>
@@ -111,8 +114,8 @@ function echo_missionTable($users,$sumusers,$orgname,$missionName){
 					<td>排名</td>
 					<td>姓名</td>
 					<td>接受任务</td>
-					<td>已完成必修课</td>
-					<td>已完成选修课</td>
+					<td>已完成/需完成&nbsp;&nbsp;必修课</td>
+					<td>已完成/至少需完成&nbsp;&nbsp;选修课</td>
 				</tr>
 			</thead>
 			<tbody>';
@@ -124,8 +127,8 @@ function echo_missionTable($users,$sumusers,$orgname,$missionName){
 				<td>'.$n.'</td>
 				<td>'.$user["lastname"].$user["firstname"].'</td>
 				<td>是</td>
-				<td>'.$user["requiredCount"].'</td>
-				<td>'.$user["optionalCount"].'</td>
+				<td>'.$user["requiredCount"].'/'.$mission->required_course_num.'</td>
+				<td>'.$user["optionalCount"].'/'.$mission->optional_choice_compeltions.'</td>
 			</tr>
 			';
         $n++;
@@ -137,8 +140,8 @@ function echo_missionTable($users,$sumusers,$orgname,$missionName){
 					<td>'.$n.'</td>
 					<td>'.$sumuser->lastname.$sumuser->firstname.'</td>
 					<td>否</td>
-					<td>0</td>
-					<td>0</td>
+					<td>0/'.$mission->required_course_num.'</td>
+					<td>0/'.$mission->optional_choice_compeltions.'</td>
 				</tr>
 				';
         $n++;

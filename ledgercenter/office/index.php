@@ -35,7 +35,7 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 	document.getElementById("mymission").style.display="none";
 	var documentlist_first_son_id=1;
 	var documentlist_second_son_id=1;
-	var documentlist_third_son_id=1;
+	var documentlist_third_son_id = 1;
 	var documentlist_fourth_son_id=<?php echo $firstmissionid;?>;
 	//alert("<?php echo $firstmissionname;?>");
 	var orgid=<?php echo $_GET['orgid'];?>;
@@ -92,12 +92,14 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 			var end_time = $('#end_time').val();//结束时间
 			if(start_time=='' || end_time==''){
 				alert('开始、结束时间不能为空！');
+				$('.lockpage').hide();
 				return;
 			}
 			start_time = get_unix_time(start_time);
 			end_time = get_unix_time(end_time);
 			if(start_time >= end_time){
 				alert('结束时间不能小于开始时间！');
+				$('.lockpage').hide();
 				return;
 			}
 		}

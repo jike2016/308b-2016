@@ -46,7 +46,7 @@
 
 	var documentlist_first_son_id=1;
 	var documentlist_second_son_id=1;
-//	var documentlist_third_son_id = 1;//课程id
+	var documentlist_third_son_id = 1;//课程id
 	// var documentlist_third_son_id;
 	var personid=<?php echo $_GET['personid'];?>;
 	$('#documentlist-first-son li').on('click', function(){   //文档_子类型下拉表单 1 动作
@@ -194,7 +194,11 @@
 										GROUP BY courseid ORDER BY a.timecreated DESC');
 						$index = 1;
 						foreach($courses as $course){
-							echo '<li id="documentlist-third-son-'.$index.'" value="'.$course->id.'"><a>'.$course->fullname.'</a></li>';
+							if(mb_strlen($course->fullname,'UTF-8') > 10){
+								echo '<li id="documentlist-third-son-'.$index.'" value="'.$course->id.'"><a class="a_overflow" title="'.$course->fullname.'" >'.mb_substr($course->fullname,0,10,"UTF-8").'...</a></li>';
+							}else{
+								echo '<li id="documentlist-third-son-'.$index.'" value="'.$course->id.'"><a >'.$course->fullname.'</a></li>';
+							}
 							$index++;
 						}
 					?>

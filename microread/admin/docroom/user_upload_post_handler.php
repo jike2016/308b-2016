@@ -18,7 +18,7 @@ if(isset($_GET['title']) && $_GET['title']){
 	/** End 检查权限*/
 	switch ($_GET['title']){
 		case "pass"://添加电子书
-			pass_doc();	
+			pass_doc();
 			break;
 		case "unpass"://编辑
 			unpass_doc();
@@ -63,13 +63,13 @@ function pass_doc(){
 	}
 	$newdoc->swfurl='http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
 	/**End*/
-	$DB->insert_record('doc_my',$newdoc,true);
+//	$DB->insert_record('doc_my',$newdoc,true);
 	
 	//更新表
 	$newdoc=new stdClass();
 	$newdoc->id= $_GET['docid'];
 	$newdoc->admin_check=1;
-	$DB->update_record('doc_user_upload_my', $newdoc);
+//	$DB->update_record('doc_user_upload_my', $newdoc);
 	
 	success('操作成功','docuser_upload','');
 }

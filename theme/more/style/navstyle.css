@@ -25,18 +25,42 @@ nav .navbar-inverse .usermenu .login a {  color: #ffffff;}
 .navstyle .nav-main { margin: auto;}
 .navstyle a {text-decoration: none;}
 .navstyle #logo {height: 54px; float: left; margin: 8px 10px 8px 0px;}
-.navstyle .nav-main .nav-main-li{float: left;}
+/*.navstyle .nav-main .nav-main-li{float: left;}*/
+.navstyle .nav-main .nav-main-li{float: left;margin: 0px;}
 .navstyle .nav-main .nav-main-li .li-normol {display:inline-block;width: 85px; height: 70px;color: #FFFFFF;font-size: 18px;padding: 23px 23px;}
 .navstyle .nav-main .nav-main-li .li-normol:hover{border-bottom: 3px solid #EEEEEE;}
 			
-.navstyle .search-box{float: right; padding: 25px 0px 0px 0px;}
-.navstyle .search-box input {float: left; width: 150px; margin-right: 10px; height: 35px;}
-.navstyle .search-box button {float: right;}
+/*.navstyle .search-box{float: right; padding: 25px 0px 0px 0px;}*/
+/*.navstyle .search-box input {float: left; width: 150px; margin-right: 10px; height: 35px;}*/
+/*.navstyle .search-box button {float: right;}*/
+.navstyle .search-box{float: right; padding: 17px 0px 0px 0px;}
+.navstyle .search-box input {float: left; width: 150px; margin-right: 0px; height: 35px;}
+.navstyle .search-box button {float: right;border: 1px solid #CCCCCC;border-left: 0px;}
 .navstyle .search-box button span {color: #10adf3;}
-			
+
+/********搜索框********/
+.search-box {height: 100%;float: right;}
+.search-box .input-group {width: 200px; float: left;}
+.search-box .input-group .form-control{border-radius: 0px;}
+.search-box .radio{height: 20px; margin-bottom: 0px; margin-top: 35px;}
+.search-box label{font-size: 14px; margin: 0px 15px 0px 5px; font-weight: 600;}
+.search-box .dropdown-menu {min-width: 95px; margin: 0px 0px 0px;}
+.searchbtn {width: 70px; float: right;border-radius: 0px 4px 4px 0px; border-left: 0px; margin-top: 0px; height: 35px;}
+.search-box .input-group-btn .btn-default:hover,.search-box .input-group-btn .btn-default:active{background-color: #F0F0F0;color: #000000;}
+.search-box .input-group-btn .btn-default{ border: 1px solid #ccc; height: 35px; width: 67px;}
+.searchbtn:hover {background-color: #F0F0F0;color: #000000;}
+.search-box .dropdown-menu .divider {height: 1px; margin: 0px;}
+.search-box .dropdown-menu .divider{border-bottom: 1px solid #CCCCCC;}
+.btn .caret { margin-top: 0px; margin-left: 3px;}
+.search-box .dropdown-menu { min-width: 50px; }
+.search-box .dropdown-menu > li > a {padding: 3px 19px;}
+.search-box ul{margin: 0px;}
+/********搜索框 @end********/
+
 /****改变登录后的下拉菜单颜色*****/
 .navstyle .usertext {color: #FFFFFF;}
-.navstyle .usermenu-box{float: right; padding: 10px 0px 0px 0px;}
+/*.navstyle .usermenu-box{float: right; padding: 10px 0px 0px 0px;}*/
+.navstyle .usermenu-box{float: right; padding: 13px 0px 0px 0px;}
 .jsenabled .usermenu .moodle-actionmenu.show {background-color: #10adf3;}
 /****改变登录后的下拉菜单颜色 @end*****/
 

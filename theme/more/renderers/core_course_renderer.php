@@ -28,12 +28,6 @@ require_once($CFG->dirroot . "/lib/coursecatlib.php");
 
 class theme_more_core_course_renderer extends core_course_renderer {
 
-
-
-
-
-
-
 	/**
 	 * start 2016-03-02 徐东威
 	 * 选课页面的入口，（这里替换原来的方法 course_info_box ）
@@ -918,5 +912,107 @@ class theme_more_core_course_renderer extends core_course_renderer {
 		$output .= '</div>';
 		return $output;
 	}
+
+	/** Start 课程搜索结果页 xdw 20160530
+	 *@param  $page 当前显示页
+	 *@param $perpage 每页显示记录数
+	 */
+	public function my_course_searchresult($search,$page,$perpage){
+		global $CFG;
+		global $DB;
+
+		//获取课程信息
+		$index = ($page-1)*$perpage;
+		$courses = $DB->get_records_sql("SELECT * FROM mdl_course c WHERE c.fullname LIKE '%$search%' ORDER BY c.timecreated DESC LIMIT $index,$perpage");
+		$coursescount = $DB->get_record_sql("SELECT count(1) as `count` FROM mdl_course c WHERE c.fullname LIKE '%$search%' ");
+		if($coursescount->count==0){
+			return '<div style="margin:0 auto;text-align:center;"><div style="margin-top: 50px;font-size: 24px;">暂无相关课程！</div></div>';
+		}
+
+		$output = '
+				<body>
+					<div class="main">';
+		// start 输出查询结果
+		foreach($courses as $course){
+			$output .= '<div class="classbanner">
+							<!--课程图片-->
+							<a href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'" target="_blank" >
+								<div class="course-pic">
+									<div class="course-pic-cover"><span>点击查看</span></div>
+									<img '.$this->my_get_course_formatted_summary_pix(new course_in_list($course)).' style="width:267px;height:178px;" />
+								</div>
+							</a>
+							<!--课程图片 end-->
+							<!--课程信息-->
+							<div class="classinfo">
+								<p class="classname"><a href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'" target="_blank" >'.$course->fullname.'</a></p>
+								<p class="info">'.mb_substr(strip_tags($course->summary),0,196,'UTF-8').'</p>
+							</div>
+							<!--课程信息 end-->
+							<div class="course-data">
+								<a href="'.$CFG->wwwroot.'/course/view.php?id='.$course->id.'" target="_blank">开始学习</a>
+								<p>学习人数:</p>&nbsp;<p>'.$this->my_get_course_student_count($course).'</p>
+							</div>
+						</div>';
+		}
+
+		// end 输出查询结果
+		$pagenum =  ceil($coursescount->count/$perpage);
+		$prepage = ($page-1) > 1 ?($page-1):1;//上一页
+		$nextpage = ($page+1) > $pagenum ? $pagenum:($page+1);//下一页
+		$output .='
+						<!--分页-->
+						<div style="clear: both;"></div>
+						<div class="paging">
+						<nav>
+							<ul class="pagination">
+								<li>
+									<a href="'.$CFG->wwwroot.'/course/mysearch.php?searchType=课程名&searchParam='.$search.'">
+										<span aria-hidden="true">首页</span>
+									</a>
+								</li>
+								<li>
+									<a href="'.$CFG->wwwroot.'/course/mysearch.php?searchType=课程名&searchParam='.$search.'&page='.$prepage.'" aria-label="Previous">
+										<span aria-hidden="true">上一页</span>
+									</a>
+								</li>';
+
+		for($i=1;$i<=$pagenum;$i++){
+			if($page==$i){
+				$output .= '<li><a class="active" href="'.$CFG->wwwroot.'/course/mysearch.php?searchType=课程名&searchParam='.$search.'&page='.$i.'">'.$i.'</a></li>';
+			}else{
+				$output .= '<li><a href="'.$CFG->wwwroot.'/course/mysearch.php?searchType=课程名&searchParam='.$search.'&page='.$i.'">'.$i.'</a></li>';
+			}
+		}
+
+		$output .='
+								<li>
+									<a href="'.$CFG->wwwroot.'/course/mysearch.php?searchType=课程名&searchParam='.$search.'&page='.$nextpage.'" aria-label="Next">
+										<span aria-hidden="true">下一页</span>
+									</a>
+								</li>
+								<li>
+									<a href="'.$CFG->wwwroot.'/course/mysearch.php?searchType=课程名&searchParam='.$search.'&page='.$pagenum.'">
+										<span aria-hidden="true">尾页</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+						</div>
+						<!--分页 end-->
+					</div>
+				</body>
+			';
+		return $output;
+	}
+	/** End 课程搜索结果页 xdw 20160530 */
+	/** start 获取课程学习人数 */
+	public function my_get_course_student_count($course){
+		global $DB;
+		$studentsNum = $DB->get_record_sql('select b.courseid,count(*) num from mdl_user_enrolments a join mdl_enrol b where b.courseid='.$course->id.' and b.id=a.enrolid');
+		return $studentsNum->num;
+	}
+	/** end 获取课程学习人数 */
+
 	
 }

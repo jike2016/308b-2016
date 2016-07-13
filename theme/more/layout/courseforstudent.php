@@ -222,6 +222,7 @@ echo $OUTPUT->doctype() ?>
 <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
 <?php require_once("includes/header.php"); ?>
+
 <div style="height:10px;"></div>
     <?php echo $OUTPUT->full_header(); ?>
           

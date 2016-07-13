@@ -177,7 +177,7 @@ $(document).ready(function(){
 <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
 	<?php require_once("includes/header.php"); ?>
-    
+
 	<div style="height:20px;"></div>
 
     <div id="page" class="container-fluid">

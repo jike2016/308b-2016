@@ -54,8 +54,10 @@ echo $OUTPUT->doctype() ?>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <?php echo $OUTPUT->standard_head_html() ?>
 
- <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css"><!--全局-->
+    <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css"><!--全局-->
     <link rel="stylesheet" href="../theme/more/style/navstyle.css" /> <!--全局-->
+
+    <script src="../theme/more/js/jquery-1.11.3.min.js"></script><!--全局-->
      
 </head>
 <body <?php echo $OUTPUT->body_attributes(); ?>>

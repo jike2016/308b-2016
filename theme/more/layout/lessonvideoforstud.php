@@ -208,7 +208,15 @@ echo $OUTPUT->doctype() ?>
 			});
 		});
 		/**end 评论内容局部刷新*/
-	</script>
+	</script>	
+	
+<!--Start VideoJS视频播放器 cx20160922-->
+<!--<link type="text/css" href="../../mod/lesson/videojs/video-js3/video-js.css" rel="stylesheet">
+<script src="../../mod/lesson/videojs/html5media-master/dist/api/1.1.8/html5media.min.js"></script>
+<script type="text/javascript" src="../../mod/lesson/videojs/video-js3/video.js"></script>
+<script src="../../mod/lesson/videojs/node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
+<!--End-->
+
 </head>
 
 <body <?php echo $OUTPUT->body_attributes(); ?>>

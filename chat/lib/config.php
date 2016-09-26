@@ -20,13 +20,11 @@ $config = array();
 // Database connection values:
 $config['dbConnection'] = array();
 // Database hostname:
-// $config['dbConnection']['host'] = '10.148.216.166';
-$config['dbConnection']['host'] = 'localhost';
+$config['dbConnection']['host'] = '10.148.216.166';
 // Database username:
 $config['dbConnection']['user'] = 'root';
 // Database password:
-// $config['dbConnection']['pass'] = 'Gcmooc@401';
-$config['dbConnection']['pass'] = 'root';
+$config['dbConnection']['pass'] = 'Gcmooc@401';
 // Database name:
 $config['dbConnection']['name'] = 'moodle';
 // Database type:

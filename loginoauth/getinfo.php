@@ -342,7 +342,7 @@ function get_duty_by_userid()
 	global $DB;
 	if(isset($_GET['accesstoken']) &&!empty($_GET['accesstoken']))
 	{
-		$result = $DB->get_records_sql(sprintf('SELECT `data` FROM mdl_user_info_data WHERE fieldid = 3 AND userid = '.$_GET['id']));
+		$result = $DB->get_records_sql(sprintf('SELECT `data` FROM mdl_user_info_data WHERE fieldid = 2 AND userid = '.$_GET['id']));
 		if(count($result))
 		{
 //			格式化输出数据

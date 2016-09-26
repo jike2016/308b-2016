@@ -9,8 +9,6 @@ if($USER->id != 2){
 	redirect('../');
 }
 
-
-
 $org = new org();
 
 //添加根节点
@@ -82,7 +80,158 @@ $tree = $org->show_node_tree($root_id);
 			<?php echo $tree['tree'];?>
 		];
 
+		$(document).ready(function(){
+			$("#submitadd").click(function () {
+				var tableObj = document.getElementById("police-body");
+				var length = tableObj.rows.length;
+				var arrayObj = [];
+				for (var i = 0; i < length; i++) {  //遍历Table的所有Row
+					var checkbox = document.getElementsByClassName("users")[i];
+//					console.log(checkbox);
+					if(checkbox.checked==true){
+						var checkboxp = checkbox.value;//此为该复选框所在的行的id
+						arrayObj.push(checkboxp);
+					}
+				}
+//				console.log(arrayObj);
+				if(arrayObj.length > 0)
+				{
+					$.ajax({
+						url: "../org/dutypolice.php",
+						type: "POST",
+						data: { arrayObj:arrayObj, action:'submitadd', id: $('#userid').val()},
+						success: function(msg){
+							msg = JSON.parse(msg);
+							console.log(msg);
+							if (msg.status == 200)
+							{
+								alert('添加成功');
+							}
+							else {
+								alert('添加失败');
+							}
+							$('.lockpage').hide();
+						}
+					});
+				}
+			});
+			$("#submitdelete").click(function () {
+				var tableObj = document.getElementById("police-body");
+				var length = tableObj.rows.length;
+				var arrayObj = [];
+				for (var i = 0; i < length; i++) {  //遍历Table的所有Row
+					var checkbox = document.getElementsByClassName("users")[i];
+//					console.log(checkbox);
+					if(checkbox.checked==true){
+						var checkboxp = checkbox.value;//此为该复选框所在的行的id
+						arrayObj.push(checkboxp);
+					}
+				}
+				if(arrayObj.length > 0)
+				{
+					$.ajax({
+						url: "../org/dutypolice.php",
+						type: "POST",
+						data: { arrayObj:arrayObj, action:'submitdelete', id: $('#userid').val()},
+						success: function(msg){
+							msg = JSON.parse(msg);
+							console.log(msg);
+							if (msg.status == 200)
+							{
+								alert('删除成功');
+							}
+							else {
+								alert('删除失败');
+							}
+							$('.lockpage').hide();
+						}
+					});
+				}
+			});
+			$(".table-box-alert .close-btn").click(function(){
+				$(".table-box-alert").hide();
+				$(".cover-bg").hide();
+			});
+			$(".cover-bg").click(function(){
+				$(".table-box-alert").hide();
+				$(".cover-bg").hide();
+			});
+
+			//点击查看
+			$("#show-police").click(function () {
+				$('.lockpage').show();
+				$('#submitadd').hide();
+				$('#submitdelete').show();
+				$("#check-police").removeClass('active');
+				$(this).addClass('active');
+				$('#police-body').empty();
+				var userid = $('#userid').val();
+				$.ajax({
+					url: "../org/dutypolice.php",
+					type: "POST",
+					dataType:"json",
+					data: {action:'showchildrenpolice', id:userid},
+					success: function(msg) {
+						if (msg.status == 200)
+						{
+							var str = '';
+							$.each(msg.data, function(commentIndex, comment){
+								str += '<tr><td><input type="checkbox" name="user" class="users" value="'+comment.id+'"></td><td>'+comment.lastname+comment.firstname+'</td><td>'+comment.data+'</td></tr>';
+							});
+							$("#police tbody").append(str);
+						}
+						$('.lockpage').hide();
+					}
+				});
+			})
+
+			//点击选择
+			$("#check-police").click(function () {
+				$('.lockpage').show();
+				$('#submitdelete').hide();
+				$('#submitadd').show();
+				$("#show-police").removeClass('active');
+				$(this).addClass('active');
+				$('#police-body').empty();
+				var orgid = $('#orgid').val();
+				$.ajax({
+					url: "../org/dutypolice.php",
+					type: "POST",
+					dataType:"json",
+					data: {action:'getchildrenpolice', id:orgid},
+					success: function(msg) {
+						if (msg.status == 200)
+						{
+							var str = '';
+							$.each(msg.data, function(commentIndex, comment){
+								str += '<tr><td><input type="checkbox" name="user" class="users" value="'+comment.id+'"></td><td>'+comment.lastname+comment.firstname+'</td><td>'+comment.data+'</td></tr>';
+							});
+							$("#police tbody").append(str);
+						}
+						$('.lockpage').hide();
+					}
+				});
+			})
+
+		})
+
 	</script>
+
+	<style>
+		.cover-bg {position: fixed; z-index: 10; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; display: none;}
+		.table-box-alert {font-family: "微软雅黑";border-top:2px solid #8C8C8C;position: fixed;  z-index: 10;top:50%;left:50%; display: none;margin-top:-300px;margin-left:-500px;width:1000px;height:600px;background-color:#FFFFFF;}
+		.table-box-title {margin: 0px;font-weight: bold; font-size: 14px;color: #C4C4C4; line-height: 40px; height: 40px; padding: 0px 15px;border-bottom: 1px solid #F0F0F0;}
+		.table-box-title h3 {margin: 0px; font-size: 20px;line-height: 40px; }
+		.table-box-title h3 .t {color: #0078E7;cursor: pointer ;margin-right: 15px}
+		.table-box-title h3 .t.active {color: #ff3333}
+		.table-box-main {height: 508px; width: 100%; overflow-y: auto; padding: 15px;}
+		.table-box-main .table {text-align: center;}
+		.table-box-main .table thead {font-weight: bold;}
+		.close-btn {float: right; font-size: 14px;cursor: pointer;}
+		.close-btn:hover {color: #777777;}
+		.submit-box {height: 50px;width: 100%; text-align: center;line-height: 50px;border-top: 1px solid #F0F0F0;}
+	</style>
+	
 </head>
 
 <body>
@@ -113,7 +262,33 @@ $tree = $org->show_node_tree($root_id);
 	</div>
 </nav>
 		<!--导航条 end-->
-
+<!--<form action="../org/dutypolice.php" method="POST">-->
+<div class="cover-bg"></div>
+	<input type="hidden" value="" id="userid">
+	<input type="hidden" value="" id="orgid">
+<div class="table-box-alert">
+	<div class="table-box-title">
+		<h3 class="conversation-box-title"><span id="check-police" class="t active">选择人员</span><span id="show-police" class="t">查看人员</span><span class="close-btn">X</span></h3>
+	</div>
+	<div class="table-box-main">
+		<table class="table table-bordered table-hover" id="police">
+			<thead>
+			<tr>
+				<td><input type="checkbox">全选</td>
+				<td>姓名</td>
+				<td>职务</td>
+			</tr>
+			</thead>
+			<tbody id="police-body">
+			</tbody>
+		</table>
+	</div>
+	<div class="submit-box">
+		<button class="btn btn-primary" id="submitadd">确认添加</button>
+		<button class="btn btn-danger" style="display: none" id="submitdelete">删除人员</button>
+	</div>
+</div>
+<!--</form>-->
 
 <div class="main">
 	<div class="zTreeDemoBackground left">

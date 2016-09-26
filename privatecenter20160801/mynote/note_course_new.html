@@ -1,0 +1,18 @@
+<style>
+	.personaldata-main {width: 100%; min-height: 680px; background-color: #FFFFFF; border: 1px solid #ccc;}
+</style>
+
+<script>
+	$('.lockpage').hide();
+	if(getQueryString('courseid') ){
+		var url = "../mod/notemy/newnotemy_course.php?courseid="+getQueryString('courseid');
+		$("#mainFrame").attr('src',url);
+	}else{
+		var url = "../mod/notemy/newnotemy_course.php";
+		$("#mainFrame").attr('src',url);
+	}
+
+</script>
+
+<!--<iframe src="../mod/notemy/newnotemy_course.php" id="mainFrame" class="personaldata-main" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>-->
+<iframe src="" id="mainFrame" class="personaldata-main" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>

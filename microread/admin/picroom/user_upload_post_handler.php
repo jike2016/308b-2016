@@ -45,8 +45,10 @@ function pass_pic(){
 	$newpic->id= $_GET['picid'];
 	$newpic->admin_check=1;
 	$DB->update_record('pic_user_upload_my', $newpic);
-	
-	success('操作成功','picuser_upload','');
+	/**Start cx 审核成功后跳到指定页面,第二个参数不能为空，否则会刷新2次， 20160723*/
+//	success('操作成功','picuser_upload','');
+	success('操作成功','null_value','forward','picroom/user_upload.php?pageNum='.$_GET['pageNum']);
+	/**End cx 审核成功后跳到指定页面 20160723*/
 }
 function unpass_pic(){
 	global $DB;
@@ -54,7 +56,10 @@ function unpass_pic(){
 	$newpic->id= $_GET['picid'];
 	$newpic->admin_check=2;
 	$DB->update_record('pic_user_upload_my', $newpic);
-	success('操作成功','picuser_upload','');
+	/**Start cx 审核成功后跳到指定页面,第二个参数不能为空，否则会刷新2次， 20160723*/
+//	success('操作成功','picuser_upload','');
+	success('操作成功','null_value','forward','picroom/user_upload.php?pageNum='.$_GET['pageNum']);
+	/**End cx 审核成功后跳到指定页面 20160723*/
 }
 
 ?>

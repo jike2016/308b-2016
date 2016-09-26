@@ -33,6 +33,7 @@ require_login();//要求登录
 $PAGE->set_url('/mod/teamlearn/index.php');
 $PAGE->set_title('集体学习');
 $PAGE->set_heading('集体学习');
+$PAGE->set_pagelayout('registerforadmin');//设置layout
 //判断权限。。有bug
 if (!has_any_capability(array(
         'mod/teamlearn:addinstance'

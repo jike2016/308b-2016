@@ -6,10 +6,13 @@
  */
 require(dirname(__FILE__).'/../config.php');
 require_once("$CFG->libdir/formslib.php");
+require_once($CFG->dirroot."/user/my_role_conf.class.php");
 
 require_login();//要求登录
 global $USER;
-if($USER->id!=2){
+$role = new my_role_conf();
+//只允许超级管理员和慕课管理员进行修改
+if( ($USER->id!=2) && !$DB->record_exists('role_assignments', array('roleid' => $role->get_courseadmin_role(),'userid' => $USER->id)) ){
 	redirect(new moodle_url('/../moodle/index.php'));
 }
 $PAGE->set_url('/microread/upload_switch.php');

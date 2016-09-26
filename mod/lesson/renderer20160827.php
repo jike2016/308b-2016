@@ -1,0 +1,1042 @@
+<?php
+
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Moodle renderer used to display special elements of the lesson module
+ *
+ * @package mod_lesson
+ * @copyright  2009 Sam Hemelryk
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ **/
+
+defined('MOODLE_INTERNAL') || die();
+
+class mod_lesson_renderer extends plugin_renderer_base {
+
+    /**
+     * 徐东威 2016-03-02  my_display_page()方法
+     *
+     * Returns HTML to display a page to the user
+     * @param lesson $lesson
+     * @param lesson_page $page
+     * @param object $attempt
+     * @return string
+     */
+    public function my_display_page(lesson $lesson, lesson_page $page, $attempt) {
+        // We need to buffer here as there is an mforms display call
+
+        global $DB;
+
+        // 获取视频id
+        $videoid = $_REQUEST['id'];
+
+        $courseID = $lesson->properties()->course;//课程id
+//        $course = $DB->get_record_sql("select c.id,c.fullname from mdl_course c where c.id = $courseID");//课程
+        $course = $DB->get_record_sql("select c.id,c.fullname, c.cacherev from mdl_course c where c.id = $courseID");//课程
+        $courseName = $course->fullname;//课程名称
+        $courseURL = '';//课程URL
+        $shipingName = $lesson->properties()->name;//视屏名称
+
+        //视屏缓存
+        ob_start();
+        echo $page->display($this, $attempt);
+        $output = ob_get_contents();//包含有视屏和结束按钮
+        ob_end_clean();
+
+//        $shiping = '<p style="height: 10px;"></p>';
+        $shiping = '';
+//        $shiping .= $this->my_htmlcut($output,'<p>','</p>');//获取视屏
+        $shipingTemp = $this->my_htmlcut($output,'<p>','<div class="box branchbuttoncontainer horizontal">');//获取视屏
+        $subTemp = strlen('</div></div>');
+        $shiping .= substr($shipingTemp,0,strlen($shipingTemp)-$subTemp);
+//        $shiping .= '</p>';
+
+//        $shiping = str_replace('style="max-width: 640px;','style="max-width: 500px;',$shiping);//修改视屏宽度
+
+        $btn = $this->my_htmlcut($output,'<form','</form');//获取结束按钮表单
+        $btn .= '</form>';
+        $oldbtn = $this->my_htmlcut($btn,'<input type="submit"','/>');//获取原有按钮
+        $oldbtn .= '/>';
+//        $newbtn  = str_replace($oldbtn,'<button class="btn btn-danger">查看学习进度</button>',$btn);//按钮的替换
+        $newbtn  = str_replace($oldbtn,'<button >查看学习进度</button>',$btn);//按钮的替换
+        $oldInput = $this->my_htmlcut($newbtn,'<input type="hidden" name="jumpto"','</div>');//获取原有 <input type="hidden" name="jumpto" value="?" />
+        $newbtn  = str_replace($oldInput,'<input type="hidden" name="jumpto" value="-9" />',$newbtn);//统一改为 ‘-9’ ：跳转
+
+//        $html =  $this->my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID);//输出页面拼接
+
+        $html =  $this->my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID,$course);//输出页面拼接
+
+        return $html;
+    }
+    /**End 徐东威 2016-03-02  my_display_page()方法 */
+
+
+    /** 徐东威 HTML标签截取
+     * @param $str 截取的字符串
+     * @param  $start_point 截取的开始符号
+     * @param  $end_point  截取的结束符号
+     * @return  开始与结束间的字符
+     */
+    function my_htmlcut($str,$start_point,$end_point){
+
+        if($str){
+//            $intH1start= strpos($contents, '<h1>');//这样的前提是这个页面只有一个<h1>标签
+//            $intH1end = strpos($contents, '</h1>');//如果有多个则会取不准
+            $start= strpos($str,$start_point);//这样的前提是这个页面只有一个<h1>标签
+            $end = strpos($str,$end_point);//如果有多个则会取不准
+            $len = $end-$start;//要截取的长度
+            $str = substr($str,$start,$len);
+            return $str;
+        }
+        else{
+            return '';
+        }
+    }
+
+    /* START    获取评价数目页数 朱子武 20160307*/
+    function my_get_course_evaluation_count($videoid)
+    {
+        global $DB;
+        $evaluation = $DB->get_records_sql('SELECT id as mycount FROM mdl_comment_video_my WHERE modid = ? ', array($videoid));
+        //$evaluation = $DB->get_records_sql('SELECT courseid, count(*) as mycount FROM mdl_comment_course_my WHERE courseid = ? ', array($course->id));
+        //$mycount = $evaluation[$course->id]->mycount;
+//        $mycount = count($evaluation);
+//        $mycount = ceil($mycount/10);
+//        return ($mycount <= 1 ? 1: $mycount);
+
+        $mycount = count($evaluation) < 0 ? 0 : count($evaluation);
+        $evaluationCount = new stdClass();
+        $evaluationCount->count = $mycount;
+        $mycount = ceil($mycount/10);
+        $evaluationCount->ceilcount = ($mycount <= 1 ? 1: $mycount);
+        return $evaluationCount;
+
+    }
+    /** 获取评价数目页数 END*/
+
+    /** START 输出页码 */
+    function my_get_course_evaluation_current_count2($count_page,$current_page, $videoid)
+    {
+        $pagestr = '';
+        for($num = 1; $num <= $count_page; $num ++)
+        {
+            $active_style = '';//当前页的样式
+            if($num == $current_page){
+                $active_style = ' class="active"';
+            }
+            $pagestr.='<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.$num.'" '.$active_style.' >'.$num.'</a>';
+        }
+        return $pagestr;
+    }
+    /** 输出页码 END*/
+
+    /** START 输出页码 朱子武 20160307*/
+    function my_get_course_evaluation_current_count($count_page, $videoid)
+    {
+        $pagestr = '';
+        for($num = 1; $num <= $count_page; $num ++)
+        {
+            $pagestr.='<li><a href="../../mod/lesson/view.php?id='.$videoid.'&page='.$num.'">'.$num.'</a></li>';
+        }
+        return $pagestr;
+    }
+    /** 输出页码 END*/
+
+    /** START 获取课程评价 朱子武 20160307*/
+    function my_get_course_evaluation($videoid, $current_page)
+    {
+
+        $my_page = $current_page * 10;
+        global $DB;
+        global $OUTPUT;
+        $evaluation = $DB->get_records_sql('SELECT a.id, a.userid, a.comment, b.firstname, b.lastname, a.commenttime FROM mdl_comment_video_my a JOIN mdl_user b ON a.userid = b.id WHERE modid = ? ORDER BY commenttime DESC LIMIT '.$my_page.',10', array($videoid));
+
+        $evaluationStr = '';
+        foreach($evaluation as $value)
+        {
+            $userobject = new stdClass();
+            $userobject->metadata = array();
+            $user = $DB->get_record('user', array('id' => $value->userid), '*', MUST_EXIST);
+            $userobject->metadata['useravatar'] = $OUTPUT->user_picture (
+                $user,
+                array(
+                    'link' => false,
+                    'visibletoscreenreaders' => false
+                )
+            );
+
+            $userobject->metadata['useravatar'] = str_replace("width=\"35\" height=\"35\"", " ", $userobject->metadata['useravatar']);
+            $evaluationStr.= '
+                 <!--评论内容-->
+                 <div class="comment container">
+                        <div class="comment-l">
+                            <div class="Learnerimg-box">
+                                <!--<img src="<?php echo $CFG->wwwroot;?>/theme/more/pix/lessonvideo/learnner.jpg" alt="依米暖暖">-->
+                                '.$userobject->metadata['useravatar'].'
+                            </div>
+                        </div>
+                        <div class="comment-r">
+                            <p class="name">'.$value->lastname.$value->firstname.'</p>
+                            <p class="commentinfo">
+                                '.$value->comment.'
+                            </p>
+                            <p class="time">时间：'.userdate($value->commenttime,'%Y-%m-%d %H:%M').'</p>
+                        </div>
+                 </div>
+                        <!--评论内容1 end-->
+        ';
+        }
+        return $evaluationStr;
+    }
+    /** 获取课程评价 END*/
+
+    /**
+     * START 获取视屏列表 朱子武 20160521
+     */
+    function zzwu_get_video_list($course)
+    {
+        $modinfo = get_fast_modinfo($course);//获取课程的全部信息
+        $output = '';
+        $videoid = $_GET['id'];
+        for($i=1;$i<count($modinfo->sections);$i++){
+
+            $session = $modinfo->sections[$i];//获取每个主题下的活动ID列表
+            for($k=0;$k<count($session);$k++){
+                $cms=$modinfo->cms[$session[$k]];//每个课程中的各个活动的信息
+                $cms_name=$cms->name;//活动的名称
+                $cms_url=$cms->url;//活动的URL对象
+                if(!empty($cms_url)){//如果不是空
+                    $cms_url_path=$cms_url->get_path();//从URL对象中获取path，注意：这里是的path是protect属性，要调用系统的方法进行获取
+                }else{
+                    $cms_url_path='#';
+                }
+                $cms_id=$cms->id;//获取活动id
+                $cms_url_path=$cms_url_path.'?id='.$cms_id;//拼接URL
+                $status = '';
+                if($cms_id == $videoid)
+                {
+//                    $status = 'class="active"';
+                    $status = ' active"';
+                }
+//                $output.='<li><a href="'.$cms_url_path.'" '.$status.'>'.$cms_name.'</a></li>';
+                $output.='<p class="course-t'.$status.'"><span class="glyphicon glyphicon-play"></span><a href="'.$cms_url_path.'" >'.$cms_name.'</a></p>';
+
+            }
+        }
+        return $output;
+    }
+    /**END 获取视屏列表 朱子武 20160521*/
+
+    /**
+     * Start 徐东威 2016-03-02 输出页面拼接
+     */
+//    function my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID){
+    function my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID,$course){
+
+        $evaluationCount = $this->my_get_course_evaluation_count($videoid);
+        $count_page = $evaluationCount->ceilcount;
+
+        $courselist = $this->zzwu_get_video_list($course);
+
+        $current_page = $_SESSION['pageid'];
+        unset ($_SESSION['pageid']);
+//        $this->my_get_course_evaluation($courseID, $current_page - 1);
+
+        global $CFG;
+
+        $shipingPage = '<!--视频播放板块-->
+                        <div class="videobanner">
+                            <div class="main-box">
+                                <p class="title"><a href="'.$CFG->wwwroot.'/course/view.php?id='.$courseID.'">'.$courseName.'</a><span class="glyphicon glyphicon-menu-right"></span><a class="course-s">'.$shipingName.'</a></p>
+                                <!--视频插件播放容器-->
+                                <div class="video-box">
+                                    '.$shiping.'
+                                </div>
+                                <!--视频插件播放容器 end-->
+
+                                <!--视频目录-->
+                                <div class="menu">
+                                    <p class="title">目录</p>
+                                    <div class="menu-box">
+                                    '.$courselist.'
+                                    </div>
+                                    <div class="btn-box">
+                                        '.$newbtn.'
+                                    </div>
+                                </div>
+                                <!--视频目录 end-->
+                            </div>
+                        </div>
+                        <!--视频播放板块 end-->';
+
+        $shipingPage .= '<div class="main">
+                            <p class="title">课程评论（<span>'.$evaluationCount->count.'</span>）</p>
+                            <!--评论板块-->
+                            <div class="comment-box">
+                                <div class="mycomment" style="box-sizing: border-box;">
+                                    <textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                                    <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
+                                    <button id="commentBtn" class="btn btn-info">发表评论</button>
+                                </div>
+                                <div style="clear: both;"></div>
+
+                                <!--评论内容1-->
+                                '.$this->my_get_course_evaluation($videoid, $current_page - 1).'
+                                <!--评论内容1 end -->
+
+                                <!--分页-->
+                                <div class="paginationbox">
+                                    <a href="../../mod/lesson/view.php?id='.$videoid.'&page=1">首页</a>
+                                    <a href="../../mod/lesson/view.php?id='.$videoid.'&page='.($current_page <= 1 ? 1: $current_page - 1).'">上一页</a>
+                                    '.$this->my_get_course_evaluation_current_count2($count_page ,$current_page , $videoid).'
+                                    <a href="../../mod/lesson/view.php?id='.$videoid.'&page='.($current_page < $count_page ? ($current_page + 1): $count_page).'">下一页</a>
+                                    <a href="../../mod/lesson/view.php?id='.$videoid.'&page='.$count_page.'">尾页</a>
+                                </div>
+                                <!--分页 end-->
+                            </div>
+                            <!--评论板块-->
+                        </div>';
+
+//        $shipingPage .= '<!--2016.1.24 郑栩基 视频播放页面新加-->
+//                <div class="main container">
+//                        <!--视频标题-->
+//                    <div class="videotitle">
+//                        <a href="'.$CFG->wwwroot.'/course/view.php?id='.$courseID.'"><span class="glyphicon glyphicon-expand"></span>&nbsp;'.$courseName.'</a>
+//                    </div>
+//                    <div class="videotitle-son">
+//                        <p>'.$shipingName.'</p>
+//                       '.$newbtn.'
+//                    </div>
+//                    <!--视频标题 end-->
+//
+//                    <!--视频播放-->
+//                    <div class="videobox" style="display: table-cell; vertical-align:middle;margin-left:100px;">
+//                        '.$shiping.'
+//                    </div>
+//                    <!--视频播放end-->
+//
+//                    <!-- 视频列表 2016年5月8日 陈振安 -->
+//					<div class="courselist">
+//						<ul class="courselist-content">
+//							'.$courselist.'
+//						</ul>
+//						<div class="courselist-trigger"><<目录</div>
+//					</div>
+//					<!-- 视频列表end -->
+//
+//                    <!--评论-->
+//                    <div class="commentbox">
+//                        <div class="commentboxtitle">
+//                            <div style="width:110px"><h3 style="width:100%">评论('.$evaluationCount->count.')</h3></div>
+//                        </div>
+//                        <div class="mycomment">
+//                                 <!-- 2016.3.25 毛英东 添加表情-->
+//                                <textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+//                                <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
+//                                <!-- end  2016.3.25 毛英东 添加表情 -->
+//                                <button id="commentBtn" class="btn btn-success">发表评论</button>
+//                            </div>
+//                            '.$this->my_get_course_evaluation($videoid, $current_page - 1).'
+//                    </div>
+//
+//					<!--分页按钮-->
+//			<div class="paginationbox">
+//				<ul class="pagination">
+//					<li>
+//						<a href="../../mod/lesson/view.php?id='.$videoid.'&page=1">首页</a>
+//					</li>
+//					<li>
+//						<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.($current_page <= 1 ? 1: $current_page - 1).'">上一页</a>
+//					</li>
+//					'.$this->my_get_course_evaluation_current_count($count_page, $videoid).'
+//					<li>
+//						<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.($current_page < $count_page ? ($current_page + 1): $count_page).'">下一页</a>
+//					</li>
+//					<li>
+//						<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.$count_page.'">尾页</a>
+//					</li>
+//				</ul>
+//			</div>
+//			<!--分页按钮 end-->
+//                    <!--评论 end-->
+//                </div><!--main-->';
+
+        //start 输出隐藏的笔记参数
+        $shipingPage .= '<button id="hiddencourseid" value="'.$courseID.'" style="display: none;"></button>
+                          <button id="hiddencoursefullname" value="'.$shipingName.'" style="display: none;"></button>';
+        //end 输出隐藏的笔记参数
+
+        return $shipingPage;
+
+    }
+    //End 徐东威 2016-03-02 输出页面拼接
+
+
+    /**
+     * 徐东威 2016-03-02   my_header()方法
+     *
+     * Returns the header for the lesson module
+     *
+     * @param lesson $lesson a lesson object.
+     * @param string $currenttab current tab that is shown.
+     * @param bool   $extraeditbuttons if extra edit buttons should be displayed.
+     * @param int    $lessonpageid id of the lesson page that needs to be displayed.
+     * @param string $extrapagetitle String to appent to the page title.
+     * @return string
+     */
+    public function my_header($lesson, $cm, $currenttab = '', $extraeditbuttons = false, $lessonpageid = null, $extrapagetitle = null) {
+        global $CFG;
+
+        $activityname = format_string($lesson->name, true, $lesson->course);
+        if (empty($extrapagetitle)) {
+            $title = $this->page->course->shortname.": ".$activityname;
+        } else {
+            $title = $this->page->course->shortname.": ".$activityname.": ".$extrapagetitle;
+        }
+
+        // Build the buttons
+        $context = context_module::instance($cm->id);
+
+        /// Header setup
+        $this->page->set_title($title);
+        $this->page->set_heading($this->page->course->fullname);
+        lesson_add_header_buttons($cm, $context, $extraeditbuttons, $lessonpageid);
+        $output = $this->output->header();
+
+        if (has_capability('mod/lesson:manage', $context)) {
+//            $output .= $this->output->heading_with_help($activityname, 'overview', 'lesson');//输出活动名称
+
+            if (!empty($currenttab)) {
+                ob_start();
+                include($CFG->dirroot.'/mod/lesson/tabs.php');
+                $output .= ob_get_contents();
+                ob_end_clean();
+            }
+        } else {
+//            $output .= $this->output->heading($activityname);//输出活动名称
+        }
+
+        foreach ($lesson->messages as $message) {
+            $output .= $this->output->notification($message[0], $message[1], $message[2]);
+        }
+
+        return $output;
+    }
+    /** End徐东威 2016-03-02   my_header()方法 */
+
+
+
+
+
+    /**
+     * Returns the header for the lesson module
+     *
+     * @param lesson $lesson a lesson object.
+     * @param string $currenttab current tab that is shown.
+     * @param bool   $extraeditbuttons if extra edit buttons should be displayed.
+     * @param int    $lessonpageid id of the lesson page that needs to be displayed.
+     * @param string $extrapagetitle String to appent to the page title.
+     * @return string
+     */
+    public function header($lesson, $cm, $currenttab = '', $extraeditbuttons = false, $lessonpageid = null, $extrapagetitle = null) {
+        global $CFG;
+
+        $activityname = format_string($lesson->name, true, $lesson->course);
+        if (empty($extrapagetitle)) {
+            $title = $this->page->course->shortname.": ".$activityname;
+        } else {
+            $title = $this->page->course->shortname.": ".$activityname.": ".$extrapagetitle;
+        }
+
+        // Build the buttons
+        $context = context_module::instance($cm->id);
+
+    /// Header setup
+        $this->page->set_title($title);
+        $this->page->set_heading($this->page->course->fullname);
+        lesson_add_header_buttons($cm, $context, $extraeditbuttons, $lessonpageid);
+        $output = $this->output->header();
+
+        if (has_capability('mod/lesson:manage', $context)) {
+            $output .= $this->output->heading_with_help($activityname, 'overview', 'lesson');//输出活动名称
+
+            if (!empty($currenttab)) {
+                ob_start();
+                include($CFG->dirroot.'/mod/lesson/tabs.php');
+                $output .= ob_get_contents();
+                ob_end_clean();
+            }
+        } else {
+            $output .= $this->output->heading($activityname);//输出活动名称
+        }
+
+        foreach ($lesson->messages as $message) {
+            $output .= $this->output->notification($message[0], $message[1], $message[2]);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Returns the footer
+     * @return string
+     */
+    public function footer() {
+        return $this->output->footer();
+    }
+
+    /**
+     * Returns HTML for a lesson inaccessible message
+     *
+     * @param string $message
+     * @return <type>
+     */
+    public function lesson_inaccessible($message) {
+        global $CFG;
+        $output  =  $this->output->box_start('generalbox boxaligncenter');
+        $output .=  $this->output->box_start('center');
+        $output .=  $message;
+        $output .=  $this->output->box('<a href="'.$CFG->wwwroot.'/course/view.php?id='. $this->page->course->id .'">'. get_string('returnto', 'lesson', format_string($this->page->course->fullname, true)) .'</a>', 'lessonbutton standardbutton');
+        $output .=  $this->output->box_end();
+        $output .=  $this->output->box_end();
+        return $output;
+    }
+
+    /**
+     * Returns HTML to prompt the user to log in
+     * @param lesson $lesson
+     * @param bool $failedattempt
+     * @return string
+     */
+    public function login_prompt(lesson $lesson, $failedattempt = false) {
+        global $CFG;
+        $output  = $this->output->box_start('password-form');
+        $output .= $this->output->box_start('generalbox boxaligncenter');
+        $output .=  '<form id="password" method="post" action="'.$CFG->wwwroot.'/mod/lesson/view.php" autocomplete="off">';
+        $output .=  '<fieldset class="invisiblefieldset center">';
+        $output .=  '<input type="hidden" name="id" value="'. $this->page->cm->id .'" />';
+        if ($failedattempt) {
+            $output .=  $this->output->notification(get_string('loginfail', 'lesson'));
+        }
+        $output .= get_string('passwordprotectedlesson', 'lesson', format_string($lesson->name)).'<br /><br />';
+        $output .= get_string('enterpassword', 'lesson')." <input type=\"password\" name=\"userpassword\" /><br /><br />";
+        $output .= "<div class='lessonbutton standardbutton submitbutton'><input type='submit' value='".get_string('continue', 'lesson')."' /></div>";
+        $output .= " <div class='lessonbutton standardbutton submitbutton'><input type='submit' name='backtocourse' value='".get_string('cancel', 'lesson')."' /></div>";
+        $output .=  '</fieldset></form>';
+        $output .=  $this->output->box_end();
+        $output .=  $this->output->box_end();
+        return $output;
+    }
+
+    /**
+     * Returns HTML to display dependancy errors
+     *
+     * @param object $dependentlesson
+     * @param array $errors
+     * @return string
+     */
+    public function dependancy_errors($dependentlesson, $errors) {
+        $output  = $this->output->box_start('generalbox boxaligncenter');
+        $output .= get_string('completethefollowingconditions', 'lesson', $dependentlesson->name);
+        $output .= $this->output->box(implode('<br />'.get_string('and', 'lesson').'<br />', $errors),'center');
+        $output .= $this->output->box_end();
+        return $output;
+    }
+
+    /**
+     * Returns HTML to display a message
+     * @param string $message
+     * @param single_button $button
+     * @return string
+     */
+    public function message($message, single_button $button = null) {
+        $output  = $this->output->box_start('generalbox boxaligncenter');
+        $output .= $message;
+        if ($button !== null) {
+            $output .= $this->output->box($this->output->render($button), 'lessonbutton standardbutton');
+        }
+        $output .= $this->output->box_end();
+        return $output;
+    }
+
+    /**
+     * Returns HTML to display a continue button
+     * @param lesson $lesson
+     * @param int $lastpageseen
+     * @return string
+     */
+    public function continue_links(lesson $lesson, $lastpageseenid) {
+        global $CFG;
+        $output = $this->output->box(get_string('youhaveseen','lesson'), 'generalbox boxaligncenter');
+        $output .= $this->output->box_start('center');
+
+        $yeslink = html_writer::link(new moodle_url('/mod/lesson/view.php', array('id'=>$this->page->cm->id, 'pageid'=>$lastpageseenid, 'startlastseen'=>'yes')), get_string('yes'));
+        $output .= html_writer::tag('span', $yeslink, array('class'=>'lessonbutton standardbutton'));
+        $output .= '&nbsp;';
+
+        $nolink = html_writer::link(new moodle_url('/mod/lesson/view.php', array('id'=>$this->page->cm->id, 'pageid'=>$lesson->firstpageid, 'startlastseen'=>'no')), get_string('no'));
+        $output .= html_writer::tag('span', $nolink, array('class'=>'lessonbutton standardbutton'));
+
+        $output .= $this->output->box_end();
+        return $output;
+    }
+
+    /**
+     * Returns HTML to display a page to the user
+     * @param lesson $lesson
+     * @param lesson_page $page
+     * @param object $attempt
+     * @return string
+     */
+    public function display_page(lesson $lesson, lesson_page $page, $attempt) {
+        // We need to buffer here as there is an mforms display call
+        ob_start();
+        echo $page->display($this, $attempt);
+        $output = ob_get_contents();
+        ob_end_clean();
+        return $output;
+    }
+
+    /**
+     * Returns HTML to display a collapsed edit form
+     *
+     * @param lesson $lesson
+     * @param int $pageid
+     * @return string
+     */
+    public function display_edit_collapsed(lesson $lesson, $pageid) {
+        global $DB, $CFG;
+
+        $manager = lesson_page_type_manager::get($lesson);
+        $qtypes = $manager->get_page_type_strings();
+        $npages = count($lesson->load_all_pages());
+
+        $table = new html_table();
+        $table->head = array(get_string('pagetitle', 'lesson'), get_string('qtype', 'lesson'), get_string('jumps', 'lesson'), get_string('actions', 'lesson'));
+        $table->align = array('left', 'left', 'left', 'center');
+        $table->wrap = array('', 'nowrap', '', 'nowrap');
+        $table->tablealign = 'center';
+        $table->cellspacing = 0;
+        $table->cellpadding = '2px';
+        $table->width = '80%';
+        $table->data = array();
+
+        $canedit = has_capability('mod/lesson:edit', context_module::instance($this->page->cm->id));
+
+        while ($pageid != 0) {
+            $page = $lesson->load_page($pageid);
+            $data = array();
+            $url = new moodle_url('/mod/lesson/edit.php', array(
+                'id'     => $this->page->cm->id,
+                'mode'   => 'single',
+                'pageid' => $page->id
+            ));
+            $data[] = html_writer::link($url, format_string($page->title, true), array('id' => 'lesson-' . $page->id));
+            $data[] = $qtypes[$page->qtype];
+            $data[] = implode("<br />\n", $page->jumps);
+            if ($canedit) {
+                $data[] = $this->page_action_links($page, $npages, true);
+            } else {
+                $data[] = '';
+            }
+            $table->data[] = $data;
+            $pageid = $page->nextpageid;
+        }
+
+        return html_writer::table($table);
+    }
+
+    /**
+     * Returns HTML to display the full edit page
+     *
+     * @param lesson $lesson
+     * @param int $pageid
+     * @param int $prevpageid
+     * @param bool $single
+     * @return string
+     */
+    public function display_edit_full(lesson $lesson, $pageid, $prevpageid, $single=false) {
+        global $DB, $CFG;
+
+        $manager = lesson_page_type_manager::get($lesson);
+        $qtypes = $manager->get_page_type_strings();
+        $npages = count($lesson->load_all_pages());
+        $canedit = has_capability('mod/lesson:edit', context_module::instance($this->page->cm->id));
+
+        $content = '';
+        if ($canedit) {
+            $content = $this->add_page_links($lesson, $prevpageid);
+        }
+
+        $options = new stdClass;
+        $options->noclean = true;
+
+        while ($pageid != 0 && $single!=='stop') {
+            $page = $lesson->load_page($pageid);
+
+            $pagetable = new html_table();
+            $pagetable->align = array('right','left');
+            $pagetable->width = '100%';
+            $pagetable->tablealign = 'center';
+            $pagetable->cellspacing = 0;
+            $pagetable->cellpadding = '5px';
+            $pagetable->data = array();
+            $pagetable->id = 'lesson-' . $pageid;
+
+            $pageheading = new html_table_cell();
+
+            $pageheading->text = format_string($page->title);
+            if ($canedit) {
+                $pageheading->text .= ' '.$this->page_action_links($page, $npages);
+            }
+            $pageheading->style = 'text-align:center';
+            $pageheading->colspan = 2;
+            $pageheading->scope = 'col';
+            $pagetable->head = array($pageheading);
+
+            $cell = new html_table_cell();
+            $cell->colspan = 2;
+            $cell->style = 'text-align:left';
+            $cell->text = $page->contents;
+            $pagetable->data[] = new html_table_row(array($cell));
+
+            $cell = new html_table_cell();
+            $cell->colspan = 2;
+            $cell->style = 'text-align:center';
+            $cell->text = '<strong>'.$qtypes[$page->qtype] . $page->option_description_string().'</strong>';
+            $pagetable->data[] = new html_table_row(array($cell));
+
+            $pagetable = $page->display_answers($pagetable);
+
+            $content .= html_writer::start_tag('div', array('class' => 'no-overflow'));
+            $content .= html_writer::table($pagetable);
+            $content .= html_writer::end_tag('div');
+
+            if ($canedit) {
+                $content .= $this->add_page_links($lesson, $pageid);
+            }
+
+            // check the prev links - fix (silently) if necessary - there was a bug in
+            // versions 1 and 2 when add new pages. Not serious then as the backwards
+            // links were not used in those versions
+            if ($page->prevpageid != $prevpageid) {
+                // fix it
+                $DB->set_field("lesson_pages", "prevpageid", $prevpageid, array("id" => $page->id));
+                debugging("<p>***prevpageid of page $page->id set to $prevpageid***");
+            }
+
+            $prevpageid = $page->id;
+            $pageid = $page->nextpageid;
+
+            if ($single === true) {
+                $single = 'stop';
+            }
+
+        }
+
+        return $this->output->box($content, 'edit_pages_box');
+    }
+
+    /**
+     * Returns HTML to display the add page links
+     *
+     * @param lesson $lesson
+     * @param int $prevpageid
+     * @return string
+     */
+    public function add_page_links(lesson $lesson, $prevpageid=false) {
+        global $CFG;
+
+        $links = array();
+
+        $importquestionsurl = new moodle_url('/mod/lesson/import.php',array('id'=>$this->page->cm->id, 'pageid'=>$prevpageid));
+        $links[] = html_writer::link($importquestionsurl, get_string('importquestions', 'lesson'));
+
+        $manager = lesson_page_type_manager::get($lesson);
+        foreach($manager->get_add_page_type_links($prevpageid) as $link) {
+            $links[] = html_writer::link($link['addurl'], $link['name']);
+        }
+
+        $addquestionurl = new moodle_url('/mod/lesson/editpage.php', array('id'=>$this->page->cm->id, 'pageid'=>$prevpageid));
+        $links[] = html_writer::link($addquestionurl, get_string('addaquestionpagehere', 'lesson'));
+
+        return $this->output->box(implode(" | \n", $links), 'addlinks');
+    }
+
+    /**
+     * Return HTML to display add first page links
+     * @param lesson $lesson
+     * @return string
+     */
+    public function add_first_page_links(lesson $lesson) {
+        global $CFG;
+        $prevpageid = 0;
+
+        $output = $this->output->heading(get_string("whatdofirst", "lesson"), 3);
+        $links = array();
+
+        $importquestionsurl = new moodle_url('/mod/lesson/import.php',array('id'=>$this->page->cm->id, 'pageid'=>$prevpageid));
+        $links[] = html_writer::link($importquestionsurl, get_string('importquestions', 'lesson'));
+
+        $manager = lesson_page_type_manager::get($lesson);
+        foreach ($manager->get_add_page_type_links($prevpageid) as $link) {
+            $link['addurl']->param('firstpage', 1);
+            $links[] = html_writer::link($link['addurl'], $link['name']);
+        }
+
+        $addquestionurl = new moodle_url('/mod/lesson/editpage.php', array('id'=>$this->page->cm->id, 'pageid'=>$prevpageid, 'firstpage'=>1));
+        $links[] = html_writer::link($addquestionurl, get_string('addaquestionpage', 'lesson'));
+
+        return $this->output->box($output.'<p>'.implode('</p><p>', $links).'</p>', 'generalbox firstpageoptions');
+    }
+
+    /**
+     * Returns HTML to display action links for a page
+     *
+     * @param lesson_page $page
+     * @param bool $printmove
+     * @param bool $printaddpage
+     * @return string
+     */
+    public function page_action_links(lesson_page $page, $printmove, $printaddpage=false) {
+        global $CFG;
+
+        $actions = array();
+
+        if ($printmove) {
+            $url = new moodle_url('/mod/lesson/lesson.php',
+                    array('id' => $this->page->cm->id, 'action' => 'move', 'pageid' => $page->id, 'sesskey' => sesskey()));
+            $label = get_string('movepagenamed', 'lesson', format_string($page->title));
+            $img = html_writer::img($this->output->pix_url('t/move'), $label, array('class' => 'iconsmall'));
+            $actions[] = html_writer::link($url, $img, array('title' => $label));
+        }
+        $url = new moodle_url('/mod/lesson/editpage.php', array('id' => $this->page->cm->id, 'pageid' => $page->id, 'edit' => 1));
+        $label = get_string('updatepagenamed', 'lesson', format_string($page->title));
+        $img = html_writer::img($this->output->pix_url('t/edit'), $label, array('class' => 'iconsmall'));
+        $actions[] = html_writer::link($url, $img, array('title' => $label));
+
+        $url = new moodle_url('/mod/lesson/view.php', array('id' => $this->page->cm->id, 'pageid' => $page->id));
+        $label = get_string('previewpagenamed', 'lesson', format_string($page->title));
+        $img = html_writer::img($this->output->pix_url('t/preview'), $label, array('class' => 'iconsmall'));
+        $actions[] = html_writer::link($url, $img, array('title' => $label));
+
+        $url = new moodle_url('/mod/lesson/lesson.php',
+                array('id' => $this->page->cm->id, 'action' => 'confirmdelete', 'pageid' => $page->id, 'sesskey' => sesskey()));
+        $label = get_string('deletepagenamed', 'lesson', format_string($page->title));
+        $img = html_writer::img($this->output->pix_url('t/delete'), $label, array('class' => 'iconsmall'));
+        $actions[] = html_writer::link($url, $img, array('title' => $label));
+
+        if ($printaddpage) {
+            $options = array();
+            $manager = lesson_page_type_manager::get($page->lesson);
+            $links = $manager->get_add_page_type_links($page->id);
+            foreach ($links as $link) {
+                $options[$link['type']] = $link['name'];
+            }
+            $options[0] = get_string('question', 'lesson');
+
+            $addpageurl = new moodle_url('/mod/lesson/editpage.php', array('id'=>$this->page->cm->id, 'pageid'=>$page->id, 'sesskey'=>sesskey()));
+            $addpageselect = new single_select($addpageurl, 'qtype', $options, null, array(''=>get_string('addanewpage', 'lesson').'...'), 'addpageafter'.$page->id);
+            $addpageselector = $this->output->render($addpageselect);
+        }
+
+        if (isset($addpageselector)) {
+            $actions[] = $addpageselector;
+        }
+
+        return implode(' ', $actions);
+    }
+
+    /**
+     * Prints the on going message to the user.
+     *
+     * With custom grading On, displays points
+     * earned out of total points possible thus far.
+     * With custom grading Off, displays number of correct
+     * answers out of total attempted.
+     *
+     * @param object $lesson The lesson that the user is taking.
+     * @return void
+     **/
+
+     /**
+      * Prints the on going message to the user.
+      *
+      * With custom grading On, displays points
+      * earned out of total points possible thus far.
+      * With custom grading Off, displays number of correct
+      * answers out of total attempted.
+      *
+      * @param lesson $lesson
+      * @return string
+      */
+    public function ongoing_score(lesson $lesson) {
+        global $USER, $DB;
+
+        $context = context_module::instance($this->page->cm->id);
+        if (has_capability('mod/lesson:manage', $context)) {
+            return $this->output->box(get_string('teacherongoingwarning', 'lesson'), "ongoing center");
+        } else {
+            $ntries = $DB->count_records("lesson_grades", array("lessonid"=>$lesson->id, "userid"=>$USER->id));
+            if (isset($USER->modattempts[$lesson->id])) {
+                $ntries--;
+            }
+            $gradeinfo = lesson_grade($lesson, $ntries);
+            $a = new stdClass;
+            if ($lesson->custom) {
+                $a->score = $gradeinfo->earned;
+                $a->currenthigh = $gradeinfo->total;
+                return $this->output->box(get_string("ongoingcustom", "lesson", $a), "ongoing center");
+            } else {
+                $a->correct = $gradeinfo->earned;
+                $a->viewed = $gradeinfo->attempts;
+                return $this->output->box(get_string("ongoingnormal", "lesson", $a), "ongoing center");
+            }
+        }
+    }
+
+    /**
+     * Returns HTML to display a progress bar of progression through a lesson
+     *
+     * @param lesson $lesson
+     * @return string
+     */
+    public function progress_bar(lesson $lesson) {
+        global $CFG, $USER, $DB;
+
+        $context = context_module::instance($this->page->cm->id);
+
+        // lesson setting to turn progress bar on or off
+        if (!$lesson->progressbar) {
+            return '';
+        }
+
+        // catch teachers
+        if (has_capability('mod/lesson:manage', $context)) {
+            return $this->output->notification(get_string('progressbarteacherwarning2', 'lesson'));
+        }
+
+        if (!isset($USER->modattempts[$lesson->id])) {
+            // all of the lesson pages
+            $pages = $lesson->load_all_pages();
+            foreach ($pages as $page) {
+                if ($page->prevpageid == 0) {
+                    $pageid = $page->id;  // find the first page id
+                    break;
+                }
+            }
+
+            // current attempt number
+            if (!$ntries = $DB->count_records("lesson_grades", array("lessonid"=>$lesson->id, "userid"=>$USER->id))) {
+                $ntries = 0;  // may not be necessary
+            }
+
+            $viewedpageids = array();
+            if ($attempts = $lesson->get_attempts($ntries, false)) {
+                foreach($attempts as $attempt) {
+                    $viewedpageids[$attempt->pageid] = $attempt;
+                }
+            }
+
+            $viewedbranches = array();
+            // collect all of the branch tables viewed
+            if ($branches = $DB->get_records("lesson_branch", array ("lessonid"=>$lesson->id, "userid"=>$USER->id, "retry"=>$ntries), 'timeseen ASC', 'id, pageid')) {
+                foreach($branches as $branch) {
+                    $viewedbranches[$branch->pageid] = $branch;
+                }
+                $viewedpageids = array_merge($viewedpageids, $viewedbranches);
+            }
+
+            // Filter out the following pages:
+            //      End of Cluster
+            //      End of Branch
+            //      Pages found inside of Clusters
+            // Do not filter out Cluster Page(s) because we count a cluster as one.
+            // By keeping the cluster page, we get our 1
+            $validpages = array();
+            while ($pageid != 0) {
+                $pageid = $pages[$pageid]->valid_page_and_view($validpages, $viewedpageids);
+            }
+
+            // progress calculation as a percent
+            $progress = round(count($viewedpageids)/count($validpages), 2) * 100;
+        } else {
+            $progress = 100;
+        }
+
+        // print out the Progress Bar.  Attempted to put as much as possible in the style sheets.
+        $content = '<br />' . html_writer::tag('div', $progress . '%', array('class' => 'progress_bar_completed', 'style' => 'width: '. $progress . '%;'));
+        $printprogress = html_writer::tag('div', get_string('progresscompleted', 'lesson', $progress) . $content, array('class' => 'progress_bar'));
+
+        return $this->output->box($printprogress, 'progress_bar');
+    }
+
+    /**
+     * Returns HTML to show the start of a slideshow
+     * @param lesson $lesson
+     */
+    public function slideshow_start(lesson $lesson) {
+        $attributes = array();
+        $attributes['class'] = 'slideshow';
+        $attributes['style'] = 'background-color:'.$lesson->properties()->bgcolor.';height:'.
+                $lesson->properties()->height.'px;width:'.$lesson->properties()->width.'px;';
+        $output = html_writer::start_tag('div', $attributes);
+        return $output;
+    }
+    /**
+     * Returns HTML to show the end of a slideshow
+     */
+    public function slideshow_end() {
+        $output = html_writer::end_tag('div');
+        return $output;
+    }
+    /**
+     * Returns a P tag containing contents
+     * @param string $contents
+     * @param string $class
+     */
+    public function paragraph($contents, $class='') {
+        $attributes = array();
+        if ($class !== '') {
+            $attributes['class'] = $class;
+        }
+        $output = html_writer::tag('p', $contents, $attributes);
+        return $output;
+    }
+    /**
+     * Returns HTML to display add_highscores_form
+     * @param lesson $lesson
+     * @return string
+     */
+    public function add_highscores_form(lesson $lesson) {
+        global $CFG;
+        $output  = $this->output->box_start('generalbox boxaligncenter');
+        $output .= $this->output->box_start('mdl-align');
+        $output .= '<form id="nickname" method ="post" action="'.$CFG->wwwroot.'/mod/lesson/highscores.php" autocomplete="off">
+             <input type="hidden" name="id" value="'.$this->page->cm->id.'" />
+             <input type="hidden" name="mode" value="save" />
+             <input type="hidden" name="sesskey" value="'.sesskey().'" />';
+        $output .= get_string("entername", "lesson").": <input type=\"text\" name=\"name\" size=\"7\" maxlength=\"5\" />";
+        $output .= $this->output->box("<input type='submit' value='".get_string('submitname', 'lesson')."' />", 'lessonbutton center');
+        $output .= "</form>";
+        $output .= $this->output->box_end();
+        $output .= $this->output->box_end();
+        return $output;
+    }
+}
+
+

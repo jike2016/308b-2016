@@ -6,6 +6,9 @@
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /*6368 行.hidden { display: none !important;} 属性影响moodle页面本身属性，进行注释，2016年1月23日 郑栩基*/
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+  height: 25px;}
+
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;

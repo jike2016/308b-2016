@@ -16,8 +16,12 @@ if (empty($CFG->authloginviaemail)) {
     $strusername = get_string('usernameemail');
 }
 ?>
+
+<!--start新加代码-->
+<!--end 新加代码-->
+
 <div class="loginbox clearfix <?php echo $columns ?>">
-  <div class="loginpanel">
+  <div class="loginpanel ">
 <?php
   if (($CFG->registerauth == 'email') || !empty($CFG->registerauth)) { ?>
       <div class="skiplinks"><a class="skip" href="signup.php"><?php print_string("tocreatenewaccount"); ?></a></div>
@@ -34,23 +38,24 @@ if (empty($CFG->authloginviaemail)) {
           }
         ?>
         
-        
         <form action="<?php echo $CFG->httpswwwroot; ?>/login/index.php" method="post" id="login" <?php echo $autocomplete; ?> >
-          <div class="loginform nloginform"><!--加了class:nloginform-->
-          
-            <div class="label">
-            	<label for="username" class="p24"><?php echo($strusername) ?></label><!--用户名的label,加了class:p24-->
-            </div>
-            <div class="form-input" class="fr"><!--加了class:fr-->
-            	<input  style="height:30px; width:200px;float:right;" type="text" name="username" id="username" size="15" value="<?php p($frm->username) ?>" /><!--用户名的输入框加了style-->
+          <div class="loginform inputbox "><!--添加class：inputbox-->
+
+            <!--<div class="label"> 注释 -->
+            	<!--<label for="username" class="p24"><?php echo($strusername) ?></label>&lt;!&ndash;用户名的label,加了class:p24   &ndash;&gt;-->
+            <!--</div>-->
+            <div class=""><!--去掉样式 class="form-input"-->
+                <!--## style="width: 270px;" class="username" placeholder="<?php echo($strusername) ?>" autocomplete="off"-->
+            	<input type="text" name="username" id="username" style="width: 270px;clear: both;" class="username" placeholder="<?php echo($strusername) ?>" autocomplete="off" size="15" value="<?php p($frm->username) ?>" />
             </div>
             <div class="clearer"><!-- --></div>
             
-            <div class="label">
-            	<label for="password"  class="p24"><?php print_string("password") ?></label><!--密码的label,加了class:p24-->
-            </div>
-            <div class="form-input">
-              <input style="height:30px; width:200px;float:right;" type="password" name="password" id="password" size="15" value="" <?php echo $autocomplete; ?> /><!--密码的输入框加了style-->
+            <!--<div class="label"> 注释 -->
+            	<!--<label for="password"  class="p24"><?php print_string("password") ?></label>&lt;!&ndash;密码的label,加了class:p24 &ndash;&gt;-->
+            <!--</div>-->
+              <div class=""><!--去掉样式 class="form-input"-->
+                <!--##    style="width: 270px;"   class="password" placeholder="<?php print_string("password") ?>" oncontextmenu="return false" onpaste="return false"-->
+                <input type="password" name="password" id="password" size="15" value="" style="width: 270px;" class="password" placeholder="<?php print_string("password") ?>" oncontextmenu="return false" onpaste="return false" <?php echo $autocomplete; ?> />
             </div>
             
           </div>
@@ -59,19 +64,19 @@ if (empty($CFG->authloginviaemail)) {
             <?php if (isset($CFG->rememberusername) and $CFG->rememberusername == 2) { ?>
               
          <div style="width:300px; height:30px; margin:auto">
-              <div class="rememberpass" style="float:left; padding:10px 0px 0px 0px"><!--加了style-->
-                  <input type="checkbox" style="margin:0px 0px 3px 3px"  name="rememberusername" id="rememberusername" value="1" <?php if ($frm->username) {echo 'checked="checked"';} ?> /> <!--记住用户名选框加了style-->
-                  <label style="font-size:16px; color:#666;"for="rememberusername"><?php print_string('rememberusername', 'admin') ?></label><!--加了style-->
+              <div class="rememberpass" >
+                  <input type="checkbox" style="float: left;margin-top: 5px;margin-right: 5px;"  name="rememberusername" id="rememberusername" value="1" <?php if ($frm->username) {echo 'checked="checked"';} ?> /> <!--记住用户名选框加了style-->
+                  <label style="font-size:16px; color:#666;float:left;" for="rememberusername"><?php print_string('rememberusername', 'admin') ?></label><!--加了style-->
                   <div class="forgetpass" style="float:right;">
-                  		<a style=" margin:0px 0px 0px 60px" href="forgot_password.php"><?php print_string("forgotten") ?></a>
+                  		<a style="float: right;color: #0088FF;text-decoration: none;" href="forgot_password.php"><?php print_string("forgotten") ?></a>
                   </div> <!--a标签：忘记用户名或密码  加了style-->
                   
               </div>
               
               <?php } ?>
           	  <div class="clearer"><!-- --></div>
-          	  <input type="submit"  style=" float:left; margin:15px 0px 0px 0px; width:100%;height:35px;" id="loginbtn" value="<?php print_string("login") ?>" /><!--登录按钮加了style-->
-              		
+          	  <input type="submit" id="loginbtn" value="<?php print_string("login") ?>" />
+
           </div>
          
         </form>
@@ -121,3 +126,4 @@ if (empty($CFG->authloginviaemail)) {
     </div>
 <?php } ?>
 </div>
+

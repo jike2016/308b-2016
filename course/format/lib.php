@@ -19,7 +19,7 @@
  *
  * @package    core_course
  * @copyright  2012 Marina Glancy
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 omr later
  */
 
 defined('MOODLE_INTERNAL') || die;

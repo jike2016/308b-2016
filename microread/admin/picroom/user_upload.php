@@ -1,8 +1,13 @@
 <?php 
 $numPerPage=10;//每页显示行数
-if(isset($_POST['pageNum'])){
+/**Start cx 审核成功后跳到指定页面 增加判断get参数 20160723*/
+if(isset($_GET['pageNum'])) {
+	$pagenummy = $_GET['pageNum'];//获取当前页数
+}
+elseif(isset($_POST['pageNum'])){
 	$pagenummy = $_POST['pageNum'];//获取当前页数
 }
+/**End cx 审核成功后跳到指定页面 20160723*/
 else{
 	$pagenummy=1;
 }
@@ -95,8 +100,10 @@ $pics = $DB->get_records_sql('
 			foreach($pics as $pic){
 				if($pic->admin_check==0){
 					$pic_status='未审核';
-					$links='<a href="picroom/user_upload_post_handler.php?title=pass&picid='.$pic->id.'" target="ajaxTodo" title="确定“通过”吗?"><span>通过</span></a> | 
-					<a href="picroom/user_upload_post_handler.php?title=unpass&picid='.$pic->id.'" target="ajaxTodo" title="确定“不通过”吗?"><span>不通过</span></a>';
+					/**Start cx 审核成功后跳到指定页面 增加参数20160723*/
+					$links='<a href="picroom/user_upload_post_handler.php?title=pass&picid='.$pic->id.'&pageNum='.$pagenummy.'" target="ajaxTodo" title="确定“通过”吗?"><span>通过</span></a> | 
+					<a href="picroom/user_upload_post_handler.php?title=unpass&picid='.$pic->id.'&pageNum='.$pagenummy.'" target="ajaxTodo" title="确定“不通过”吗?"><span>不通过</span></a>';
+					/**End cx 审核成功后跳到指定页面 20160723*/
 				}
 				elseif($pic->admin_check==1){
 					$pic_status='已通过';

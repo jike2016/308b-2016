@@ -52,8 +52,9 @@ echo $OUTPUT->doctype() ?>
     <?php echo $OUTPUT->standard_head_html() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css">	<!--全局-->
-    <link rel="stylesheet" href="../theme/more/style/navstyle.css" /><!-- 全局-->
+    <link rel="stylesheet" href="<?php echo $CFG->wwwroot;?>/theme/more/style/bootstrap.css" type="text/css">	<!--全局-->
+    <link rel="stylesheet" href="<?php echo $CFG->wwwroot;?>/theme/more/style/navstyle.css" /><!-- 全局-->
+    <script src="<?php echo $CFG->wwwroot;?>/theme/more/js/jquery-1.11.3.min.js"></script>
     
 </head>
 

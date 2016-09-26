@@ -1,0 +1,188 @@
+* {margin: 0;padding: 0;list-style: none;border: 0;}
+body {font-family: "微软雅黑";font-size: 12px;background-color: #F5f5f5;height:1000px; padding-top: 0px;}
+html, body {  background-color: #F5f5f5;  }
+a, a:hover {color: #3E3E3E;text-decoration: none;}
+
+/****顶部轮播图****/
+.flexslider {margin: 0px auto 20px;position: relative;width: 100%;height: 384px;overflow: hidden;zoom: 1;}
+.flexslider .slides li {width: 100%;height: 100%;}
+.flex-direction-nav a {
+	width: 70px;
+	height: 70px;
+	line-height: 99em;
+	overflow: hidden;
+	margin: -35px 0 0;
+	display: block;
+	background: url(../img/ad_ctr.png) no-repeat;
+	position: absolute;
+	top: 50%;
+	z-index: 10;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	-webkit-transition: all .3s ease;
+	border-radius: 35px;
+}
+
+.flex-direction-nav .flex-next {background-position: 0 -70px;right: 0;}
+.flex-direction-nav .flex-prev {left: 0;}
+.flexslider:hover .flex-next {opacity: 0.8;filter: alpha(opacity=25);}
+.flexslider:hover .flex-prev {opacity: 0.8;filter: alpha(opacity=25);}
+.flexslider:hover .flex-next:hover,
+.flexslider:hover .flex-prev:hover {opacity: 1;filter: alpha(opacity=50);}
+.flex-control-nav {width: 100%;position: absolute;bottom: 10px;text-align: center;}
+.flex-control-nav li {margin: 0 2px;display: inline-block;zoom: 1;*display: inline;}
+.flex-control-paging li a {
+	background: url(../../img/dot.png) no-repeat 0 -16px;
+	display: block;
+	height: 16px;
+	overflow: hidden;
+	text-indent: -99em;
+	width: 16px;
+	cursor: pointer;
+}
+
+.flex-control-paging li a.flex-active,
+.flex-control-paging li.active a {background-position: 0 0;}
+.flexslider .slides a img {width: 100%;height: 384px;display: block;}
+/****顶部轮播图 @end****/
+	
+#navOut {width: 100%;height: 50px;background: #FFFFFF;}
+.nav {width: 1200px;height: 50px;margin: 0px auto 0;}
+.navLeft {width: 290px;height: 50px;background: #00b0f7;float: left;position: relative;}
+.navLeft p {height: 50px;line-height: 50px; padding-left: 20px;color: #FFFFFF;font-size: 16px;}
+.nav .navRight {float: right;overflow: hidden;}
+.nav .navRight li {float: left;width: 130px;height: 50px;line-height: 50px;text-align: center;position: relative;}
+.nav .navRight li a{font-size: 16px;text-decoration: none;}
+.nav .navRight li .active{color: #0088DB;}
+.nav .navRight li a:hover{color: #00B0F7;}
+.nav .navRight li span {width: 5px;height: 5px;border-bottom: 1px solid #000000;border-left: 1px solid #000000;position: absolute;top: 15px;left: 63px;transform: rotate(-45deg);transition: all 1s;}
+
+.fenlei {width: 288px;height: 382px;position: absolute;background: #FFFFFF;top: 50;left: 0;border: 1PX solid #EEEEEE;z-index: 10;}
+.fenlei ul {overflow: hidden;}
+.fenlei ul li {overflow: hidden;height: 75.5px;border-bottom: 1px solid #EEEEEE;}
+.fenleiLeft {overflow: hidden;}
+.fenleiLeft dt {padding: 10px 0 0 15px;font-size: 16px;font-weight:100;}
+.fenleiLeft dt:hover{color: #f60;}
+.fenleiLeft dd {overflow: hidden;}
+.fenleiLeft dd a {margin: 5px 0 0 15px;float: left;font-size: 14px;color: #999;}
+.fenleiLeft dd a:hover{color: #f60;}
+.fenleiright {width: 0px;height: 382px;border: 1px solid #EEEEEE;border-left: 0;background: #FFFFFF;position: absolute;top: 50px;left: 290px;overflow: hidden;z-index: 10;}
+
+#banner {width: 100%;height: 384px;}
+#banner .pic {width: 900px;height: 382px;margin: 0 auto;padding-left: 290px;}
+.pic img {display: block;}
+
+.flright {padding: 10px 0 0 20px;overflow: hidden; margin-bottom: 0px;}
+.flright dt {height: 24px;line-height: 24px;font-size: 14px;font-weight: bold;}
+.flright dd {overflow: hidden;}
+.flright dd a {float: left;padding-right: 20px;height: 33px;line-height: 33px;    font-size: 14px;}
+.flright dd a:hover{color: #f60;}
+
+p {margin: 0px;}
+/***导航条***/
+nav {width: 100%; height: 100px; background-color: #FFFFFF;}
+nav .center {width: 1200px; margin: auto;height: 100px;}
+nav .center .l-box{width: 30%;height: 100px;float: left;}
+nav .center .l-box img {margin-top: 12px;}
+nav .center .l-box{width: 30%;height: 100px;}
+nav .center .r-box{width: 70%;height: 100px;float: right;}
+nav .center .r-box .search {width: 200px; height: 26px; float: right; border-radius: 0px; margin-top: 20px;}
+nav .center .r-box .searchbtn {width: 20px; height: 26px; float: right; border-radius: 0px;margin-top: 20px;border-radius: 0px 5px 5px 0px;}
+nav .center .r-box .btn-group{ float: right; margin-top: 20px;}
+nav .center .r-box .dropdown-toggle{width: 40px; height: 26px; float: right; border-radius: 5px 0px 0px 5px; border-right: 0px;}
+nav .center .r-box .dropdown-toggle span {margin-left: 5px;margin-top: 0px}
+
+nav .center .r-box .a-box {float: right; width: 160px; height: 40px;padding-top: 20px;}
+nav .center .r-box .a-box a {font-size: 16px; color: #555; }
+nav .center .r-box .a-box a:hover {color: #0088FF;}
+/***导航条 @end***/
+
+/***改变登录菜单样式***/
+.usermenu .usertext{color: #777 !important;}
+/***改变登录菜单样式 @end***/
+
+* { -webkit-box-sizing:inherit;-moz-box-sizing: inherit; box-sizing:inherit;}
+*:before,*:after {-webkit-box-sizing: inherit;-moz-box-sizing: inherit; box-sizing: inherit;}
+.nav ul {margin-bottom: 0px; margin: 0px;}
+
+/***最新课程***/
+.newcourse {width: 1200px; margin: auto; padding-top: 5px;}
+.newcourse h3 {border-left: 4px solid #0066FF; margin: 10px 0px 20px 0px;color:#0066FF;}
+.newcourse .mainbanner {width: 100%;}
+.newcourse .mainbanner .course {width: 280px; height: 220px; border: 1px solid #CCCCCC; background-color: #FFFFFF;float: left;margin-left: 20px; margin-bottom: 30px;}
+.newcourse .mainbanner .course.first {margin-left: 0px;}
+.newcourse .mainbanner .course img {position:absolute;width: 280px; height: 180px;}
+.newcourse .mainbanner .course .coursetips {width: 280px; height: 40px; line-height: 40px;position:absolute;}
+.newcourse .mainbanner .course .m-t {margin-top: 180px;}
+.newcourse .mainbanner .course .coursetips .coursename{width:180px;display: block; font-size:14px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden; float: left; margin-left: 10px;color: #777777;}
+.newcourse .mainbanner .course .coursetips .coursename:hover {color: #0078E7;}
+.newcourse .mainbanner .course .coursetips .num {color: #777777; float: right; margin-right: 10px;}
+.newcourse .mainbanner .course .coursetips .num span{ margin-right: 5px;}
+.newcourse .mainbanner .course .coursetips .glyphicon {margin-top: 12px;margin-right: 0px;}
+.newcourse .mainbanner .course .hidediv {position:relative; z-index: 10;width: 280px; height: 180px; background-color: #000000;opacity: 0.8;filter: alpha(opacity=80); display: none;}
+.newcourse .mainbanner .course .hidediv img {width: 100px; height: 100px;margin-top: 40px; margin-left: 90px;}
+/***最新课程 @end***/
+
+/***军事业务 ***/
+.military {width: 100%; background-color: #FFFFFF;}
+.military .mainbox{width: 1200px;margin: auto;padding: 20px 0px;}
+.military h3 {border-left: 4px solid #008000; margin: 10px 0px 20px 0px;color:#008000;}
+.military .mainbanner {width: 100%;}
+.military .l-course{width: 302px; float: left;}
+.military .l-course .course {width: 280px;height: 472px; overflow: hidden;position: relative;float: left;cursor: pointer; margin-bottom: 20px;border: 1px solid #CCCCCC;}
+.military .l-course .course img{width: 280px;height: 472px;}
+.military .l-course .course dd{width: 100%;position: absolute;bottom: 0;left: 0;height: 70px;text-align: center;background: rgba(0,0,0,0.4);}
+.military .l-course .course dd h6{margin-top: 15px;font-size: 16px;color: #fff;}
+.military .l-course .course dd p{ margin-top: 10px;line-height: 12px;font-size: 13px;color: #fff;}
+
+.military .r-course {width: 898px; float: right;}
+.military .r-course .course {width: 280px; height: 220px; border: 1px solid #CCCCCC; background-color: #F5F5F5;float: left;margin-left: 20px; margin-bottom: 30px;}
+.military .r-course .course.first {margin-left: 0px;}
+.military .r-course .course img {position:absolute;width: 280px; height: 180px;}
+.military .r-course .course .coursetips {width: 280px; height: 40px; line-height: 40px;position:absolute;}
+.military .r-course .course .m-t {margin-top: 180px;}
+.military .r-course .course .coursetips .coursename{width:180px;display: block; font-size:14px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden; float: left; margin-left: 10px;color: #777777;}
+.military .r-course .course .coursetips .coursename:hover {color: #0078E7;}
+.military .r-course .course .coursetips .num {color: #777777; float: right; margin-right: 10px;}
+.military .r-course .course .coursetips .num span{ margin-right: 5px;}
+.military .r-course .course .coursetips .glyphicon {margin-top: 12px;margin-right: 0px;}
+.military .r-course .course .hidediv {position:relative; z-index: 10;width: 280px; height: 180px; background-color: #000000;opacity: 0.8;filter: alpha(opacity=80); display: none;}
+.military .r-course .course .hidediv img {width: 100px; height: 100px;margin-top: 40px; margin-left: 90px;}
+/***军事业务 @end***/
+
+/***政治工作 ***/
+.polity {width: 100%; background-color: #F5F5F5;}
+.polity h3 {border-left: 4px solid #C9302C; margin: 10px 0px 20px 0px;color:#C9302C;}
+.polity .r-course .course {background-color: #FFFFFF}
+/***政治工作 @end***/
+
+/***后勤保障 ***/
+.logistics {background-color: #FFFFFFF;}
+.logistics h3 {border-left: 4px solid #DD4400; margin: 10px 0px 20px 0px; color:#DD4400 ;}
+/***后勤保障 @end***/
+
+/***综合应用 ***/
+.application {background-color: #F5F5F5;}
+.application h3 {border-left: 4px solid #660066; margin: 10px 0px 20px 0px; color:#660066 ;}
+.application .r-course .course {background-color: #FFFFFF}
+/***综合应用 @end***/
+
+/***排行榜 ***/
+.rank {background-color: #FFFFFF; height: 260px;}
+.rank h3 {border-left: 4px solid #C82829; margin: 10px 0px 20px 0px; color:#C82829 ;}
+.rank .learnnerbox {width: 10%; float: left; text-align: center; padding-top: 20px;}
+.rank .learnnerbox img {width: 80px; height: 80px; border-radius: 10px; margin-bottom: 10px;-webkit-transition: transform .3s; -moz-transition: transform .3s; -o-transition: transform .3s; -webkit-perspective: 1000; cursor: pointer;}
+.rank .learnnerbox img:hover {-webkit-transform: scale(1.26); -moz-transform: scale(1.26); -o-transform: scale(1.26); transform: scale(1.26);}
+.rank .learnnerbox .num {color: #555; font-size: 16px; margin-top: 0px;}
+.rank .learnnerbox .n1 {color: #C9302C;font-weight: 600;}
+.rank .learnnerbox .n2 {color: #357EBD;font-weight: 600;}
+.rank .learnnerbox .n3 {color: #A35A00;font-weight: 600;}
+.rank .learnnerbox a {color: #000000; font-size: 16px;text-decoration: none;}
+.rank .learnnerbox a:hover{color: #0066FF;}
+/***排行榜  @end***/
+
+/***底部导航条 ***/
+.nav-bottom {width: 100%; height:60px; background-color: #10adf3; text-align: center;line-height: 60px;}
+.nav-bottom p {font-size: 18px; color: #FFFFFF; }
+/***底部导航条  @end ***/

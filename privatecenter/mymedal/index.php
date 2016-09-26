@@ -4,14 +4,7 @@ $('.lockpage').hide();
 <style>
 	.kinds {margin-bottom: 5px;}
 	.maininfo-box {background-color: #FFFFFF; height: 665px;}
-	.classinfo-box {min-height: 615px; padding: 0px;overflow-y: scroll;}
-	.footer-box {background-color: #F0F0F0;  border: 1px solid #ccc; border-top: 0px;}
-	.footer { background-color: #F0F0F0; width: 60%; margin: auto; height: 48px; padding: 15px 0px;}
-	.footer p {display: inline-block; color: #5E5E5E;}
-	.footer .p-14-red {color: #C9302C;}
-	.footer .right,.center {float: right;}
-	.footer .right{margin-right: 60px;}
-	.footer a {margin-right: 40px;}	
+	.classinfo-box {height: 615px; padding: 0px;overflow-y: scroll;}
 	table td {text-align: center;}
 	table {margin-top: 0px;}
 	table thead {background-color:#F0F0F0; padding: 5px;}
@@ -28,6 +21,7 @@ $('.lockpage').hide();
 	table tbody .td4 {text-align: left;}
 	table tbody .td1 img{width: 60px;}
 </style>
+<link rel="stylesheet" href="css/personal-footer.css" />
 
 <link rel="stylesheet" href="../privatecenter/css/badge/lrtk.css" />
 <script type="text/javascript" src="../privatecenter/js/badge/jquery.min.js"></script>

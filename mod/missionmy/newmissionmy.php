@@ -92,6 +92,7 @@ class simplehtml_form extends moodleform {
 //		}
 //		$this->add_action_buttons(false, '添加人员');
 		$userSelect = $mform->addElement('select', 'userSelect', '分配人员', $missionUserIDs);
+		$userSelect->setMultiple(true);
 
 		/** Start 获取人员 朱子武20160303 */
 		$mform->addElement('button', 'add_person', "添加人员");
@@ -106,8 +107,6 @@ class simplehtml_form extends moodleform {
 		$attributes='id="id_hidden_user"';
 		$mform->addElement('hidden', 'hidden_user', '所选用户',$attributes);
 		/**End */
-
-		$userSelect->setMultiple(true);
 
 //		echo'<button id="show" class="btn btn-success">添加人员</button>';
 

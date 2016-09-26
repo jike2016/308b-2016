@@ -65,9 +65,18 @@
     }
 	//检查登陆
     require_login($course);
+    //如果当前角色只能查看部分课程
+    global $CFG;
+    global $USER;
+    require_once($CFG->dirroot.'/course/course_classify/course_lib.php');
+    add_userAllowCourse();
+    if($USER->ava_course_flag_my){
+        $courseIDArray = explode(',',$USER->ava_course_my);
+        if(!in_array($course->id,$courseIDArray)){
+            redirect($CFG->wwwroot);
+        }
+    }
 
-	
-	
     // Switchrole - sanity check in cost-order...
 	//检查用户权限，设置页面编辑
     $reset_user_allowed_editing = false;
@@ -101,18 +110,33 @@
         }
     }
 
-
     require_once($CFG->dirroot.'/calendar/lib.php');    /// This is after login because it needs $USER
 
     // Must set layout before gettting section info. See MDL-47555.
-	
-	/** Start 20160101 岑霄**/
-	//无编辑权：学生;有编辑权：教师或管理员.设置不同的layout,以后我们使用的课程格式统一为“主题格式”，即"topics"
-	if (($PAGE->user_allowed_editing())||($course->format!='topics')){
-		$PAGE->set_pagelayout('courseforadmin');//设置layout文件
+    /** Start 20160101 岑霄 **/
+    //根据角色和权限设置不同的layout
+    //无编辑权：学生;有编辑权：教师或管理员.设置不同的layout,以后我们使用的课程格式统一为“主题格式”，即"topics"
+    require_once($CFG->dirroot.'/user/my_role_conf.class.php');
+    $role = new my_role_conf();
+    //对分级管理员的判断
+    $gradingFlag = $DB->record_exists('role_assignments', array('roleid' => $role->get_gradingadmin_role(),'userid' => $USER->id));
+    $courseAllowEditeFlag = false;
+    if($gradingFlag){
+        require_once($CFG->dirroot.'/course/course_classify/course_lib.php');
+        $allowEditeCourseIDs = get_view_course_grading();
+        if(in_array($course->id,explode(',',$allowEditeCourseIDs)) ){//如果课程可编辑
+            $PAGE->set_pagelayout('courseforadmin');//设置layout文件
+            $courseAllowEditeFlag = true;
+        }
+        else{//不可编辑
+            $PAGE->set_pagelayout('courseforstudent');//设置layout文件
+        }
+    }
+	else if (($PAGE->user_allowed_editing())||($course->format!='topics')){
+		$PAGE->set_pagelayout('courseforadmin');//设置layout文件,超级管理员、慕课管理员
 	}
     else{
-		$PAGE->set_pagelayout('courseforstudent');//设置layout文件
+		$PAGE->set_pagelayout('courseforstudent');//设置layout文件，学生
 	}
 	/** End**/ 
     if ($section and $section > 0) {
@@ -269,6 +293,8 @@
 
 }*/
 /** End**/
+
+
     // If viewing a section, make the title more specific
     if ($section and $section > 0 and course_format_uses_sections($course->format)) {
         $sectionname = get_string('sectionname', "format_$course->format");
@@ -317,7 +343,15 @@
     // Include the actual course format.
 
     /** Start 20160106 判断当前用户权限和课程主题，选择render 岑霄**/
-    if((!$PAGE->user_allowed_editing())&&($course->format=='topics')){
+    if($gradingFlag){//如果是分级管理员
+        if($courseAllowEditeFlag){//如果课程可编辑
+            require($CFG->dirroot .'/course/format/'. $course->format .'/format.php');//其他的render
+        }
+        else{//不可编辑
+            require($CFG->dirroot .'/course/format/studtopics/format.php');//专为学生的render
+        }
+    }
+    else if((!$PAGE->user_allowed_editing())&&($course->format=='topics')){
 		require($CFG->dirroot .'/course/format/studtopics/format.php');//专为学生的render
     }
     else{

@@ -4,14 +4,7 @@ $('.lockpage').hide();
 <style>
 	.kinds {margin-bottom: 5px;}
 	.maininfo-box {background-color: #FFFFFF; height: 665px;}
-	.classinfo-box {min-height: 615px; padding: 0px;}
-	.footer-box {background-color: #F0F0F0;  border: 1px solid #ccc; border-top: 0px;}
-	.footer { background-color: #F0F0F0; width: 60%; margin: auto; height: 48px; padding: 15px 0px;}
-	.footer p {display: inline-block; color: #5E5E5E;}
-	.footer .p-14-red {color: #C9302C;}
-	.footer .right,.center {float: right;}
-	.footer .right{margin-right: 60px;}
-	.footer a {margin-right: 40px;}	
+	.classinfo-box {height: 615px; padding: 0px; overflow-y: scroll;}
 	table td {text-align: center;}
 	table {margin-top: 0px;}
 	table thead {background-color: #F0F0F0; padding: 5px;}
@@ -19,14 +12,14 @@ $('.lockpage').hide();
 	.table > thead > tr > td { padding: 4px;}
 	.table > thead > tr > td, .table > tbody > tr > td { vertical-align: middle;}
 	.td1 {width: 5%;}
-	.td2 {width: 19%;}
+	.td2 {width: 10%;}
 	.td3 {width: 20%;}
 	.td4 {width: 22%;}
-	.td5 {width: 5%;}
 	.td6 {width: 24%;}
 	.td7 {width: 5%;}
 	.td8 {width: 5%;}
 </style>
+<link rel="stylesheet" href="css/personal-footer.css" />
 
 <script type="text/javascript">
 

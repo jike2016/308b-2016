@@ -39,6 +39,7 @@ $currenturl = new moodle_url('/mod/tagmy/edit.php', array('id' => $tagmyid, 'act
 $PAGE->set_url($currenturl);
 $PAGE->set_title($tagmydata->tagname);
 $PAGE->set_heading($tagmydata->tagname);
+$PAGE->set_pagelayout('registerforadmin');//设置layout
 
 class simplehtml_form extends moodleform {
 	//Add elements to form

@@ -1,32 +1,32 @@
 html,body {background-color: #f0f0f0; font-family: "微软雅黑";}
-.main {width: 1200px; margin: auto; margin-top: 80px;}
-.classbanner {width: 100%; background-color: #FFFFFF; height: 180px; padding: 1px; margin-bottom: 30px;}
+.main {width: 1200px; margin: auto; margin-top: 20px;}
+.classbanner {width: 100%; background-color: #FFFFFF; height: 195px; padding: 15px; margin-bottom: 30px;border: 1px solid #e0e0e0;}
 .classbanner img {height: 100%; float: left;}
 
 /*------课程图片------*/
 .course-pic{height:100%; overflow:hidden; float:left;}
 .course-pic a{ width:280px; height:180px; display:block; position:relative;}
 .course-pic img{ position:relative; transition:all 1s; height: 100%;-webkit-transition: transform .3s; -moz-transition: transform .3s; -o-transition: transform .3s; -webkit-perspective: 1000;}
-.course-pic-cover{display: none; height: 174px; width:260px; background-color: #000000;color: #FFFFFF; filter: alpha(opacity=45); opacity:0.45; position: absolute; z-index: 1000;}
+.course-pic-cover{display: none; height: 164px; width:268px; background-color: #000000;color: #FFFFFF; filter: alpha(opacity=45); opacity:0.45; position: absolute; z-index: 1000;}
 .course-pic-cover span {font-size: 20px; color: #FFFFFF; border: 1px solid #FFFFFF; border-radius: 3px;position: absolute; z-index: 1001; padding: 10px 20px; top: 65px; left: 75px;}
 .course-pic:hover .course-pic-cover{display:inherit;}
 .course-pic:hover img{-webkit-transform: scale(1.15); -moz-transform: scale(1.15); -o-transform: scale(2.05); transform: scale(1.15);}
 /*------课程图片@end------*/
 
 
-.classbanner .classinfo {float: left;width: 600px;padding: 25px 0 0 40px;}
+.classbanner .classinfo {float: left;width: 600px;padding: 4px 0 0 40px;}
 .classbanner .classinfo .classname { font-size: 20px;color: #111;text-decoration: none;}
 .classbanner .classinfo .classname a{text-decoration: none; color: #000000;}
 .classbanner .classinfo .classname a:hover{color: #777;}
 .classbanner .classinfo .info {font-size: 14px;color: #777; margin-top: 15px;}
 
 .classbanner .course-data {width: 240px; float: right; text-align: center;}
-.classbanner .course-data a {width: 100px;color: #fff;text-align: center;background: #f4b267;display: block;margin: 0 auto; margin-top: 25px; text-decoration: none; font-size: 16px; padding: 5px 10px;}
+.classbanner .course-data a {width: 100px;color: #fff;text-align: center;background: #f4b267;display: block;margin: 0 auto; margin-top: 10px; text-decoration: none; font-size: 16px; padding: 5px 10px;}
 .classbanner .course-data a:hover{background: #F4c287;}
 .classbanner .course-data p {color: #39d; display: inline-block; margin-top: 15px;}
 
 .classbanner .starbox {margin-top: 30px;color: #F0F0F0;}
 .classbanner .starbox .active{color: #F0AD4E;}
 
-.main .paging {width:100%;text-align: center;height:40px;}
+.main .paging {width:100%;text-align: center;}
 .main .paging .pagination .active{background-color: #337AB7;color: #FFFFFF;}

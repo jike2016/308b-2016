@@ -1,5 +1,5 @@
 <style>
-	.maininfo-box {width: 100%;background-color: #FFFFFF; min-height: 665px; border: 1px solid #ccc; padding: 0px 20px 20px 20px;}
+	.maininfo-box {width: 100%;background-color: #FFFFFF;box-sizing: border-box; height: 665px;overflow-y: scroll; border: 1px solid #ccc; padding: 0px 20px 20px 20px;}
 	/***下拉菜单 以及 饼状图**/
 	.dropdownlist { float: left; margin-top: 15px; margin-left: 20px;width: 150px;}
 	.dropdownlist .dropdown-menu {min-width: 150px;}

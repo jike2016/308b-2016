@@ -3,18 +3,10 @@ $('.lockpage').hide();
 </script>
 <style>
 	.img-info-tech {padding: 10px 0px 15px 10px;} .beizhu {width: 66px; height: 85px;}
-
-	.classinfo-box {min-height:550px}
+	.classinfo-box {height:550px; overflow-y: scroll;}
 	.classinfo .slearn { float: right; margin: 10px 0px 0px 15px; width: 120px; height: 50px;}
-	.footer-box {background-color: #F0F0F0;  border: 1px solid #ccc; border-top: 0px;}
-	.footer { background-color: #F0F0F0; width: 60%; margin: auto; height: 48px; padding: 15px 0px;}
-	.footer p {display: inline-block; color: #5E5E5E;}
-	.footer .p-14-red {color: #C9302C;}
-	.footer .right,.center {float: right;}
-	.footer .right{margin-right: 60px;}
-	.footer a {margin-right: 40px;}
-
 </style>
+<link rel="stylesheet" href="css/personal-footer.css" />
 
 <script type="text/javascript">
 

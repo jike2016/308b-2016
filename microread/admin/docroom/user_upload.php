@@ -1,8 +1,13 @@
 <?php 
 $numPerPage=10;//每页显示行数
-if(isset($_POST['pageNum'])){
+/**Start cx 审核成功后跳到指定页面 增加判断get参数 20160723*/
+if(isset($_GET['pageNum'])) {
+	$pagenummy = $_GET['pageNum'];//获取当前页数
+}
+elseif(isset($_POST['pageNum'])){
 	$pagenummy = $_POST['pageNum'];//获取当前页数
 }
+/**End cx 审核成功后跳到指定页面 20160723*/
 else{
 	$pagenummy=1;
 }
@@ -71,7 +76,7 @@ $docs = $DB->get_records_sql('select
 		<thead>
 			<tr>
 				<th width="40" align="center">序号</th>
-				<th width="80" align="center">电子书名</th>
+				<th width="80" align="center">文档名称</th>
 				<th width="90" align="center">封面</th>
 				<th align="center">简介</th>
 				<th width="120" align="center">上传时间</th>
@@ -91,8 +96,10 @@ $docs = $DB->get_records_sql('select
 			foreach($docs as $doc){
 				if($doc->admin_check==0){
 					$doc_status='未审核';
-					$links='<a href="docroom/user_upload_post_handler.php?title=pass&docid='.$doc->id.'" target="ajaxTodo" title="确定“通过”吗?"><span>通过</span></a> | 
-					<a href="docroom/user_upload_post_handler.php?title=unpass&docid='.$doc->id.'" target="ajaxTodo" title="确定“不通过”吗?"><span>不通过</span></a>';
+					/**Start cx 审核成功后跳到指定页面 增加参数20160723*/
+					$links='<a href="docroom/user_upload_post_handler.php?title=pass&docid='.$doc->id.'&pageNum='.$pagenummy.'" target="ajaxTodo" title="确定“通过”吗?"><span>通过</span></a> | 
+					<a href="docroom/user_upload_post_handler.php?title=unpass&docid='.$doc->id.'&pageNum='.$pagenummy.'" target="ajaxTodo" title="确定“不通过”吗?"><span>不通过</span></a>';
+					/**End cx 审核成功后跳到指定页面 20160723*/
 				}
 				elseif($doc->admin_check==1){
 					$doc_status='已通过';

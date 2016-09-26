@@ -1,13 +1,5 @@
-
+<link rel="stylesheet" href="css/personal-maininfo-head-box.css" />
 <style>
-	.maininfo-box {width: 100%;background-color: #FFFFFF; min-height: 615px; border: 1px solid #ccc; padding: 10px 20px 20px 20px;}
-	.head-box {width: 100%; height: 80px;border-bottom: 2px solid #CCCCCC;}
-	.head-box h3 {color: #777777; margin: 15px 0px 0px 0px; float: left;}
-	.head-box .a-box {width: 100%; height: 20px; padding: 0px;}
-	.head-box .a-box #return-index {color: #777777; text-decoration: none; cursor: pointer; font-size: 16px;}
-	.head-box .a-box #return-index:hover {color: #18BBED;}
-	.head-box #num {color: #10ADF3;}
-	
 	.table {border-bottom:1px solid #DDDDDD ; }
 	.table .td3_text { color:#000000}
 	.pagination-box {width: 100%;  text-align: center;}
@@ -18,21 +10,10 @@
 	.td4 {width: 22.5%;}
 	.td5 {width: 22.5%;}
 	.table tr td{text-align: center;}
-	/*******分页*******/
-	.footer-box {background-color: #F0F0F0;  border: 1px solid #ccc; border-top: 0px;}
-	.footer { background-color: #F0F0F0; width: 60%; margin: auto; height: 48px; padding: 15px 0px;}
-	.footer p {display: inline-block; color: #5E5E5E;}
-	.footer .p-14-red {color: #C9302C;}
-	.footer .right,.center {float: right;}
-	.footer .right{margin-right: 60px;}
-	.footer a {margin-right: 40px;}	
-	/*******分页 @end*******/
-	
 	.table tr .td3_text  p{margin: auto;}
 	.table tr .td3_text p{ width: 100%;overflow: hidden; /*自动隐藏文字*/text-overflow: ellipsis;/*文字隐藏后添加省略号*/white-space: nowrap;/*强制不换行*/width: 13em;/*不允许出现半汉字截断*/}
-
 </style>
-
+<link rel="stylesheet" href="css/personal-footer.css" />
 
 <?php
 require_once("../../config.php");

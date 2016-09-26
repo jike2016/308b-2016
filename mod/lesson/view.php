@@ -537,7 +537,6 @@ if ($pageid != LESSON_EOL) {
                 }
             }
 
-
             if ($gradeinfo->attempts) {
                 if (!$lesson->custom) {
                     $lessoncontent .= $lessonoutput->paragraph(get_string("numberofpagesviewed", "lesson", $gradeinfo->nquestions), 'center');

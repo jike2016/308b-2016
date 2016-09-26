@@ -40,7 +40,7 @@ echo $OUTPUT->doctype() ?>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <?php echo $OUTPUT->standard_head_html() ?>
     
-    <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css"><!--全局-->
+<!--    <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css"><!--全局-->
     <link rel="stylesheet" href="../theme/more/style/navstyle.css" /> <!--全局-->
 
     <script src="../theme/more/js/jquery-1.11.3.min.js"></script>
@@ -135,16 +135,16 @@ echo $OUTPUT->doctype() ?>
             <?php echo $OUTPUT->blocks('side-post', $sidepost); ?>
     
     
-        <footer id="page-footer">
-            <div id="course-footer"><?php echo $OUTPUT->course_footer(); ?></div>
-    <!--         <p class="helplink"><?php echo $OUTPUT->page_doc_link(); ?></p> -->
-            <?php
-            echo $html->footnote;
-    //        echo $OUTPUT->login_info();
-    //        echo $OUTPUT->home_link();
-            echo $OUTPUT->standard_footer_html();
-            ?>
-        </footer>
+<!--        <footer id="page-footer">-->
+<!--            <div id="course-footer">--><?php //echo $OUTPUT->course_footer(); ?><!--</div>-->
+<!--    <!--         <p class="helplink">--><?php //echo $OUTPUT->page_doc_link(); ?><!--</p> -->
+<!--            --><?php
+//            echo $html->footnote;
+//    //        echo $OUTPUT->login_info();
+//    //        echo $OUTPUT->home_link();
+//            echo $OUTPUT->standard_footer_html();
+//            ?>
+<!--        </footer>-->
     
         <?php echo $OUTPUT->standard_end_of_body_html() ?>
     

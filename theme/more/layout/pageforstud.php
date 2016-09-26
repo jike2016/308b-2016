@@ -86,6 +86,7 @@ echo $OUTPUT->doctype() ?>
 	<link rel="stylesheet" href="../../theme/more/style/QQface.css" /><!-- 2016.3.29 毛英东 添加表情CSS -->
 	<link rel="stylesheet" href="../../theme/more/style/articlecomment/articlecomment.css" /><!-- Start 添加css样式 朱子武 20160315-->
 	<link rel="stylesheet" href="../../theme/more/style/flexpaper/flexpaper.css" /><!-- 2016.4.25 岑霄 在线阅读office -->
+	<link rel="stylesheet" href="../../theme/more/style/articlecomment/document.css"  type="text/css"/>
 	
 	<!-- End 添加css样式 朱子武 20160315-->
 	<script src="../../theme/more/js/jquery-1.11.3.min.js"></script>
@@ -97,133 +98,156 @@ echo $OUTPUT->doctype() ?>
 	<style>
 		.navbar-form {
 		padding: 10px 0px; }
+		.bd {  width: 100%;  height: 40px;  background-color: #F0F0F0;  }
+		.row-fluid {min-height: 800px}
+		#region-main {background-color: #ffffff;
+			border: 0px;
+			-webkit-border-radius: 0px;
+			-moz-border-radius: 0px;
+			border-radius: 0px;
+			-webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.05);
+			-moz-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.05);
+			 box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.05);
 	</style>
+
+<script>
+	$(document).ready(function() {
+		//导航条列表样式控制 start
+		$('.navRight li').removeClass('active');
+		$('.navRight .mod_course').addClass('active');
+		//导航条列表样式控制 end
+	});
+</script>
 <script>
 $(document).ready(function(){
-	//聊天室 START 20160314
-	//适配不同大小偏移值
-	var winW=$(window).width();
-	var winH=$(window).height();
-	var leftval = (winW-900)/2;	
-	var topval = (winH-600)/3;	
-	$('.chat-box').css({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
-	//适配不同大小偏移值 end	
-	var chatbox=false;
-	$('.elevator-weixin').click(function(){
-		if(chatbox==false){
-			$('.chat-box1').append('<iframe src="<?php echo $CFG->wwwroot;?>/chat" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
-			chatbox=true;
+	/** Start 添加评论按钮点击事件 nlw */
+	$('#commentBtn').click(function() {
+		var mytext =$(this).parent().children('.form-control').val();
+		var textmy = mytext;
+		textmy = textmy.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
+		var evaluation_layout = "page";
+		if(textmy.length <= 10){
+			alert('评论内容不能少于10个汉字');
 		}
-		$('.chat-box1').show();	
-	})
-	$('#chat-close').click(function(){
-		$('.chat-box1').hide();
-		//alert("关闭的top: " +$('.chat-box').offset().top);
-	})
-	//聊天室 End
-	//收藏按钮
-	$('#collection-btn').click(function()
-	{
-		$.ajax({
-			url: "<?php echo $CFG->wwwroot;?>/privatecenter/mycollection/collectionpage.php",
-			data: {mytitle: document.title, myurl: window.location.href },
-			success: function(msg){
-				if(msg=='1'){
-					alert('收藏成功，可去个人中心查看')
-				}
-				else{
-					msg=='2' ? alert('您已经收藏过了，请去个人中心查看收藏结果') :alert('收藏失败');
-				}
-			}
-		});
-	});
-	//点赞按钮
-	$('#like-btn').click(function()
-	{
-		$.ajax({
-			url: "<?php echo $CFG->wwwroot;?>/like/courselike.php",
-			data: {mytitle: document.title, myurl: window.location.href },
-			success: function(msg){
-				// alert(msg);
-				if(msg=='1'){
-					alert('点赞成功')
-				}
-				else{
-					msg=='2' ? alert('你已经点赞了，不能再次点赞') :alert('点赞失败');
-				}
-			}
-		});
-	});
-	/** Start 添加评论按钮点击事件 朱子武 20160315*/
-		$('#commentBtn').click(function() {
-			var mytext =$(this).parent().children('.form-control').val();
-			var textmy = mytext;
-			textmy = textmy.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
-			if(textmy.length <= 10){
-				alert('评论内容不能少于10个汉字');
-			}
-			else{
-				$.ajax({
-					url: "../../mod/page/mygetarticlecomment.php",
-					data: { mycomment: mytext, articleid: getQueryString('id') },
-					success: function(msg){
-						if(msg=='1'){
-							// location.reload();
-							window.location.href=window.location.href+'&page=1';
-						}
-						else if(msg=='2')
-						{
-							alert('评论失败，评论内容重复！')
-						}
-						else {
-							alert('评论失败，一分钟內只能评论一次！')
-						}
+		else{
+			$.ajax({
+				type:"POST",
+				url: "../../comment/common/evaluation_my/mygetcomment.php",
+				data: {
+					mycomment: mytext,
+					evaluation_layout:evaluation_layout,
+					id: getQueryString('id')
+				},
+				dataType:'json',
+				success: function(result){
+					if(result.status == 1){
+						// location.reload();
+//							window.location.href=window.location.href+'&page=1';
+						num = $('.scoreinfo').children('.title').children('span').text();
+						$('.scoreinfo').children('.title').children('span').text(parseInt(num)+1);
+						$("#page-evaluation").prepend(result.data);
+						face();
+						$('#commentBtn').text('发表评论').removeClass('disabled');
+						$("#comment-text").val("");
 					}
-				});
-			}
-		});
-		/** End 添加评论按钮点击事件 朱子武 20160315*/
-		
-	//笔记20160314
-	var class_personal = false
-	$('#mynote-btn').click(function(){
-		if(class_personal == false)
-		{
-			var courseid = $('#hiddencourseid').val();
-			// alert(courseid);
-			var notetitle = $('#hiddennotetitle').val();
-			// alert(coursefullname);
-			$('.chat-box2').append('<iframe src="<?php echo $CFG->wwwroot;?>/mod/notemy/newnotemy_course.php?courseid='+courseid+'&noteTitle='+notetitle+'" class="iframestylecourse" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
-			class_personal = true;
+					else if(result.status == 2)
+					{
+						alert('评论失败，评论内容重复！')
+					}
+					else {
+						alert('评论失败，一分钟內只能评论一次！')
+					}
+				}
+			});
 		}
-						
-		$('.chat-box2').show();	
-		
-	})
-	//笔记
-	$('#chat-close2').click(function(){
-		$('.chat-box2').hide();
-	})		
+	});
+	/** End 添加评论按钮点击事件 nlw */
 
 });
 /** Start 获取url中的文章id 朱子武 20160315*/
-	function getQueryString(name) {
-		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-		var r = window.location.search.substr(1).match(reg);
-		if (r != null) return unescape(r[2]);
-		return null;
-	}
+function getQueryString(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null) return unescape(r[2]);
+	return null;
+}
 /** End 获取url中的文章id 朱子武 20160315*/
-	
-	
-	
 </script>
+<script>
+		/**start nlw20160819 文档页面局部刷新，分页重写*/
+
+		var cur_page = 1;//当前页
+		var total_num,page_total;//总记录条数，总页数
+		function getEvaluation(page){
+			var currentpage = parseInt(page);
+			var evaluation_layout = "page";
+			$.ajax({
+				type:"POST",
+				url:"../../comment/common/evaluation_my/getevaluation.php",
+				data:{
+					current_page: currentpage,
+					evaluation_layout:evaluation_layout,
+					id:getQueryString('id')
+				},
+				dataType:"json",
+				success: function (result) {
+					//清空占位符数据
+					$("#page-evaluation").empty();
+					//对总记录条数，每页条数，总页数赋值
+					page_total = result.page_total;
+					cur_page = currentpage;
+
+					//填充占位符
+					$("#page-evaluation").append(result.data);
+					face();
+				},
+				complete: function () {
+					//js生成分页
+					getPageBar();
+//					getPageBar1();
+				},
+				error: function () {
+					alert("数据异常，请检查是否json格式");
+				}
+			});
+		}
+		function getPageBar(){
+
+			$.ajax({
+				type:"GET",
+				url:"../../comment/common/evaluation_my/pagebar.php",
+				data:{
+					cur_page:cur_page,
+					page_total:page_total
+				},
+				dataType:"json",
+				success: function (result) {
+					$("#page-list").html(result.data);
+				},
+				error:function () {
+					alert("数据异常，请检查是否json格式");
+				}
+			});
+		}
+
+		$(function () {
+			getEvaluation(1);//初始化，默认第一页
+			$("#page-list ").on('click','a' ,function () {//on向未来的元素添加事件处理器
+				var page = $(this).attr("data-page");//获取当前页
+				getEvaluation(page);
+			});
+		});
+		/**end nlw文档页面局部刷新，分页重写*/
+</script>
+
+
 </head>
 <body <?php echo $OUTPUT->body_attributes(); ?>>
 
 <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
 	<?php require_once("includes/header.php"); ?>
+	<div class="bd"></div>
     
 	<div style="height:20px;"></div>
 
@@ -244,43 +268,33 @@ $(document).ready(function(){
             </div>
             <?php echo $OUTPUT->blocks('side-post', $sidepost); ?>
         </div>
-    
-        <footer id="page-footer">
-            <div id="course-footer"><?php echo $OUTPUT->course_footer(); ?></div>
-    <!--         <p class="helplink"><?php echo $OUTPUT->page_doc_link(); ?></p> -->
-            <?php
-            echo $html->footnote;
-    //        echo $OUTPUT->login_info();
-    //        echo $OUTPUT->home_link();
-            echo $OUTPUT->standard_footer_html();
-            ?>
-        </footer>
+
+
+<!--        <footer id="page-footer">-->
+<!--            <div id="course-footer">--><?php //echo $OUTPUT->course_footer(); ?><!--</div>-->
+<!--    <!--         <p class="helplink">--><?php //echo $OUTPUT->page_doc_link(); ?><!--</p> -->
+<!--            --><?php
+//            echo $html->footnote;
+//    //        echo $OUTPUT->login_info();
+//    //        echo $OUTPUT->home_link();
+//            echo $OUTPUT->standard_footer_html();
+//            ?>
+<!--        </footer>-->
     
         <?php echo $OUTPUT->standard_end_of_body_html() ?>
 		
     </div>
-	<div id="J_GotoTop" class="elevator">
-			<a class="elevator-msg" id="mynote-btn" style="cursor:pointer" ></a>
-			<a class="elevator-weixin" style="cursor:pointer"></a>
-            <a class="elevator-app"  id="collection-btn" style="cursor:pointer"></a>
-			<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
-            <a class="elevator-top" href="#"></a>
-			
-		</div>
-		<div class="chat-box chat-box1">
-			<div class="chat-head">
-				<p>聊天室</p>
-				<p id="chat-close" class="close">x</p>
-			</div>
-		</div>
-		<div class="chat-box chat-box2">
-				<div class="chat-head">
-					<p>课程笔记</p>
-					<p id="chat-close2" class="close">x</p>
-				</div>
-			</div>
-		
-		<div class="mask"></div>
+
+	<div class="division "></div>
+	<!--底部导航条-->
+	<!--<nav class="navstyle-bottom navbar-static-bottom"></nav>-->
+	<?php require_once("includes/bottom_info.php"); ?>
+	<!--底部导航条 end-->
+
+	<!--右下角按钮-->
+	<?php require_once("includes/link_button.php"); ?>
+	<!--右下角按钮 end-->
+
 <!-- 2016.3.29 毛英东 添加表情 -->
 <script>
 $(function(){
@@ -290,15 +304,17 @@ $(function(){
 		path:'../../theme/more/img/arclist/'	//表情存放的路径
 	});
 });
-$('.commentinfo').each(
-	function(){
-		var str = $(this).html();
-		str = str.replace(/\[(微笑|撇嘴|色|发呆|流泪|害羞|闭嘴|睡|大哭|尴尬|发怒|调皮|呲牙|惊讶|难过|冷汗|抓狂|吐|偷笑|可爱|白眼|傲慢|饥饿|困|惊恐|流汗|憨笑|大兵|奋斗|咒骂|疑问|嘘|晕|折磨|衰|敲打|再见|擦汗|抠鼻|糗大了|坏笑|左哼哼|右哼哼|哈欠|鄙视|快哭了|委屈|阴险|亲亲|吓|可怜|拥抱|月亮|太阳|炸弹|骷髅|菜刀|猪头|西瓜|咖啡|饭|爱心|强|弱|握手|胜利|抱拳|勾引|OK|NO|玫瑰|凋谢|红唇|飞吻|示爱)\]/g, function(w,word){
-			return '<img src="../../theme/more/img/arclist/'+ em_obj[word] + '.gif" border="0" />';
-		});
-		$(this).html(str);
-	}
-);
+function face() {
+	$('.commentinfo').each(
+		function () {
+			var str = $(this).html();
+			str = str.replace(/\[(微笑|撇嘴|色|发呆|流泪|害羞|闭嘴|睡|大哭|尴尬|发怒|调皮|呲牙|惊讶|难过|冷汗|抓狂|吐|偷笑|可爱|白眼|傲慢|饥饿|困|惊恐|流汗|憨笑|大兵|奋斗|咒骂|疑问|嘘|晕|折磨|衰|敲打|再见|擦汗|抠鼻|糗大了|坏笑|左哼哼|右哼哼|哈欠|鄙视|快哭了|委屈|阴险|亲亲|吓|可怜|拥抱|月亮|太阳|炸弹|骷髅|菜刀|猪头|西瓜|咖啡|饭|爱心|强|弱|握手|胜利|抱拳|勾引|OK|NO|玫瑰|凋谢|红唇|飞吻|示爱)\]/g, function (w, word) {
+				return '<img src="../../theme/more/img/arclist/' + em_obj[word] + '.gif" border="0" />';
+			});
+			$(this).html(str);
+		}
+	);
+}
 
 /**Start 显示office 岑霄 */
  $('#documentViewer').FlexPaperViewer(

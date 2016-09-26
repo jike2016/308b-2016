@@ -73,14 +73,16 @@ echo $OUTPUT->doctype() ?>
 	<link rel="stylesheet" href="../theme/more/js/zTreeStyle/zTreeStyle.css" type="text/css">
 	
 	<script type="text/javascript" src="../theme/more/js/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="../theme/more/js/bootstrap.min.js"></script>
+<!--	<script type="text/javascript" src="../theme/more/js/bootstrap.min.js"></script>-->
 	<script type="text/javascript" src="../theme/more/js/orgselect/jquery.ztree.core.js"></script>
 	<script type="text/javascript" src="../theme/more/js/orgselect/jquery.ztree.excheck.js"></script>
 	<script type="text/javascript" src="../theme/more/js/orgselect/jquery.ztree.exedit.js"></script>
 <!--	<script type="text/javascript" src="../../theme/more/js/orgselect/ztreepage.js"></script>-->
 
+	<style>
+		nav li{    list-style: none;}
+	</style>
 
-    
 </head>
 
 <body <?php echo $OUTPUT->body_attributes(); ?>>
@@ -131,8 +133,9 @@ echo $OUTPUT->doctype() ?>
 
 </div>
 <!--底部导航条-->
-	<nav class="navstyle-bottom navbar-static-bottom"></nav>
-	<!--底部导航条 end-->
+<!--<nav class="navstyle-bottom navbar-static-bottom"></nav>-->
+<?php require_once("includes/bottom_info.php"); ?>
+<!--底部导航条 end-->
 </body>
 <script>
 

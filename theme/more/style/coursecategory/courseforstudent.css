@@ -1,0 +1,126 @@
+* {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: 0;
+}
+html,body {
+	font-family: 'Microsoft YaHei';
+	font-size: 14px;
+	height:1000px;
+	padding-top:0px;
+	background-color: #ffffff;
+}
+ul, ol {
+	padding: 0;
+	margin: 0px;
+}
+a, a:hover {
+	color: #3E3E3E;
+	text-decoration: none;
+}
+
+p {margin: 0px;}
+/***导航条***/
+nav {width: 100%; height: 100px; background-color: #FFFFFF;}
+nav .center {width: 1200px; margin: auto;height: 100px;}
+nav .center .l-box{width: 18%;height: 100px;float: left;}
+nav .center .l-box img {margin-top: 12px;}
+nav .center .r-box{width: 82%;height: 100px;float: right;}
+nav .center .r-box .search {width: 200px; height: 26px; float: right; border-radius: 0px; margin-top: 20px;}
+nav .center .r-box .searchbtn {width: 20px; height: 26px; float: right; border-radius: 0px;margin-top: 20px;border-radius: 0px 5px 5px 0px;}
+nav .center .r-box .btn-group{ float: right; margin-top: 20px;}
+nav .center .r-box .dropdown-toggle{width: 40px; height: 26px; float: right; border-radius: 5px 0px 0px 5px; border-right: 0px;}
+nav .center .r-box .dropdown-toggle span {margin-left: 5px;    margin-top: 0px;}
+
+nav .center .r-box .a-box {float: right; width: 100px; height: 40px;padding-top: 30px;}
+nav .center .r-box .a-box a {font-size: 14px; color: #8C8C8C; margin-left: 20px;float: right;}
+nav .center .r-box .a-box a:hover {color: #C9302C;}
+
+nav .navRight {float: left;overflow: hidden; margin-top: 15px;}
+nav .navRight li {float: left;width: 70px;height: 50px;line-height: 50px;text-align: center;position: relative;margin: 0px 10px;}
+nav .navRight li a{font-size: 16px;text-decoration: none;}
+nav .navRight .active{border-bottom: 3px solid #00B0F7;}
+nav .navRight .active a {color: #0066FF;}
+nav .navRight li a:hover{color: #00B0F7;}
+nav .navRight li span {width: 5px;height: 5px;border-bottom: 1px solid #000000;border-left: 1px solid #000000;position: absolute;top: 15px;left: 63px;transform: rotate(-45deg);transition: all 1s;}
+/***导航条 @end***/
+
+* { -webkit-box-sizing:inherit;-moz-box-sizing: inherit; box-sizing:inherit;}
+*:before,*:after {-webkit-box-sizing: inherit;-moz-box-sizing: inherit; box-sizing: inherit;}
+.nav ul {margin-bottom: 0px;}
+
+.coursetypebox {width: 100%;height: 40px; background-color: #10ADF3;line-height: 40px;}
+.coursetypebox .main {width: 1200px; margin: auto;}
+.coursetypebox .main a {text-decoration: none;color: #FFFFFF;padding: 9px 20px; font-size: 16px;}
+.coursetypebox .main a:hover{background-color: #A6E1EC}
+.coursetypebox .main .more {float: right; font-size: 12px; padding: 0px 10px;cursor: pointer; color: #F0F0F0;}
+.coursetypebox .main .more .glyphicon {top: 0px; margin-left: 5px; margin-top: -4px;}
+.coursetypebox .main .more:hover{background-color: #10ADF3;color: #fe8358}
+.coursetypebox .main .more.active{background-color: #10ADF3;color: #fe8358}
+.coursetypebox .main .more .span_box {display: block;padding-top:14px;margin-left:0px;float:right;width: 14px; height: 100%;line-height: 0px;}
+.coursetypebox-more {width: 100%; position: absolute; min-height: 200px; background-color: rgba(36,97,158,0.8);z-index: 10;display: none;}
+.coursetypebox-more .main {width: 1200px; margin: auto;min-height: 200px; padding: 15px 0px; line-height: 30px;}
+.coursetypebox-more .main a {text-decoration: none;color: #a2c9f0;padding: 9px 20px; font-size: 16px; display:block;float:left;}
+.coursetypebox-more .main a:hover{color: #FFFFFF ;text-decoration: underline;}
+.main {width: 1200px; min-height: 800px; margin: auto;}
+.allcourse {width: 100%; border-bottom: 1px solid #dcdcdc; height: 36px; padding-top: 15px;}
+.allcourse a{font-size: 16px; text-decoration: none; color: #0066FF; padding: 10px 20px;}
+.types {width: 100%;min-height: 50px; line-height: 50px;}
+.types a{color: #000000;margin-right: 15px;}
+.types a:hover{color: #FF6600;}
+.types .active {color: #FF6600;}
+.types .title {color: #999999;margin-left: 20px;}
+.types .title:hover{color: #999999}
+.types span{color: #C0C0C0; margin-right: 15px;}
+.types .r-abox{float: right;width: 92%;line-height: 30px; padding: 10px 0px;}
+.sort {width: 100%;height: 40px; line-height: 40px;background-color: #f0f0f0;}
+.sort a{color: #999999;margin-right: 38px;}
+.sort .first {margin-left: 20px;}
+.sort a:hover{color: #FF6600;}
+.sort a.active {color: #FF6600;}
+/*列表按钮*/
+.sort .list_btn{color: #999999;margin-right: 10px; float: right;cursor: pointer;}
+.sort .list_btn:hover{color: #10ADF3;}
+.sort .list_btn.active{color: #0066FF;}
+/*列表按钮 @end*/
+
+/*列表-网格*/
+.course-list {width: 100%; padding-bottom: 20px;}
+.course-list .course {width: 220px; margin-left: 10px; border: 1px solid #F0F0F0; height: 235px; padding: 5px; float: left; margin-top: 20px;}
+.course-list .course.first {margin-left: 0px;}
+.course-list .course img {width: 100%; height: 150px;}
+.course-list .course .box {padding: 0px 10px;}
+.course-list .course .box .title p{font-size: 16px; color: #000; margin-top: 10px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width: 100%;}
+.course-list .course .box .title:hover p {color: #0066FF;}
+.course-list .course .box .info {font-size: 14px; color: #999999;text-overflow:ellipsis;white-space:nowrap;overflow:hidden; margin-top: 5px;}
+.course-list .course .box .num {color: #999; margin-top: 5px;font-size: 12px;}
+.course-list .course .box .num .glyphicon{margin-right: 5px;}
+/*列表-网格 @end*/
+
+/*列表-行*/
+.division {clear: both;}
+.course-list-th {width: 100%;background-color: #FFFFFF; display: none;}
+.course-list-th .course {width:100%; border: 1px solid #F0F0F0; margin-top: 20px;}
+.course-list-th .course img {width: 25%; height: 205px;float: left; margin: 15px;}
+.course-list-th .course .box {width: 72%;float:right;}
+.course-list-th .course .box .title p{font-size: 20px; color: #000; margin-top: 15px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden; margin-bottom: 15px;float: left; width: 70%;}
+.course-list-th .course .box .type {float: right; width: 27%;line-height: 60px;font-size: 16px;color: #777;text-align: right; margin-right: 15px;}
+.course-list-th .course .box .type:hover {color: #FF6600}
+.course-list-th .course .box .title:hover p {color: #0066FF;}
+.course-list-th .course .box .info-title {font-size: 16px; color: #0066FF;}
+.course-list-th .course .box .info {font-size: 14px; color: #999999;overflow:hidden; margin-top: 5px; height: 105px;text-indent: 2em;}
+.course-list-th .course .box .num {color: #999; margin-top: 5px;font-size: 12px;}
+.course-list-th .course .box .num .glyphicon{margin-right: 5px;}
+/*列表-行 @end*/
+
+.pagination {width: 100%; height: 50px; line-height: 50px;text-align: center;}
+.pagination a {padding: 5px 10px; border: 1px solid #CCCCCC; color: #999999;}
+.pagination a:hover {color: #FF6600}
+.pagination a.active {background-color:#00B0F7; border: 1px solid #00B0F7; color: #FFFFFF;}
+
+
+/***底部导航条 ***/
+.nav-bottom {width: 100%; height: 60px;line-height: 60px; background-color: #10adf3; text-align: center;}
+.nav-bottom p {font-size: 18px; color: #FFFFFF; }
+/***底部导航条  @end ***/

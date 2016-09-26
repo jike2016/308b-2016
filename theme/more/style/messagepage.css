@@ -32,5 +32,5 @@
 .mform .fitem div.ftextarea textarea{float: left;}
 .mform .fitem .felement {margin-left: 0px;}
 .messagesend { text-align: right;}
-#fitem_id_submitbutton{ padding: 5px 0px 20px 20px;border-top: 0px;margin-top: 0px;}
+#fitem_id_submitbutton{ padding: 5px 0px 20px 20px;border-top: 0px;margin-top: 0px;background-color: #ffffff}
 /*页面新样式 @end*/

@@ -42,6 +42,7 @@ if ($categoryid) {
     $PAGE->set_context(context_system::instance());
 }
 
+$PAGE->set_title('港城慕课_微课');
 $PAGE->set_pagelayout('coursecategory');//设置layout文件
 $courserenderer = $PAGE->get_renderer('core', 'course');
 

@@ -134,8 +134,6 @@ $PAGE->set_heading('首页广告编辑');
 
 echo $OUTPUT->header();//输出layout文件
 
-
-
 $str = '<div id="ad_board_main">
 			<div class="title">
 				<h3><span class="glyphicon glyphicon-cog"></span>&nbsp;首页滚动广告板设置</h3>
@@ -203,5 +201,6 @@ $str .= '
 
 echo $str;
 
-
 echo $OUTPUT->footer();//输出左右和底部
+
+

@@ -16,6 +16,7 @@
 //echo $CFG->dirroot;exit;
 require_once($CFG->dirroot .'/config.php');
 require_once($CFG->dirroot.'/org/org.class.php');
+require_once($CFG->dirroot.'/user/my_role_conf.class.php');
 
 $org = new org();
 
@@ -27,7 +28,10 @@ if($org->get_root_node_id() === False)
 	$root_id = $org->get_root_node_id();
 }
 
-$tree = $org->show_node_tree_user_no_office($root_id);
+//$tree = $org->show_node_tree_user_no_office($root_id);
+$role = new my_role_conf();
+$remove_role = $role->get_unit_role().','.$role->get_gradingadmin_role().','.$role->get_courseadmin_role();//获取要移除的账号角色
+$tree = $org->show_node_tree_user_no_office_no_grading($root_id,$remove_role);
 
 /**
  * Moodle's Clean theme, an example of how to make a Bootstrap theme
@@ -67,17 +71,22 @@ echo $OUTPUT->doctype() ?>
     <?php echo $OUTPUT->standard_head_html() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="../../theme/more/style/bootstrap.css" type="text/css">	<!--全局-->
-    <link rel="stylesheet" href="../../theme/more/style/navstyle.css" /><!-- 全局-->
-	<link rel="stylesheet" href="../../theme/more/style/orgselect/orgselect.css" type="text/css">
-	<link rel="stylesheet" href="../../theme/more/js/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo $CFG->wwwroot; ?>/theme/more/style/bootstrap.css" type="text/css">	<!--全局-->
+    <link rel="stylesheet" href="<?php echo $CFG->wwwroot; ?>/theme/more/style/navstyle.css" /><!-- 全局-->
+	<link rel="stylesheet" href="<?php echo $CFG->wwwroot; ?>/theme/more/style/orgselect/orgselect.css" type="text/css">
+	<link rel="stylesheet" href="<?php echo $CFG->wwwroot; ?>/theme/more/js/zTreeStyle/zTreeStyle.css" type="text/css">
 	
 	<script type="text/javascript" src="../../theme/more/js/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="../../theme/more/js/bootstrap.min.js"></script>	
+<!--	<script type="text/javascript" src="../../theme/more/js/bootstrap.min.js"></script>	-->
 	<script type="text/javascript" src="../../theme/more/js/orgselect/jquery.ztree.core.js"></script>
 	<script type="text/javascript" src="../../theme/more/js/orgselect/jquery.ztree.excheck.js"></script>
 	<script type="text/javascript" src="../../theme/more/js/orgselect/jquery.ztree.exedit.js"></script>
 <!--	<script type="text/javascript" src="../../theme/more/js/orgselect/ztreepage.js"></script>-->
+
+	<style>
+		nav li{    list-style: none;}
+		#page{min-height: 750px}
+	</style>
 
 	<script>
 
@@ -153,10 +162,11 @@ echo $OUTPUT->doctype() ?>
 				//select控件添加内容
 				if(treenode_userid == 0 && treenode_orgid != 0)
 				{
+					var remove_role = <?php echo "'".$remove_role."'"; ?>;
 					$.ajax({
 						url: "../../org/orgCRUD.php",
 						dataType:"json",
-						data: { treeNodeid: treenode_orgid, type: 'click_all_user'},
+						data: { treeNodeid: treenode_orgid,remove_role: remove_role, type: 'click_all_user_no_unit_no_gradad'},
 						success: function(msg){
 							$.each(msg, function(commentIndex, comment){
 								var username = comment['lastname'] + comment['firstname'];
@@ -243,13 +253,13 @@ echo $OUTPUT->doctype() ?>
         </div>
         <?php echo $OUTPUT->blocks('side-post', $sidepost); ?>
     </div>
-	
-
     <?php echo $OUTPUT->standard_end_of_body_html() ?>
-
 </div>
+
 <!--底部导航条-->
-	<nav class="navstyle-bottom navbar-static-bottom"></nav>
-	<!--底部导航条 end-->
+<!--<nav class="navstyle-bottom navbar-static-bottom"></nav>-->
+<?php require_once("includes/bottom_info.php"); ?>
+<!--底部导航条 end-->
+
 </body>
 </html>

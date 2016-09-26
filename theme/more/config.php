@@ -102,7 +102,7 @@ $THEME->layouts = array(
         'regions' => array('side-pre', 'side-post'),
         'defaultregion' => 'side-pre',
     ),
-	//主页 The site home page.
+	//主页，网站首页 The site home page.
     'frontpage' => array(
         'file' => 'indexpage.php',
         'regions' => array('side-pre', 'side-post'),
@@ -142,6 +142,13 @@ $THEME->layouts = array(
         'defaultregion' => 'side-pre',
         'options' => array('langmenu' => true),
     ),
+	//台账任务页_分级管理员页面
+	'missionmy_classify' => array(
+		'file' => 'missionmy_classify.php',
+		'regions' => array('side-pre', 'side-post'),
+		'defaultregion' => 'side-pre',
+		'options' => array('langmenu' => true),
+	),
 	//学习圈blog
 	'blogmy' => array(
         'file' => 'blogmy.php',
@@ -210,5 +217,50 @@ $THEME->layouts = array(
 		'regions' => array('side-pre', 'side-post'),
 		'defaultregion' => 'side-pre',
 	),
+	//课程评分页面
+	'course_score' => array(
+		'file' => 'course_score.php',
+		'regions' => array('side-pre', 'side-post'),
+		'defaultregion' => 'side-pre',
+	),
+	//注册页面
+	'register' => array(
+		'file' => 'register.php',
+		'regions' => array('side-pre', 'side-post'),
+		'defaultregion' => 'side-pre',
+	),
+	//分级管理员看到的单课程首页
+	'courseforgradingadmin' => array(
+		'file' => 'courseforgradingadmin.php',
+		'regions' => array('side-pre', 'side-post'),
+		'defaultregion' => 'side-pre',
+	),
+	//慕课管理员课程管理页
+	'courseclassifymanage' => array(
+		'file' => 'courseclassifymanage.php',
+		'regions' => array('side-pre', 'side-post'),
+		'defaultregion' => 'side-pre',
+	),
+	//管理员注册审核页面
+	'registerforadmin' => array(
+		'file' => 'registerforadmin.php',
+		'regions' => array('side-pre', 'side-post'),
+		'defaultregion' => 'side-pre',
+	),
+	// Server administration scripts. 覆盖父类样式
+	'admin' => array(
+//		'file' => 'columns2.php',
+//		'file' => 'mydashboard.php',
+		'file' => 'my_admin.php',
+		'regions' => array('side-pre'),
+		'defaultregion' => 'side-pre',
+	),
+	//绩效登录
+	'loginoauthpage' => array(
+		'file' => 'loginoauthpage.php',
+		'regions' => array('side-pre'),
+		'defaultregion' => 'side-pre',
+	),
+
 
 );

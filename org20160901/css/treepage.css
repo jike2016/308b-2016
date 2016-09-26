@@ -1,0 +1,55 @@
+html,body {font-family: "微软雅黑"; background-color:#f0f0f0;}
+body {color: #2f332a;font: 15px/21px Arial, Helvetica, simsun, sans-serif;background: #f0f6e4 \9;}
+
+li {list-style: circle;font-size: 12px;}
+li.title {list-style: none;}
+ul.list {margin-left: 17px;}
+
+#treeDemo a {color:#777777;}
+#treeDemo a:hover{background-color:#F0F0F0;}
+#treeDemo .tree-a-active{background-color:#F0F0F0;}
+
+@media only screen and (max-width:1190px) {.main {width:1000px;}} 
+@media only screen and (min-width:1200px ) {.main {width:65%;}}
+.main { margin: auto;margin-top:50px;}
+
+.main div.left{float: left; width:24%; margin-top:30px;height:704px;background-color: #FFFFFF;border: 1px solid #CCCCCC;}
+.main div.right{border: 1px solid #CCCCCC;float: right; width:74%; margin-left: 2%; margin-top: 5px;  padding: 10px; height: 650px;background-color: #FFFFFF;}
+.main div.right-top{border: 1px solid #CCCCCC;height:50px;width:74%;background-color: #FFFFFF; float: right;margin-top: 30px;padding: 10px 10px; }
+.right .table-box {width: 100%;overflow-y:scroll; height: 580px;}
+.right-top .btn {height:28px; padding:4px 10px;  }
+.right .btn-box {width:100%; height: 70px; border-top: 1px solid #F0F0F0;}
+.right .btn-box button {margin: 12px 0px 0px 0px;}
+
+div.zTreeDemoBackground {width:100%;height:362px;text-align:left;}
+
+ul.ztree {height:655px;margin-top: 10px;background: #FFFFFF;width:100%;overflow-y:scroll;overflow-x:auto; border-top: 1px solid #cccccc}
+.main .right table thead tr td{color: #737373;font-weight: 600; background-color: #F0F0F0; text-align: center;}
+.td1, .td3{text-align: center;}
+
+#treeDemo a .delete {height: 16px; width: 30px; font-size: 12px; background-color: #FFFFFF; color: #FFFFFF;}
+.delete:hover { background-color:#f0f0f0;color: #737373;}
+.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+
+/*下移*/
+.ztree li span.button.downlevel {margin-left:2px; margin-right: -1px; background-position:-144px -80px; vertical-align:top; *vertical-align:middle}
+
+/*上移*/
+.ztree li span.button.uplevel {margin-left:2px; margin-right: -1px; background-position:-128px -49px; vertical-align:top; *vertical-align:middle}
+
+
+.nullwidth {height: 12px; width: 50px;}
+
+/******导航条样式*******/
+.nav_customized {background-image:url(../pix/nav-2.jpg);background-size:100% 50px; background-repeat: no-repeat;}
+@media only screen and (max-width:1190px) {.nav-box{width:1000px;}} 
+@media only screen and (min-width:1200px ) {.nav-box {width:65%;}}
+.nav_customized .nav-box { margin: auto; padding: 0px 0px;}
+.nav_customized .nav-box img {width: 120px; margin: 2px 0px;}
+.nav_customized .nav-box a {float: right; color: #F0F0F0; margin-top: 20px; font-size: 16px; text-decoration: none;}
+.nav_customized .nav-box a:hover {color: #FFFFFF;}
+.nav_customized .nav_div {float: right; text-align: center; margin-left: 20px;}
+.nav_customized .nav_div  p{color: #F0F0F0;font-size: 16px; margin: 20px 0px 0px 0px ;}
+.navbar {margin-bottom: 0px;}
+
+/******导航条样式 @end*******/

@@ -451,6 +451,7 @@ class course_edit_form extends moodleform {
 
         return $errors;
     }
+
 	//获取全局标签列表
 	function gettagmylist()
 	{

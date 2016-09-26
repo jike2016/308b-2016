@@ -1539,6 +1539,24 @@ class core_renderer extends renderer_base {
     public function blocks_for_region($region) {
         $blockcontents = $this->page->blocks->get_content_for_region($region, $this);
         $blocks = $this->page->blocks->get_blocks_for_region($region);
+
+        /**START cx 20160913 分级管理员筛除网站管理*/
+        //判断分级管理员
+        global $CFG;
+        global $USER;
+        global $DB;
+        require_once($CFG->dirroot . '/user/my_role_conf.class.php');
+        $role = new my_role_conf();
+        if($DB->record_exists('role_assignments', array('roleid' => $role->get_gradingadmin_role(),'userid' => $USER->id))){
+             //筛除'网站管理标签'
+            foreach($blockcontents as $key => $bc){
+                if($bc->title=='系统管理'){
+                    $blockcontents[$key]->content = str_replace("网站管理", "", $blockcontents[$key]->content);
+                }
+            }
+        }
+        /**END*/
+
         $lastblock = null;
         $zones = array();
         foreach ($blocks as $block) {

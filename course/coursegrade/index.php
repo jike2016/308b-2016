@@ -5,28 +5,32 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
 		
-		<title>
-			课程评分页面
-		</title>
+		<title>课程评分xxx</title>
 		<link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>		
-		<link rel="stylesheet" href="css/scorepage.css" type="text/css">
-		<link rel="stylesheet" href="css/scorepagebanner.css" type="text/css">	
-		<link rel="stylesheet" href="../../theme/more/style/navstyle.css" type="text/css">	
-		<link rel="stylesheet" href="../../theme/more/style/alertstyle.css" type="text/css">
+<!--		<link rel="stylesheet" href="css/scorepage.css" type="text/css">-->
+<!--		<link rel="stylesheet" href="css/scorepagebanner.css" type="text/css">-->
+<!--		<link rel="stylesheet" href="../../theme/more/style/navstyle.css" type="text/css">	-->
+<!--		<link rel="stylesheet" href="../../theme/more/style/alertstyle.css" type="text/css">-->
 		<link rel="stylesheet" href="../../theme/more/style/QQface.css" /><!-- 2016.3.25 毛英东 添加表情CSS -->
-		<style>.navstyle-bottom {margin-top: 0px;} </style>
+		<style> </style>
+
+		<link rel="stylesheet" href="css/coursescore.css" type="text/css">
+
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="js/scorepage.js"></script>
 		<script src="../../theme/more/js/jquery.qqFace.js"></script><!-- 2016.3.25 毛英东 添加表情 -->
+<!--		<script src="../../theme/more/js/bootstrap.min.js"></script><!--全局-->
 	</head>
 
 	<body>
 
-	<?php
+<?php
 
 /**  START 朱子武 20160226 从数据库获取评分评论*/
 	require_once("../../config.php");
-	$PAGE->set_pagelayout('usermenu');//设置layout
+	$PAGE->set_title('课程评分');
+//	$PAGE->set_pagelayout('usermenu');//设置layout
+	$PAGE->set_pagelayout('course_score');//设置layout
 	echo $OUTPUT->header();//输出layout文件
 
 	//    获取评价数目页数
@@ -38,7 +42,8 @@
 		$mycount = ceil($mycount/10);
 		return ($mycount <= 1 ? 1: $mycount);
 	}
-//	    输出页码
+
+	//	  输出页码
 	function my_get_course_evaluation_current_count($count_page, $courseid,$current_page)
 	{
 		/** Start 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
@@ -59,15 +64,63 @@
 			}
 		}
 	}
-	/** START 朱子武 获取课程评分星星 20160226*/
-	function my_get_glyphicon_star($num)
+
+	//	  输出页码
+	function my_get_course_evaluation_current_count2($count_page, $courseid,$current_page)
 	{
-		for($i = 0; $i < ceil($num/2); $i++)
+		/** Start 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
+		$numstart = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page - 2):1):($count_page - 4)):1;
+		$numend = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page + 2):5):($count_page)):$count_page;
+//	for($num = $numstart; $num <= $numend; $num ++)
+		/** End 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
+		$page_num = '';
+		for($num = $numstart; $num <= $numend; $num ++)
 		{
-			echo'<span class="glyphicon glyphicon-star"></span>';
+			if($num == $current_page)
+			{
+				//  这里需要修改样式标示当前页
+				$page_num = '<a class="active" href="../../course/coursegrade/index.php?id='.$courseid.'&page='.$num.'">'.$num.'</a>';
+			}
+			else
+			{
+				$page_num = '<a href="../../course/coursegrade/index.php?id='.$courseid.'&page='.$num.'">'.$num.'</a>';
+			}
+			return $page_num;
 		}
 	}
+
+	/** START 朱子武 获取课程评分星星 20160226*/
+	function my_get_glyphicon_star($num)
+	{ 	$output = '';
+		for($i = 0; $i < ceil($num/2); $i++)
+		{
+			$output .= '<span class="glyphicon glyphicon-star"></span>';
+		}
+		return $output;
+	}
 	/** --- my_get_glyphicon_star END ---*/
+
+	/** START  获取课程评分 */
+	function my_get_course_score2($courseid)
+	{
+		global $DB;
+		$mysumscore = 0.0;
+		$myscore = $DB->get_records_sql('SELECT id, sumscore FROM mdl_score_course_sum_my WHERE courseid = ?', array($courseid));
+		if(count($myscore))
+		{
+			foreach($myscore as $value)
+			{
+				$mysumscore = $value->sumscore;
+			}
+		}
+		else
+		{
+			$mysumscore = 10.0;
+		}
+
+		return $mysumscore;
+	}
+	/** ---END---*/
 
 	/** START 朱子武 获取课程评分 20160226*/
 	function my_get_course_score($courseid)
@@ -135,6 +188,41 @@
 	}
 
 	/** --- my_search_summary_pix END---*/
+
+	/** START 获取课程详细 */
+	function my_get_course_detailed2($courseid)
+	{
+		global $DB;
+		global $CFG;
+		$course_detailed = $DB->get_records_sql('SELECT id, fullname, shortname, summary, summaryformat FROM mdl_course WHERE id ='.$courseid.'');
+
+		$output = '';
+		$output .= '
+				<div class="banner">
+					<div class="maininfo">
+						<div class="l-b">
+							<img style="width: 348px;height: 247px;" '.my_get_course_formatted_summary_pix($course_detailed[$courseid]->id, $course_detailed[$courseid]->summary, $course_detailed[$courseid]->summaryformat).' width="348" height="247" />
+						</div>
+						<div class="r-b">
+							<a href="'.$CFG->wwwroot.'/course/view.php?id='.$courseid.'" ><h3 class="title">'.$course_detailed[$courseid]->fullname.'</h3></a><h3 class="title-btn"></h3>
+							<div style="clear: both;"></div>
+							<p>课程介绍</p>
+							<p class="courseinfo">'.mb_substr(strip_tags($course_detailed[$courseid]->summary),0,196,'UTF-8').'</p>
+							<p class="num">满意度评分：
+							<span>';
+		$mysumscore = my_get_course_score2($courseid);//满意度
+		$output .=  $mysumscore.'
+							</span>&nbsp;分</p>
+							<p class="starbox">';
+		$output .= my_get_glyphicon_star($mysumscore);//星评数
+		$output .= '
+							</p>
+						</div>
+					</div>
+				</div>';
+		return $output;
+	}
+	/** ---my_get_course_detailed END ---*/
 
 	/** START 朱子武 获取课程详细 20160228*/
 	function my_get_course_detailed($courseid)
@@ -219,136 +307,66 @@
 	$courseid = $_GET['id'];
 	$current_page = $_GET['page'];
 
-	echo '<nav class="navstyle navbar-fixed-top">
-	<div class="nav-main">
-		<img id="logo" src="'.$CFG->wwwroot.'/theme/more/pix/Home_Logo.png" onMouseOver="this.style.cursor=\'pointer\'" onClick="document.location='.$CFG->wwwroot.';">
-		<ul class="nav-main-li">
-			<a href="'.$CFG->wwwroot.'">
-				<li class="li-normol">首页</li>
-			</a>
-			<a href="'.$CFG->wwwroot.'/mod/forum/view.php?id=1">
-				<li class="li-normol">微阅</li>
-			</a>
-			<a href="'.$CFG->wwwroot.'/course/index.php">
-				<li class="li-normol">微课</li>
-			</a>
-			<a href="'.$CFG->wwwroot.'/privatecenter/index.php?class=zhibo">
-				<li class="li-normol">直播</li>
-			</a>
-		</ul>
-		<div class="usermenu-box">
-			'.$OUTPUT->user_menu().'					
-		</div>
-	</div>
-</nav>';
-	echo'
-		<div id="main">
-			<div class="course-infos" >
-				<div class="w pr">';
+	global $DB;
+	$course = $DB->get_record_sql("select * from mdl_course c where c.id = $courseid");
 
-	my_get_course_detailed($courseid);
-
-				echo '
-				</div>
+	echo '<!--主板块-->
+			<div class="coursetypebox">
+			<!--课程信息板块-->
+			'.my_get_course_detailed2($courseid).'
+			<!--课程信息板块 end-->
+			</div>';
+	echo '<div class="main">
+		<!--课程评价板块-->
+		<div class="main-box">
+			<div class="scoreinfo">
+				<p class="title">对本课程打分：</p>
+				<p id="comment-star" class="star-box">
+					<span id="star1" class="glyphicon glyphicon-star"></span>
+					<span id="star2" class="glyphicon glyphicon-star"></span>
+					<span id="star3" class="glyphicon glyphicon-star"></span>
+					<span id="star4" class="glyphicon glyphicon-star"></span>
+					<span id="star5" class="glyphicon glyphicon-star"></span>
+				</p>
 			</div>
-			
-			<div class="course-info-main clearfix w has-progress">
-				<div class="content-wrap clearfix">				
-					<div class="content">
-						<div class="scoreinfo">
-							<p>满意度评分</p>
-							<p id="comment-star" class="star-box">
-								<span id="star1" class="glyphicon glyphicon-star"></span>
-								<span id="star2" class="glyphicon glyphicon-star"></span>
-								<span id="star3" class="glyphicon glyphicon-star"></span>
-								<span id="star4" class="glyphicon glyphicon-star"></span>
-								<span id="star5" class="glyphicon glyphicon-star"></span>
-							</p>
-						</div>
-						<div class="evaluation-list" >													
-							<div class="mycomment">
-								<!-- 2016.3.25 毛英东 添加表情-->
-								<textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
-                                <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
-                                <!-- end  2016.3.25 毛英东 添加表情 -->
-								<button id="score-btn" class="btn btn-info">发表评论</button>
-							</div>
-							<!--evaluation-info end-->';
+			<div class="evaluation-list" >
+				<div class="mycomment">
+					<textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                    <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer;margin-left: 25px">
+					<button id="score-btn" class="btn btn-primary">发表评论</button>
+					<div class="division"></div>
+				</div>
+				<div class="division"></div>
+				<!--评论内容-->';
 
 	/**  START 朱子武 20160226 从数据库中获取评论数据 */
-		$count_page = my_get_course_evaluation_count($courseid);
+	$count_page = my_get_course_evaluation_count($courseid);
+	my_get_course_evaluation($courseid, $current_page - 1);
 
-        my_get_course_evaluation($courseid, $current_page - 1);
-						echo'<div class="paginationbox">
-								<ul class="pagination">
-									<li>
-								      <a href="../../course/coursegrade/index.php?id='.$courseid.'&page=1">首页</a>
-								    </li>
-								    <li>
-								      <a href="../../course/coursegrade/index.php?id='.$courseid.'&page='.($current_page <= 1 ? 1: $current_page - 1).'">上一页</a>
-
-								    </li>
-								    ';
-									/**  Start 修改翻页函数 朱子武 20160327*/
-								    my_get_course_evaluation_current_count($count_page, $courseid,$current_page);
-									/**  End 修改翻页函数 朱子武 20160327*/
-							echo'<li>
-								      <a href="../../course/coursegrade/index.php?id='.$courseid.'&page='.($current_page < $count_page ? ($current_page + 1): $count_page).'">下一页</a>
-
-								    </li>
-								    <li>
-								      <a href="../../course/coursegrade/index.php?id='.$courseid.'&page='.$count_page.'">尾页</a>
-								    </li>
-								</ul>
-							</div>';
-
-	/** ---END---*/
-		echo'</div>
-						<!--evaluation-list end-->
-						
-					</div>
-					<!--content end-->
-				
-					<div class="aside r">
-						<div class="bd">							
-							<div class="box mb40">
-								<div class="score-box">
-									<p class="score-title">满意度评分</p>';
-									$mysumscore = my_get_course_score($courseid);
-							echo'	<div class="star-box">
-										<p>';
-										my_get_glyphicon_star($mysumscore);
-							echo'
-										</p>
-									</div>
-								</div>								
-							</div>
-
-						</div>
-												
-					</div>
+	echo '		<!--评论内容 end-->
+         		<!--分页-->
+				<div class="paginationbox">
+					<a href="../../course/coursegrade/index.php?id='.$courseid.'&page=1">首页</a>
+		        	<a href="../../course/coursegrade/index.php?id='.$courseid.'&page='.($current_page <= 1 ? 1: $current_page - 1).'">上一页</a>
+		        	'. my_get_course_evaluation_current_count2($count_page, $courseid,$current_page).'
+		        	<a href="../../course/coursegrade/index.php?id='.$courseid.'&page='.($current_page < $count_page ? ($current_page + 1): $count_page).'">下一页</a>
+		        	<a href="../../course/coursegrade/index.php?id='.$courseid.'&page='.$count_page.'">尾页</a>
 				</div>
-
-				<div class="clear"></div>
-
+				<!--分页 end-->
 			</div>
-
 		</div>
-<!--底部导航条-->
-	<nav class="navstyle-bottom navbar-static-bottom"></nav>
-	<!--底部导航条 end-->
-		
-		<div id="J_GotoTop" class="elevator">
-			<!--<a class="elevator-msg" href="#" target="_blank" id="feedBack"></a>
-				<div class="elevator-app-box">
-				</div>
-			</a>-->
-		</div>
+		<!--课程评价板块 end-->
+	</div>
 
-		<div class="mask"></div>
-		';
-			echo $OUTPUT->footer();//输出左右和底部
-	?>
+	<!--主板块 end-->';
+
+	//课程笔记隐藏参数设置
+		echo '<button id="hiddencourseid" value="'.$course->id.'" style="display: none;"></button>
+			  <button id="hiddencoursefullname" value="'.$course->fullname.'" style="display: none;"></button>';
+	//end 课程笔记隐藏参数设置
+
+	echo $OUTPUT->footer();//输出左右和底部
+?>
 	<!-- 2016.3.25 毛英东 添加表情-->
 	<script>
 		$(function(){

@@ -56,19 +56,41 @@ echo $OUTPUT->doctype() ?>
     <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css"><!--全局-->
     <link rel="stylesheet" href="../theme/more/style/navstyle.css" /> <!--全局-->
     <link rel="stylesheet" href="../theme/more/style/xuankepage/choose-style.css" />
+    <style>
+        * {margin: 0;padding: 0;list-style: none;border: 0;}
+        html,body {font-family: "微软雅黑";font-size: 14px;height:1000px;padding-top: 0px; background-color: #ffffff}
+        a, a:hover {color: #3E3E3E;text-decoration: none;}
+        ui,ol{margin: 0px}
+        p {margin: 0px;}
+        nav .center .r-box .dropdown-toggle span {  margin-top: 0px;  }
+        .searchbtn, nav .center .r-box .dropdown-toggle{box-sizing: content-box}
+        nav .center .r-box .search {  height: 22px;  box-sizing: content-box;  }
+        .bd {  width: 100%;  height: 40px;  background-color: #10ADF3;  }
+    </style>
     
 	<script src="../theme/more/js/jquery-1.11.3.min.js"></script><!--全局-->
 	<script src="../theme/more/js/jquery.easing.min.js"></script><!--全局-->
 	<script src="../theme/more/js/custom.js"></script><!--全局-->
 	<script src="../theme/more/js/bootstrap.min.js"></script><!--全局-->
     <!--新引入文件 1月20日 郑栩基 end-->
+
+    <script>
+        $(document).ready(function() {
+            //导航条列表样式控制 start
+            $('.navRight li').removeClass('active');
+            $('.navRight .mod_course').addClass('active');
+            //导航条列表样式控制 end
+        });
+    </script>
+
 </head>
 
 <body <?php echo $OUTPUT->body_attributes(); ?>>
 
 <?php require_once("includes/header.php"); ?>
+<div class="bd"></div>
 
-<div style="height:80px;"></div>
+<!--<div style="height:80px;"></div>-->
 <!--导航条 1月20日 郑栩基 end-->
 
 <?php echo $OUTPUT->standard_top_of_body_html() ?>
@@ -106,5 +128,10 @@ echo $OUTPUT->doctype() ?>
     <?php echo $OUTPUT->standard_end_of_body_html() ?>
 
 </div>
+<!--底部导航条-->
+<!--<nav class="navstyle-bottom navbar-static-bottom"></nav>-->
+<?php require_once("includes/bottom_info.php"); ?>
+<!--底部导航条 end-->
+
 </body>
 </html>

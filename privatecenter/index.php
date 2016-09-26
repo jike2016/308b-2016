@@ -1,3 +1,12 @@
+<?php
+require_once("../config.php");
+
+global $DB;
+global $USER;
+global $CFG;
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -9,7 +18,8 @@
 	</head>
 	<link rel="stylesheet" href="css/bootstrap.css" />
 	<link rel="stylesheet" href="css/personal-style.css" />
-	<link rel="stylesheet" href="css/navstyle.css" />
+<!--	<link rel="stylesheet" href="css/navstyle.css" />-->
+
 	<!--锁屏-->
 	<style>
 	.lockpage {z-index: 10000;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: #000;opacity: 0.4;filter: alpha(opacity=40); text-align: center;vertical-align:middle; display: none;}
@@ -29,7 +39,15 @@
 	<script type="text/javascript" src="js/corechart.js"></script>
 	<script type="text/javascript" src="js/jquery.gvChart-1.0.1.min.js"></script>
 	<!--饼状图js文件 end-->
-	
+
+	<script>
+		$(document).ready(function() {
+			//导航条列表样式控制 start
+			$('.navRight li').removeClass('active');
+//			$('.navRight .mod_privatecenter').addClass('active');
+			//导航条列表样式控制 end
+		});
+	</script>
 	
 	<body>
 		<!--锁屏-->
@@ -37,10 +55,7 @@
 			<img src="img/loading.jpg"/>
 		</div>
 
-		<!--导航条-->	
 <?php
-require_once("../config.php");
-
 /**Start 获取勋章数 徐东威 20160313  */
 require_once("../lib/badgeslib.php");
 require_once("../badges/renderer.php");
@@ -48,9 +63,6 @@ require_once("../badges/renderer.php");
 //require_once($CFG->libdir. '/coursecatlib.php');
 require_login();//要求登录
 //判断权限
-global $DB;
-global $USER;
-global $CFG;
 $userobject = new stdClass();
 $userobject->metadata = array();
 $userobject->metadata['userfullname'] = fullname($USER, true);
@@ -67,8 +79,8 @@ $description = $DB->get_record('user', array('id' => $USER->id), '*', MUST_EXIST
 $userobject->metadata['description'] = $description->description;
 $a= userdate(time(),'%Y-%m-%d %H:%M');
 
-echo '
-		<!--导航条-->
+//停用
+$old2= '<!--导航条-->
 		<nav class="navstyle navbar-fixed-top">
 			<div class="nav-main">
 				<img id="logo" src="img/Home_Logo.png" onMouseOver="this.style.cursor=\'pointer\'" onClick="document.location=\''.$CFG->wwwroot.'\'">
@@ -85,11 +97,10 @@ echo '
 					<a href="'.$CFG->wwwroot.'/privatecenter/index.php?class=zhibo">
 						<li class="li-normol">直播</li>
 					</a>
-				</ul>								
+				</ul>
 			</div>
 		</nav>
 		<!--导航条 end-->
-
 		<!--个人资料-->
 		<div class="personal-main">
 			<div class="nav-main-left">
@@ -98,7 +109,7 @@ echo '
 						'.$userobject->metadata['useravatar'].'
 					</div>
 				</div>
-					
+
 				<div class="myword">
 					<div class="hello">
 						<p>'.$userobject->metadata['userfullname'].'</p>
@@ -107,13 +118,13 @@ echo '
 					<p class="words">'.$userobject->metadata['description'].'</p>
 				</div>
 			</div>
-				
-			<div class="nav-main-right">					
+
+			<div class="nav-main-right">
 				<!--20160313暂时不需要
 				<div class="nav-main-right-block">
 					<p>等级</p>
 					<p>副连一年</p>
-				</div>					
+				</div>
 				<div class="vline"></div>-->
 				<div class="nav-main-right-block">
 					<p>证书</p>
@@ -122,9 +133,10 @@ echo '
 			</div>
 		</div>
 		<!--个人资料 end';
+//停用
 $old= '
 		<nav class="navbar navbar-inverse navbar-fixed-top">
-			
+
 			<div class="nav-main">
 				<div class="nav-main-left">
 					<div class="outbox">
@@ -132,7 +144,7 @@ $old= '
 							'.$userobject->metadata['useravatar'].'
 						</div>
 					</div>
-					
+
 					<div class="myword">
 						<div class="hello">
 							<p>'.$userobject->metadata['userfullname'].'</p>
@@ -141,7 +153,7 @@ $old= '
 						<p class="words">'.$userobject->metadata['description'].'</p>
 					</div>
 				</div>
-				
+
 				<div class="nav-main-right">
 					<div class="nav-main-right-block a-box">
 						<a href="'.$CFG->wwwroot.'">&nbsp;&nbsp;<span class="glyphicon glyphicon-home"></span>&nbsp;返回首页</a>
@@ -150,7 +162,7 @@ $old= '
 					<div class="nav-main-right-block">
 						<p>等级</p>
 						<p>副连一年</p>
-					</div>					
+					</div>
 					<div class="vline"></div>-->
 					<div class="nav-main-right-block">
 						<p>证书</p>
@@ -186,16 +198,39 @@ function my_get_date(){
 	elseif((20<=$date&&$date<=24)||(0<=$date&&$date<=5))
 		return '晚上好！';
 }
+
+
+/** ========= 页面输出 ============================= */
+require_once("../theme/more/layout/includes/header.php");//导航条
+
+echo '<!--个人信息展示板-->
+		<div class="personalbanner">
+			<div class="main-box">
+				<div class="l-box">
+					'.$userobject->metadata['useravatar'].'
+				</div>
+				<div class="c-box">
+					<p class="top-info"><a href="#">'.$userobject->metadata['userfullname'].'</a>，'.my_get_date().'</p>
+					<p class="bottom-info">'.$userobject->metadata['description'].'</p>
+				</div>
+				<div class="r-box">
+					<div class="box">
+						<p>证书</p>
+						<p class="num">'.get_mymadle().'</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--个人信息展示板 end-->';
+
 ?>
-		<!--导航条end-->
 
 		<!--主体内容-->
 		<div class="main">
 			<!--左边菜单-->
 			<div class="left-menu">
 		
-				
-				<div id="mycourse" class="menubtn menubtn-active"><h4><span class="glyphicon glyphicon-book"></span>&nbsp;我的课程</h4></div>				
+				<div id="mycourse" class="menubtn menubtn-active"><h4><span class="glyphicon glyphicon-book"></span>&nbsp;我的课程</h4></div>
 				<div id="myexam" class="menubtn"><h4><span class="glyphicon glyphicon-time"></span>&nbsp;我的考试</h4></div>
 				<div id="mynote" class="menubtn"><h4><span class="glyphicon glyphicon-edit"></span>&nbsp;我的笔记</h4></div>
 				<div id="mymedal" class="menubtn"><h4><span class="glyphicon glyphicon-tasks"></span>&nbsp;我的证书</h4></div>
@@ -216,6 +251,7 @@ function my_get_date(){
 			<!--右边内容end-->
 		</div>
 		<!--主体内容end-->
+
 		<!--添加蒙版显示学习圈图片 Start-->
 		<style>
 			.shadow{
@@ -312,6 +348,16 @@ function my_get_date(){
 			})
 		</script>
 		<!--添加蒙版显示学习圈图片 end-->
+
+		<!--底部导航条-->
+		<!--<nav class="navstyle-bottom navbar-static-bottom"></nav>-->
+		<?php require_once("../theme/more/layout/includes/bottom_info.php"); ?>
+		<!--底部导航条 end-->
+
+		<!--右下角按钮-->
+<!--		--><?php //require_once("../theme/more/layout/includes/link_button.php"); ?>
+		<!--右下角按钮 end-->
+
 	</body>
 
 </html>

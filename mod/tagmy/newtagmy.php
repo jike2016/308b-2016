@@ -31,6 +31,8 @@ require_once("$CFG->libdir/formslib.php");
 $PAGE->set_url('/mod/tagmy/newtagmy.php');
 $PAGE->set_title('创建全局标签');
 $PAGE->set_heading('创建全局标签');
+$PAGE->set_pagelayout('registerforadmin');//设置layout
+
 require_login();//要求登录
 global $DB;
 class simplehtml_form extends moodleform {

@@ -54,11 +54,18 @@ echo $OUTPUT->doctype() ?>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <?php echo $OUTPUT->standard_head_html() ?>
 
-    <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css"><!--全局-->
-    <link rel="stylesheet" href="../theme/more/style/navstyle.css" /> <!--全局-->
+    <link rel="stylesheet" href="<?php echo $CFG->wwwroot;?>/theme/more/style/bootstrap.css" type="text/css"><!--全局-->
+    <link rel="stylesheet" href="<?php echo $CFG->wwwroot;?>/theme/more/style/navstyle.css" /> <!--全局-->
 
-    <script src="../theme/more/js/jquery-1.11.3.min.js"></script><!--全局-->
-     
+    <script src="<?php echo $CFG->wwwroot;?>/theme/more/js/jquery-1.11.3.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            //导航条列表样式控制 start
+            $('.navRight li').removeClass('active');
+            $('.navRight .mod_course').addClass('active');
+            //导航条列表样式控制 end
+        });
+    </script>
 </head>
 <body <?php echo $OUTPUT->body_attributes(); ?>>
 

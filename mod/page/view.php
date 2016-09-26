@@ -128,44 +128,44 @@ $count_page = $evaluationCount->ceilcount;
 $current_page = $_SESSION['pageid'];
 unset ($_SESSION['pageid']);
 
-echo '
-			<button id="hiddencourseid" value="'.$course->id.'" style="display: none;"></button>
-			<button id="hiddennotetitle" value="'.$page->name.'" style="display: none;"></button>
-			<!--评论-->
-                    <div class="commentbox">
-                        <div class="commentboxtitle">
-                            <div style="width:110px"><h3 style="width:100%">评论('.$evaluationCount->count.')</h3></div>
-                        </div>
-                        <div class="mycomment">
-                                  <!-- 2016.3.29 毛英东 添加表情-->
-								<textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
-                                <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
-                                <button id="commentBtn" class="btn btn-success">发表评论</button>
-                                <!-- end  2016.3.29 毛英东 添加表情 -->
-                            </div>
-                            '.my_get_article_evaluation($id, $current_page - 1).'
-                    </div>
-                    		<!--分页按钮-->
-			<div class="paginationbox">
-				<ul class="pagination">
-					<li>
-						<a href="../../mod/page/view.php?id='.$id.'&page=1">首页</a>
-					</li>
-					<li>
-						<a href="../../mod/page/view.php?id='.$id.'&page='.($current_page <= 1 ? 1: $current_page - 1).'">上一页</a>
-					</li>
-					'.my_get_article_evaluation_current_count($count_page, $id, $current_page).'
-					<li>
-						<a href="../../mod/page/view.php?id='.$id.'&page='.($current_page < $count_page ? ($current_page + 1): $count_page).'">下一页</a>
-					</li>
-					<li>
-						<a href="../../mod/page/view.php?id='.$id.'&page='.$count_page.'">尾页</a>
-					</li>
-				</ul>
+//输出文档的上下页按钮 start
+echo '<div class="funtion-btn-box">
+			'.my_printf_doc_jump($course,$id).'
+	   </div>';
+//输出文档的上下页按钮 end
+
+echo '<button id="hiddencourseid" value="'.$course->id.'" style="display: none;"></button>
+	  <button id="hiddencoursefullname" value="'.$page->name.'" style="display: none;"></button>
+        <!--课程评论板块-->
+		<div class="main-box">
+			<div class="scoreinfo">
+				<p class="title">评论（<span>'.$evaluationCount->count.'</span>）</p>
 			</div>
-			<!--分页按钮 end-->
-                    <!--评论 end-->
-                    ';
+			<div class="evaluation-list" >
+				<div class="mycomment">
+					<textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                    <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
+					<button id="commentBtn" class="btn btn-primary">发表评论</button>
+					<div class="division"></div>
+				</div>
+				<div class="division"></div>
+				<!--替换部分 删除原有的评论输出及分页条输出 将以下代码替换-->
+                    <!--评论内容-->
+                    <div class="evaluation" id="page-evaluation">
+                    </div>
+                    <!--评论内容 end-->
+                    <!--分页-->
+                    <div class="paginationbox">
+                      <!--输出页码-->
+                      <div id="page-list">
+                     </div>
+                     <!--输出页码-->
+                    </div>
+                    <!--分页 end-->
+				<!--end 替换部分-->
+			</div>
+		</div>
+		<!--课程评论板块 end-->';
 
 echo $OUTPUT->footer();
 
@@ -213,10 +213,33 @@ function my_get_article_evaluation_current_count($count_page, $articleid, $curre
 }
 /** 输出页码 END*/
 
+/** START 输出页码 */
+function my_get_article_evaluation_current_count2($count_page, $articleid, $current_page)
+{
+    $pagestr = '';
+    /** Start 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
+    $numstart = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page - 2):1):($count_page - 4)):1;
+    $numend = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page + 2):5):($count_page)):$count_page;
+    /** End 设置评论数的显示页码（只显示5页） 朱子武 20160327*/
+    for($num = $numstart; $num <= $numend; $num ++)
+    {
+//          $pagestr.='<li><a href="../../mod/page/view.php?id='.$articleid.'&page='.$num.'">'.$num.'</a></li>';
+        if($num == $current_page)
+        {
+            $pagestr.='<a class="active" href="../../mod/page/view.php?id='.$articleid.'&page='.$num.'" >'.$num.'</a>';
+        }
+        else
+        {
+            $pagestr.='<a href="../../mod/page/view.php?id='.$articleid.'&page='.$num.'" >'.$num.'</a>';
+        }
+    }
+    return $pagestr;
+}
+/** 输出页码 END*/
+
 /** START 获取课程评价 朱子武 20160315*/
 function my_get_article_evaluation($articleid, $current_page)
 {
-
     $my_page = $current_page * 10;
     global $DB;
     global $OUTPUT;
@@ -260,3 +283,110 @@ function my_get_article_evaluation($articleid, $current_page)
     return $evaluationStr;
 }
 /** 获取课程评价 END*/
+
+/** START 获取课程评价 */
+function my_get_article_evaluation2($articleid, $current_page)
+{
+    $my_page = $current_page * 10;
+    global $DB;
+    global $OUTPUT;
+    $evaluation = $DB->get_records_sql('SELECT a.id, a.userid, a.comment, b.firstname, b.lastname, a.commenttime FROM mdl_comment_article_my a JOIN mdl_user b ON a.userid = b.id WHERE articleid = ? ORDER BY commenttime DESC LIMIT '.$my_page.',10', array($articleid));
+
+    $evaluationStr = '';
+    foreach($evaluation as $value)
+    {
+        $userobject = new stdClass();
+        $userobject->metadata = array();
+        $user = $DB->get_record('user', array('id' => $value->userid), '*', MUST_EXIST);
+        $userobject->metadata['useravatar'] = $OUTPUT->user_picture (
+            $user,
+            array(
+                'link' => false,
+                'visibletoscreenreaders' => false
+            )
+        );
+
+        $userobject->metadata['useravatar'] = str_replace("width=\"35\" height=\"35\"", " ", $userobject->metadata['useravatar']);
+        $evaluationStr .= '  <!--评论内容-->
+                    <div class="evaluation">
+             		<div class="evaluation-con">
+                     	<a href="#" class="img-box">
+                     		'.$userobject->metadata['useravatar'].'
+                     	</a>
+                     	<div class="content-box">
+                        	<div class="user-info clearfix">
+                            	<a href="#" class="username">'.$value->lastname.$value->firstname.'</a>
+                         	</div>
+                         	<!--user-info end-->
+                     		<p class="content commentinfo "> '.$value->comment.'</p>
+                         	<div class="info">
+                         		<span class="time">时间：'.userdate($value->commenttime,'%Y-%m-%d %H:%M').'</span>
+                         	</div>
+                     	</div>
+              			<!--content end-->
+              		</div>
+					<!--evaluation-con end-->
+         		</div><!--评论内容1 end-->';
+
+    }
+    return $evaluationStr;
+}
+/** 获取课程评价 END*/
+
+/**start nlw20160809 课程文档阅读增加页面跳转链接/添加上下页跳转按钮 */
+/**输出课程文档阅读增加页面跳转链接
+ *
+ * @author nlw
+ * @param $course
+ * @param  $id 当前活动的id
+ * @return
+ */
+function my_printf_doc_jump($course,$id){
+
+    $output = '';
+    $modinfo = get_fast_modinfo($course);//获取课程的全部信息
+    $cms = $modinfo->cms;
+    $sections = $modinfo->sections;
+    $count = count($sections[0]);//获取第一个section中activity数量
+    $key_cms = array_keys($cms);//获取所有activity的id
+    for ($i=$count;$i<count($key_cms);$i++){//从第二个section的第一个activity开始遍历
+        if ($id == $key_cms[$i]){
+            if ($i == $count){//第一个activity
+                if (count($key_cms)> $count + 1) {//如果本课程只有一个activity
+                    $url_next = return_doc_jump($modinfo, $key_cms[$i + 1]);
+                    $output = '<a href="' . $url_next . '" class="next-page" >下一页</a>';
+                }
+            }elseif ($i == (count($key_cms)-1)){//最后一个activity
+                $url_previous = return_doc_jump($modinfo,$key_cms[$i-1]);
+                $output =  '<a href="'.$url_previous.'" class="pre-page" >上一页</a>';
+            }else{//中间的activity
+                $url_previous = return_doc_jump($modinfo,$key_cms[$i-1]);
+                $output = '<a href="'.$url_previous.'" class="pre-page" >上一页</a>';
+                $url_next = return_doc_jump($modinfo,$key_cms[$i+1]);
+                $output .= '<a href="'.$url_next.'" class="next-page" >下一页</a>';
+            }
+        }
+    }
+    return $output;
+}
+/**返回当前文档的id在课程活动$session_my的下标和指定下标的URL*/
+/**获取指定id的活动URL
+ * @author nlw
+ * @param $modinfo
+ * @param $id 活动的id
+ *
+ */
+function return_doc_jump($modinfo,$index_my){
+
+    $cms=$modinfo->cms[$index_my];//每个课程中的各个活动的信息
+    $cms_url=$cms->url;//活动的URL对象
+    if(!empty($cms_url)){//如果不是空
+        $cms_url_path=$cms_url->get_path();//从URL对象中获取path，注意：这里是的path是protect属性，要调用系统的方法进行获取
+    }else{
+        $cms_url_path='#';
+    }
+    $cms_url_path=$cms_url_path.'?id='.$index_my;//拼接URL
+
+    return $cms_url_path;
+}
+/**课程文档阅读增加页面跳转链接/添加上下页跳转按钮 end*/

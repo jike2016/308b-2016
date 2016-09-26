@@ -1,28 +1,36 @@
 <?php
 require_once(dirname(__FILE__) . '/../config.php');
 require_once($CFG->dirroot . '/org/org.class.php');
+require_once($CFG->dirroot . '/user/my_role_conf.class.php');
+
 global $DB;
 global $USER;
-//获取当前用户，判断是否是单位角色
-if(!$DB->record_exists('role_assignments', array('roleid' => 14,'userid' => $USER->id))){
-	if($USER->id != 2){
-		redirect($CFG->wwwroot);
-	}
-	
+$role = new my_role_conf();
+/** Start 权限判断 只允许超级管理员、慕课管理员 进入 */
+$courseAdminFlag = false;//慕课管理员标志
+if($DB->record_exists('role_assignments', array('roleid' => $role->get_courseadmin_role(),'userid' => $USER->id))){
+	$courseAdminFlag = true;
 }
-//其他能查看台账的条件如某个人
-// elseif(){
-	
-// }
+if( !$courseAdminFlag && ($USER->id != 2) ){
+	redirect($CFG->wwwroot);
+}
+/** end */
+
 //查询当前用户id在组织架构内的位置，输出下级树(后面要做成权限赋予型)
 $org = new org();
- $orgid = $org->get_nodeid_with_userid($USER->id);
-// $orgid = $org->get_nodeid_with_userid(12);
-$tree = $org->show_node_tree_user_no_office($orgid);
+if($courseAdminFlag){//如果是慕课管理员角色（因为慕课管理员没有单位所属）
+	$orgid = $org->get_root_node_id();
+}else{
+	$orgid = $org->get_nodeid_with_userid($USER->id);
+}
 
-
+//$tree = $org->show_node_tree_user_no_office($orgid);
+//$remove_role = '14,15';//需要移除的角色，14：单位角色 15：分权管理员角色
+require_once('comment_data.php');
+$tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 
 ?>
+
 
 <!DOCTYPE html>
 <HTML>
@@ -147,11 +155,11 @@ $tree = $org->show_node_tree_user_no_office($orgid);
 			</a>
 		</ul>
 		<div class="usermenu-box">
-							
+
 		</div>
 	</div>
 </nav>
-		<!--导航条 end-->
+<!--导航条 end-->
 <div class="main">
 	<div class="zTreeDemoBackground left">
 		<ul id="tree" class="ztree"></ul> <!--important 显示文件树的地方-->

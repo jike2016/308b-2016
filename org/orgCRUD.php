@@ -155,6 +155,12 @@ switch($type)
 		}
 
 		break;
+	case 'click_all_user_no_unit_no_gradad': // 获取所有用户,出去分级管理员和单位账号、慕课管理员
+		$treeNodeid = $_GET['treeNodeid'];
+		$remove_role = $_GET['remove_role'];
+		$res = $org->select_node_detailed_no_unit_no_grading($treeNodeid,$remove_role);
+		echo json_encode($res);
+		break;
 	default: // 其他
 		echo '0';
 }

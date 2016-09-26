@@ -1,0 +1,7 @@
+.maininfo-box {width: 100%;background-color: #FFFFFF;box-sizing: border-box; height: 615px;overflow-y: scroll; border: 1px solid #ccc; padding: 10px 20px 20px 20px;}
+.head-box {width: 100%; height: 80px;border-bottom: 2px solid #CCCCCC;}
+.head-box h3 {color: #777777; margin: 15px 0px 0px 0px; float: left;}
+.head-box .a-box {width: 100%; height: 20px; padding: 0px;}
+.head-box .a-box #return-index {color: #777777; text-decoration: none; cursor: pointer; font-size: 16px;}
+.head-box .a-box #return-index:hover {color: #18BBED;}
+.head-box #num {color: #10ADF3;}

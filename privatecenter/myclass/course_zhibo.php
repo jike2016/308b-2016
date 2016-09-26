@@ -3,17 +3,8 @@ $('.lockpage').hide();
 </script>
 <style>
 	.classinfo .slearn { float: right; margin: 10px 0px 0px 15px; width: 120px; height: 50px;}
-
 	.kinds {margin-bottom: 5px;}
-
-	.classinfo-box {min-height: 560px; padding: 0px;}
-	.footer-box {background-color: #F0F0F0;  border: 1px solid #ccc; border-top: 0px;}
-	.footer { background-color: #F0F0F0; width: 60%; margin: auto; height: 48px; padding: 15px 0px;}
-	.footer p {display: inline-block; color: #5E5E5E;}
-	.footer .p-14-red {color: #C9302C;}
-	.footer .right,.center {float: right;}
-	.footer .right{margin-right: 60px;}
-	.footer a {margin-right: 40px;}
+	.classinfo-box {height: 560px;overflow-y: scroll; padding: 0px;}
 
 	table td {text-align: center;}
 	table {margin-top: 0px;}
@@ -28,6 +19,8 @@ $('.lockpage').hide();
 	.td5 {width: 25%;}
 	.td6 {width: 15%;}
 </style>
+<link rel="stylesheet" href="css/personal-footer.css" />
+
 
 <script type="text/javascript">
 

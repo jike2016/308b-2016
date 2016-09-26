@@ -1,8 +1,8 @@
 html,body {font-family: "微软雅黑";background-color: #eee;}
 	
 /*************主体内容**************/
-.main {background-color: #FFFFFF; width: 1100px;margin: auto; padding: 25px; margin-bottom:100px; margin-top:50px}
-.main .coursetitle {text-decoration: none; font-size: 24px;}
+.main {background-color: #FFFFFF; width: 1200px;margin: auto; padding: 0px;  margin-top:50px ;min-height: 740px}
+.main .coursetitle {text-decoration: none; font-size: 24px;  color: #337ab7;}
 .choosetips {color: #D43F3A;float: right; margin-top: 10px;}
 .choosetips .glyphicon {top: 2px;}
 .coursetitle .glyphicon {top: 5px;}

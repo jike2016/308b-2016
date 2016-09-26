@@ -446,22 +446,73 @@ function beforeClick(treeId, treeNode, clickFlag) {   //click为true时不执行
 		dataType:"json",
 		data: { treeNodeid: treeNode.id, type: 'click'},
 		success: function(msg) {
+			$('.lockpage').hide();
 			$("#log").children().remove();
 			$.each(msg, function(commentIndex, comment){
 				var user_name = comment['lastname'] + comment['firstname'];
 				var username = comment['username'];
 				var userid = comment['user_id'];
 				var orgname = comment['name'];
-				showLog(userid, user_name, username, orgname);
+				var orgid = comment['org_id'];
+				var jingzhang = comment['jingzhang'];
+				showLogwithjingzhang(userid, user_name, username, orgname, jingzhang, orgid);
 
 			});
-			$('.lockpage').hide();
+
 		}
 	});
 	DisplayAndHiddenBtn("addBtn", "display");
 	DisplayAndHiddenBtn("deleteBtn", "display");
 	DisplayAndHiddenBtn("addBtn_confirm", "none");
 	return (treeNode.click == true);
+}
+
+function showLogwithjingzhang(userid,user_name, username, orgname, jingzhang, orgid) {  //文件树节点点击事件与时间，显示在id为log的控件中 20160831
+	if (!log) log = $("#log");
+	var userurl = window.location.protocol+'//'+window.location.host+'/moodle/user/editadvanced.php?id='+userid+'&course=1';
+	/** Star 修改table的显示内容 朱子武 20160314 */
+	var str = "";
+	if (1 == jingzhang)
+	{
+		str = "<tr id='"+userid+"'><td class='td1'><input name ='checkbox' type='checkbox'></td><td>"+username+"</td><td class='td2'><a target='_blank' href='"+userurl+"'>"+user_name+"</a><a  class=‘btn-box' style='float: right; cursor: pointer' onclick='addchildrenpolice("+userid+", "+orgid+")'>选择直属干警</a></td><td>"+orgname+"</td></tr>";
+	}
+	else
+	{
+		str = "<tr id='"+userid+"'><td class='td1'><input name ='checkbox' type='checkbox'></td><td>"+username+"</td><td class='td2'><a target='_blank' href='"+userurl+"'>"+user_name+"</a></td><td>"+orgname+"</td></tr>";
+	}
+	log.append(str);
+}
+
+function addchildrenpolice(user_id, orgid) {
+	$("#police tbody").empty();
+	$('.lockpage').show();
+	$(".cover-bg").show();
+	$(".table-box-alert").show();
+	$('#submitdelete').hide();
+	$('#submitadd').show();
+	$("#show-police").removeClass('active');
+	$('#check-police').addClass('active');
+	$('#userid').val(user_id);
+	$('#orgid').val(orgid);
+	$.ajax({
+		url: "../org/dutypolice.php",
+		type: "POST",
+		dataType:"json",
+		data: {action:'getchildrenpolice', id:orgid},
+		success: function(msg) {
+			$('.lockpage').hide();
+			// console.log(msg.data);
+			// $("#police tbody").empty();
+			if (msg.status == 200)
+			{
+				var str = '';
+				$.each(msg.data, function(commentIndex, comment){
+					str += '<tr><td><input type="checkbox" name="user" class="users" value="'+comment.id+'"></td><td>'+comment.lastname+comment.firstname+'</td><td>'+comment.data+'</td></tr>';
+				});
+				$("#police tbody").append(str);
+			}
+		}
+	});
 }
 
 function showLog(userid,user_name, username, orgname) {  //文件树节点点击事件与时间，显示在id为log的控件中
@@ -518,6 +569,7 @@ function AddDataFromTable(){
 		dataType:"json",
 		data: {type: 'userAdd'},
 		success: function(msg) {
+			$('.lockpage').hide();
 			$("#log").children().remove();
 			$.each(msg, function(commentIndex, comment){
 				var user_name = comment['lastname'] + comment['firstname'];
@@ -526,7 +578,7 @@ function AddDataFromTable(){
 				var orgname = '未分配';
 				showLog(userid,user_name, username, orgname);
 			});
-			$('.lockpage').hide();
+
 		}
 	});
 	DisplayAndHiddenBtn("addBtn_confirm", "display");
@@ -541,6 +593,7 @@ function CheckNotAssignedDataFromTable(){
 		dataType:"json",
 		data: {type: 'userAdd'},
 		success: function(msg) {
+			$('.lockpage').hide();
 			$("#log").children().remove();
 			$.each(msg, function(commentIndex, comment){
 				var user_name = comment['lastname'] + comment['firstname'];
@@ -549,7 +602,7 @@ function CheckNotAssignedDataFromTable(){
 				var orgname = '未分配';
 				showLogNotinput(userid,user_name, username, orgname);
 			});
-			$('.lockpage').hide();
+
 		}
 	});
 	DisplayAndHiddenBtn("addBtn_confirm", "none");
@@ -567,6 +620,7 @@ function CheckAssignedDataFromTable()
 		data: {type: 'CheckAssigned'},
 		success: function(msg) {
 			$("#log").children().remove();
+			$('.lockpage').hide();
 			$.each(msg, function(commentIndex, comment){
 				var user_name = comment['lastname'] + comment['firstname'];
 				var username = comment['username'];
@@ -574,7 +628,7 @@ function CheckAssignedDataFromTable()
 				var orgname = comment['name'];
 				showLog(userid,user_name, username, orgname);
 			});
-			$('.lockpage').hide();
+
 		}
 	});
 	DisplayAndHiddenBtn("addBtn_confirm", "none");
@@ -593,6 +647,7 @@ function CheckAllDataFromTable()
 		success: function(msg) {
 //				 alert(123);
 //				 alert(msg);
+			$('.lockpage').hide();
 			$("#log").children().remove();
 			$.each(msg, function(commentIndex, comment){
 				var user_name = comment['lastname'] + comment['firstname'];
@@ -601,7 +656,7 @@ function CheckAllDataFromTable()
 				var orgname = comment['name'];
 				showLogNotinput(userid,user_name, username, orgname);
 			});
-			$('.lockpage').hide();
+
 		}
 	});
 	DisplayAndHiddenBtn("addBtn_confirm", "none");
@@ -618,22 +673,8 @@ function searchDataFromTable(searchtext)
 		dataType:"json",
 		data: {type: 'searchuser', searchtext: searchtext},
 		success: function(msg) {
+			$('.lockpage').hide();
 			$("#log").children().remove();
-//				 if(msg)
-//				 {
-//					 $.each(msg, function(commentIndex, comment){
-//						 var user_name = comment['lastname'] + comment['firstname'];
-//						 var username = comment['username'];
-//						 var userid = comment['id'];
-//						 var orgname = comment['name'];
-//						 showLog(userid,user_name, username, orgname);
-//					 });
-//				 }
-//				 else
-//				 {
-//					 alert('没有搜索结果');
-//				 }
-
 			$.each(msg, function(commentIndex, comment){
 				var user_name = comment['lastname'] + comment['firstname'];
 				var username = comment['username'];
@@ -642,7 +683,7 @@ function searchDataFromTable(searchtext)
 				showLog(userid,user_name, username, orgname);
 			});
 
-			$('.lockpage').hide();
+
 		}
 	});
 	DisplayAndHiddenBtn("addBtn_confirm", "none");
@@ -769,19 +810,6 @@ $(document).ready(function(){
 		{
 			//alert("你按下的是【取消】");
 		}
-		//$.ajax({
-		//	url: "../org/orgCRUD.php",
-		//	data: {type: 'addroot'},
-		//	success: function(msg){
-		//		if(msg == 1){
-		//			location.reload();
-		//		}
-		//		else{
-		//			alert('添加失败');
-		//		}
-		//		$('.lockpage').hide();
-		//	}
-		//});
 	});
 
 

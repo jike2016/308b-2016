@@ -13,6 +13,7 @@ $('.lockpage').hide();
 	.td3 {width: 45%;}
 	.td4 {width: 25%;}
 </style>
+
 <div class="classinfo-box">
 <table class="table table-hover">
 	<thead>

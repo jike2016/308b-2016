@@ -26,7 +26,9 @@
  **/
 require(dirname(__FILE__).'/../../config.php');
 require_once(dirname(__FILE__).'/lib.php');
-require_once("$CFG->libdir/formslib.php");
+require_once($CFG->libdir."/formslib.php");
+require_once($CFG->dirroot."/org/org.class.php");
+
 
 $delete     = optional_param('delete', 0, PARAM_INT);
 $mission_name     = optional_param('mission_name', 0, PARAM_TEXT);
@@ -36,6 +38,8 @@ require_login();//要求登录
 $PAGE->set_url('/mod/missionmy/index.php');
 $PAGE->set_title('台账任务管理');
 $PAGE->set_heading('台账任务管理');
+$PAGE->set_pagelayout('registerforadmin');//设置layout
+
 //判断权限。。有bug
 //权限未确定？？？？
 if (!has_any_capability(array(
@@ -87,10 +91,11 @@ $table->head = array(
 		'选修课应完成数量',
 		'任务开始时间',
 		'任务结束时间',
+		'所属单位',
 		'开启或关闭',
 		'动作'
 	);
-$table->colclasses = array('mission_name', 'required_course_num', 'required_course_id','optional_course_num','optional_course_id','optional_choice_compeltions','start_time','end_time','enable','action');
+$table->colclasses = array('mission_name', 'required_course_num', 'required_course_id','optional_course_num','optional_course_id','optional_choice_compeltions','start_time','end_time','belong_org','enable','action');
 //取数据展示
 global $DB;
 global $USER;
@@ -143,6 +148,15 @@ foreach ($mission_my as $mission) {
 		$enable = '已关闭';
 	}
 
+	//任务所属单位的判断
+	$orgID = $mission->org_id;
+	$belong_org = '';
+	if($DB->record_exists("org",array("id"=>$orgID))){
+		$org = new org();
+		$org_node = $org->get_node($orgID);
+		$belong_org = $org_node['name'];
+	}
+
 	//编辑按钮
 	$url = new moodle_url('/mod/missionmy/edit.php', array('id' => $mission->id, 'action' => 'details'));
 	$actions .= $OUTPUT->action_icon($url, new pix_icon('t/edit', get_string('edit'))) . " ";//添加
@@ -153,7 +167,7 @@ foreach ($mission_my as $mission) {
     $actions .= $OUTPUT->action_icon($url, new pix_icon('t/delete', get_string('delete'))) . " ";
 
 	//将各字段的数据填充到表格相应的位置中
-	$row = array($mission_name,$required_course_num,$required_course_id,$optional_course_num,$optional_course_id,$optional_choice_compeltions,$time_start,$time_end,$enable,$actions);
+	$row = array($mission_name,$required_course_num,$required_course_id,$optional_course_num,$optional_course_id,$optional_choice_compeltions,$time_start,$time_end,$belong_org,$enable,$actions);
 	$table->data[] = $row;
 }
 

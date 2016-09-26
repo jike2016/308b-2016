@@ -155,6 +155,28 @@ if ($editform->is_cancelled()) {
 		//创建课程
         $course = create_course($data, $editoroptions);
 
+        /** Start 如果是慕课管理员、超级管理员 创建的课程，默认所有的单位可浏览 */
+        require_once($CFG->dirroot.'/org_classify/org.class.php');
+        $org = new org();
+        $root_noteID = $org->get_root_node_id();
+        $org_node = $org->get_node($root_noteID);//获取单位根节点
+        $sub_orgs = $org->get_all_child($org_node);//获取根节点下的所有子节点
+        $courseID = $course->id;
+        $org_courseObjArray = array();
+        $org_courseObj = new stdClass();//当前单位
+        $org_courseObj->org_id = $root_noteID;
+        $org_courseObj->course_id = $courseID;
+        $org_courseObjArray[] = $org_courseObj;
+        foreach($sub_orgs as $temp){//各子单位
+            $subOrg_courseObj = new stdClass();
+            $subOrg_courseObj->org_id = $temp['id'];
+            $subOrg_courseObj->course_id = $courseID;
+            $org_courseObjArray[] = $subOrg_courseObj;
+        }
+        $DB->insert_record("course_org_my",array("courseid"=>$course->id,"manage_org"=>$user_org->org_id,"browseable_org"=>$root_noteID),true);
+        $DB->insert_records("org_course_my",$org_courseObjArray);
+        /** end */
+
         /** Start 将课程ID加入mdl_course_order_my表中 用于统计周 月 总浏览数 0160302 毛英东 */
         $DB -> execute("insert into mdl_course_order_my (courseid)values(".$course->id.")");
         /** End */

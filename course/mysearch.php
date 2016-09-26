@@ -15,14 +15,14 @@ $PAGE->set_url('/course/mysearch.php', $paramarray);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('coursesearchresult');//设置layout
 $coursesearchrenderer = $PAGE->get_renderer('core', 'course');//设置renderer
-if ($CFG->forcelogin) {
+if (!$CFG->forcelogin) {
     require_login();
 }
 $strcourses = new lang_string("courses");
 $strsearch = new lang_string("search");
 $strsearchresults = new lang_string("searchresults");
 $strnovalidcourses = new lang_string('novalidcourses');
-$PAGE->set_title("课程搜索结果页");
+$PAGE->set_title("课程搜索");
 $PAGE->set_heading("xx搜索");
 echo $OUTPUT->header();
 echo $coursesearchrenderer->my_course_searchresult($search,$page,$perpage);

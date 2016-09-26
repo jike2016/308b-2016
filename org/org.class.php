@@ -1,4 +1,5 @@
 <?php
+//namespace org;
 
 if(empty($CFG))
 {
@@ -20,9 +21,11 @@ class org
 	*/
 	function __construct()
 	{
-		$charset = "utf8"; 
+		$charset = "utf8";
+		global $CFG;
 		// $this->conn = new mysqli('10.148.216.166', 'root', 'Gcmooc@401', 'moodle');
-		$this->conn = new mysqli('localhost', 'root', 'root', 'moodle');
+//		$this->conn = new mysqli('localhost', 'root', 'root', 'moodle');
+		$this->conn = new mysqli($CFG->dbhost, $CFG->dbuser, $CFG->dbpass, $CFG->dbname);
 		$sql="SET character_set_connection=$charset, character_set_results=$charset, character_set_client=binary";
 		$this->conn->query($sql);
 	}
@@ -418,18 +421,33 @@ class org
 //		global $DB;
 //		$result = $DB->get_records_sql("SELECT a.id, a.org_id, a.user_id, b.firstname, b.lastname FROM ".$this->link_user_table." a JOIN mdl_user b ON a.user_id = b.id WHERE org_id = ?", array($nodeId));
 
-		$re = Array();
+		$re = [];
+		$res = [];
 		while($res = $result->fetch_array(MYSQLI_ASSOC))
 		{
 			$re[] = $res;
 		}
 //		$s = json_encode($result);
-//		foreach($result as $value)
-//		{
-//			$c = json_encode($value);
-//		}
+		foreach($re as $value)
+		{
+			global $DB;
+			$duty = $DB->get_records_sql(sprintf('SELECT id FROM mdl_role_assignments WHERE roleid = 14 AND userid = %s', $value['user_id']));
+			if (count($duty))
+			{
+				$result= stripos($value['firstname'], '警长');
+				if (false !== $result)
+					$value['jingzhang'] = '1';
+				else
+					$value['jingzhang'] = '0';
+			}
+			else
+			{
+				$value['jingzhang'] = '0';
+			}
+			$res[] = $value;
+		}
 //		return json_encode($re);
-		return $re;
+		return $res;
 	}
 
 	/**
@@ -456,6 +474,8 @@ class org
 	{
 		$sql = "delete from `".$this->link_user_table."`  where `user_id`='".$userId."'";
 		$this->conn->query($sql);
+		global $DB;
+		$DB->execute(sprintf('DELETE FROM mdl_police_connection WHERE user_id = %s', $userId));
 	}
 	
 	/**
@@ -978,6 +998,179 @@ class org
 	}
 
 	/**
+	 * 筛除单位账号 及 分级管理员账号
+	 *
+	 * $nodeId: 节点的ID
+	 * $remove_role = '14,15';//需要移除的角色，14：单位角色 15：分权管理员角色
+	 *
+	 * 返回值：节点树字符串
+	 */
+	function show_node_tree_user_no_office_no_grading($nodeId,$remove_role)
+	{
+		global $DB;
+		global $USER;
+		global $CFG;
+
+		$node = $this->get_node($nodeId);
+		//显示本节点
+		$node_tree['name'] = $node['name'];
+		// 获取 $root_id 节点的所有子孙节点
+		$tree = $this->get_all_child($node);
+		// 显示树的每个节点
+		$node_tree['tree'] = "{ id:'".$node['id']."',userid:0, pId:'".$node['parent']."', name:'".$node['name']."', open:true},";
+		$user_tree = $this->select_node_detailed($node['id']);
+		foreach($user_tree as $value)
+		{
+			//判断是否是超级管理员
+			if($value['user_id'] == 2){
+				continue;
+			}
+			//获取当前用户，判断是否是 单位角色 及 分级管理员账号
+//			if(!$DB->get_records('role_assignments', array('roleid' => 14,'userid' => $value['user_id']))){
+			if($DB->get_records_sql("select id from mdl_role_assignments where roleid in (".$remove_role.") and userid = ".$value['user_id'])){
+				continue;
+			}
+			else
+			{
+				$node_tree['tree'].="{ id:0, userid:'".$value['user_id']."', pId:'".$node['id']."', name:'".$value['lastname'].$value['firstname']."',icon:'".$CFG->wwwroot."/org/zTreeStyle/img/diy/person.png'},";
+			}
+		}
+		$flag = true;
+		foreach($tree as $key=>$row)
+		{
+			if($flag)
+			{
+				$flag = false;
+				$pre_level = $row['level'];
+			}
+			//上一个节点为叶子节点且本节点也为叶子节点
+			if($pre_level == $row['level'])
+			{
+				//级别相同
+				if($row['lft']+1 == $row['rgt'])
+				{
+					//叶子节点
+					$node_tree['tree'].="{ id:'".$row['id']."',userid:0, pId:'".$row['parent']."', name:'".$row['name']."'},";
+//					获取叶子节点所有用户
+					$user_tree = $this->select_node_detailed($row['id']);
+					foreach($user_tree as $value)
+					{
+						//获取当前用户，判断是否是 单位角色 及 分级管理员账号
+//						if(!$DB->get_records('role_assignments', array('roleid' => 14,'userid' => $value['user_id']))){
+						if($DB->get_records_sql("select id from mdl_role_assignments where roleid in (".$remove_role.") and userid = ".$value['user_id'])){
+							continue;
+						}
+						else
+						{
+							$node_tree['tree'].="{ id:0, userid:'".$value['user_id']."', pId:'".$row['id']."', name:'".$value['lastname'].$value['firstname']."',icon:'".$CFG->wwwroot."/org/zTreeStyle/img/diy/person.png'},";
+						}
+					}
+				} else {
+					//不是叶子节点
+					$node_tree['tree'].="{ id:'".$row['id']."',userid:0, pId:'".$row['parent']."', name:'".$row['name']."', open:true},";
+					$user_tree = $this->select_node_detailed($row['id']);
+					foreach($user_tree as $value)
+					{
+						//获取用户，判断是否是单位角色 及 分级管理员账号
+//						if(!$DB->get_records('role_assignments', array('roleid' => 14,'userid' => $value['user_id']))){
+						if($DB->get_records_sql("select id from mdl_role_assignments where roleid in (".$remove_role.") and userid = ".$value['user_id'])){
+							continue;
+						}
+						else
+						{
+							$node_tree['tree'].="{ id:0, userid:'".$value['user_id']."', pId:'".$row['id']."', name:'".$value['lastname'].$value['firstname']."',icon:'".$CFG->wwwroot."/org/zTreeStyle/img/diy/person.png'},";
+						}
+					}
+				}
+			} else {
+				//级别不相同
+				if($pre_level < $row['level'])
+				{
+					//下一级目录
+					if($row['lft']+1 == $row['rgt'])
+					{
+						//叶子节点
+						$node_tree['tree'].="{ id:'".$row['id']."',userid:0, pId:'".$row['parent']."', name:'".$row['name']."'},";
+
+						$user_tree = $this->select_node_detailed($row['id']);
+						foreach($user_tree as $value)
+						{
+							//获取当前用户，判断是否是单位角色 及 分级管理员账号
+//							if(!$DB->get_records('role_assignments', array('roleid' => 14,'userid' => $value['user_id']))){
+							if($DB->get_records_sql("select id from mdl_role_assignments where roleid in (".$remove_role.") and userid = ".$value['user_id'])){
+								continue;
+							}
+							else
+							{
+								$node_tree['tree'].="{ id:0, userid:'".$value['user_id']."', pId:'".$row['id']."', name:'".$value['lastname'].$value['firstname']."',icon:'".$CFG->wwwroot."/org/zTreeStyle/img/diy/person.png'},";
+							}
+						}
+					} else {
+						//不是叶子节点
+						$node_tree['tree'].="{ id:'".$row['id']."',userid:0, pId:'".$row['parent']."', name:'".$row['name']."', open:true},";
+						$user_tree = $this->select_node_detailed($row['id']);
+						foreach($user_tree as $value)
+						{
+							//获取当前用户，判断是否是单位角色 及 分级管理员账号
+//							if(!$DB->get_records('role_assignments', array('roleid' => 14,'userid' => $value['user_id']))){
+							if($DB->get_records_sql("select id from mdl_role_assignments where roleid in (".$remove_role.") and userid = ".$value['user_id'])){
+								continue;
+							}
+							else
+							{
+								$node_tree['tree'].="{ id:0, userid:'".$value['user_id']."', pId:'".$row['id']."', name:'".$value['lastname'].$value['firstname']."',icon:'".$CFG->wwwroot."/org/zTreeStyle/img/diy/person.png'},";
+							}
+						}
+					}
+				}
+				else
+				{
+					if($row['lft']+1 == $row['rgt'])
+					{
+						//叶子节点
+						$node_tree['tree'].="{ id:'".$row['id']."',userid:0, pId:'".$row['parent']."', name:'".$row['name']."'},";
+
+						$user_tree = $this->select_node_detailed($row['id']);
+						foreach($user_tree as $value)
+						{
+							//获取当前用户，判断是否是单位角色 及 分级管理员账号
+//							if(!$DB->get_records('role_assignments', array('roleid' => 14,'userid' => $value['user_id']))){
+							if($DB->get_records_sql("select id from mdl_role_assignments where roleid in (".$remove_role.") and userid = ".$value['user_id'])){
+								continue;
+							}
+							else
+							{
+								$node_tree['tree'].="{ id:0, userid:'".$value['user_id']."', pId:'".$row['id']."', name:'".$value['lastname'].$value['firstname']."',icon:'".$CFG->wwwroot."/org/zTreeStyle/img/diy/person.png'},";
+							}
+						}
+					} else {
+						//不是叶子节点
+						$node_tree['tree'].="{ id:'".$row['id']."',userid:0, pId:'".$row['parent']."', name:'".$row['name']."', open:true},";
+						$user_tree = $this->select_node_detailed($row['id']);
+						foreach($user_tree as $value)
+						{
+							//获取当前用户，判断是否是单位角色 及 分级管理员账号
+//							if(!$DB->get_records('role_assignments', array('roleid' => 14,'userid' => $value['user_id']))){
+							if($DB->get_records_sql("select id from mdl_role_assignments where roleid in (".$remove_role.") and userid = ".$value['user_id'])){
+								continue;
+							}
+							else
+							{
+								$node_tree['tree'].="{ id:0, userid:'".$value['user_id']."', pId:'".$row['id']."', name:'".$value['lastname'].$value['firstname']."',icon:'".$CFG->wwwroot."/org/zTreeStyle/img/diy/person.png'},";
+							}
+						}
+					}
+				}
+			}
+
+			$pre_level = $row['level'];
+		}
+		$node_tree['tree'] = substr($node_tree['tree'],0,strlen($node_tree['tree'])-1);
+		return $node_tree;
+	}
+
+
+	/**
 	 * 根据ID获取当前节点以及往下节点的用户信息
 	 *
 	 * $node: 节点
@@ -1018,6 +1211,56 @@ class org
 			while($res = $result->fetch_array(MYSQLI_ASSOC))
 			{
 				if($DB->get_records_sql("select id from mdl_role_assignments where roleid = 14 and userid = ".$res['user_id'])){
+					continue;
+				}
+				else
+				{
+					$re[] = $res;
+				}
+			}
+		}
+		return $re;
+	}
+
+	/**
+	 * 根据ID获取当前节点以及往下节点的用户信息(不包括分级管理员、慕课管理员) xdw
+	 * $node: 节点
+	 * 返回值：用户信息(不存在则返回空)
+	 */
+	function select_node_detailed_no_unit_no_grading($nodeId,$remove_role)
+	{
+		global $DB;
+		$node = $this->get_node($nodeId);
+
+		// 获取 $root_id 节点的所有子孙节点
+		$tree = $this->get_all_child($node);
+
+		$re = Array();
+
+		$sql = "SELECT a.id, a.org_id, a.user_id, b.firstname, b.lastname FROM ".$this->link_user_table." a JOIN mdl_user b ON a.user_id = b.id WHERE org_id = ".$node['id']."";
+		//$sql = "select * from `".$this->table."` where `lft`>'".$node['lft']."' and `rgt`<'".$node['rgt']."' order by `lft`";
+		$result = $this->conn->query($sql);
+		while($res = $result->fetch_array(MYSQLI_ASSOC))
+		{
+			if($DB->get_records_sql("select id from mdl_role_assignments where roleid in ($remove_role) and userid = ".$res['user_id'])){
+				// 判断是否是超级管理员或者单位用户 start 20160306 朱子武
+//			if($DB->get_records_sql("select id from mdl_role_assignments where roleid = 14")){
+				continue;
+			}
+			else
+			{
+				$re[] = $res;
+			}
+		}
+
+		foreach($tree as $key=>$row)
+		{
+			$sql = "SELECT a.id, a.org_id, a.user_id, b.firstname, b.lastname FROM ".$this->link_user_table." a JOIN mdl_user b ON a.user_id = b.id WHERE org_id = ".$row['id']."";
+			//$sql = "select * from `".$this->table."` where `lft`>'".$node['lft']."' and `rgt`<'".$node['rgt']."' order by `lft`";
+			$result = $this->conn->query($sql);
+			while($res = $result->fetch_array(MYSQLI_ASSOC))
+			{
+				if($DB->get_records_sql("select id from mdl_role_assignments where roleid in ($remove_role) and userid = ".$res['user_id'])){
 					continue;
 				}
 				else
@@ -1269,6 +1512,32 @@ class org
 		$node_tree['tree'] = substr($node_tree['tree'],0,strlen($node_tree['tree'])-1);
 		return $node_tree;
 	}
+
+	/**
+	 * 获取从顶级到指定的级别的组织架构（只包含单位，不包含单位中的用户）
+	 * @author xdw
+	 * @param int $level  指定的最低级别
+	 * @return 字符串
+	 */
+	function show_node_tree_only_unit($level){
+
+		$root_nodeID = $this->get_root_node_id();
+		$root_node = $this->get_node($root_nodeID);
+		$all_childer = $this->get_all_child($root_node);
+		$tree = array('name'=>0,'tree'=>0);
+		$tree['name'] = $root_node['name'];
+		$tree['tree'] = "{ id:'".$root_node['id']."',userid:0, pId:'".$root_node['parent']."', name:'".$root_node['name']."', open:true},";
+		foreach($all_childer as $item){
+			if( $item['level']> $level){//控制显示的单位级别
+				continue;
+			}
+			$tree['tree'] .= "{ id:'".$item['id']."',userid:0, pId:'".$item['parent']."', name:'".$item['name']."', open:true},";
+		}
+		$tree['tree'] = substr($tree['tree'],0,strlen($tree['tree'])-1);
+
+		return $tree;
+	}
+
 };
 ?>
 

@@ -60,7 +60,7 @@ echo $OUTPUT->doctype() ?>
 	<script src="../theme/more/js/jquery-1.11.3.min.js"></script><!--全局-->
 	<script src="../theme/more/js/jquery.easing.min.js"></script><!--全局-->
 	<script src="../theme/more/js/custom.js"></script><!--全局-->
-	<script src="../theme/more/js/bootstrap.min.js"></script><!--全局-->
+<!--	<script src="../theme/more/js/bootstrap.min.js"></script><!--全局-->
     <!--新引入文件 1月20日 郑栩基 end-->
 </head>
 

@@ -36,6 +36,7 @@ require_login();//要求登录
 $PAGE->set_url('/mod/tagmy/index.php');
 $PAGE->set_title('全局标签管理');
 $PAGE->set_heading('全局标签管理');
+$PAGE->set_pagelayout('registerforadmin');//设置layout
 //判断权限。。有bug
 if (!has_any_capability(array(
         'mod/tagmy:addinstance'

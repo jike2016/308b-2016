@@ -11,9 +11,9 @@
 /**** 作者banner ****/
 .banner {background: url(../img/banner.jpg) no-repeat; background-size: cover;}
 .author-content {width: 1200px; margin: auto; padding: 10px 0; overflow: hidden;}
-.author-left {max-width: 100px;}
-.author-left > img {width: 100%; padding: 3px; border-radius: 5px; background-color: #fff;}
-#author-name {display: block; text-align: center; color: #fff; cursor: pointer;}
+.author-left {    margin-left: 0px; min-width: 100px; width: 100px; text-align: center;padding-left: 0px}
+.author-left > img {width: 80px;height: 80px; padding: 3px; border-radius: 5px; background-color: #fff;}
+#author-name {display: block; text-align: center; color: #fff; cursor: pointer;word-break: break-all}
 .author-achieve {color: #fff; font-size: 16px;}
 .author-achieve .num {color: #ffcf0f; font-size: 110%; padding-right: 5px;}
 .author-achieve .separator {padding: 0 5px;}

@@ -57,16 +57,9 @@
 <style>
 	.kinds {margin-bottom: 5px;}
 	.maininfo-box {background-color: #FFFFFF; height: 560px;}
-	.classinfo-box {min-height: 510px;}
-	.footer-box {background-color: #F0F0F0;  border: 1px solid #ccc; border-top: 0px;}
-	.footer { background-color: #F0F0F0; width: 60%; margin: auto; height: 48px; padding: 15px 0px;}
-	.footer p {display: inline-block; color: #5E5E5E;}
-	.footer .p-14-red {color: #C9302C;}
-	.footer .right,.center {float: right;}
-	.footer .right{margin-right: 60px;}
-	.footer a {margin-right: 40px;}
-	
+	.classinfo-box {height: 510px; overflow-y: scroll;}
 </style>
+<link rel="stylesheet" href="css/personal-footer.css" />
 
 <!--我的考试-->
 	<div class="myclass">

@@ -49,21 +49,17 @@ global $USER;
         </div>
         <?php
             if($USER->id!=0){
-                echo '<div id="usermenu" class="dropdown">
+                require_once('user_dropdown_menu.php');
+                $user_menu = '<div id="usermenu" class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <a href="#" class="username">'.fullname($USER, true).'</a>
                                             <a href="#" class="userimg">'.$OUTPUT->user_picture($USER,array('link' => false,'visibletoscreenreaders' => false)).'</a>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="'.new moodle_url('/privatecenter/').'">个人中心</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="'.new moodle_url('/message/').'">消息</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="user_upload.php">上传文档</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="'.new moodle_url('/login/logout.php', array('sesskey' => sesskey())).'">退出</a></li>
-                                        </ul>
-                                    </div>';
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">';
+                $user_menu .= get_user_dropdown_menu('docroom');
+                $user_menu .= '</ul>
+                               </div>';
+                echo $user_menu;
             };
         ?>
     </div>

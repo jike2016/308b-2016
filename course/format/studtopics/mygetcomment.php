@@ -7,7 +7,7 @@
     global $DB;
 	global $USER;
 
-
+	$course = $DB->get_record_sql("SELECT * from mdl_course c WHERE c.id = $courseid ");
 	$commentresult = $DB->get_records_sql(sprintf('SELECT id, comment, commenttime FROM mdl_comment_course_my WHERE courseid = '.$courseid.' AND userid = '.$USER->id.' ORDER BY commenttime DESC LIMIT 1'));
 	$commentallresult = $DB->get_records_sql(sprintf('SELECT id, comment, courseid, userid FROM mdl_comment_course_my ORDER BY commenttime DESC'));
 	$similarresult = new stdClass();
@@ -58,4 +58,55 @@
 		echo '1';
 	}
 
+
+	/** start   获取课程评价 20160729 */
+	function my_get_course_evaluation($course, $current_page)
+	{
+		$my_page = $current_page * 10;
+		global $DB;
+		global $OUTPUT;
+		//只获取刚刚评论的那条数据
+		$evaluation = $DB->get_records_sql('SELECT a.id, userid, comment, b.firstname, b.lastname, commenttime FROM mdl_comment_course_my a JOIN mdl_user b ON a.userid = b.id WHERE courseid = ? ORDER BY commenttime DESC LIMIT '.$my_page.',1', array($course->id));
+
+		$output = '';
+		foreach($evaluation as $value)
+		{
+			$userobject = new stdClass();
+			$userobject->metadata = array();
+			$user = $DB->get_record('user', array('id' => $value->userid), '*', MUST_EXIST);
+			$userobject->metadata['useravatar'] = $OUTPUT->user_picture (
+				$user,
+				array(
+					'link' => false,
+					'visibletoscreenreaders' => false
+				)
+			);
+
+			$userobject->metadata['useravatar'] = str_replace("width=\"35\" height=\"35\"", " ", $userobject->metadata['useravatar']);
+			$output .= '
+					 <div class="evaluation">
+						  <div class="evaluation-con">
+							 <a href="#" class="img-box">
+							 '.$userobject->metadata['useravatar'].'
+							 </a>
+								 <div class="content-box">
+									 <div class="user-info clearfix">
+										<a href="#" class="username">'.$value->lastname.$value->firstname.'</a>
+									 </div>
+									 <!--user-info end-->
+								 <p class="content">'.$value->comment.'</p>
+									 <div class="info">
+									 <span class="time">时间：'.userdate($value->commenttime,'%Y-%m-%d %H:%M').'</span>
+									 </div>
+								 </div>
+						  <!--content end-->
+						  </div>
+			<!--evaluation-con end-->
+					 </div>
+			';
+		}
+		return $output;
+	}
+
 ?>
+

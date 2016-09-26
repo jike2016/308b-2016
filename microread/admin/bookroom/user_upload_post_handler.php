@@ -50,8 +50,10 @@ function pass_ebook(){
 	$newebook->id= $_GET['ebookid'];
 	$newebook->admin_check=1;
 	$DB->update_record('ebook_user_upload_my', $newebook);
-	
-	success('操作成功','ebookuser_upload','');
+	/**Start cx 审核成功后跳到指定页面,第二个参数不能为空，否则会刷新2次， 20160723*/
+//	success('操作成功','ebookuser_upload','');
+	success('操作成功','null_value','forward','bookroom/user_upload.php?pageNum='.$_GET['pageNum']);
+	/**End cx 审核成功后跳到指定页面 20160723*/
 }
 function unpass_ebook(){
 	global $DB;
@@ -59,7 +61,10 @@ function unpass_ebook(){
 	$newebook->id= $_GET['ebookid'];
 	$newebook->admin_check=2;
 	$DB->update_record('ebook_user_upload_my', $newebook);
-	success('操作成功','ebookuser_upload','');
+	/**Start cx 审核成功后跳到指定页面 20160723*/
+//	success('操作成功','ebookuser_upload','');
+	success('操作成功','null_value','forward','bookroom/user_upload.php?pageNum='.$_GET['pageNum']);
+	/**End cx 审核成功后跳到指定页面 20160723*/
 }
 
 ?>

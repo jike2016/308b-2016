@@ -27,7 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 
 class mod_lesson_renderer extends plugin_renderer_base {
 
-
     /**
      * 徐东威 2016-03-02  my_display_page()方法
      *
@@ -58,7 +57,8 @@ class mod_lesson_renderer extends plugin_renderer_base {
         $output = ob_get_contents();//包含有视屏和结束按钮
         ob_end_clean();
 
-        $shiping = '<p style="height: 10px;"></p>';
+//        $shiping = '<p style="height: 10px;"></p>';
+        $shiping = '';
 //        $shiping .= $this->my_htmlcut($output,'<p>','</p>');//获取视屏
         $shipingTemp = $this->my_htmlcut($output,'<p>','<div class="box branchbuttoncontainer horizontal">');//获取视屏
         $subTemp = strlen('</div></div>');
@@ -71,12 +71,10 @@ class mod_lesson_renderer extends plugin_renderer_base {
         $btn .= '</form>';
         $oldbtn = $this->my_htmlcut($btn,'<input type="submit"','/>');//获取原有按钮
         $oldbtn .= '/>';
-        $newbtn  = str_replace($oldbtn,'<button class="btn btn-danger">查看学习进度</button>',$btn);//按钮的替换
-//        $newbtn  = str_replace($oldbtn,'',$btn);//按钮的替换
+//        $newbtn  = str_replace($oldbtn,'<button class="btn btn-danger">查看学习进度</button>',$btn);//按钮的替换
+        $newbtn  = str_replace($oldbtn,'<button >查看学习进度</button>',$btn);//按钮的替换
         $oldInput = $this->my_htmlcut($newbtn,'<input type="hidden" name="jumpto"','</div>');//获取原有 <input type="hidden" name="jumpto" value="?" />
         $newbtn  = str_replace($oldInput,'<input type="hidden" name="jumpto" value="-9" />',$newbtn);//统一改为 ‘-9’ ：跳转
-
-
 
 //        $html =  $this->my_echo_shiping($videoid,$courseName,$shipingName,$shiping,$newbtn,$courseID);//输出页面拼接
 
@@ -129,6 +127,22 @@ class mod_lesson_renderer extends plugin_renderer_base {
 
     }
     /** 获取评价数目页数 END*/
+
+    /** START 输出页码 */
+    function my_get_course_evaluation_current_count2($count_page,$current_page, $videoid)
+    {
+        $pagestr = '';
+        for($num = 1; $num <= $count_page; $num ++)
+        {
+            $active_style = '';//当前页的样式
+            if($num == $current_page){
+                $active_style = ' class="active"';
+            }
+            $pagestr.='<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.$num.'" '.$active_style.' >'.$num.'</a>';
+        }
+        return $pagestr;
+    }
+    /** 输出页码 END*/
 
     /** START 输出页码 朱子武 20160307*/
     function my_get_course_evaluation_current_count($count_page, $videoid)
@@ -215,9 +229,12 @@ class mod_lesson_renderer extends plugin_renderer_base {
                 $status = '';
                 if($cms_id == $videoid)
                 {
-                    $status = 'class="active"';
+//                    $status = 'class="active"';
+                    $status = ' active"';
                 }
-                $output.='<li><a href="'.$cms_url_path.'" '.$status.'>'.$cms_name.'</a></li>';
+//                $output.='<li><a href="'.$cms_url_path.'" '.$status.'>'.$cms_name.'</a></li>';
+                $output.='<p class="course-t'.$status.'"><span class="glyphicon glyphicon-play"></span><a href="'.$cms_url_path.'" >'.$cms_name.'</a></p>';
+
             }
         }
         return $output;
@@ -240,95 +257,130 @@ class mod_lesson_renderer extends plugin_renderer_base {
 //        $this->my_get_course_evaluation($courseID, $current_page - 1);
 
         global $CFG;
-        $shipingPage = '<!--2016.1.24 郑栩基 视频播放页面新加-->
-                <div class="main container">
-                        <!--视频标题-->
-                    <div class="videotitle">
-                        <a href="'.$CFG->wwwroot.'/course/view.php?id='.$courseID.'"><span class="glyphicon glyphicon-expand"></span>&nbsp;'.$courseName.'</a>
-                    </div>
-                    <div class="videotitle-son">
-                        <p>'.$shipingName.'</p>
-                       '.$newbtn.'
-                    </div>
-                    <!--视频标题 end-->
 
-                    <!--视频播放-->
-                    <div class="videobox" style="display: table-cell; vertical-align:middle;margin-left:100px;">
-                        '.$shiping.'
-                    </div>
-                    <!--视频播放end-->
-                    
-                    <!-- 视频列表 2016年5月8日 陈振安 -->
-					<div class="courselist">
-						<ul class="courselist-content">
-							'.$courselist.'
-						</ul>
-						<div class="courselist-trigger"><<目录</div>
-					</div>
-					<!-- 视频列表end -->
+        $shipingPage = '<!--视频播放板块-->
+                        <div class="videobanner">
+                            <div class="main-box">
+                                <p class="title"><a href="'.$CFG->wwwroot.'/course/view.php?id='.$courseID.'">'.$courseName.'</a><span class="glyphicon glyphicon-menu-right"></span><a class="course-s">'.$shipingName.'</a></p>
+                                <!--视频插件播放容器-->
+                                <div class="video-box">
+                                    '.$shiping.'
+                                </div>
+                                <!--视频插件播放容器 end-->
 
-                    <!--评论-->
-                    <div class="commentbox">
-                        <div class="commentboxtitle">
-                            <div style="width:110px"><h3 style="width:100%">评论('.$evaluationCount->count.')</h3></div>
-                        </div>
-                        <div class="mycomment">
-                                 <!-- 2016.3.25 毛英东 添加表情-->
-                                <textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
-                                <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
-                                <!-- end  2016.3.25 毛英东 添加表情 -->
-                                <button id="commentBtn" class="btn btn-success">发表评论</button>
+                                <!--视频目录-->
+                                <div class="menu">
+                                    <p class="title">目录</p>
+                                    <div class="menu-box">
+                                    '.$courselist.'
+                                    </div>
+                                    <div class="btn-box">
+                                        '.$newbtn.'
+                                    </div>
+                                </div>
+                                <!--视频目录 end-->
                             </div>
-                            '.$this->my_get_course_evaluation($videoid, $current_page - 1).'
-                    </div>
+                        </div>
+                        <!--视频播放板块 end-->';
 
-					<!--分页按钮-->
-			<div class="paginationbox">
-				<ul class="pagination">
-					<li>
-						<a href="../../mod/lesson/view.php?id='.$videoid.'&page=1">首页</a>
-					</li>
-					<li>
-						<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.($current_page <= 1 ? 1: $current_page - 1).'">上一页</a>
-					</li>
-					'.$this->my_get_course_evaluation_current_count($count_page, $videoid).'
-					<li>
-						<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.($current_page < $count_page ? ($current_page + 1): $count_page).'">下一页</a>
-					</li>
-					<li>
-						<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.$count_page.'">尾页</a>
-					</li>
-				</ul>
-			</div>
-			<!--分页按钮 end-->
-                    <!--评论 end-->
-                </div><!--main-->
+        $shipingPage .= '<div class="main">
+                            <p class="title">课程评论（<span>'.$evaluationCount->count.'</span>）</p>
+                            <!--评论板块-->
+                            <div class="comment-box">
+                                <div class="mycomment" style="box-sizing: border-box;">
+                                    <textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+                                    <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
+                                    <button id="commentBtn" class="btn btn-info">发表评论</button>
+                                </div>
+                                <div style="clear: both;"></div>
 
-		<div id="J_GotoTop" class="elevator">
-			<a class="elevator-msg" id="mynote-btn" style="cursor:pointer"></a>
-			<button id="hiddencourseid" value="'.$courseID.'" style="display: none;"></button>
-			<button id="hiddennotetitle" value="'.$shipingName.'" style="display: none;"></button>
-			<a class="elevator-weixin" style="cursor:pointer"></a>
-            <a class="elevator-app"  id="collection-btn" style="cursor:pointer"></a>
-			<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
-            <a class="elevator-top" href="#"></a>
+                                <!--替换部分 删除原有的评论输出及分页条输出 将以下代码替换-->
+                                    <!--评论内容-->
+                                    <div class="evaluation" id="page-evaluation">
+                                    </div>
+                                    <!--评论内容 end-->
+                                    <!--</div>-->
+                                    <!--分页-->
+                                    <div class="paginationbox">
+                                        <!--输出页码-->
+                                        <div id="page-list">
+                                        </div>
+                                        <!--输出页码-->
+                                    </div>
+                                    <!--分页 end-->
+				                <!--end 替换部分-->
+                            </div>
+                            <!--评论板块-->
+                        </div>';
 
-		</div>
-		<div class="chat-box">
-			<div class="chat-head">
-				<p>聊天室</p>
-				<p id="chat-close" class="close">x</p>
-			</div>
-			<iframe src="'.$CFG->wwwroot.'/chat" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
-		</div>
-		 <div class="chat-box chat-box2">
-				<div class="chat-head">
-					<p>课程笔记</p>
-					<p id="chat-close2" class="close">x</p>
-				</div>
-			</div>
-            <!--2016.1.24 郑栩基 视频播放页面新加 end-->
-            ';
+//        $shipingPage .= '<!--2016.1.24 郑栩基 视频播放页面新加-->
+//                <div class="main container">
+//                        <!--视频标题-->
+//                    <div class="videotitle">
+//                        <a href="'.$CFG->wwwroot.'/course/view.php?id='.$courseID.'"><span class="glyphicon glyphicon-expand"></span>&nbsp;'.$courseName.'</a>
+//                    </div>
+//                    <div class="videotitle-son">
+//                        <p>'.$shipingName.'</p>
+//                       '.$newbtn.'
+//                    </div>
+//                    <!--视频标题 end-->
+//
+//                    <!--视频播放-->
+//                    <div class="videobox" style="display: table-cell; vertical-align:middle;margin-left:100px;">
+//                        '.$shiping.'
+//                    </div>
+//                    <!--视频播放end-->
+//
+//                    <!-- 视频列表 2016年5月8日 陈振安 -->
+//					<div class="courselist">
+//						<ul class="courselist-content">
+//							'.$courselist.'
+//						</ul>
+//						<div class="courselist-trigger"><<目录</div>
+//					</div>
+//					<!-- 视频列表end -->
+//
+//                    <!--评论-->
+//                    <div class="commentbox">
+//                        <div class="commentboxtitle">
+//                            <div style="width:110px"><h3 style="width:100%">评论('.$evaluationCount->count.')</h3></div>
+//                        </div>
+//                        <div class="mycomment">
+//                                 <!-- 2016.3.25 毛英东 添加表情-->
+//                                <textarea class="form-control" id="comment-text" placeholder="扯淡、吐槽、想说啥说啥..."></textarea>
+//                                <img src="../../theme/more/img/emotion.png" class="pull-left emotion" style="width:25px;height:25px;margin-top:4px;cursor:pointer">
+//                                <!-- end  2016.3.25 毛英东 添加表情 -->
+//                                <button id="commentBtn" class="btn btn-success">发表评论</button>
+//                            </div>
+//                            '.$this->my_get_course_evaluation($videoid, $current_page - 1).'
+//                    </div>
+//
+//					<!--分页按钮-->
+//			<div class="paginationbox">
+//				<ul class="pagination">
+//					<li>
+//						<a href="../../mod/lesson/view.php?id='.$videoid.'&page=1">首页</a>
+//					</li>
+//					<li>
+//						<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.($current_page <= 1 ? 1: $current_page - 1).'">上一页</a>
+//					</li>
+//					'.$this->my_get_course_evaluation_current_count($count_page, $videoid).'
+//					<li>
+//						<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.($current_page < $count_page ? ($current_page + 1): $count_page).'">下一页</a>
+//					</li>
+//					<li>
+//						<a href="../../mod/lesson/view.php?id='.$videoid.'&page='.$count_page.'">尾页</a>
+//					</li>
+//				</ul>
+//			</div>
+//			<!--分页按钮 end-->
+//                    <!--评论 end-->
+//                </div><!--main-->';
+
+        //start 输出隐藏的笔记参数
+        $shipingPage .= '<button id="hiddencourseid" value="'.$courseID.'" style="display: none;"></button>
+                          <button id="hiddencoursefullname" value="'.$shipingName.'" style="display: none;"></button>';
+        //end 输出隐藏的笔记参数
 
         return $shipingPage;
 

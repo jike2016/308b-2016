@@ -27,84 +27,21 @@ echo $OUTPUT->doctype() ?>
     <?php echo $OUTPUT->standard_head_html() ?>
 
     <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css">	<!--全局-->
-    <link rel="stylesheet" href="../theme/more/style/navstyle.css" /><!-- 全局-->
+<!--    <link rel="stylesheet" href="../theme/more/style/navstyle.css" /><!-- 全局-->
     <link rel="stylesheet" href="../theme/more/style/coursesearch/classsearch.css" />
-
+    <style>
+        * {margin: 0;padding: 0;list-style: none;border: 0;}
+        html,body {font-family: "微软雅黑";font-size: 14px;height:1000px;padding-top: 0px; background-color: #ffffff}
+        a, a:hover {color: #3E3E3E;text-decoration: none;}
+        ui,ol{margin: 0px}
+        p {margin: 0px;}
+        nav .center .r-box .dropdown-toggle span {  margin-top: 0px;  }
+        .searchbtn, nav .center .r-box .dropdown-toggle{box-sizing: content-box}
+        nav .center .r-box .search {  height: 22px;  box-sizing: content-box;  }
+        .bd {  width: 100%;  height: 40px;  background-color: #10ADF3;  }
+    </style>
     <script src="../theme/more/js/jquery-1.11.3.min.js"></script><!--全局-->
-    <script type="text/javascript" src="../theme/more/js/bootstrap.min.js" ></script>
-
-    <script>
-        //聊天室 START
-        $(document).ready(function(){
-            //适配不同大小偏移值
-            var winW=$(window).width();
-            var winH=$(window).height();
-            var leftval = (winW-900)/2;
-            var topval = (winH-600)/3;
-            $('.chat-box').css({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
-            //适配不同大小偏移值 end
-            var chatbox=false;
-            $('.elevator-weixin').click(function(){
-                if(chatbox==false){
-                    $('.chat-box1').append('<iframe src="../chat" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
-                    chatbox=true;
-                }
-                $('.chat-box1').show();
-            })
-            $('#chat-close').click(function(){
-                $('.chat-box1').hide();
-                //alert("关闭的top: " +$('.chat-box').offset().top);
-            })
-            //聊天室 End
-            //收藏按钮
-            $('#collection-btn').click(function()
-            {
-                $.ajax({
-                    url: "<?php echo $CFG->wwwroot;?>/privatecenter/mycollection/collectionpage.php",
-                    data: {mytitle: document.title, myurl: window.location.href },
-                    success: function(msg){
-                        if(msg=='1'){
-                            alert('收藏成功，可去个人中心查看')
-                        }
-                        else{
-                            msg=='2' ? alert('您已经收藏过了，请去个人中心查看收藏结果') :alert('收藏失败');
-                        }
-                    }
-                });
-            });
-            //点赞按钮
-            $('#like-btn').click(function()
-            {
-                $.ajax({
-                    url: "<?php echo $CFG->wwwroot;?>/like/courselike.php",
-                    data: {mytitle: document.title, myurl: window.location.href },
-                    success: function(msg){
-                        // alert(msg);
-                        if(msg=='1'){
-                            alert('点赞成功')
-                        }
-                        else{
-                            msg=='2' ? alert('你已经点赞了，不能再次点赞') :alert('点赞失败');
-                        }
-                    }
-                });
-            });
-            //笔记20160314
-            var note_personal = false
-            $('#mynote-btn').click(function(){
-                if(note_personal == false)
-                {
-                    $('.chat-box2').append('<iframe src="<?php echo $CFG->wwwroot;?>/mod/notemy/newnotemy_personal.php" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
-                    note_personal = true;
-                }
-                $('.chat-box2').show();
-            })
-            //笔记
-            $('#chat-close2').click(function(){
-                $('.chat-box2').hide();
-            })
-        });
-    </script>
+<!--    <script type="text/javascript" src="../theme/more/js/bootstrap.min.js" ></script>-->
 
 </head>
 
@@ -113,7 +50,7 @@ echo $OUTPUT->doctype() ?>
 <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
 <?php require_once("includes/header.php"); ?>
-
+<div class="bd"></div>
 <!--<div style="margin-top:120px; width: 300px;height: 200px;background: red;"></div>-->
 
 <div id="page" class="container-fluid" style="height: 1200px;">
@@ -136,8 +73,13 @@ echo $OUTPUT->doctype() ?>
 </div>
 
 <!--底部导航条-->
-<nav class="navstyle-bottom navbar-static-bottom"></nav>
+<!--<nav class="navstyle-bottom navbar-static-bottom"></nav>-->
+<?php require_once("includes/bottom_info.php"); ?>
 <!--底部导航条 end-->
+
+<!--右下角按钮-->
+<?php require_once("includes/link_button.php"); ?>
+<!--右下角按钮 end-->
 
 </body>
 </html>

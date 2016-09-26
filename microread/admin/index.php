@@ -1,14 +1,18 @@
 <?php 
 //检查登陆
 require_once('../../config.php');
+require_once('../../user/my_role_conf.class.php');
 require_login();
 global $USER;
-if($USER->id!=2){//超级管理员
-	global $DB;
-	if(!$DB->record_exists('role_assignments', array('userid'=>$USER->id,'roleid'=>11)) ){//没有role=11角色
-		redirect(new moodle_url('/index.php'));
-	}
+global $CFG;
+global $DB;
+/**start  权限判断 只允许超级管理员、慕课管理员 */
+$role =  new my_role_conf();
+if(!$DB->record_exists("role_assignments",array('userid'=>$USER->id,'roleid'=>$role->get_courseadmin_role()))
+	&& ($USER->id!=2) ){
+	redirect(new moodle_url('/index.php'));
 }
+/** end */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -160,7 +164,7 @@ $(function(){
 								</ul>
 							</li>
 							<li><a href="indexadvertising/advertising.php" target="navTab" rel="advertising">微阅首页广告栏管理</a></li>
-							<li><a href="http://10.148.216.165/moodle/microread/upload_switch.php" target="_blank" rel="upload_switch">微阅用户上传全局开关</a></li>
+							<li><a href="../upload_switch.php" target="_blank" rel="upload_switch">微阅用户上传全局开关</a></li>
 							
 						</ul>
 					</div>

@@ -817,67 +817,214 @@ function user_get_user_navigation_info($user, $page) {
             }
         }
     }
-    //** Start 2016228 菜单修改 岑霄 */
-    if($DB->record_exists('role_assignments', array('roleid' => 14,'userid' => $user->id))){
+
+
+    require_once('my_role_conf.class.php');//引入角色配置
+    $role_conf = new my_role_conf();
+
+    /**Start 超级管理员 20160815 xdw */
+    if($user->id==2){
+
+        // Links: Dashboard.
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/my/');
+        $myhome->title = get_string('mymoodle', 'admin');
+        $myhome->pix = "i/course";
+        $returnobject->navitems[] = $myhome;
+
+        $myorg = new stdClass();
+        $myorg->itemtype = 'link';
+        $myorg->url = new moodle_url('/org/');
+        $myorg->title = '组织架构';//全权
+        $myorg->pix = "i/user";
+        $returnobject->navitems[] = $myorg;
+
         //** Start 2016228 加入单位台账数据中心 岑霄 */
         $myhome = new stdClass();
         $myhome->itemtype = 'link';
         $myhome->url = new moodle_url('/ledgercenter/');
+        $myhome->title = '台账数据中心';//全权
+        $myhome->pix = "i/course";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+        //** Start 加入微阅管理  */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/microread/admin/');
+        $myhome->title = '微阅管理';
+        $myhome->pix = "i/backup";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+        //** Start 加入微课管理  */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/course/course_classify/index_courseAdmin.php');
+        $myhome->title = '微课管理';
+        $myhome->pix = "i/menu";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+    }
+    /**end 超级管理员 20160815 xdw */
+
+    /**Start 慕课管理员 20160815 xdw */
+    if($DB->record_exists('role_assignments', array('roleid' => $role_conf->get_courseadmin_role(),'userid' => $user->id))){
+
+        // Links: Dashboard. 主页
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/my/');
+        $myhome->title = get_string('mymoodle', 'admin');
+        $myhome->pix = "i/course";
+        $returnobject->navitems[] = $myhome;
+
+        //** Start 加入分权组织架构  */
+        $myorg = new stdClass();
+        $myorg->itemtype = 'link';
+        $myorg->url = new moodle_url('/org_classify/');//区别于超级管理员的管理
+        $myorg->title = '组织架构';
+        $myorg->pix = "i/user";
+        $returnobject->navitems[] = $myorg;
+        //** End */
+
+        //** Start 加入单位台账数据中心  */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/ledgercenter/');
+        $myhome->title = '台账数据中心';//全权
+        $myhome->pix = "i/course";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+        //** Start 加入微阅管理  */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/microread/admin/');
+        $myhome->title = '微阅管理';
+        $myhome->pix = "i/backup";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+        //** Start 加入微课管理  */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/course/course_classify/index_courseAdmin.php');
+        $myhome->title = '微课管理';
+        $myhome->pix = "i/menu";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+    }
+    /**end 慕课管理员 20160815 xdw */
+
+    /**Start 分级管理员 20160815 xdw */
+    if($DB->record_exists('role_assignments', array('roleid' => $role_conf->get_gradingadmin_role(),'userid' => $user->id))){
+
+        //** Start 20160815加入分权组织架构 zzwu */
+        $myorg = new stdClass();
+        $myorg->itemtype = 'link';
+        $myorg->url = new moodle_url('/org_classify/');//区别于超级管理员的管理
+        $myorg->title = '组织架构';
+        $myorg->pix = "i/withsubcat";
+        $returnobject->navitems[] = $myorg;
+        //** End */
+
+        //** Start  加入单位台账数据中心 */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/ledgercenter_classify/');
+        $myhome->title = '台账数据中心';
+        $myhome->pix = "i/outcomes";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+        //** Start  加入单位台账任务管理 */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/mod/missionmy/index_classify.php');
+        $myhome->title = '台账任务';
+        $myhome->pix = "i/calendar";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+        //** Start  加入单位微阅上传管理 */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/microread/admin_classify/');
+        $myhome->title = '微阅审核';
+        $myhome->pix = "i/backup";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+        //** Start  加入注册审核 */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/register/admin_check_classify.php');
+        $myhome->title = '注册审核';
+        $myhome->pix = "i/assignroles";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+        //** Start  加入课程管理 */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/course/course_classify/index_gradingAdmin.php');
+        $myhome->title = '课程管理';
+        $myhome->pix = "i/menu";
+        $returnobject->navitems[] = $myhome;
+        //** End */
+
+    }
+    /**end 分级管理员 20160815 xdw */
+
+    /**Start 单位账号 20160815 xdw */
+    if($DB->record_exists('role_assignments', array('roleid' => $role_conf->get_unit_role(),'userid' => $user->id))){
+
+        //** Start 2016228 加入单位台账数据中心 岑霄 */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/ledgercenter_classify/');
         $myhome->title = '台账数据中心';
         $myhome->pix = "i/course";
         $returnobject->navitems[] = $myhome;
         //** End */
     }
-    else{
-        if(!$DB->record_exists('role_assignments', array('roleid' => 1,'userid' => $user->id))&&$user->id!=2) {
-            //** Start 2016214 加入个人后台 岑霄 */
-            $myhome = new stdClass();
-            $myhome->itemtype = 'link';
-            $myhome->url = new moodle_url('/privatecenter/');
-            $myhome->title = '个人中心';
-            $myhome->pix = "i/course";
-            $returnobject->navitems[] = $myhome;
-            //** End */
-        }
+    /**end 单位账号 20160815 xdw */
+
+    /**Start 学生 20160815 xdw */
+    if($DB->record_exists('role_assignments', array('roleid' => $role_conf->get_student_role(),'userid' => $user->id))){
+
+        //** Start 2016214 加入个人中心 */
+        $myhome = new stdClass();
+        $myhome->itemtype = 'link';
+        $myhome->url = new moodle_url('/privatecenter/');
+        $myhome->title = '个人中心';
+        $myhome->pix = "i/course";
+        $returnobject->navitems[] = $myhome;
+        //** End */
     }
-    //** End */
+    /**end 学生 20160815 xdw */
 
-    //** Start 2016228 单位账号看不见菜单 岑霄 */
-    if(!$DB->record_exists('role_assignments', array('roleid' => 14,'userid' => $user->id))){
-        if($user->id==2){
-            // Links: Dashboard.
-            $myhome = new stdClass();
-            $myhome->itemtype = 'link';
-            $myhome->url = new moodle_url('/my/');
-            $myhome->title = get_string('mymoodle', 'admin');
-            $myhome->pix = "i/course";
-            $returnobject->navitems[] = $myhome;
-			
-			 
-			$myorg = new stdClass();
-            $myorg->itemtype = 'link';
-            $myorg->url = new moodle_url('/org/');
-            $myorg->title = '组织架构';
-            $myorg->pix = "i/user";
-            $returnobject->navitems[] = $myorg;
-			//** Start 2016228 加入单位台账数据中心 岑霄 */
-			$myhome = new stdClass();
-			$myhome->itemtype = 'link';
-			$myhome->url = new moodle_url('/ledgercenter/');
-			$myhome->title = '台账数据中心';
-			$myhome->pix = "i/course";
-			$returnobject->navitems[] = $myhome;
-			//** End */
-			        // Links: My Profile.
-			$myprofile = new stdClass();
-			$myprofile->itemtype = 'link';
-			$myprofile->url = new moodle_url('/user/profile.php', array('id' => $user->id));
-			$myprofile->title = get_string('profile');
-			$myprofile->pix = "i/user";
-			$returnobject->navitems[] = $myprofile;
 
-        }
+    //** Start 系统原有菜单，根据角色进行筛选，判断是否显示 */
+    if( $user->id == 2
+        || $DB->record_exists('role_assignments', array('roleid' => $role_conf->get_gradingadmin_role(),'userid' => $user->id))
+        || $DB->record_exists('role_assignments', array('roleid' => $role_conf->get_courseadmin_role(),'userid' => $user->id))
+        || $DB->record_exists('role_assignments', array('roleid' => $role_conf->get_unit_role(),'userid' => $user->id))
+        || $DB->record_exists('role_assignments', array('roleid' => $role_conf->get_student_role(),'userid' => $user->id)) )
+    {
+        //注意：有部分抽取出来放到‘超级管理员角色’中单独显示了！
 
+        // Links: My Profile.
+//        $myprofile = new stdClass();
+//        $myprofile->itemtype = 'link';
+//        $myprofile->url = new moodle_url('/user/profile.php', array('id' => $user->id));
+//        $myprofile->title = get_string('profile');
+//        $myprofile->pix = "i/user";
+//        $returnobject->navitems[] = $myprofile;
 
         // Links: Role-return or logout link.
         $lastobj = null;

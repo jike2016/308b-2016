@@ -52,123 +52,95 @@ echo $OUTPUT->doctype() ?>
     <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <?php echo $OUTPUT->standard_head_html() ?>
-    
-    <link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css">	<!--全局-->
-    <link rel="stylesheet" href="../theme/more/style/navstyle.css" /><!-- 全局-->
-    <link rel="stylesheet" href="../theme/more/style/coursecategory/coursecategorystyle.css" type="text/css" />
+	<link rel="stylesheet" href="../theme/more/style/bootstrap.css" type="text/css">	<!--全局-->
+	<?php echo $OUTPUT->standard_head_html() ?>
 
+	<link rel="stylesheet" href="../theme/more/style/coursecategory/courseforstudent.css" type="text/css" />
 	<script src="../theme/more/js/jquery-1.11.3.min.js"></script><!--全局-->
+<!--	<script src="../theme/more/js/bootstrap.min.js"></script><!--全局-->
+
+
+<!--　start　不要-->
+<!--	<link rel="stylesheet" href="../theme/more/style/coursecategory/coursecategorystyle.css" type="text/css" />-->
 	<script src="../theme/more/js/jquery.easing.min.js"></script><!--全局-->
 	<script src="../theme/more/js/custom.js"></script><!--全局-->
 	<script src="../theme/more/js/course_category.js"></script><!--coursecategory.php-->
 	<script src="../theme/more/js/coursecategory.js"></script><!--coursecategory.php-->
-	<script>
-//聊天室 START
-$(document).ready(function(){
-	//适配不同大小偏移值
-	var winW=$(window).width();
-	var winH=$(window).height();
-	var leftval = (winW-900)/2;	
-	var topval = (winH-600)/3;	
-	$('.chat-box').css({top:topval,left:leftval}); //该方法是在控件原有基础上加上定义的值，所以初始属性最好定义为0px
-	//适配不同大小偏移值 end	
-	var chatbox=false;
-	$('.elevator-weixin').click(function(){
-		if(chatbox==false){
-			$('.chat-box1').append('<iframe src="../chat" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
-			chatbox=true;
-		}				
-		$('.chat-box1').show();	
-	})
-	$('#chat-close').click(function(){
-		$('.chat-box1').hide();
-		//alert("关闭的top: " +$('.chat-box').offset().top);
-	})
-	//聊天室 End
-	//收藏按钮
-	$('#collection-btn').click(function()
-	{
-		$.ajax({
-			url: "<?php echo $CFG->wwwroot;?>/privatecenter/mycollection/collectionpage.php",
-			data: {mytitle: document.title, myurl: window.location.href },
-			success: function(msg){
-				if(msg=='1'){
-					alert('收藏成功，可去个人中心查看')
-				}
-				else{
-					msg=='2' ? alert('您已经收藏过了，请去个人中心查看收藏结果') :alert('收藏失败');
-				}
-			}
+<!--　end　不要-->
+
+<!--start 课程列表显示格式切换-->
+<script>
+	$(document).ready(function() {
+		//导航条列表样式控制 start
+		$('.navRight li').removeClass('active');
+		$('.navRight .mod_course').addClass('active');
+		//导航条列表样式控制 end
+
+		//课程列表显示格式(网格、列表)切换 start
+		$('#list_btn_tr').click(function() {
+			$('.list_btn').removeClass('active');
+			$(this).addClass('active');
+			$('.course-list').hide();
+			$('.course-list-th').show();
 		});
-	});
-	//点赞按钮
-	$('#like-btn').click(function()
-	{
-		$.ajax({
-			url: "<?php echo $CFG->wwwroot;?>/like/courselike.php",
-			data: {mytitle: document.title, myurl: window.location.href },
-			success: function(msg){
-				// alert(msg);
-				if(msg=='1'){
-					alert('点赞成功')
-				}
-				else{
-					msg=='2' ? alert('你已经点赞了，不能再次点赞') :alert('点赞失败');
-				}
-			}
+		$('#list_btn_th').click(function() {
+			$('.list_btn').removeClass('active');
+			$(this).addClass('active');
+			$('.course-list-th').hide();
+			$('.course-list').show();
 		});
+		//课程列表显示格式切换 end
+
+		//start 课程分类，更多按钮
+		$('#more-type').mouseover(function(){
+			$('.coursetypebox-more').show();
+			$('#more-type').addClass('active');
+		})
+
+		$('.coursetypebox-more').mouseover(function(){
+			$('.coursetypebox-more').show();
+		})
+
+		$('.coursetypebox-more').mouseout(function(){
+			$('.coursetypebox-more').hide();
+			$('#more-type').removeClass('active');
+		})
+		//end 课程分类，更多按钮
+
 	});
-	//笔记20160314
-	var note_personal = false
-	$('#mynote-btn').click(function(){
-		if(note_personal == false)
-		{
-			$('.chat-box2').append('<iframe src="<?php echo $CFG->wwwroot;?>/mod/notemy/newnotemy_personal.php" class="iframestyle" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>');
-			note_personal = true;
-		}
-						
-		$('.chat-box2').show();	
-		
-	})
-	//笔记
-	$('#chat-close2').click(function(){
-		$('.chat-box2').hide();
-	})
-});
 </script>
+<!--end 课程列表显示格式切换-->
+
 </head>
 
 <body <?php echo $OUTPUT->body_attributes(); ?>>
 
 <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
+<!--头部导航条-->
 <?php require_once("includes/header.php"); ?>
+<!--头部导航条 end -->
 
-<div id="page" class="container-fluid">
+<div id="page" class="">
    <!--位置 <?php echo $OUTPUT->full_header(); ?>-->
-    <div id="page-content" class="row-fluid">
+<!--    <div id="page-content" class="row-fluid">-->
 	
-        <div id="region-main-box" class="<?php echo $regionmainbox; ?>">
-            <div class="row-fluid">
+	<div id="region-main-box" class="">
+
 			<!--11月12日v0.1内容开始-->
-				<div>
-			<div style="width:1200px; margin:auto; height:100%">
+			<div>
 				<div id="main2">
 				<?php
 					//echo $OUTPUT->course_content_header();
 					echo $OUTPUT->main_content();
 					//echo $OUTPUT->course_content_footer();
-				?> 	                     
-				<!--left-->
-   </div>
-</div>
+				?>
 				</div>
-                <?php
- 				//echo $OUTPUT->blocks('side-pre', $sidepre); 
+
+				<?php
+				//echo $OUTPUT->blocks('side-pre', $sidepre);
 				?><!--左边 -->
-            </div>
-        </div>
+			</div>
         <?php //echo $OUTPUT->blocks('side-post', $sidepost); ?><!--右边 -->
     </div>
 
@@ -187,41 +159,16 @@ $(document).ready(function(){
 
 </div>
 
-	<!--底部导航条-->
-	<nav class="navstyle-bottom navbar-static-bottom"></nav>
-	<!--底部导航条 end-->
+<!--底部导航条-->
+<!--<nav class="navstyle-bottom navbar-static-bottom"></nav>-->
+<?php require_once("includes/bottom_info.php"); ?>
+<!--底部导航条 end-->
+
+<!--右下角按钮-->
+<?php require_once("includes/link_button.php"); ?>
+<!--右下角按钮 end-->
 		
-	<?php 
-			if(isloggedin()){
-				echo '
-					<div id="J_GotoTop" class="elevator">
-					<a class="elevator-msg" id="mynote-btn" style="cursor:pointer"></a>
-					<a class="elevator-weixin" style="cursor:pointer"></a>
-					<a class="elevator-app"  id="collection-btn" style="cursor:pointer"></a>
-					<a class="elevator-diaocha" id="like-btn" style="cursor:pointer"></a>
-					<a class="elevator-top" href="#"></a>
-					</div>';
-			}
-			else{
-				echo '
-					<div id="J_GotoTop" class="elevator">
-					<a class="elevator-top" href="#"></a>
-					</div>';
-			}
-			?>
-		<div class="chat-box chat-box1">
-			<div class="chat-head">
-				<p>聊天室</p>
-				<p id="chat-close" class="close">x</p>
-			</div>
-			</div>
-			<div class="chat-box chat-box2">
-				<div class="chat-head">
-					<p>个人笔记</p>
-					<p id="chat-close2" class="close">x</p>
-				</div>
-			</div>
-		<!--主面板end-->
+<!--主面板end-->
 </body>
 
 </html>

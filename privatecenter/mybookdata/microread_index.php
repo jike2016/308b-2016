@@ -12,7 +12,7 @@ $('.lockpage').hide();
 	/***下拉菜单 以及 饼状图 @end**/
 	
 	/*.maininfo-box {width: 100%;background-color: #FFFFFF; min-height: 665px; border: 1px solid #ccc; padding: 0px 20px 20px 20px;}*/
-	.maininfo-box {width: 100%;background-color: #FFFFFF; min-height: 665px; border: 0px solid #ccc; padding: 0px 20px 20px 20px;}
+	.maininfo-box {width: 100%;box-sizing: border-box;background-color: #FFFFFF; height: 665px;overflow-y:scroll;border: 1px solid #ccc; padding: 0px 20px 50px 20px;}
 	.maininfo-box h3 {color: #777777; font-size: 23px;}
 	.maininfo-box .line {width: 100%; height: 2px; background-color: #CCCCCC;}
 	.bookdata-box {width:100%;height: 50px; margin-top: 15px;}

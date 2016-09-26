@@ -1,5 +1,5 @@
 <style>
-	.learning_circles_main {width: 100%; height: 900px;  background-color: #FFFFFF; overflow-y: scroll;}
+	.learning_circles_main {width: 100%; height: 590px;  background-color: #FFFFFF; overflow-y: auto;border: 1px solid #ccc}
 </style>
 
 <script>	
@@ -10,28 +10,28 @@
 	/***学习圈-全部内容***/
 	$('#all_contents').click(function() {        //全部内容-标签动作
 		$("#iframepage").attr("src","../circlesoflearning/index.php");	
-		$(".learning_circles_main").css("height","900px");			
+//		$(".learning_circles_main").css("height","900px");
 	});
 	/***学习圈-全部内容 end***/
 			
 	/***学习圈-我的关注***/
 	$('#my_attention').click(function() {           //我的关注-标签动作
 		$('#iframepage').attr('src','../circlesoflearning/myconcerned.php');	
-		$(".learning_circles_main").css("height","600px");			
+//		$(".learning_circles_main").css("height","600px");
 	});
 	/***学习圈-我的关注 end***/
 	
 	/***学习圈-与我相关***/
 	$('#affect_me').click(function() {           //与我相关-标签动作
 		$('#iframepage').attr('src','../circlesoflearning/myrelated.php');	
-		$(".learning_circles_main").css("height","900px");			
+//		$(".learning_circles_main").css("height","900px");
 	});
 	/***学习圈-与我相关 end***/
 	
 	/***学习圈-写篇博客***/
 	$('#write_blog').click(function() {           //写篇博客-标签动作
 		$('#iframepage').attr('src','../circlesoflearning/edit.php');	
-		$(".learning_circles_main").css("height","600px");	
+//		$(".learning_circles_main").css("height","600px");
 	});
 	/***学习圈-写篇博客 end***/
 	

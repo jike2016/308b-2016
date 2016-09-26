@@ -95,9 +95,8 @@ echo $OUTPUT->doctype() ?>
 			}
 		}
 		.mform .fdescription.required {
-			    display:none;
-				
-			}
+			    display:none;  }
+
 	</style>
 
 </head>

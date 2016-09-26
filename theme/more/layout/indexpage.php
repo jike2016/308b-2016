@@ -129,7 +129,7 @@ echo $OUTPUT->doctype() ?>
 	<script type="text/javascript">
 		$(function(){
 			//导航菜单动作
-			$('.fenlei ul .l1').mouseenter(function(){$('.fenlei ul li').css('background-color','rgba(255, 255, 255, 0)');
+			$('.fenlei ul .l1').mouseenter(function(){$('.fenlei ul li').css('background','#ffffff');
 				$('.fenleiright').fadeOut(0,0.8);
 				$(this).stop().animate().siblings().stop().animate();
 				$(this).siblings().css('background','#F5F5F5');
@@ -138,7 +138,7 @@ echo $OUTPUT->doctype() ?>
 				$('.fenlei ul li').stop().animate()
 			});
 
-			$('.fenlei ul .l2').mouseenter(function(){ $('.fenlei ul li').css('background','rgba(255, 255, 255, 0)');
+			$('.fenlei ul .l2').mouseenter(function(){ $('.fenlei ul li').css('background','#ffffff');
 				$('.fenleiright').fadeOut(0,0.8);
 				//$(this).stop().animate({'height':'157px'},300).siblings().stop().animate({'height':'44px'},300);
 				$(this).stop().animate().siblings().stop().animate();
@@ -149,7 +149,7 @@ echo $OUTPUT->doctype() ?>
 
 			});
 
-			$('.fenlei ul .l3').mouseenter(function(){$('.fenlei ul li').css('background','rgba(255, 255, 255, 0)');
+			$('.fenlei ul .l3').mouseenter(function(){$('.fenlei ul li').css('background','#ffffff');
 				$('.fenleiright').fadeOut(0,0.8);
 				$(this).stop().animate().siblings().stop().animate();
 				$(this).siblings().css('background','#F5F5F5');
@@ -159,7 +159,7 @@ echo $OUTPUT->doctype() ?>
 
 			});
 
-			$('.fenlei ul .l4').mouseenter(function(){$('.fenlei ul li').css('background','rgba(255, 255, 255, 0)');
+			$('.fenlei ul .l4').mouseenter(function(){$('.fenlei ul li').css('background','#ffffff');
 				$('.fenleiright').fadeOut(0,0.8);
 				$(this).stop().animate().siblings().stop().animate();
 				$(this).siblings().css('background','#F5F5F5');
@@ -169,7 +169,7 @@ echo $OUTPUT->doctype() ?>
 
 			});
 
-			$('.fenlei ul .l5').mouseenter(function(){$('.fenlei ul li').css('background','rgba(255, 255, 255, 0)');
+			$('.fenlei ul .l5').mouseenter(function(){$('.fenlei ul li').css('background','#ffffff');
 				$('.fenleiright').fadeOut(0,0.8);
 				$(this).stop().animate().siblings().stop().animate();
 				$(this).siblings().css('background','#F5F5F5');
@@ -180,7 +180,7 @@ echo $OUTPUT->doctype() ?>
 			});
 			//导航菜单动作end
 			$('.navLeft').mouseleave(function(){
-				$('.fenleiright').stop().animate({'width':'0px'},300);$('.fenlei ul li').css('background','rgba(255,255,255,0)');
+				$('.fenleiright').stop().animate({'width':'0px'},300);$('.fenlei ul li').css('background','#ffffff');
 			})
 		})
 	</script>

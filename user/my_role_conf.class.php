@@ -13,9 +13,9 @@ class my_role_conf
     //超级管理员,注意：超级管理员只设定了一个，用的是 用户id 来判断，而不是用 角色id 判断！！！
 //    private $superadmin_role = '';//不要改，这个固定值在其他页面已经被多次使用了！
     //慕课管理员
-    private $courseadmin_role = '15';
+    private $courseadmin_role = '26';
     //分级管理员
-    private $gradingadmin_role = '16';
+    private $gradingadmin_role = '27';
     //单位角色
     private $unit_role = '14';//不要改，这个固定值在其他页面已经被多次使用了！
     //学生角色

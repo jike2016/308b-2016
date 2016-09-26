@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>welcome</title>
+		<link rel="stylesheet" type="text/css" href="ext-5.0.0/build/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+		<script type="text/javascript" src="ext-5.0.0/build/ext-all.js"></script>
+		<script type="text/javascript" src="ext-5.0.0/build/packages/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+		<script>
+  			Ext.onReady(function() {
+			    var store = Ext.create('Ext.data.TreeStore', {
+			        root : {
+			            expanded : true,
+			            
+			            children : [{
+			            	text : '1、应用程序管理',
+			            	expanded : false,
+			            	children : 
+			            	[{text : '应用',expanded : true,
+			            		children : [
+			            			{text : '页面',leaf : true},
+			            			{text : '页面',leaf : true}
+			            		]
+			            	}]
+			        	}, 
+			            
+			            {
+			           		text : '2、页面配置管理',
+			            	expanded : true,
+			            	children : [
+			            		{text : '页面',leaf : true}, 
+			            		{text : '页面',leaf : true}
+			            	]
+			            }, 
+			            
+			            {
+			            	text : '3、用户管理',
+			            	expanded : true,
+			            	children : [
+			            		{text : '用户',leaf : true}, 
+			            		{text : '权限管理',leaf : true}
+			            	]
+			            }, 
+			            
+			            {
+			            	text : '4、任务管理',
+			            	expanded : true,
+			            	children : [
+			            		{text : '任务',leaf : true}
+			            	]
+			            }]
+			        }
+			    });
+			     
+			    var treePanelApp = Ext.create('Ext.tree.Panel', {
+			    	id:'treePanelApp',
+			        title : '菜单',
+			        region : 'west',
+			        split : true,
+			        height : 300,
+			        width : 200,
+			        rootVisible : false,
+			        store : store,			        
+			        //useArrows: true,	把展开符号变成三角形	
+			        
+			    });
+			     
+			    Ext.create('Ext.container.Viewport', {
+			        layout : 'border',
+			        items : [treePanelApp],
+			        
+			    });	
+			    treePanelApp.on('itemexpand',function(node){
+			    	console.info(node,"展开了");
+			    });
+			    treePanelApp.on("itmecollapse",function(node){
+			    	console.inro(node,"折叠了");
+			    });
+			    treePanelApp.on("itemclick",function(node){
+			    	console.info("你单击了",node);
+				})
+			});
+  		</script>
+	</head>
+
+	<body>
+
+	</body>
+
+</html>

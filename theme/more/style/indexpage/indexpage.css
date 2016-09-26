@@ -58,7 +58,7 @@ a, a:hover {color: #3E3E3E;text-decoration: none;}
 .nav .navRight li a:hover{color: #00B0F7;}
 .nav .navRight li span {width: 5px;height: 5px;border-bottom: 1px solid #000000;border-left: 1px solid #000000;position: absolute;top: 15px;left: 63px;transform: rotate(-45deg);transition: all 1s;}
 
-.fenlei {width: 288px;height: 382px;position: absolute;background:rgba(255,255,255,0.9);top: 50;left: 0;border: 1PX solid #EEEEEE;z-index: 10;}
+.fenlei {width: 288px;height: 382px;position: absolute;background: #FFFFFF;top: 50;left: 0;border: 1PX solid #EEEEEE;z-index: 10;}
 .fenlei ul {overflow: hidden;}
 .fenlei ul li {overflow: hidden;height: 75.5px;border-bottom: 1px solid #EEEEEE;}
 .fenleiLeft {overflow: hidden;}

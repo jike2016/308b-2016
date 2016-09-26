@@ -118,12 +118,6 @@ $(document).ready(function(){
 	});
 });
 </script>
-<!--Start VideoJS视频播放器 cx20160922-->
-<!--<link type="text/css" href="/moodle/mod/lesson/videojs/video-js3/video-js.css" rel="stylesheet">
-<script src="/moodle/mod/lesson/videojs/html5media-master/dist/api/1.1.8/html5media.min.js"></script>
-<script type="text/javascript" src="/moodle/mod/lesson/videojs/video-js3/video.js"></script>
-<script src="/moodle/mod/lesson/videojs/node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
-<!--End-->
 </head>
 <body <?php echo $OUTPUT->body_attributes(); ?>>
 

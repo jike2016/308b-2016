@@ -2725,11 +2725,13 @@ function require_login($courseorid = null, $autologinguest = true, $cm = null, $
                 notice(get_string('studentnotallowed', '', fullname($USER, true)), $CFG->wwwroot .'/');
             }
         }
+
         $access = false;
+
         if (is_role_switched($course->id)) {
             // Ok, user had to be inside this course before the switch.
             $access = true;
-			
+
         } else if (is_viewing($coursecontext, $USER)) {
             // Ok, no need to mess with enrol.
             $access = true;
@@ -2762,8 +2764,6 @@ function require_login($courseorid = null, $autologinguest = true, $cm = null, $
             if (!$access) {
                 // Cache not ok.
                 $until = enrol_get_enrolment_end($coursecontext->instanceid, $USER->id);
-				$until=0;
-				//echo "<script>alert(".$until.");</script>";
                 if ($until !== false) {
                     // Active participants may always access, a timestamp in the future, 0 (always) or false.
                     if ($until == 0) {

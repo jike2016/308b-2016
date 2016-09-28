@@ -1463,7 +1463,7 @@ class theme_more_core_course_renderer extends core_course_renderer {
 		global $DB;
 		global $USER;
 
-		$page_size = 7;	//获取的记录条数
+		$page_size = 8;	//获取的记录条数
 		$page_offset = 0;	//查询记录起始位置
 
 		$subcategories=$DB->get_records_sql('select id from mdl_course_categories where parent='.$categoryid.';');

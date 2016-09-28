@@ -123,22 +123,6 @@ if(isset($_POST["searchcount"])){
 					<input id="searchParam" type="text" class="form-control"  value="<?php echo ($searchParam != '')?$searchParam:'';  ?>">
 			    </div><!-- /input-group -->
 			    <button onclick="search()" id="search_btn" class="btn btn-default searchbtn"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</button>
-			    
-<!--			    <div class="radio">-->
-<!--			  		<label>-->
-<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">-->
-<!--			    		全部字段-->
-<!--			  		</label>-->
-<!--			  		<label>-->
-<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">-->
-<!--			    		标题-->
-<!--			  		</label>-->
-<!--			  		<label>-->
-<!--			    		<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">-->
-<!--			    		主讲人-->
-<!--			  		</label>-->
-<!--				</div>-->
-			    
 			</div>
 			<!--搜索框组 end-->
 		</div>
@@ -147,24 +131,6 @@ if(isset($_POST["searchcount"])){
 		<!--书本分类-->
 		<div class="bookclassified">
 			<div class="bookclassified-center">
-				
-				<!-- 书本分类按钮 -->
-<!--				<div class="btn-group" style="float: left;">-->
-<!--				  	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--				  		<img src="../img/tushuFenlei.png">-->
-<!--				  	</a>-->
-<!--				  	<ul class="dropdown-menu">-->
-<!--				    	<li><a href="#">现代</a></li>-->
-<!--				    	<li role="separator" class="divider"></li>-->
-<!--				    	<li><a href="#">军事</a></li>-->
-<!--				    	<li role="separator" class="divider"></li>-->
-<!--				    	<li><a href="#">战争</a></li>-->
-<!--				    	<li role="separator" class="divider"></li>-->
-<!--				    	<li><a href="#">科技</a></li>-->
-<!--				  	</ul>-->
-<!--				</div>-->
-				<!-- 书本分类按钮 end-->
-
 				<?php
 					if($bookclasses != null){
 						foreach($bookclasses as $bookclass){
@@ -216,43 +182,11 @@ if(isset($_POST["searchcount"])){
 							<span aria-hidden="true">首页</span>
 						</a>
 					</li>
-					<li>
-						<?php
-						if(($page-1)<= 0){
-							$prepage = 1;
-						}else{
-							$prepage = $page-1;
-						}
-						?>
-						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&page=<?php echo $prepage; ?>" aria-label="Previous">
-							<span aria-hidden="true">上一页</span>
-						</a>
-					</li>
 					<?php
+						$param = '&searchType='.$searchType.'&searchParam='.$searchParam;
 						$totalpage = ceil($searchcount/$prePageNum);
-						for($i=1;$i<=$totalpage;$i++){
-							if($page == $i) {
-								echo ' <li><a class="active" href="searchresult.php?searchType=' . $searchType . '&searchParam=' . $searchParam . '&page=' . $i . '">' . $i . '</a></li>';
-							}else{
-								echo ' <li><a class="" href="searchresult.php?searchType=' . $searchType . '&searchParam=' . $searchParam . '&page=' . $i . '">' . $i . '</a></li>';
-							}
-						}
+						echo echo_end($page,$totalpage,$param);//输出上下页及页码按钮
 					?>
-
-					<li>
-						<?php
-						if(ceil($searchcount/$prePageNum)==0){
-							$nextpage = 1;
-						}elseif(($page+1)>= ceil($searchcount/$prePageNum) ){
-							$nextpage = ceil($searchcount/$prePageNum);
-						}else{
-							$nextpage = $page+1;
-						}
-						?>
-						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&page=<?php echo $nextpage; ?>" aria-label="Next">
-							<span aria-hidden="true">下一页</span>
-						</a>
-					</li>
 					<li>
 						<a href="searchresult.php?searchType=<?php echo $searchType; ?>&searchParam=<?php echo $searchParam; ?>&page=<?php if(ceil($searchcount/$prePageNum)==0){echo 1;}else{echo ceil($searchcount/$prePageNum);}  ?>">
 							<span aria-hidden="true">尾页</span>
@@ -262,6 +196,50 @@ if(isset($_POST["searchcount"])){
 			</nav>
 		</div>
 		<!--分页 end-->
+
+		<?php
+			/** START 输出上下页及页码按钮等
+			 * @param $currentpage 当前页码
+			 * @param $totalpage  总页数
+			 * @param $param 参数
+			 * @return String
+			 */
+			 function echo_end($currentpage,$totalpage,$param){
+
+				$html = '<li>
+							<a href="searchresult.php?page='.(($currentpage-1)<1?1:($currentpage-1)).$param.'" aria-label="Previous">
+								<span aria-hidden="true">上一页</span>
+							</a>
+						</li>';
+				$html .= echo_end_pageList($totalpage,$currentpage,$param);
+				$html .= '<li>
+							<a href="searchresult.php?page='.(($currentpage+1)>$totalpage?$totalpage:($currentpage+1)).$param.'" aria-label="Next">
+								<span aria-hidden="true">下一页</span>
+							</a>
+						</li>';
+
+				return $html;
+			}
+
+			/** 输出页码 */
+			function echo_end_pageList($count_page,$current_page,$param)
+			{
+				/** Start 设置评论数的显示页码（只显示5页） */
+				$numstart = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page - 2):1):($count_page - 4)):1;
+				$numend = ($count_page > 5)?(($current_page < $count_page - 2)?(($current_page > 2)?($current_page + 2):5):($count_page)):$count_page;
+				/** End 设置评论数的显示页码（只显示5页）*/
+				$output = '';
+				for($num = $numstart; $num <= $numend; $num ++) {
+					if ($num == $current_page) {
+						//  修改当前页样式标示
+						$output .=  ' <li><a class="active" href="searchresult.php?page='.$num.$param.'">'.$num .'</a></li>';
+					} else {
+						$output .=  ' <li><a href="searchresult.php?page='.$num.$param.'">'.$num .'</a></li>';
+					}
+				}
+				return $output;
+			}
+		?>
 
 		<!--页面右下角按钮 Start-->
 		<?php

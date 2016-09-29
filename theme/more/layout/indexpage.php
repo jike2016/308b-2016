@@ -67,6 +67,33 @@ echo $OUTPUT->doctype() ?>
 	<script src="../moodle/theme/more/js/jquery.easing.min.js"></script>
 	<script src="../moodle/theme/more/js/custom.js"></script>
 
+	<script>
+		//判断当前浏览器
+		if(navigator.userAgent.indexOf("MSIE")>0){
+			if(navigator.userAgent.indexOf("MSIE 6.0")>0){
+				// alert("ie6");
+				window.location.href="download_firefox.html";
+			}
+			if(navigator.userAgent.indexOf("MSIE 7.0")>0){
+				// alert("ie7");
+				window.location.href="download_firefox.html";
+			}
+			if(navigator.userAgent.indexOf("MSIE 8.0")>0){
+				window.location.href="download_firefox.html";
+			}
+			if(navigator.userAgent.indexOf("MSIE 9.0")>0){
+				// alert("ie8");
+				window.location.href="download_firefox.html";
+			}
+		}
+		var isChrome=navigator.userAgent.indexOf("Firefox") != -1?true:false;;
+		if(!isChrome) {
+			//document.write('Chrome: '+isChrome);
+			//window.location.href="download_chrome.html";
+			//window.location.href="download_firefox.html";
+		}
+	</script>
+
 	<style>
 		/* start 用户昵称*/
 		.usermenu .moodle-actionmenu .toggle-display .userbutton .usertext {

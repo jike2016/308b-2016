@@ -233,6 +233,11 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
         // Discard any errors before the last redirect.
         unset($SESSION->loginerrormsg);
 
+        //start 添加登录统计
+        require_once($CFG->dirroot.'/login/login_record_my.php');
+        set_login_count();
+        //end 添加登录统计
+
         // test the session actually works by redirecting to self
         $SESSION->wantsurl = $urltogo;
         redirect(new moodle_url(get_login_url(), array('testsession'=>$USER->id)));

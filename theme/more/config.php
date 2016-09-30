@@ -261,6 +261,11 @@ $THEME->layouts = array(
 		'regions' => array('side-pre'),
 		'defaultregion' => 'side-pre',
 	),
-
+	//登录用户列表页
+	'loginuserlist' => array(
+		'file' => 'loginuserlist.php',
+		'regions' => array('side-pre', 'side-post'),
+		'defaultregion' => 'side-pre',
+	),
 
 );

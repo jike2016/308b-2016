@@ -597,6 +597,23 @@ echo $OUTPUT->doctype() ?>
 		<!--底部导航条-->
 		<!--<nav class="navstyle-bottom navbar-static-bottom"></nav>-->
 		<?php require_once("includes/bottom_info.php"); ?>
+		<?php
+			require_once($CFG->dirroot."/login/login_record_my.php");
+			$loginInfo = get_login_count_info();
+		?>
+		<style>
+			.nav-bottom {width: 100%; height: 100px; background-color: #10adf3; text-align: center;padding-top: 15px;line-height: 35px; box-sizing: border-box;}
+			.nav-bottom p {font-size: 18px; color: #f0f0f0; }
+			.nav-bottom .website_info {font-size: 14px; }
+			.nav-bottom .website_info a {color: #FFFFFF; margin-right: 30px;}
+			.nav-bottom .website_info a:hover {color: #feb23b;text-decoration: underline;}
+			.nav-bottom .website_info .num {color: #F08A24; font-weight: 600;}
+		</style>
+		<script type="text/javascript">
+			$(function() {
+				$('.nav-bottom p ').append('<p class="website_info"><a href="<?php echo $CFG->wwwroot.'/login/login_user_list.php';?>">今日登录人数：<span class="num"><?php echo $loginInfo->todaylogincount; ?></span></a><span>登录总人数：</span><span class="num"><?php echo $loginInfo->totallogincount; ?></span></p>');
+			});
+		</script>
 		<!--底部导航条 end-->
 
 		<!--右下角按钮-->

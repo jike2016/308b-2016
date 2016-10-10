@@ -20,7 +20,7 @@ body {font-family: "Microsoft YaHei";}
 .main {width: 1200px; margin: auto; min-height: 600px;}
 
 /********** 热门书籍 **********/
-.main {background-color: #F9F9F9; overflow: hidden;}
+.main { overflow: hidden;}
 .book-hot > h2 {font-size: 16px; font-weight: 700; margin-top: 35px;}
 .book-hot > ul {counter-reset: item;}
 .book-hot > ul a {color: #555; display: block; font-size: 14px; line-height: 30px; text-decoration: none; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;}

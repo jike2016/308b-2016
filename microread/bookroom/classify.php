@@ -106,18 +106,9 @@ if(isset($_POST['toptotalcount'])) {
 		<!--顶部导航 end-->
 		
 		<!--书本分类-->
-		<div class="bookclassified">
-			<div class="bookclassified-center">
-				<?php
-					if($bookclasses != null){
-						foreach($bookclasses as $bookclass){
-							echo '<div class="line"></div>
-											<a href="classify.php?bookclassid='.$bookclass->id.'" class="kinds">'.$bookclass->name.'</a>';
-						}
-					}
-				?>
-			</div>
-		</div>
+		<?php
+			require_once ("../common/book_head_classify.php");//书库搜索栏
+		?>
 		<!--书本分类 end-->
 		
 		<!--页面主体-->

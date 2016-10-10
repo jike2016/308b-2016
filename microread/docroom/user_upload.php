@@ -160,18 +160,9 @@ if(isset($_POST['hasupload'])&&$_POST['hasupload']==1){
 		<!--顶部导航 end-->
 		
 		<!--书本分类-->
-		<div class="bookclassified">
-			<div class="bookclassified-center">
-				<?php
-				if($docclasses != null){
-					foreach($docclasses as $docclass){
-						echo '<div class="line"></div>
-									<a href="classify.php?docclassid='.$docclass->id.'" class="kinds">'.$docclass->name.'</a>';
-					}
-				}
-				?>
-			</div>
-		</div>
+		<?php
+			require_once ("../common/doc_head_classify.php");//文库搜索栏
+		?>
 		<!--书本分类 end-->
 		
 		<!--页面主体-->

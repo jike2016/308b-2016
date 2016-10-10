@@ -40,7 +40,7 @@ html, body{  margin: 0; padding: 0; min-width: 100%; width:100%; min-height:100%
 /********搜索框 @end********/
 			
  .bookclassified {height: 37px; width: 100%; background: url(../img/nav_BKG.jpg)}
- .bookclassified-center {width: 1200px; margin: auto; padding: 5px 0px 0px 0px;}			
+ .bookclassified-center.main {width: 1200px; margin: auto; padding: 5px 0px 0px 0px !important;min-height: inherit !important;}
  .bookclassified-center a {color: #FFFFFF; text-decoration: none; float: left;}
  .bookclassified-center .dropdown-menu > li > a { color: #000000; float: inherit;height: 30px;padding-top: 5px;}
  .bookclassified-center .dropdown-menu > li {height: 30px;}

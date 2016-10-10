@@ -77,36 +77,9 @@ else{
 		<!--顶部导航 end-->
 		
 		<!--书本分类-->
-		<div class="bookclassified">
-			<div class="bookclassified-center">
-				
-				<!-- 书本分类按钮 -->
-<!--				<div class="btn-group" style="float: left;">-->
-<!--				  	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--				  		<img src="../img/tushuFenlei.png">-->
-<!--				  	</a>-->
-<!--				  	<ul class="dropdown-menu">-->
-<!--				    	<li><a href="#">现代</a></li>-->
-<!--				    	<li role="separator" class="divider"></li>-->
-<!--				    	<li><a href="#">军事</a></li>-->
-<!--				    	<li role="separator" class="divider"></li>-->
-<!--				    	<li><a href="#">战争</a></li>-->
-<!--				    	<li role="separator" class="divider"></li>-->
-<!--				    	<li><a href="#">科技</a></li>-->
-<!--				  	</ul>-->
-<!--				</div>-->
-				<!-- 书本分类按钮 end-->
-
-				<?php
-					if($bookclasses != null){
-						foreach($bookclasses as $bookclass){
-							echo '<div class="line"></div>
-													<a href="classify.php?bookclassid='.$bookclass->id.'" class="kinds">'.$bookclass->name.'</a>';
-						}
-					}
-				?>
-			</div>
-		</div>
+		<?php
+			require_once ("../common/book_head_classify.php");//书库搜索栏
+		?>
 		<!--书本分类 end-->
 		
 		<!-- 作者banner -->

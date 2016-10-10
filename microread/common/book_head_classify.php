@@ -33,7 +33,7 @@
 global $USER;
 global $DB;
 //获取电子书的顶级分类
-$bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0");
+$bookclasses = $DB->get_records_sql("select e.id,e.name from mdl_ebook_categories_my e where e.parent = 0 ORDER BY e.id DESC");
 
 $html = '<div class="bookclassified">
             <div class="bookclassified-center main">';

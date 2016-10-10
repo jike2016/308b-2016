@@ -32,7 +32,7 @@
 //微阅》文库》文档分类
 global $DB;
 //获取文档的顶级分类
-$docclasses = $DB->get_records_sql("select * from mdl_doc_categories_my dc where dc.parent = 0");
+$docclasses = $DB->get_records_sql("select * from mdl_doc_categories_my dc where dc.parent = 0 ORDER BY dc.id DESC ");
 
 $html = '<div class="bookclassified">
             <div class="bookclassified-center main">';

@@ -1,3 +1,18 @@
+<?php
+/**
+ * 个人中心》台账数据》课程统计》勋章查看 页面
+ */
+require_once("../../config.php");
+require_once("../../lib/badgeslib.php");
+require_once("../../badges/renderer.php");
+$page = optional_param('page', 1, PARAM_INT);
+$start_time = optional_param('start_time', 0, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 0, PARAM_TEXT);//结束时间
+// $categoryid = optional_param('categoryid', 0, PARAM_INT);
+global $DB;
+global $USER;
+?>
+
 <link rel="stylesheet" href="css/personal-maininfo-head-box.css" />
 <style>
 	.table {border-bottom:1px solid #DDDDDD ; }
@@ -14,6 +29,7 @@
 	table tbody .td5 {text-align: left;}
 	.table tr .td3_text  p{margin: auto;}
 	.table tr .td3_text p{ width: 100%;overflow: hidden; /*自动隐藏文字*/text-overflow: ellipsis;/*文字隐藏后添加省略号*/white-space: nowrap;/*强制不换行*/width: 13em;/*不允许出现半汉字截断*/}
+	#time_plug{display: none;}/*隐藏时间控件*/
 </style>
 <link rel="stylesheet" href="css/personal-footer.css" />
 
@@ -22,10 +38,15 @@
 <script type="text/javascript" src="../privatecenter/js/badge/jquery.imgbox.pack.js"></script>
 <script>
 	$('.lockpage').hide();
+	var time_param = '';
+	if(time_flag){
+		time_param = 'start_time=<?php echo $start_time;?>&end_time=<?php echo $end_time;?>';
+	}
 	$("#return-index").click(function(){
 		$('.lockpage').show();
 //		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index.php');
-		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load('mybookdata/index.php');
+//		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load('mybookdata/index.php');
+		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/course_index.php?'+time_param);
 	})
 	
 	//上下页的跳转
@@ -34,14 +55,16 @@
 		var page=parseInt($('#pageid').text());//获取当前页码
 		//alert(page);
 		page--;
-		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/medal_data.php?page="+page);
+//		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/medal_data.php?page="+page);
+		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/medal_data.php?page="+page+'&start_time=<?php echo $start_time;?>&end_time=<?php echo $end_time;?>');
 	});
 	$('.next-btn').click(function() {  //下一页
 		$('.lockpage').show();
 		var page=parseInt($('#pageid').text());
 		page++;
 		// alert(page);
-		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/medal_data.php?page="+page);
+//		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/medal_data.php?page="+page);
+		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/medal_data.php?page="+page+'&start_time=<?php echo $start_time;?>&end_time=<?php echo $end_time;?>');
 	});
 
 	var $jq = jQuery.noConflict();
@@ -56,18 +79,10 @@
 </script>
 
 <?php
-require_once("../../config.php");
-require_once("../../lib/badgeslib.php");
-require_once("../../badges/renderer.php");
-$page = optional_param('page', 1, PARAM_INT);
-// $categoryid = optional_param('categoryid', 0, PARAM_INT);
-global $DB;
-global $USER;
-
-echo_medals($page);//输出笔记列表
+echo_medals($page,$start_time,$end_time);//输出笔记列表
 
 /**START 输出勋章列表 */
-function echo_medals($page){
+function echo_medals($page,$start_time,$end_time){
 
 	$offset=($page-1)*10;//获取limit的第一个参数的值 offset ，假如第一页则为(1-1)*10=0,第二页为(2-1)*10=10。
 
@@ -77,7 +92,7 @@ function echo_medals($page){
 	$userID = $USER->id;
 	
 	//获取该用户的勋章
-	$userDadges = $DB->get_records_sql("select bi.badgeid from mdl_badge_issued bi where bi.userid = $userID");
+	$userDadges = $DB->get_records_sql("select bi.badgeid from mdl_badge_issued bi where bi.userid = $userID and bi.dateissued between $start_time and $end_time ");
 
 	//获取所有的勋章记录
 	$records = badges_get_badges(1, 0, 'name', 'DESC', 0, 100, $USER->id);

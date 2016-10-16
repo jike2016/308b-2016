@@ -1,3 +1,17 @@
+<?php
+/**
+ * 个人中心》台账数据》课程统计》单课程评论查看 页面
+ */
+require_once("../../config.php");
+$page = optional_param('page', 1, PARAM_INT);
+$courseid = optional_param('courseid', 1, PARAM_INT);
+$start_time = optional_param('start_time', 0, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 0, PARAM_TEXT);//结束时间
+// $categoryid = optional_param('categoryid', 0, PARAM_INT);
+global $DB;
+global $USER;
+?>
+
 <link rel="stylesheet" href="css/personal-maininfo-head-box.css" />
 <style>
 	.table {border-bottom:1px solid #DDDDDD ; }
@@ -12,21 +26,16 @@
 	.table tr td{text-align: center;}
 	.table tr .td3_text  p{margin: auto;}
 	.table tr .td3_text p{ width: 100%;overflow: hidden; /*自动隐藏文字*/text-overflow: ellipsis;/*文字隐藏后添加省略号*/white-space: nowrap;/*强制不换行*/width: 13em;/*不允许出现半汉字截断*/}
+	#time_plug{display: none;}/*隐藏时间控件*/
 </style>
 <link rel="stylesheet" href="css/personal-footer.css" />
 
 <?php
-require_once("../../config.php");
-$page = optional_param('page', 1, PARAM_INT);
-$courseid = optional_param('courseid', 1, PARAM_INT);
-// $categoryid = optional_param('categoryid', 0, PARAM_INT);
-global $DB;
-global $USER;
 $coursename = $DB->get_record_sql('select fullname from mdl_course where id='.$courseid);
-echo_comments_course($page,$courseid,$coursename);//输出笔记列表
+echo_comments_course($page,$courseid,$coursename,$start_time,$end_time);//输出笔记列表
 
 /**STATR  输出笔记列表*/
-function echo_comments_course($page,$courseid,$coursename){
+function echo_comments_course($page,$courseid,$coursename,$start_time,$end_time){
 	$numofpage=15;
 	$offset=($page-1)*$numofpage;//获取limit的第一个参数的值 offset ，假如第一页则为(1-1)*10=0,第二页为(2-1)*10=10。
 	
@@ -35,27 +44,32 @@ function echo_comments_course($page,$courseid,$coursename){
 
 	$userID = $USER->id;
 	// $notes = $DB->get_records_sql("select * from mdl_note_my m where m.userid = $userID order by time desc limit $offset,$numofpage");//分页查询，获取课程笔记中的10条记录
-	$comments= $DB->get_records_sql("select commenttime,articleid,null as courseid,null as modid,`comment` from mdl_comment_article_my a join mdl_course_modules b on b.id=a.articleid and b.course=$courseid where a.userid=$userID
-		union ALL
-		select commenttime,null as articleid,courseid,null as modid,`comment` from mdl_comment_course_my where courseid=$courseid and userid=$userID
-		union ALL
-		select commenttime,null as articleid,null as courseid, modid,`comment` from mdl_comment_video_my a join mdl_course_modules b on b.id=a.modid and b.course=$courseid where a.userid=$userID
-		ORDER BY commenttime desc
-		limit $offset,$numofpage
-		");
-	$commentscount = $DB->get_records_sql("select commenttime,articleid,null as courseid,null as modid,`comment` from mdl_comment_article_my a join mdl_course_modules b on b.id=a.articleid and b.course=$courseid where a.userid=$userID
-		union ALL
-		select commenttime,null as articleid,courseid,null as modid,`comment` from mdl_comment_course_my where courseid=$courseid and userid=$userID
-		union ALL
-		select commenttime,null as articleid,null as courseid, modid,`comment` from mdl_comment_video_my a join mdl_course_modules b on b.id=a.modid and b.course=$courseid where a.userid=$userID
-		");
+	//添加自定义字段，防止moodle 数据封装时因键值相同丢弃数据
+	$sql = "select CONCAT('article',commenttime) as myfield,commenttime,articleid,null as courseid,null as modid,`comment` from mdl_comment_article_my a join mdl_course_modules b on b.id=a.articleid and b.course=$courseid where a.userid=$userID and commenttime between $start_time and $end_time
+			union ALL
+			select CONCAT('course',commenttime) as myfield,commenttime,null as articleid,courseid,null as modid,`comment` from mdl_comment_course_my where courseid=$courseid and userid=$userID and commenttime between $start_time and $end_time
+			union ALL
+			select CONCAT('video',commenttime) as myfield,commenttime,null as articleid,null as courseid, modid,`comment` from mdl_comment_video_my a join mdl_course_modules b on b.id=a.modid and b.course=$courseid where a.userid=$userID and commenttime between $start_time and $end_time
+			ORDER BY commenttime desc
+			limit $offset,$numofpage
+			";
+	$comments= $DB->get_records_sql($sql);
+	$sql = 'select count(1) as commentcount from
+				(select commenttime from mdl_comment_article_my a join mdl_course_modules b on b.id=a.articleid and b.course='.$courseid.' where a.userid='.$USER->id.' and commenttime between '.$start_time.' and '.$end_time.'
+				union ALL
+				select commenttime from mdl_comment_course_my where courseid='.$courseid.' and userid='.$USER->id.' and commenttime between '.$start_time.' and '.$end_time.'
+				union ALL
+				select commenttime from mdl_comment_video_my a join mdl_course_modules b on b.id=a.modid and b.course='.$courseid.' where a.userid='.$USER->id.' and commenttime between '.$start_time.' and '.$end_time.'
+				ORDER BY commenttime desc)
+			as temp ';
+	$commentscount = $DB->get_record_sql($sql);
 	$no = ($page-1)*$numofpage+1;//序号
 	echo'
 		<div class="maininfo-box">
 		<div class="head-box">
 		<div class="a-box"><a id="return-index"><span class="glyphicon glyphicon-menu-left"></span>返回</a></div>
 		<h3>课程评论台账&nbsp;:&nbsp;&nbsp;</h3>
-		<h3 id="num">'.count($commentscount).'</h3>
+		<h3 id="num">'.$commentscount->commentcount.'</h3>
 	</div>
 
 	
@@ -101,7 +115,7 @@ function echo_comments_course($page,$courseid,$coursename){
 		</div>
 		</div>';
 
-	 echo_end($page,count($commentscount),$numofpage);//输出上下页按钮
+	 echo_end($page,$commentscount->commentcount,$numofpage);//输出上下页按钮
 
 }
 /**END  输出笔记列表*/
@@ -180,10 +194,15 @@ function echo_end($page,$count,$numofpage){
 
 <script>
 	$('.lockpage').hide();
+	var time_param = '';
+	if(time_flag){
+		time_param = 'start_time=<?php echo $start_time;?>&end_time=<?php echo $end_time;?>';
+	}
 	$("#return-index").click(function(){
 		$('.lockpage').show();
 		<!--$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.right-banner').load('mybookdata/index_course.php?courseid=<?php echo $courseid;?>');-->
-		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/index_course.php?courseid=<?php echo $courseid;?>');
+		<!--$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/index_course.php?courseid=<?php echo $courseid;?>');-->
+		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').load('mybookdata/index_course.php?courseid=<?php echo $courseid;?>&'+time_param);
 	})
 	
 	//上下页的跳转
@@ -192,13 +211,15 @@ function echo_end($page,$count,$numofpage){
 		var page=parseInt($('#pageid').text());//获取当前页码
 		//alert(page);
 		page--;
-		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data_course.php?page="+page+"&courseid=<?php echo $courseid;?>");
+//		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data_course.php?page="+page+"&courseid=<?php //echo $courseid;?>//");
+		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data_course.php?page="+page+"&courseid=<?php echo $courseid;?>&start_time=<?php echo $start_time;?>&end_time=<?php echo $end_time;?>");
 	});
 	$('.next-btn').click(function() {  //下一页
 		$('.lockpage').show();
 		var page=parseInt($('#pageid').text());
 		page++;
 		// alert(page);
-		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data_course.php?page="+page+"&courseid=<?php echo $courseid;?>");
+//		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data_course.php?page="+page+"&courseid=<?php //echo $courseid;?>//");
+		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data_course.php?page="+page+"&courseid=<?php echo $courseid;?>&start_time=<?php echo $start_time;?>&end_time=<?php echo $end_time;?>");
 	});
 </script>

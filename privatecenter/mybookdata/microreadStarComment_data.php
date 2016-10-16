@@ -1,3 +1,14 @@
+<?php
+/**
+ * 个人中心》台账数据》微阅统计》星评查看 页面
+ */
+require_once("../../config.php");
+$page = optional_param('page', 1, PARAM_INT);
+$start_time = optional_param('start_time', 0, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 0, PARAM_TEXT);//结束时间
+global $DB;
+global $USER;
+?>
 <link rel="stylesheet" href="css/personal-maininfo-head-box.css" />
 <style>
 	.table {border-bottom:1px solid #DDDDDD ; }
@@ -11,16 +22,22 @@
 	.table tr td{text-align: center;}
 	.table tr .td3_text  p{margin: auto;}
 	.table tr .td3_text p{ width: 100%;overflow: hidden; /*自动隐藏文字*/text-overflow: ellipsis;/*文字隐藏后添加省略号*/white-space: nowrap;/*强制不换行*/width: 13em;/*不允许出现半汉字截断*/}
+	#time_plug{display: none;}/*隐藏时间控件*/
 </style>
 <link rel="stylesheet" href="css/personal-footer.css" />
 
 <script>
 	$('.lockpage').hide();
+	var time_param = '';
+	if(time_flag){
+		time_param = 'start_time=<?php echo $start_time;?>&end_time=<?php echo $end_time;?>';
+	}
 	$("#return-index").click(function(){
 		$('.lockpage').show();
 //		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.right-banner').load('microreaddata/index.php');
 //		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load('mybookdata/index.php');
-		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load("mybookdata/index.php?bookdataType=2");//2:表示微阅台账
+//		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').parent('.myclass').parent('.right-banner').load("mybookdata/index.php?bookdataType=2");//2:表示微阅台账
+		$(this).parent().parent('.head-box').parent('.maininfo-box').parent('.maininfo-box-index').load("mybookdata/microread_index.php?"+time_param);
 	})
 	
 	//上下页的跳转
@@ -29,27 +46,25 @@
 		var page=parseInt($('#pageid').text());//获取当前页码
 		//alert(page);
 		page--;
-		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data.php?page="+page);
+//		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data.php?page="+page);
+		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/microreadStarComment_data.php?page="+page+'&start_time=<?php echo $start_time;?>&end_time=<?php echo $end_time;?>');
 	});
 	$('.next-btn').click(function() {  //下一页
 		$('.lockpage').show();
 		var page=parseInt($('#pageid').text());
 		page++;
 		// alert(page);
-		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data.php?page="+page);
+//		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/comment_data.php?page="+page);
+		$(this).parent('.footer').parent('.footer-box').parent().load("mybookdata/microreadStarComment_data.php?page="+page+'&start_time=<?php echo $start_time;?>&end_time=<?php echo $end_time;?>');
 	});
 </script>
 
 <?php
-require_once("../../config.php");
-$page = optional_param('page', 1, PARAM_INT);
-global $DB;
-global $USER;
 
-echo_comments($page);//输出星评列表
+echo_comments($page,$start_time,$end_time);//输出星评列表
 
 /**STATR  输出星评列表*/
-function echo_comments($page){
+function echo_comments($page,$start_time,$end_time){
 	$numofpage=15;
 	$offset=($page-1)*$numofpage;//获取limit的第一个参数的值 offset ，假如第一页则为(1-1)*10=0,第二页为(2-1)*10=10。
 	
@@ -58,16 +73,16 @@ function echo_comments($page){
 
 	$userID = $USER->id;
 	$comments= $DB->get_records_sql("
-		SELECT d.scoretime,d.docid,null AS ebookid,d.score FROM mdl_doc_score_my d WHERE d.userid = $userID
+		SELECT d.scoretime,d.docid,null AS ebookid,d.score FROM mdl_doc_score_my d WHERE d.userid = $userID AND scoretime BETWEEN $start_time AND $end_time
 		UNION ALL
-		SELECT e.scoretime,null AS docid,e.ebookid,e.score FROM mdl_ebook_score_my e WHERE e.userid = $userID
+		SELECT e.scoretime,null AS docid,e.ebookid,e.score FROM mdl_ebook_score_my e WHERE e.userid = $userID AND scoretime BETWEEN $start_time AND $end_time
 		ORDER BY scoretime desc
 		LIMIT $offset,$numofpage
 	");
 	$commentscount = $DB->get_records_sql("
-		SELECT d.scoretime,d.docid,null AS ebookid,d.score FROM mdl_doc_score_my d WHERE d.userid = $userID
+		SELECT d.scoretime,d.docid,null AS ebookid,d.score FROM mdl_doc_score_my d WHERE d.userid = $userID  AND scoretime BETWEEN $start_time AND $end_time
 		UNION ALL
-		SELECT e.scoretime,null AS docid,e.ebookid,e.score FROM mdl_ebook_score_my e WHERE e.userid = $userID
+		SELECT e.scoretime,null AS docid,e.ebookid,e.score FROM mdl_ebook_score_my e WHERE e.userid = $userID  AND scoretime BETWEEN $start_time AND $end_time
 		ORDER BY scoretime desc
 	");
 	$no = ($page-1)*$numofpage+1;//序号

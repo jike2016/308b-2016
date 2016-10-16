@@ -25,6 +25,10 @@ global $CFG;
 	.lockpage {z-index: 10000;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: #000;opacity: 0.4;filter: alpha(opacity=40); text-align: center;vertical-align:middle; display: none;}
 	.lockpage img {width: 60px;position:absolute;top:40%;}
 	</style>
+
+	<!-- start	时间控件-->
+	<?php require_once("mybookdata/time_plug/time_plug_js.php"); ?>
+	<!-- end 时间控件-->
 	
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>

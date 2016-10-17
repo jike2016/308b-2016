@@ -127,4 +127,13 @@ p {margin: 0px;}
 .elevator .elevator-top:hover { background-position: 0 -736px;}
 .elevator .elevator-diaocha {background-position: 0 -798px;}
 .elevator .elevator-diaocha:hover { background-position: 0 -984px;}
-/****右下角悬浮按钮 @end*****/	
+/****右下角悬浮按钮 @end*****/
+
+/****下拉列表菜单 @start*****/
+#classkindslist,#learnreportkindslist {max-height: 300px;  overflow-y: auto;}
+#learnreportkindslist {width: 200px}
+#classkindslist.dropdown-menu > li > a,#learnreportkindslist.dropdown-menu > li > a {text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+.dropdownlist { width: 200px !important;}
+.dropdownlist .dropdown-menu {width: 200px !important;}
+/****下拉列表菜单 @end*****/
+

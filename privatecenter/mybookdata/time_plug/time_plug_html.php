@@ -1,7 +1,9 @@
 <?php
 /**
  * 时间控件
- * 要引入样式控制文件 time_plug_style.php
+ * 1、在页面合适的地方引入此文件
+ * 2、要引入样式控制文件 time_plug_style.php
+ * 3、在页面引入jq 前引入time_plug_js.php 文件
  */
 ?>
 

@@ -204,92 +204,92 @@ class repository_upload extends repository {
         $record->userid    = $USER->id;
 
         /**Start 徐东威 20160314 */
-//        //$ftpHost = 'rtmp://192.168.1.129/vod/';//流媒体服务器的路径
-//        $ftpHost = 'rtmp://10.148.216.167/vod/';//流媒体服务器的路径
-//        $fileName = $_FILES[$elname]['name'];//获取原文件的名称
-//        $filename = current(explode('.', $fileName)).'_';//文件名，不含扩展名
-//        $fileType = end(explode('.', $fileName));//获取原文件的扩展名
-//
-//        //如果是 mp4 或 flv 格式的视屏，则迁移到专门的视频服务器上
-//        if($fileType == 'mp4' || $fileType =='MP4' || $fileType =='flv' || $fileType =='FLV'){
-//            if (repository::draftfile_exists($record->itemid, $record->filepath, $record->filename)) {
-//                $existingfilename = $record->filename;
-//                $unused_filename = repository::get_unused_filename($record->itemid, $record->filepath, $record->filename);
-//                $record->filename = $unused_filename;
-//                $stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name']);
-//                if ($overwriteexisting) {
-//                    repository::overwrite_existing_draftfile($record->itemid, $record->filepath, $existingfilename, $record->filepath, $record->filename);
-//                    $record->filename = $existingfilename;
-//                } else {
-//                    $event = array();
-//                    $event['event'] = 'fileexists';
-//                    $event['newfile'] = new stdClass;
-//                    $event['newfile']->filepath = $record->filepath;
-//                    $event['newfile']->filename = $unused_filename;
-//                    $event['newfile']->url = moodle_url::make_draftfile_url($record->itemid, $record->filepath, $unused_filename)->out(false);
-//
-//                    $event['existingfile'] = new stdClass;
-//                    $event['existingfile']->filepath = $record->filepath;
-//                    $event['existingfile']->filename = $existingfilename;
-//
-//                    $fileURL = $_FILES[$elname]['tmp_name'];//本地服务器中的文件地址（其实是临时文件）
-//                    $url = $this->my_uploadFile($ftpHost,$fileURL,$fileType,$filename);//文件上传
-//					file_put_contents('2016text.txt',$fileType);
-//                    $event['existingfile']->url = $url;//上传的文件路劲
-//                    return $event;
-//                }
-//            } else {
-//                $stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name']);
-//            }
-//
-//            $fileURL = $_FILES[$elname]['tmp_name'];//本地服务器中的文件地址
-//            $url = $this->my_uploadFile($ftpHost,$fileURL,$fileType,$filename);//文件上传
-//			file_put_contents('2016text.txt',$fileType);
-//			// global  $DB;
-//			// $newid = $DB->insert_record('upload_video',array('videoname'=>$filename.$fileType,'videourl'=>$url,'uploadtime'=>time()),true);//插入视屏记录
-//            return array(
-//                'url'=>$url,
-//                'id'=>$record->itemid,
-//                'file'=>$record->filename);
-//        }
-//        else{//除 mp4 和 flv 格式的视屏外，其他的都保存在moodle 服务器上
-//            if (repository::draftfile_exists($record->itemid, $record->filepath, $record->filename)) {
-//                $existingfilename = $record->filename;
-//                $unused_filename = repository::get_unused_filename($record->itemid, $record->filepath, $record->filename);
-//                $record->filename = $unused_filename;
-//                $stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name']);
-//                if ($overwriteexisting) {
-//                    repository::overwrite_existing_draftfile($record->itemid, $record->filepath, $existingfilename, $record->filepath, $record->filename);
-//                    $record->filename = $existingfilename;
-//                } else {
-//                    $event = array();
-//                    $event['event'] = 'fileexists';
-//                    $event['newfile'] = new stdClass;
-//                    $event['newfile']->filepath = $record->filepath;
-//                    $event['newfile']->filename = $unused_filename;
-//                    $event['newfile']->url = moodle_url::make_draftfile_url($record->itemid, $record->filepath, $unused_filename)->out(false);
-//
-//                    $event['existingfile'] = new stdClass;
-//                    $event['existingfile']->filepath = $record->filepath;
-//                    $event['existingfile']->filename = $existingfilename;
-//                    $event['existingfile']->url      = moodle_url::make_draftfile_url($record->itemid, $record->filepath, $existingfilename)->out(false);
-//                    return $event;
-//                }
-//            } else {
-//                $stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name']);
-//            }
-//
-//			file_put_contents('2016text.txt',$fileType);
-//            return array(
-//                'url'=>moodle_url::make_draftfile_url($record->itemid, $record->filepath, $record->filename)->out(false),
-//                'id'=>$record->itemid,
-//                'file'=>$record->filename);
-//        }
+        //$ftpHost = 'rtmp://192.168.1.129/vod/';//流媒体服务器的路径
+        $ftpHost = 'rtmp://10.148.216.167/vod/';//流媒体服务器的路径
+        $fileName = $_FILES[$elname]['name'];//获取原文件的名称
+        $filename = current(explode('.', $fileName)).'_';//文件名，不含扩展名
+        $fileType = end(explode('.', $fileName));//获取原文件的扩展名
+
+        //如果是 mp4 或 flv 格式的视屏，则迁移到专门的视频服务器上
+        if($fileType == 'mp4' || $fileType =='MP4' || $fileType =='flv' || $fileType =='FLV'){
+            if (repository::draftfile_exists($record->itemid, $record->filepath, $record->filename)) {
+                $existingfilename = $record->filename;
+                $unused_filename = repository::get_unused_filename($record->itemid, $record->filepath, $record->filename);
+                $record->filename = $unused_filename;
+                $stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name']);
+                if ($overwriteexisting) {
+                    repository::overwrite_existing_draftfile($record->itemid, $record->filepath, $existingfilename, $record->filepath, $record->filename);
+                    $record->filename = $existingfilename;
+                } else {
+                    $event = array();
+                    $event['event'] = 'fileexists';
+                    $event['newfile'] = new stdClass;
+                    $event['newfile']->filepath = $record->filepath;
+                    $event['newfile']->filename = $unused_filename;
+                    $event['newfile']->url = moodle_url::make_draftfile_url($record->itemid, $record->filepath, $unused_filename)->out(false);
+
+                    $event['existingfile'] = new stdClass;
+                    $event['existingfile']->filepath = $record->filepath;
+                    $event['existingfile']->filename = $existingfilename;
+
+                    $fileURL = $_FILES[$elname]['tmp_name'];//本地服务器中的文件地址（其实是临时文件）
+                    $url = $this->my_uploadFile($ftpHost,$fileURL,$fileType,$filename);//文件上传
+					file_put_contents('2016text.txt',$fileType);
+                    $event['existingfile']->url = $url;//上传的文件路劲
+                    return $event;
+                }
+            } else {
+                $stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name']);
+            }
+
+            $fileURL = $_FILES[$elname]['tmp_name'];//本地服务器中的文件地址
+            $url = $this->my_uploadFile($ftpHost,$fileURL,$fileType,$filename);//文件上传
+			file_put_contents('2016text.txt',$fileType);
+			// global  $DB;
+			// $newid = $DB->insert_record('upload_video',array('videoname'=>$filename.$fileType,'videourl'=>$url,'uploadtime'=>time()),true);//插入视屏记录
+            return array(
+                'url'=>$url,
+                'id'=>$record->itemid,
+                'file'=>$record->filename);
+        }
+        else{//除 mp4 和 flv 格式的视屏外，其他的都保存在moodle 服务器上
+            if (repository::draftfile_exists($record->itemid, $record->filepath, $record->filename)) {
+                $existingfilename = $record->filename;
+                $unused_filename = repository::get_unused_filename($record->itemid, $record->filepath, $record->filename);
+                $record->filename = $unused_filename;
+                $stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name']);
+                if ($overwriteexisting) {
+                    repository::overwrite_existing_draftfile($record->itemid, $record->filepath, $existingfilename, $record->filepath, $record->filename);
+                    $record->filename = $existingfilename;
+                } else {
+                    $event = array();
+                    $event['event'] = 'fileexists';
+                    $event['newfile'] = new stdClass;
+                    $event['newfile']->filepath = $record->filepath;
+                    $event['newfile']->filename = $unused_filename;
+                    $event['newfile']->url = moodle_url::make_draftfile_url($record->itemid, $record->filepath, $unused_filename)->out(false);
+
+                    $event['existingfile'] = new stdClass;
+                    $event['existingfile']->filepath = $record->filepath;
+                    $event['existingfile']->filename = $existingfilename;
+                    $event['existingfile']->url      = moodle_url::make_draftfile_url($record->itemid, $record->filepath, $existingfilename)->out(false);
+                    return $event;
+                }
+            } else {
+                $stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name']);
+            }
+
+			file_put_contents('2016text.txt',$fileType);
+            return array(
+                'url'=>moodle_url::make_draftfile_url($record->itemid, $record->filepath, $record->filename)->out(false),
+                'id'=>$record->itemid,
+                'file'=>$record->filename);
+        }
 
         /**End */
 
 
-
+/*
 
         if (repository::draftfile_exists($record->itemid, $record->filepath, $record->filename)) {
             $existingfilename = $record->filename;
@@ -321,7 +321,7 @@ class repository_upload extends repository {
             'url'=>moodle_url::make_draftfile_url($record->itemid, $record->filepath, $record->filename)->out(false),
             'id'=>$record->itemid,
             'file'=>$record->filename);
-
+        */
 
     }
 

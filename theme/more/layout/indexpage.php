@@ -611,7 +611,7 @@ echo $OUTPUT->doctype() ?>
 		</style>
 		<script type="text/javascript">
 			$(function() {
-				$('.nav-bottom p ').append('<p class="website_info"><a href="<?php echo $CFG->wwwroot.'/login/login_user_list.php';?>">今日登录人数：<span class="num"><?php echo $loginInfo->todaylogincount; ?></span></a><span>登录总人数：</span><span class="num"><?php echo $loginInfo->totallogincount; ?></span></p>');
+				$('.nav-bottom p ').append('<p class="website_info"><a href="<?php echo $CFG->wwwroot.'/login/login_user_list.php';?>">今日登录人数：<span class="num"><?php echo $loginInfo->todaylogincount; ?></span></a><span>累计总访问人数：</span><span class="num"><?php echo $loginInfo->totallogincount; ?></span></p>');
 			});
 		</script>
 		<!--底部导航条 end-->

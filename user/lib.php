@@ -995,7 +995,15 @@ function user_get_user_navigation_info($user, $page) {
     /**end 单位账号 20160815 xdw */
 
     /**Start 学生 20160815 xdw */
-    if($DB->record_exists('role_assignments', array('roleid' => $role_conf->get_student_role(),'userid' => $user->id))){
+    if( ($DB->record_exists('role_assignments', array('roleid' => $role_conf->get_student_role(),'userid' => $user->id)) ||
+          ($DB->get_record_sql("select id from mdl_org_link_user ol where ol.user_id = $user->id" )))
+       && (
+            !($DB->record_exists('role_assignments', array('roleid' => $role_conf->get_courseadmin_role(),'userid' => $user->id))) &&
+            !($DB->record_exists('role_assignments', array('roleid' => $role_conf->get_gradingadmin_role(),'userid' => $user->id))) &&
+            !($DB->record_exists('role_assignments', array('roleid' => $role_conf->get_unit_role(),'userid' => $user->id))) &&
+            $user->id != 2
+          )
+    ){
 
         //** Start 2016214 加入个人中心 */
         $myhome = new stdClass();

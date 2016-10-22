@@ -574,7 +574,7 @@ function echo_piechar($coursecounts){
 <script>
 	gvChartInit();
 	$(document).ready(function() {
-		<!--饼状图-->
+		//饼状图
 		if(<?php echo $haspiechar;?>){
 			$('#piechart').gvChart({
 				chartType: 'PieChart',
@@ -590,7 +590,7 @@ function echo_piechar($coursecounts){
 				}
 			});
 		}
-		<!--饼状图 end-->
+		//饼状图 end
 
 		//课程排序下拉菜单点击局部刷新事件
 		$('#learnreportkindslist li').click(function(){ 

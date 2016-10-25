@@ -1360,19 +1360,15 @@ class format_studtopics_renderer extends format_section_renderer_base {
         //查询当前学生台账任务中的必修课的required_course_id
         $sql_my = 'select GROUP_CONCAT(required_course_id) as required_course_id_str from mdl_mission_my where id in (select mission_id from mdl_mission_user_my where user_id = '.$USER->id.');';
         $required_course_id = $DB->get_record_sql($sql_my);
-        /**START CX 修复退课按钮出现条件判断 20161024*/
+
         if (!empty($required_course_id->required_course_id_str)){
             $reuired_course_arr = explode(',',$required_course_id->required_course_id_str);
             if (!in_array($course->id,$reuired_course_arr) && $user_enrol_my){//不是必修课且是通过自助选课选的课就输出退课按钮
                 $currenturl = new moodle_url('/enrol/self/unenrolself.php?enrolid='.$user_enrol_my->enrolid);
+//                $output = '<a href="'.$currenturl.'"><button class="btn btn-danger" style="width: 89%; height: 36px; margin-bottom: 20px;">退课</button></a>';
                 $output = '<a href="'.$currenturl.'" class="tuike-btn"><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;退课</a>';
             }
         }
-        elseif($user_enrol_my){
-                $currenturl = new moodle_url('/enrol/self/unenrolself.php?enrolid='.$user_enrol_my->enrolid);
-                $output = '<a href="'.$currenturl.'" class="tuike-btn"><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;退课</a>';
-        }
-        /**END*/
         return $output;
     }
     /** 输出退课按钮 end */

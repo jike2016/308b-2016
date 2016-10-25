@@ -45,6 +45,9 @@ global $USER;
 					</span>
             <a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/course/index.php">微课</a>
             <a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/privatecenter/index.php?class=zhibo">直播</a>
+<!--            START CX 百科20161019-->
+			<a class="nav-a" href="<?php echo $CFG->wwwroot; ?>/dokuwiki/">百科</a>
+<!--            END-->
             <?php if($USER->id==0)echo '<a class="nav-a login" href="'.$CFG->wwwroot.'/login/index.php"><img src="'.$CFG->wwwroot.'/microread/img/denglu.png"></a>';?>
         </div>
         <?php

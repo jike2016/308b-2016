@@ -1,29 +1,28 @@
 <?php
 require_once(dirname(__FILE__) . '/../config.php');
-require_once($CFG->dirroot . '/org_classify/org.class.php');
+require_once($CFG->dirroot . '/org/org.class.php');
 require_once($CFG->dirroot . '/user/my_role_conf.class.php');
 
 global $DB;
 global $USER;
-/**start  权限判断 只允许 '单位角色'、或者是'分级管理角色' */
 $role = new my_role_conf();
-if(!$DB->record_exists('role_assignments', array('roleid' => $role->get_unit_role(),'userid' => $USER->id)) &&
-	!$DB->record_exists('role_assignments', array('roleid' => $role->get_gradingadmin_role(),'userid' => $USER->id)) ){
-		redirect($CFG->wwwroot);
+/** Start 权限判断 只允许超级管理员、慕课管理员 进入 */
+$courseAdminFlag = false;//慕课管理员标志
+if($DB->record_exists('role_assignments', array('roleid' => $role->get_courseadmin_role(),'userid' => $USER->id))){
+	$courseAdminFlag = true;
 }
-if(!$DB->record_exists("org_link_user",array('user_id'=>$USER->id))){//当账号所属的单位被删除时
-	echo "<script>alert('您当前的账号未分配所属单位，请联系系统管理员');</script>";
-	exit();
+if( !$courseAdminFlag && ($USER->id != 2) ){
+	redirect($CFG->wwwroot);
 }
-/**end 权限判断  */
-//其他能查看台账的条件如某个人
-// elseif(){
-	
-// }
+/** end */
+
 //查询当前用户id在组织架构内的位置，输出下级树(后面要做成权限赋予型)
 $org = new org();
-$orgid = $org->get_nodeid_with_userid($USER->id);
-// $orgid = $org->get_nodeid_with_userid(12);
+if($courseAdminFlag){//如果是慕课管理员角色（因为慕课管理员没有单位所属）
+	$orgid = $org->get_root_node_id();
+}else{
+	$orgid = $org->get_nodeid_with_userid($USER->id);
+}
 
 //$tree = $org->show_node_tree_user_no_office($orgid);
 //$remove_role = '14,15';//需要移除的角色，14：单位角色 15：分权管理员角色
@@ -31,6 +30,7 @@ require_once('comment_data.php');
 $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 
 ?>
+
 
 <!DOCTYPE html>
 <HTML>
@@ -127,7 +127,7 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 		}
 
 		$(document).ready(function(){
-			$.fn.zTree.init($("#tree"), setting, zNodes);			
+			$.fn.zTree.init($("#tree"), setting, zNodes);
 			// $("#tree a").click(function(){
 				// if($(this).children("span").hasClass("ico_docu"))
 					// $(".right").load('person/index.php');
@@ -198,6 +198,7 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 <div class="lockpage">
 	<img src="pix/loading.jpg"/>
 </div>
+
 <!--顶部导航条-->
 <div class="nav navbar navbar-fixed-top">
 	<div class="center">
@@ -209,9 +210,6 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 				<li class="mod_course"><a href="<?php echo $CFG->wwwroot;?>/course/index.php">微课</a></li>
 				<li class="mod_microread"><a href="<?php echo $CFG->wwwroot;?>/microread/">微阅</a></li>
 				<li class="mod_zhibo"><a href="<?php echo $CFG->wwwroot;?>/privatecenter/index.php?class=zhibo">直播</a></li>
-				<!--			START CX 百科20161019-->
-				<li class="li-normol"><a href="<?php echo $CFG->wwwroot;?>/dokuwiki/">百科</a></li>
-				<!--			END-->
 				<li class="mod_privatecenter"><a href="#"></a></li>
 			</ul>
 		</div>
@@ -237,9 +235,9 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 
 		</div>
 	</div>
+
 </div>
 <!--顶部导航条 end-->
-
 
 <div class="main">
 	<div class="zTreeDemoBackground left">
@@ -247,8 +245,8 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 	</div>
 	
 	<div class="right">
-		
-	</div>	
+
+	</div>
 </div>
 </BODY>
 </HTML>

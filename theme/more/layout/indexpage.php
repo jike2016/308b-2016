@@ -83,7 +83,7 @@ echo $OUTPUT->doctype() ?>
 			}
 			if(navigator.userAgent.indexOf("MSIE 9.0")>0){
 				// alert("ie8");
-				window.location.href="download_firefox.html";
+//				window.location.href="download_firefox.html";
 			}
 		}
 		var isChrome=navigator.userAgent.indexOf("Firefox") != -1?true:false;;
@@ -255,6 +255,11 @@ echo $OUTPUT->doctype() ?>
 					case '图片':
 						window.open( "<?php echo $CFG->wwwroot;?>/microread/picroom/image-search.php?word="+search_param);
 						break;
+					/**START CX 百科20161019*/
+					case '百科':
+						window.open( "<?php echo $CFG->wwwroot;?>/dokuwiki/doku.php?do=search&id="+search_param);
+						break;
+					/**END*/
 					default:
 						break;
 				}
@@ -305,6 +310,10 @@ echo $OUTPUT->doctype() ?>
 						<li><a href="#">图片</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="#">书籍</a></li>
+						<!--					/**START CX 百科20161019*/-->
+						<li role="separator" class="divider"></li>
+						<li><a href="#">百科</a></li>
+						<!--					/**END*/-->
 					</ul>
 				</div>
 				<!--下拉菜单 end-->
@@ -431,6 +440,10 @@ echo $OUTPUT->doctype() ?>
 				<li><a href="<?php echo $CFG->wwwroot;?>/course/index.php">微课</a></li>
 				<li><a href="<?php echo $CFG->wwwroot;?>/microread/">微阅</a></li>
 				<li><a href="<?php echo $CFG->wwwroot;?>/privatecenter/index.php?class=zhibo">直播</a></li>
+				<!--				/**START CX 百科20161019*/-->
+				<li class="mod_dokuwiki"><a href="<?php echo $CFG->wwwroot;?>/dokuwiki/">百科</a></li>
+				<!--				<li><a href="#"></a></li>-->
+				<!--				/**END*/-->
 				<li><a href="#"></a></li>
 			</ul>
 		</div>
@@ -611,7 +624,7 @@ echo $OUTPUT->doctype() ?>
 		</style>
 		<script type="text/javascript">
 			$(function() {
-				$('.nav-bottom p ').append('<p class="website_info"><a href="<?php echo $CFG->wwwroot.'/login/login_user_list.php';?>">今日登录人数：<span class="num"><?php echo $loginInfo->todaylogincount; ?></span></a><span>累计总访问人数：</span><span class="num"><?php echo $loginInfo->totallogincount; ?></span></p>');
+				$('.nav-bottom p ').append('<p class="website_info"><a href="<?php echo $CFG->wwwroot.'/login/login_user_list.php';?>">今日登录人数：<span class="num"><?php echo $loginInfo->todaylogincount; ?></span></a><span>登录总人数：</span><span class="num"><?php echo $loginInfo->totallogincount; ?></span></p>');
 			});
 		</script>
 		<!--底部导航条 end-->

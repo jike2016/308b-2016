@@ -23,7 +23,7 @@ body{font-family: "微软雅黑";}
 #usermenu .dropdown-menu > li > a:hover {background-color: #2EBEFF; color: #FFFFFF;}
 
 .header .frist {margin-left:446px;}
-.header .login {margin-left: 240px;}
+.header .login {margin-left: 100px;}
 .header-banner{height:85px; width:1200px; margin: auto;}
 .header-banner img{margin-top: 8px;}
 .header .uploadbtn {margin-left: 10px;}

@@ -142,6 +142,11 @@
 				case '图片':
 					window.open( "<?php echo $CFG->wwwroot;?>/microread/picroom/image-search.php?word="+search_param);
 					break;
+				/**START CX 百科20161019*/
+				case '百科':
+					window.open( "<?php echo $CFG->wwwroot;?>/dokuwiki/doku.php?do=search&id="+search_param);
+					break;
+				/**END*/
 				default:
 					break;
 			}
@@ -172,7 +177,11 @@
 				<li class="mod_course"><a href="<?php echo $CFG->wwwroot;?>/course/index.php">微课</a></li>
 				<li class="mod_microread"><a href="<?php echo $CFG->wwwroot;?>/microread/">微阅</a></li>
 				<li class="mod_zhibo"><a href="<?php echo $CFG->wwwroot;?>/privatecenter/index.php?class=zhibo">直播</a></li>
-				<li class="mod_privatecenter"><a href="#"></a></li>
+<!--				/**START CX 百科20161019*/-->
+				<li class="mod_dokuwiki"><a href="<?php echo $CFG->wwwroot;?>/dokuwiki/">百科</a></li>
+<!--				<li class="mod_privatecenter"><a href="#"></a></li>-->
+<!--				/**END*/-->
+
 			</ul>
 			<div class="a-box">
 				<?php echo $OUTPUT->user_menu(); ?>
@@ -191,6 +200,10 @@
 					<li><a href="#">图片</a></li>
 					<li role="separator" class="divider"></li>
 					<li><a href="#">书籍</a></li>
+<!--					/**START CX 百科20161019*/-->
+					<li role="separator" class="divider"></li>
+					<li><a href="#">百科</a></li>
+<!--					/**END*/-->
 				</ul>
 			</div>
 			<!--下拉菜单 end-->

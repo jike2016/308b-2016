@@ -127,7 +127,7 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 		}
 
 		$(document).ready(function(){
-			$.fn.zTree.init($("#tree"), setting, zNodes);
+			$.fn.zTree.init($("#tree"), setting, zNodes);			
 			// $("#tree a").click(function(){
 				// if($(this).children("span").hasClass("ico_docu"))
 					// $(".right").load('person/index.php');
@@ -136,6 +136,7 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 			// })
 		});
 	</script>
+
 	<script>
 		//导航栏搜索 start
 		$(document).ready(function() {
@@ -198,7 +199,6 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 <div class="lockpage">
 	<img src="pix/loading.jpg"/>
 </div>
-
 <!--顶部导航条-->
 <div class="nav navbar navbar-fixed-top">
 	<div class="center">
@@ -210,6 +210,9 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 				<li class="mod_course"><a href="<?php echo $CFG->wwwroot;?>/course/index.php">微课</a></li>
 				<li class="mod_microread"><a href="<?php echo $CFG->wwwroot;?>/microread/">微阅</a></li>
 				<li class="mod_zhibo"><a href="<?php echo $CFG->wwwroot;?>/privatecenter/index.php?class=zhibo">直播</a></li>
+				<!--			START CX 百科20161019-->
+				<li class="li-normol"><a href="<?php echo $CFG->wwwroot;?>/dokuwiki/">百科</a></li>
+				<!--			END-->
 				<li class="mod_privatecenter"><a href="#"></a></li>
 			</ul>
 		</div>
@@ -235,18 +238,16 @@ $tree = $org->show_node_tree_user_no_office_no_grading($orgid,$remove_role);
 
 		</div>
 	</div>
-
 </div>
 <!--顶部导航条 end-->
-
 <div class="main">
 	<div class="zTreeDemoBackground left">
 		<ul id="tree" class="ztree"></ul> <!--important 显示文件树的地方-->
 	</div>
 	
 	<div class="right">
-
-	</div>
+		
+	</div>	
 </div>
 </BODY>
 </HTML>

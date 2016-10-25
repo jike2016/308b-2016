@@ -255,6 +255,11 @@ $tree = $org->show_node_tree($root_id);
 			<a href="<?php echo $CFG->wwwroot;?>/privatecenter/index.php?class=zhibo">
 				<li class="li-normol">直播</li>
 			</a>
+<!--			START CX 百科20161019-->
+			<a href="<?php echo $CFG->wwwroot;?>/dokuwiki/">
+				<li class="li-normol">百科</li>
+			</a>
+<!--			END-->
 		</ul>
 		<div class="usermenu-box">
 							

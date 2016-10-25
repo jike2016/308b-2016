@@ -51,19 +51,17 @@ function pass_doc(){
 	$filepath=$documentroot.'/microread_files/doclibrary/user_upload/docfordownload/'. $filename;
 	$pdf_filepath = $documentroot.'/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf';
 	$swf_filepath = $documentroot.'/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
-	$newdoc->pdfurl='/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf';
 	if(in_array($user_doc->suffix,array('.doc','.docx','.ppt','.pptx','.xls','.xlsx'))){
 		word2swf_linux($filepath,$pdf_filepath ,$swf_filepath);
 	}
 	elseif(in_array($user_doc->suffix,array('.pdf'))){
 		pdf2swf_linux($filepath,$swf_filepath);
-		$newdoc->pdfurl='/microread_files/doclibrary/user_upload/docfordownload/'. $filename;
 	}
 	elseif(in_array($user_doc->suffix,array('.txt'))){
 		$txt_outputpath = $documentroot.'/microread_files/doclibrary/txtfile/'.$currenttime.$ranknum.'.txt';
 		txt2swf_linux($filepath,$txt_outputpath, $pdf_filepath, $swf_filepath);
 	}
-	$newdoc->swfurl='/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
+	$newdoc->swfurl='http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
 	/**End*/
 	$DB->insert_record('doc_my',$newdoc,true);
 	

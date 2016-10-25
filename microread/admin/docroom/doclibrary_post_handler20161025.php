@@ -93,7 +93,6 @@ function edit_doclibrary(){
                 $filepath=$documentroot.'/microread_files/doclibrary/doclibraryurl_fordownload/'.$currenttime.$ranknum.$urlfilestr;
                 $swf_filepath = $documentroot.'/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
                 $pdf_filepath = $documentroot.'/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf';
-                $newdoclibrary->pdfurl='/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf';
                 if(in_array($urlfilestr,array('.doc','.docx','.ppt','.pptx','.xls','.xlsx'))){
 //					word2pdf('http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
 //					'D:/WWW/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf',
@@ -104,7 +103,6 @@ function edit_doclibrary(){
 //					pdf2swf('D:/WWW/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
 //					'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
                     pdf2swf_linux($filepath,$swf_filepath);
-                    $newdoclibrary->pdfurl='/microread_files/doclibrary/doclibraryurl_fordownload/'.$currenttime.$ranknum.$urlfilestr;
                 }
                 elseif(in_array($urlfilestr,array('.txt'))){
                     $txt_outputpath = $documentroot.'/microread_files/doclibrary/txtfile/'.$currenttime.$ranknum.'.txt';
@@ -216,22 +214,20 @@ function  add_doclibrary(){
                 $filepath=$documentroot.'/microread_files/doclibrary/doclibraryurl_fordownload/'.$currenttime.$ranknum.$urlfilestr;
                 $swf_filepath = $documentroot.'/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
                 $pdf_filepath = $documentroot.'/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf';
-                $newdoclibrary->pdfurl='/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf';
                 if(in_array($urlfilestr,array('.doc','.docx','.ppt','.pptx','.xls','.xlsx'))){
 //					word2pdf('http://'.$_SERVER['HTTP_HOST'].'/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
 //					'D:/WWW/microread_files/doclibrary/pdffile/'.$currenttime.$ranknum.'.pdf',
 //					'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
-                    word2swf_linux($filepath,$pdf_filepath ,$swf_filepath);
+                     word2swf_linux($filepath,$pdf_filepath ,$swf_filepath);
                 }
                 elseif(in_array($urlfilestr,array('.pdf'))){
 //					pdf2swf('D:/WWW/microread_files/doclibrary/doclibraryurl_fordownload/'. $currenttime.$ranknum.$urlfilestr,
 //					'D:/WWW/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf');
                      pdf2swf_linux($filepath,$swf_filepath);
-                    $newdoclibrary->pdfurl='/microread_files/doclibrary/doclibraryurl_fordownload/'.$currenttime.$ranknum.$urlfilestr;
                 }
                 elseif(in_array($urlfilestr,array('.txt'))){
                     $txt_outputpath = $documentroot.'/microread_files/doclibrary/txtfile/'.$currenttime.$ranknum.'.txt';
-                    txt2swf_linux($filepath,$txt_outputpath, $pdf_filepath, $swf_filepath);
+                     txt2swf_linux($filepath,$txt_outputpath, $pdf_filepath, $swf_filepath);
                 }
                 $newdoclibrary->swfurl='/microread_files/doclibrary/swffile/'.$currenttime.$ranknum.'.swf';
                 /**End*/

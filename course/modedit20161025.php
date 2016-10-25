@@ -308,12 +308,7 @@ if ($mform->is_cancelled()) {
     if (!empty($fromform->update)) {
         if($fromform->swfid)
         {
-            /**START CX 20160820增加pdf路径*/
-//            $fromform->swfurl = convert_file_swf($fromform->swfid);
-            $urlarray = convert_file_swf($fromform->swfid);
-            $fromform->swfurl = $urlarray[0];
-            $fromform->pdfurl=$urlarray[1];
-            /**End*/
+            $fromform->swfurl = convert_file_swf($fromform->swfid);
         }
         list($cm, $fromform) = update_moduleinfo($cm, $fromform, $course, $mform);
     } else if (!empty($fromform->add)) {
@@ -321,12 +316,7 @@ if ($mform->is_cancelled()) {
         if($fromform->swfid)
         {
 
-            /**START CX 20160820增加pdf路径*/
-//            $fromform->swfurl = convert_file_swf($fromform->swfid);
-            $urlarray = convert_file_swf($fromform->swfid);
-            $fromform->swfurl = $urlarray[0];
-            $fromform->pdfurl=$urlarray[1];
-            /**End*/
+            $fromform->swfurl = convert_file_swf($fromform->swfid);
 
             $fromform = add_moduleinfo($fromform, $course, $mform);
         }
@@ -382,7 +372,6 @@ if ($mform->is_cancelled()) {
     echo $OUTPUT->footer();
 }
 
-/** START 返回值增加了pdf路径，为app服务 cx 20160820*/
 /** START 转换文件格式 朱子武 20160510*/
 function convert_file_swf($swfid)
 {
@@ -392,25 +381,27 @@ function convert_file_swf($swfid)
     $filename = rand(1000,9999).time().rand(1000,9999);
     $documentroot = $_SERVER['DOCUMENT_ROOT'];   // 文档的服务器绝对路径
     $httproot = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];  // 文档的服务器远程路径
-    if(in_array($file_type, array('doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx','pdf')))
+    if(in_array($file_type, array('doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx')))
     {
         $swf_filepath = $documentroot.'/document_doc_swf/swf/'.$filename.'.swf';
         $pdf_filepath = $documentroot.'/document_doc_swf/pdf/'.$filename.'.pdf';
+//        $swf_filepath = $documentroot.'/document_doc_swf/swf/'.$filename.'.swf';
+//        $pdf_filepath = $documentroot.'/document_doc_swf/pdf/'.$filename.'.pdf';
         if(!word2swf($file_path_my->filepath, $pdf_filepath, $swf_filepath))
         {
-//          转换出错，提示用户
+//                转换出错，提示用户
             print_error('cannotreadfile', 'error', '', $filename.'.'.$houzhui);
         }
     }
-//    elseif(in_array($file_type, array('pdf')))
-//    {
-//        $swf_filepath = $documentroot.'/document_doc_swf/swf/'.$filename.'.swf';
-//        if(!pdf2swf($file_path_my->filepath, $swf_filepath))
-//        {
-////                转换出错，提示用户
-//            print_error('cannotreadfile', 'error', '', $filename.'.'.$houzhui);
-//        }
-//    }
+    elseif(in_array($file_type, array('pdf')))
+    {
+        $swf_filepath = $documentroot.'/document_doc_swf/swf/'.$filename.'.swf';
+        if(!pdf2swf($file_path_my->filepath, $swf_filepath))
+        {
+//                转换出错，提示用户
+            print_error('cannotreadfile', 'error', '', $filename.'.'.$houzhui);
+        }
+    }
     elseif(in_array($file_type, array('txt'))){
         $swf_filepath = $documentroot.'/document_doc_swf/swf/'.$filename.'.swf';
         $pdf_filepath = $documentroot.'/document_doc_swf/pdf/'.$filename.'.pdf';
@@ -422,9 +413,7 @@ function convert_file_swf($swfid)
         }
     }
     $swf_filepath = str_replace($documentroot, $httproot, $swf_filepath);
-    $pdf_filepath = str_replace($documentroot, $httproot, $pdf_filepath);
-    return array($swf_filepath,$pdf_filepath);
-    //return $swf_filepath;
+    return $swf_filepath;
 }
 /** END 转换文件格式 朱子武 20160510*/
 

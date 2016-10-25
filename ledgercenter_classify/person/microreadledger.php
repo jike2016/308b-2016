@@ -3,24 +3,31 @@
 
 require_once("../../config.php");
 $personid = optional_param('personid', 0, PARAM_INT);
-$start_time = optional_param('start_time', 1, PARAM_TEXT);//开始时间
-$end_time = optional_param('end_time', 1, PARAM_TEXT);//结束时间
+$start_time = optional_param('start_time', 0, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 0, PARAM_TEXT);//结束时间
+
+if($start_time==0 || $end_time==0){//如果时间为空
+	$time = handle_time($start_time,$end_time);
+	$start_time = $time['start_time'];
+	$end_time = $time['end_time'];
+}
 
 global $DB;
 $user = $DB -> get_records_sql('select id,lastname,firstname from mdl_user where id='.$personid);
-echo $user[$personid]->lastname.$user[$personid]->firstname;
-echo '</br>微阅统计';
+echo '<div class="table_title_lg">'.$user[$personid]->lastname.$user[$personid]->firstname.'：微阅统计</div>';
 
 //用开始和结束时间段来查询
 $sql="and a.timecreated >= $start_time and  a.timecreated <= $end_time ";
 
 
 /**Start 输出饼状图 */
+echo '<div class="table_title">书库学习比例：</div>';
 $haspiechar = echo_piechar($personid,$sql);
 /**End 输出饼状图 */
 
 /** Start 输出柱状图 */
-$categories_date = "'文库浏览数', '文库上传数', '文库通过审阅数', '书库上传数', '书库通过审阅数', '图库上传数', '图库通过审阅数','评论数','星评数'";
+echo '<div class="table_title">学习事件：</div>';
+$categories_date = "'文库浏览数', '文库上传数', '文库通过审阅数', '书库浏览数', '书库上传数', '书库通过审阅数', '图库上传数', '图库通过审阅数','评论数','星评数'";
 $histogramcounts = echo_histogram($personid,$start_time,$end_time);//按照时间段查询
 /** End 输出柱状图 */
 
@@ -30,7 +37,29 @@ if( ($end_time-$start_time) > 86400 ){//如果查询时间段大于一天，则�
 }
 /** End 输出折线图 */
 
+//////////////////////////////////////////////////////////////////////
 
+
+/**
+ * 查询时间判断
+ * @param $start_time
+ * @param $end_time
+ * @return array
+ */
+function handle_time($start_time,$end_time){
+
+	global $DB;
+	$minTime = $DB->get_record_sql("select MIN(l.timecreated) as mintime from mdl_logstore_standard_log l");
+	if($start_time==0 && $end_time==0){
+		$start_time = $minTime->mintime;
+		$end_time = time();
+	}elseif($start_time!=0){
+		$end_time = time();
+	}elseif($end_time!=0){
+		$start_time = $minTime->mintime;
+	}
+	return array('start_time'=>$start_time,'end_time'=>$end_time);
+}
 
 /**Start 饼状图 根据用户id，时间，查询图书和在所看图书中的比例 */
 function echo_piechar($personid,$sql){
@@ -57,8 +86,7 @@ function echo_piechar($personid,$sql){
 			<!--饼状图 第一个数字是总数-->
 			<div style="width: 100%; margin: 0 auto;">
 				<table id=\'piechart\'>
-					<caption>
-						课程学习比例</caption>
+					<caption></caption>
 					<thead>
 						<tr>
 							<th></th>';
@@ -100,7 +128,17 @@ function echo_histogram($personid,$start_time,$end_time){
 
 	//文库浏览文档数
 	$sql = "and m.timecreated > $start_time and m.timecreated < $end_time";
-	$doc_browseNum_sql="SELECT 1,count(DISTINCT m.contextid) as count FROM mdl_microread_log m WHERE m.action = 'view' $sql AND m.target = 2 AND m.userid = $personid ";
+//	$doc_browseNum_sql="SELECT 1,count(DISTINCT m.contextid) as count FROM mdl_microread_log m WHERE m.action = 'view' $sql AND m.target = 2 AND m.userid = $personid ";
+	$doc_browseNum_sql="SELECT 1,count(1) as count FROM mdl_microread_log m WHERE m.action = 'view' $sql AND m.target = 2 AND m.userid = $personid ";
+	//书库浏览文档数
+	$sql = "and m.timecreated > $start_time and m.timecreated < $end_time";
+//	$book_browseNum_sql="SELECT 1,count(DISTINCT m.contextid) as count FROM mdl_microread_log m WHERE m.action = 'view' $sql AND m.target = 1 AND m.userid = $personid ";
+	$book_browseNum_sql="SELECT 1,count(1) as count FROM mdl_microread_log m WHERE m.action = 'view' $sql AND m.target = 1 AND m.userid = $personid ";
+	//图库浏览文档数
+	$sql = "and m.timecreated > $start_time and m.timecreated < $end_time";
+//	$pic_browseNum_sql="SELECT 1,count(DISTINCT m.contextid) as count FROM mdl_microread_log m WHERE m.action = 'view' $sql AND m.target = 3 AND m.userid = $personid ";
+	$pic_browseNum_sql="SELECT 1,count(1) as count FROM mdl_microread_log m WHERE m.action = 'view' $sql AND m.target = 3 AND m.userid = $personid ";
+
 	//文库上传数、通过审阅数
 	$sql = "and d.timecreated > $start_time and d.timecreated < $end_time";
 	$doc_upload_sql = "SELECT 1,count(1) as count FROM mdl_doc_user_upload_my d WHERE d.upload_userid = $personid $sql";
@@ -141,12 +179,18 @@ function echo_histogram($personid,$start_time,$end_time){
 	//文库通过审查数
 	$doc_passCheck = $DB -> get_records_sql($doc_passCheck_sql);
 	$histogramcounts .= $doc_passCheck[1]->count.', ';
+	//书库浏览数
+	$book_browseNum = $DB -> get_records_sql($book_browseNum_sql);
+	$histogramcounts .= $book_browseNum[1]->count.', ';
 	//书库上传数
 	$ebook_upload = $DB -> get_records_sql($ebook_upload_sql);
 	$histogramcounts .= $ebook_upload[1]->count.', ';
 	//书库通过审查数
 	$ebook_passCheck = $DB -> get_records_sql($ebook_passCheck_sql);
 	$histogramcounts .= $ebook_passCheck[1]->count.', ';
+	//图库浏览数
+//	$pic_browseNum = $DB -> get_records_sql($pic_browseNum_sql);
+//	$histogramcounts .= $pic_browseNum[1]->count.', ';
 	//图库上传数
 	$pic_upload = $DB -> get_records_sql($pic_upload_sql);
 	$histogramcounts .= $pic_upload[1]->count.', ';
@@ -302,7 +346,7 @@ function echo_week_learn($personid,$start_time,$end_time){
 				type: 'bar'
 			},
 			title: {
-				text: '学习事件统计'
+				text: ''
 			},
 			subtitle: {
 				text: ''
@@ -385,7 +429,7 @@ function echo_week_learn($personid,$start_time,$end_time){
 				enabled: false
 			},
 			series: [{ //数据
-				name: '学习课时',
+				name: '学习学时',
 				data: [<?php if(isset($Histogram_data))echo $Histogram_data[1];?>]
 			}]
 		});
@@ -427,15 +471,17 @@ function echo_week_learn($personid,$start_time,$end_time){
 <?php
 /** Start 输出折线图 */
 if($end_time - $start_time > 2678400){
-	echo '<div class="learningsituation-box">
-			<h3>学习情况（月折线图）</h3><h5>单位：课时</h5>
+	echo '</br></br></br><div class="table_title" >学习情况（月）：</div></br></br>
+			<P>单位：学时</P>
+			<div class="learningsituation-box">
 			<!--折线图-->
 			<div id="Histogram2" style="width: 100%; height: 400px; margin: 0 auto"></div>
 			<!--折线图 end-->
 		</div>';
 }elseif($end_time - $start_time > 86400){
-	echo '<div class="learningsituation-box">
-			<h3>学习情况（日折线图）</h3><h5>单位：课时</h5>
+	echo '</br></br></br><div class="table_title" >学习情况（日）：</div></br></br>
+			<P>单位：学时</P>
+			<div class="learningsituation-box">
 			<!--折线图-->
 			<div id="Histogram2" style="width: 100%; height: 400px; margin: 0 auto"></div>
 			<!--折线图 end-->

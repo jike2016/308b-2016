@@ -1,7 +1,6 @@
 html,body {font-family: "微软雅黑"; background-color:#f0f0f0;}
 body {color: #2f332a;font: 15px/21px Arial, Helvetica, simsun, sans-serif;background: #f0f6e4 \9;}
 
-li {list-style: circle;font-size: 12px;}
 li.title {list-style: none;}
 ul.list {margin-left: 17px;}
 
@@ -12,8 +11,7 @@ ul.list {margin-left: 17px;}
 @media only screen and (max-width:1190px) {.main {width:1000px;}} 
 @media only screen and (min-width:1200px ) {.main {width:65%;}}
 .main { margin: auto;margin-top:50px;}
-.main div.left{float: left; width:24%; margin-top:20px;}
-.main div.right{float: right; width:74%; margin-left: 2%; margin-top: 30px; height: 700px;}
+.main .left{float: left; width:24%; margin-top:20px;}
 
 .right .table-box {width: 100%;overflow-y:scroll; height: 630px;border: 1px solid #CCCCCC; background-color: #FFFFFF;padding: 15px;}
 .right .btn-box {width:100%; height: 70px; border-top: 1px solid #F0F0F0;}
@@ -21,7 +19,7 @@ ul.list {margin-left: 17px;}
 
 div.zTreeDemoBackground {width:100%;height:562px;text-align:left;}
 
-ul.ztree {margin-top: 10px; border: 1px solid #CCCCCC;background: #FFFFFF;width:100%;height:700px;overflow-y:scroll;overflow-x:auto;}
+ul.ztree {background: #FFFFFF;width:100%;overflow-x:auto;}
 .main .right table thead tr td{color: #737373;font-weight: 600; background-color: #F0F0F0; text-align: center;}
 .td1, .td3{text-align: center;}
 
@@ -31,10 +29,9 @@ ul.ztree {margin-top: 10px; border: 1px solid #CCCCCC;background: #FFFFFF;width:
 .nullwidth {height: 12px; width: 50px;}
 
 .dropdownlist-box {width: 100%; height: 56px; background-color: #FFFFFF;border: 1px solid #CCCCCC; margin-bottom: 15px;}
-.dropdownlist-box .dropdownlist {float: left;width: 150px;height: 36px;margin: 10px 10px;}
-.dropdownlist-box .dropdownlist li {list-style:none;font-size: 14px; width: 150px;}
+.dropdownlist-box .dropdownlist {float: left;width: 150px;height: 36px;}
+.dropdownlist-box .dropdownlist li {list-style:none;font-size: 14px;}
 .dropdownlist-box .dropdownlist .dropdown-menu {min-width: 150px;}
-.dropdownlist-box .btn-primary{margin-top: 10px; margin-left: 10px;}
 
 
 /******导航条样式*******/

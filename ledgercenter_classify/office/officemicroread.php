@@ -1,6 +1,9 @@
 <script>
 $('.lockpage').hide();
 </script>
+<!--表格排序-->
+<script type="text/javascript" src="js/my/sortTable.js"></script>
+<!--表格排序-->
 
 <?php
 
@@ -8,11 +11,22 @@ $('.lockpage').hide();
 
 require_once("../../config.php");
 $orgid = optional_param('orgid', 0, PARAM_INT);//组织架构id
-$start_time = optional_param('start_time', 1, PARAM_TEXT);//开始时间
-$end_time = optional_param('end_time', 1, PARAM_TEXT);//结束时间
+$start_time = optional_param('start_time', 0, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 0, PARAM_TEXT);//结束时间
+
+if($start_time==0 || $end_time==0){//如果时间为空
+    $time = handle_time($start_time,$end_time);
+    $start_time = $time['start_time'];
+    $end_time = $time['end_time'];
+}
 
 //$remove_role = '14,15';//需要移除的角色，14：单位角色 15：分权管理员角色
 require_once('../comment_data.php');
+
+echo_microread_rank_list($orgid,$start_time,$end_time,$remove_role);
+
+
+exit;//***退出执行以下代码**********************************************************
 
 global $DB;
 
@@ -76,6 +90,173 @@ echo_org_upload($orgName,$rank_upload);//单位上传数排行榜
 echo_org_passCheck($orgName,$rank_passCheck);//单位通过审查排行榜
 
 
+//***********************************************************************************
+
+/**
+ * 查询时间判断
+ * @param $start_time
+ * @param $end_time
+ * @return array
+ */
+function handle_time($start_time,$end_time){
+
+    global $DB;
+    $minTime = $DB->get_record_sql("select MIN(l.timecreated) as mintime from mdl_logstore_standard_log l");
+    if($start_time==0 && $end_time==0){
+        $start_time = $minTime->mintime;
+        $end_time = time();
+    }elseif($start_time!=0){
+        $end_time = time();
+    }elseif($end_time!=0){
+        $start_time = $minTime->mintime;
+    }
+    return array('start_time'=>$start_time,'end_time'=>$end_time);
+}
+
+/**Start 微阅排行榜 xdw */
+function echo_microread_rank_list($orgid,$start_time,$end_time,$remove_role){
+    global $DB;
+    require_once("../lib/my_lib.php");
+    $orgIDStr = get_sub_self_orgid($orgid);//获取当前单位及下级单位id
+    $orgname=$DB -> get_record_sql('select name from mdl_org where id='.$orgid);
+    $browsTime_sql = handle_sql_time('timecreated',$start_time,$end_time);
+    $uploadTime_sql = handle_sql_time('timecreated',$start_time,$end_time);
+    $passCheckTime_sql = handle_sql_time('timecreated',$start_time,$end_time);
+
+    $sql = "select o.id,o.`name`,a.browsecount,b.uploadcount,c.passcheckcount,d.usercount
+            from mdl_org as o
+            LEFT JOIN -- 浏览数
+                (select ol.org_id as orgid,count(1) as browsecount
+                from mdl_microread_log m
+                LEFT JOIN mdl_org_link_user ol on m.userid = ol.user_id
+                where m.action = 'view'
+                and m.target in (1,2,3)
+                and ol.org_id in ( $orgIDStr )
+                $browsTime_sql
+                GROUP BY ol.org_id) as a
+            on o.id = a.orgid
+            LEFT JOIN -- 上传数
+                (select table_new.orgid,sum(table_new.count) as uploadcount
+                 from
+                    (
+                        (select ol.org_id as orgid,count(1) as count from mdl_doc_user_upload_my d
+                                LEFT JOIN mdl_org_link_user ol on d.upload_userid = ol.user_id
+                                WHERE ol.org_id in ( $orgIDStr )
+                                $uploadTime_sql
+                                GROUP BY ol.org_id)
+                        union all
+                        (select ol.org_id as orgid,count(1) as count from mdl_ebook_user_upload_my e
+                                LEFT JOIN mdl_org_link_user ol on e.uploaderid = ol.user_id
+                                WHERE ol.org_id in ( $orgIDStr )
+                                $uploadTime_sql
+                                GROUP BY ol.org_id)
+                        union all
+                        (select ol.org_id as orgid,count(1) as count from mdl_pic_user_upload_my p
+                                LEFT JOIN mdl_org_link_user ol on p.uploaderid = ol.user_id
+                                WHERE ol.org_id in ( $orgIDStr )
+                                $uploadTime_sql
+                                GROUP BY ol.org_id)
+                    ) as table_new
+                    GROUP BY table_new.orgid ) as b
+            on o.id = b.orgid
+            LEFT JOIN -- 上传数
+            (select table_new.orgid,sum(table_new.count) as passcheckcount
+            from (
+                        (select ol.org_id as orgid,count(1) as count from mdl_doc_user_upload_my d
+                                LEFT JOIN mdl_org_link_user ol on d.upload_userid = ol.user_id
+                                WHERE ol.org_id in ( $orgIDStr )
+                                $passCheckTime_sql
+                                and d.admin_check = 1
+                                GROUP BY ol.org_id)
+                        union all
+                        (select ol.org_id as orgid,count(1) as count from mdl_ebook_user_upload_my e
+                                LEFT JOIN mdl_org_link_user ol on e.uploaderid  = ol.user_id
+                                WHERE ol.org_id in ( $orgIDStr )
+                                $passCheckTime_sql
+                                and e.admin_check = 1
+                                GROUP BY ol.org_id)
+                        union all
+                        (select ol.org_id as orgid,count(1) as count from mdl_pic_user_upload_my p
+                                LEFT JOIN mdl_org_link_user ol on p.uploaderid = ol.user_id
+                                WHERE ol.org_id in ( $orgIDStr )
+                                $passCheckTime_sql
+                                and p.admin_check = 1
+                                GROUP BY ol.org_id)
+                    ) as table_new
+                    GROUP BY table_new.orgid) as c
+            on o.id = c.orgid
+            LEFT JOIN -- 单位总人数
+                (select count(1) as usercount,ol.org_id as orgid from mdl_org_link_user ol
+                    where ol.org_id in ( $orgIDStr )
+                    and ol.user_id not in ( select userid from mdl_role_assignments where roleid in ( $remove_role ) )
+					and ol.user_id != 2
+					GROUP BY ol.org_id
+                ) as d
+            on o.id = d.orgid
+            where o.id in ( $orgIDStr )
+            GROUP BY o.id";
+    $users = $DB -> get_records_sql($sql);
+
+    //如果当前单位下有子单位，需要考虑将其二级以下的子单位数据合并到当前所属的二级单位
+    if(count($users) > 1){
+        $users = merge_sub_org_data($orgid,$users);
+    }
+
+    //<!-- 表格的排序用js 实现，注意表格加上 id="tblSort" 属性 -->
+    $output = '
+		<div  class="table_text_center one_table">
+		<div  class="table_title_lg" >'.$orgname->name.'：微阅 单位 排行榜</div>
+		<table class="table table-striped table-bordered" id="tblSort" >
+			<thead>
+				<tr>
+					<td>排名</td>
+					<td>单位</td>
+					<td onclick="sortTable(\'tblSort\',2,\'int\');" style="cursor:pointer">总浏览数</td>
+					<td onclick="sortTable(\'tblSort\',3,\'float\');" style="cursor:pointer">人均浏览数</td>
+					<td onclick="sortTable(\'tblSort\',4,\'int\');" style="cursor:pointer">总上传数</td>
+					<td onclick="sortTable(\'tblSort\',5,\'float\');" style="cursor:pointer">人均上传数</td>
+					<td onclick="sortTable(\'tblSort\',6,\'int\');" style="cursor:pointer">总通过审查数</td>
+					<td onclick="sortTable(\'tblSort\',7,\'float\');" style="cursor:pointer">人均通过审查数</td>
+					<td>总人数</td>
+				</tr>
+			</thead>
+			<tbody>';
+    $n=1;
+    foreach($users as $user){
+        $orgname = ($user->orgname)?$user->orgname:$user->name;
+        $output .=  '
+			<tr>
+				<td>'.$n.'</td>
+				<td>'.$orgname.'</td>
+				<td>'.null_to_zero($user->browsecount).'</td>
+				<td>'.null_to_zero(round($user->browsecount/$user->usercount,1)).'</td>
+				<td>'.null_to_zero($user->uploadcount).'</td>
+				<td>'.null_to_zero(round($user->uploadcount/$user->usercount,1)).'</td>
+				<td>'.null_to_zero($user->passcheckcount).'</td>
+				<td>'.null_to_zero(round($user->passcheckcount/$user->usercount,1)).'</td>
+				<td>'.null_to_zero($user->usercount).'</td>
+			</tr>
+			';
+        $n++;
+    }
+    $output .='
+		</tbody>
+	</table>
+	</div>
+	';
+
+    echo $output;
+}
+/**end 微阅排行榜 xdw */
+
+/**
+ * 将为空（null）的变量转为 0
+ * @param mixed $param 分析的变量
+ * @return mixed|0
+ */
+function null_to_zero($param){
+    return ($param==null)?0:$param;
+}
 
 /**Start 输出单位浏览数排行榜 xdw */
 function echo_org_browseNum($orgName,$rank_browseNum){

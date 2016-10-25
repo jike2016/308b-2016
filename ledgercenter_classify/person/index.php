@@ -16,7 +16,7 @@
 	.ui-timepicker-div td { font-size: 90%; }
 	.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 	.ui_tpicker_hour_label,.ui_tpicker_minute_label,.ui_tpicker_second_label,.ui_tpicker_millisec_label,.ui_tpicker_time_label{padding-left:20px}
-	.dropdownlist-box .dropdownlist1 {  float: left;  width: 210px;  height: 36px;  margin: 13px 10px;  }
+	.dropdownlist-box .dropdownlist1 {  float: left;  width: 210px;  height: 36px;  }
 	.timetitle{float: left; font-size: 14px; margin-top: 5px}
 </style>
 <script type="text/javascript" >
@@ -79,19 +79,26 @@
 	
 	$(".search").on('click', function(){   //搜索按钮动作
 
+		//Start 时间段判断
 		var start_time = $('#start_time').val();//开始时间
 		var end_time = $('#end_time').val();//结束时间
-
-		if(start_time=='' || end_time==''){
-			alert('开始、结束时间不能为空！');
-			return;
+		if(start_time != ''){
+			start_time = get_unix_time(start_time);
+		}else{
+			start_time = 0;
 		}
-		start_time = get_unix_time(start_time);
-		end_time = get_unix_time(end_time);
-		if(start_time >= end_time){
+		if(end_time != ''){
+			end_time = get_unix_time(end_time);
+		}else{
+			end_time = 0;
+		}
+//		console.log(start_time+"--"+end_time);
+		if((start_time!=0 && end_time!=0) && (start_time >= end_time)){
 			alert('结束时间不能小于开始时间！');
+			$('.lockpage').hide();
 			return;
 		}
+		//End 时间段判断
 
 		$('.lockpage').show();
 		// var treenodeactiveid = $(".curSelectedNode").attr("id");  //获取激活的树节点的id	
@@ -122,7 +129,7 @@
 	});
 </script>
 
-
+<div class="dropdownlist-cover">
 <div class="dropdownlist-box">
 	<!--文档_子类型下拉菜单 1-->
 	<div class="dropdownlist">
@@ -156,22 +163,6 @@
 <!--		</div>-->
 <!--	</div>-->
 	<!--文档_子类型下拉菜单 2end-->
-
-	<!--Start 添加时间日期控件 xwd-->
-	<div class="dropdownlist1">
-		<div class="input-group">
-			<div class="timetitle">开始时间：</div>
-			<div style="float: right" ><input type="text" id="start_time" /></div>
-		</div>
-	</div>
-
-	<div class="dropdownlist1">
-		<div class="input-group">
-			<div class="timetitle">结束时间：</div>
-			<div style="float: right" ><input type="text" id="end_time" /></div>
-		</div>
-	</div>
-	<!--End 添加时间日期控件 xwd-->
 
 	<!--start 课程下拉菜单-->
 	<div class="dropdownlist" id="courseTest">
@@ -207,10 +198,26 @@
 		</div>
 	</div>
 	<!--end 课程下拉菜单-->
+	<!--Start 添加时间日期控件 xwd-->
+	<div class="dropdownlist1">
+		<div class="input-group">
+			<div class="timetitle">开始时间：</div>
+			<div style="float: right" ><input type="text" id="start_time" /></div>
+		</div>
+	</div>
+
+	<div class="dropdownlist1">
+		<div class="input-group">
+			<div class="timetitle">结束时间：</div>
+			<div style="float: right" ><input type="text" id="end_time" /></div>
+		</div>
+	</div>
+	<!--End 添加时间日期控件 xwd-->
 
 	<button class="btn btn-primary search">搜索</button>
 </div>
-		
+</div>
+
 <!--<div class="dropdownlist-son-box"></div>-->
 <div class="table-box">
 

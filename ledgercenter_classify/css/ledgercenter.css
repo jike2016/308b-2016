@@ -1,0 +1,106 @@
+* {margin: 0;padding: 0;list-style: none;border: 0;}
+body {font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu !important;font-size: 14px;overflow-y: hidden}
+html,body {height: 100%; width: 100%; box-sizing: content-box;}
+a, a:hover {color: #3E3E3E;text-decoration: none;}
+p {margin: 0px;}
+
+/***导航条***/
+.nav {width: 100%; height: 80px; background-color: #FFFFFF; padding: 0px 20px; box-sizing: border-box;}
+.nav .center {width: 100%; margin: auto;height: 80px;}
+.nav .center .l-box{float: left;}
+.nav .center .l-box img {margin-top: 12px;float: left;}
+.nav .center .r-box{float: right;}
+.nav .center .r-box .search {width: 200px; height: 26px; float: right; border-radius: 0px; margin-top: 20px; box-sizing: content-box !important;}
+.nav .center .r-box .searchbtn {width: 20px; height: 26px; float: right; border-radius: 0px;margin-top: 20px;border-radius: 0px 5px 5px 0px;box-sizing: content-box !important;}
+.nav .center .r-box .btn-group{ float: right; margin-top: 20px;box-sizing: content-box !important;}
+.nav .center .r-box .dropdown-toggle{width: 40px; height: 26px; float: right; border-radius: 5px 0px 0px 5px; border-right: 0px;}
+.nav .center .r-box .dropdown-toggle span {margin-left: 5px;}
+
+.nav .center .r-box .a-box {float: right; width: 100px; height: 40px;padding-top: 30px;}
+.nav .center .r-box .a-box a {font-size: 14px; color: #8C8C8C; margin-left: 20px;float: right;}
+.nav .center .r-box .a-box a:hover {color: #C9302C;}
+
+.nav .navRight {float: left;overflow: hidden; margin-top: 15px;}
+.nav .navRight li {float: left;width: 70px;height: 50px;list-style: none;line-height: 50px;text-align: center;position: relative;margin: 0px 10px;}
+.nav .navRight li a{font-size: 16px;text-decoration: none;color: #000;}
+.nav .navRight .active{border-bottom: 3px solid #00B0F7;}
+.nav .navRight .active a {color: #0066FF;}
+.nav .navRight li:hover {border-bottom: 2px solid #00B0F7;}
+.nav .navRight li:hover a{color: #00B0F7;}
+.nav .navRight li span {width: 5px;height: 5px;border-bottom: 1px solid #000000;border-left: 1px solid #000000;position: absolute;top: 15px;left: 63px;transform: rotate(-45deg);transition: all 1s;}
+/***导航条 @end***/
+
+* { -webkit-box-sizing:inherit;-moz-box-sizing: inherit; box-sizing:inherit;}
+*:before,*:after {-webkit-box-sizing: inherit;-moz-box-sizing: inherit; box-sizing: inherit;}
+.nav ul {margin-bottom: 0px;}
+
+.main {padding: 10px;background-color: #50A0E4; height: 100%; box-sizing: border-box; padding-top: 90px;width: 100%;margin-top: 0px}
+.main .left {width: 20%; float: left;background-color: #FFFFFF; height: 100%; border-radius: 10px;box-sizing: border-box;overflow-y: auto;overflow-x: auto;margin-top: 0px}
+.main .right {height:100%;width: 80%; float: right;padding-left:10px; box-sizing: border-box;padding-top: 60px;position: relative;}
+.main .right .dropdownlist-cover {width: 100%; position: absolute;margin-top: -60px; padding-right: 10px;}
+.main .right .dropdownlist-box {width: 100%; height: 50px;padding:8px 10px; background-color: #FFFFFF; border-radius: 10px;box-sizing: border-box;}
+.main .right .table-box {width: 100%; height:100%; background-color: #FFFFFF; border-radius: 10px; padding-top: 30px;overflow-y: auto;position: relative}
+
+.main .right .dropdownlist-box .dropdownlist {float: left;width: 150px; height: 36px;margin-left: 15px;}
+.main .right .dropdownlist-box .dropdownlist:first-child{margin-left: 0px;}
+.main .right .dropdownlist-box .dropdown-toggle {}
+.main .right .dropdownlist-box .search{float: right;}
+.main .right .dropdownlist-box .dropdown-menu{min-width: auto;width: 150px; overflow: hidden; max-height:200px; overflow-y: auto;}
+.main .right .dropdownlist-box .dropdown-menu > li > a {white-space: nowrap;text-overflow: ellipsis; overflow: hidden;}
+
+
+/*时间选择框*/
+.main .right .dropdownlist-box .dropdownlist1 {  float: left; width: 210px; height: 36px; margin-left: 15px;margin-bottom: 10px;}
+.main .right .dropdownlist-box .dropdownlist1 .input-group{width: 100%;}
+.main .right .dropdownlist-box .dropdownlist1 .timetitle {    float: left; font-size: 14px;margin-top: 8px;}
+.main .right .dropdownlist-box .dropdownlist1 .input-group input{    width: 140px; height: 34px;line-height: 20px;padding: 2px;border: 1px solid #d3d3d3;}
+
+@media only screen and (max-width: 1290px) and (min-width:1090px){
+	.nav .center .r-box .search{width: 100px;}
+	.nav .navRight li {width: 50px;}
+	.nav .center .l-box img {width: 150px;margin-top: 17px;}
+
+	.main .right .dropdownlist-box {height: 100px;}
+	.main .right .dropdownlist-cover { margin-top: -110px;}
+	.main .right {padding-top: 110px;}
+	.main .right .dropdownlist-box .dropdownlist {width: 32%; margin-left: 2%;margin-bottom: 10px;}
+	.main .right .dropdownlist-box .dropdown-menu {width: 330px;}
+}
+@media only screen and (max-width: 1089px) and (min-width:901px){
+	.nav .center .r-box .search{width: 100px;}
+	.nav .navRight li {width: 50px;}
+	.nav .center .l-box img {width: 150px;margin-top: 17px;}
+	.main .right .dropdownlist-box {height: 100px;}
+	.main .right .dropdownlist-cover { margin-top: -110px;}
+	.main .right {padding-top: 110px;}
+	.main .right .dropdownlist-box .dropdownlist {width: 32%; margin-left: 2%;margin-bottom: 10px;}
+	.main .right .dropdownlist-box .dropdown-menu {width: 330px;}
+}
+@media only screen and (max-width: 900px){
+	.nav .center .r-box .search{width: 100px;}
+	.nav .navRight li {width: 50px;}
+	.nav .center .l-box img {width: 150px;margin-top: 17px;}
+	.main{width: 900px;}
+	.nav {width: 900px;}
+	
+	.main .right .dropdownlist-box {height: 100px;}
+	.main .right .dropdownlist-cover { margin-top: -110px;}
+	.main .right {padding-top: 110px;}
+	.main .right .dropdownlist-box .dropdownlist {width: 32%; margin-left: 2%;margin-bottom: 10px;}
+	.main .right .dropdownlist-box .dropdown-menu {width: 330px;}
+}
+
+/*折线图功能键隐藏*/
+.highcharts-button{display: none;}
+/*折线图功能键隐藏 @end*/
+
+/*图表标题样式*/
+.table_title{ float: left; font-size: 18px;color:#51555C;margin-bottom: 10px}
+.table_title_lg {font-size: 28px;color:#000;text-align: center;margin-bottom: 20px}
+.table_text_center {text-align: center}
+.one_table {width: 90%; margin: auto}
+.one_table .table_title_lg {font-size: 25px}
+.table_text_center  .table > thead > tr > td,.table_text_center  .table > tbody > tr > td{text-align: center;vertical-align: middle}
+
+.mission_name_title { font-size: 18px;font-weight: bold;}
+/*图表标题样式 @end*/

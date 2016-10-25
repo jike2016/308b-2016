@@ -39,36 +39,43 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 	var documentlist_fourth_son_id=<?php echo $firstmissionid;?>;
 	//alert("<?php echo $firstmissionname;?>");
 	var orgid=<?php echo $_GET['orgid'];?>;
-	
-	$('#documentlist-first-son li').on('click', function(){   //文档_子类型下拉表单 1 动作
-		documentlist_first_son_id = $(this).val();       //获取文档_子类型下拉菜单 1选择项的id
-	});	
-	$('#documentlist-second-son li').on('click', function(){   //文档_子类型下拉表单 2 动作
-		documentlist_second_son_id = $(this).val();       //获取文档_子类型下拉菜单 2选择项的id
+	var documentlist_course_id = 1;//课程id
+
+	$('#documentlist-first-son li').on('click', function(){   //下拉表单 1 动作 （单位/个人）
+		documentlist_first_son_id = $(this).val();       //获取选项 id
+	});
+	$('#documentlist-second-son li').on('click', function(){   //下拉表单 2 动作 （学习统计/台账任务统计/微阅统计……）
+		documentlist_second_son_id = $(this).val();       //获取选项 id
 		if(documentlist_second_son_id==1){//学习统计
 //			document.getElementById("mytime").style.display="";
 			document.getElementById("mymission").style.display="none";
 			document.getElementById("start_time_content").style.display="";
 			document.getElementById("end_time_content").style.display="";
+			$('#courseTest').css('display','block');//显示课程下拉框
 		}
 		else if(documentlist_second_son_id==2){//台账任务统计
 //			document.getElementById("mytime").style.display="none";
 			document.getElementById("mymission").style.display="";
 			document.getElementById("start_time_content").style.display="none";
 			document.getElementById("end_time_content").style.display="none";
+			$('#courseTest').css('display','none');//隐藏课程下拉框
 		}
 		else if(documentlist_second_son_id==3){//微阅统计
 //			document.getElementById("mytime").style.display="";
 			document.getElementById("mymission").style.display="none";
 			document.getElementById("start_time_content").style.display="";
 			document.getElementById("end_time_content").style.display="";
+			$('#courseTest').css('display','none');//隐藏课程下拉框
 		}
 	});
 	$('#documentlist-third-son li').on('click', function(){   //文档_子类型下拉表单 3动作
 		documentlist_third_son_id = $(this).val();       //获取文档_子类型下拉菜单 3选择项的id
 	});
-	$('#documentlist-fourth-son li').on('click', function(){   //文档_子类型下拉表单 3动作
-		documentlist_fourth_son_id = $(this).val();       //获取文档_子类型下拉菜单 3选择项的id
+	$('#documentlist-fourth-son li').on('click', function(){   //台账任务 下拉表单
+		documentlist_fourth_son_id = $(this).val();       //获取选择项的id
+	});
+	$('#documentlist-course li').on('click', function(){ //课程选项 下拉表单
+		documentlist_course_id = $(this).val();       //获取 课程id
 	});
 
 	//Start 时间字符串转换为时间戳 dateStr = 2016-05-25 12:12:12 xdw
@@ -87,7 +94,7 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 		 // alert(documentlist_fourth_son_id+'f');
 
 		//Start 添加时间段 xdw
-		if(documentlist_second_son_id != 2){
+		/*if(documentlist_second_son_id != 2){
 			var start_time = $('#start_time').val();//开始时间
 			var end_time = $('#end_time').val();//结束时间
 			if(start_time=='' || end_time==''){
@@ -102,6 +109,27 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 				$('.lockpage').hide();
 				return;
 			}
+		}*/
+		if(documentlist_second_son_id != 2){
+			var start_time = $('#start_time').val();//开始时间
+			var end_time = $('#end_time').val();//结束时间
+
+			if(start_time != ''){
+				start_time = get_unix_time(start_time);
+			}else{
+				start_time = 0;
+			}
+			if(end_time != ''){
+				end_time = get_unix_time(end_time);
+			}else{
+				end_time = 0;
+			}
+//			console.log(start_time+"--"+end_time);
+			if((start_time!=0 && end_time!=0) && (start_time >= end_time)){
+				alert('结束时间不能小于开始时间！');
+				$('.lockpage').hide();
+				return;
+			}
 		}
 		//End 添加时间段 xdw
 
@@ -111,7 +139,8 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 		}
 		else if(documentlist_first_son_id==1&&documentlist_second_son_id==1){//单位单位》学习统计
 //			$(".table-box").load('office/officelearn.php?timeid='+documentlist_third_son_id+'&orgid='+orgid);
-			$(".table-box").load('office/officelearn.php?timeid='+documentlist_third_son_id+'&start_time='+start_time+'&end_time='+end_time+'&orgid='+orgid);
+//			$(".table-box").load('office/officelearn.php?timeid='+documentlist_third_son_id+'&start_time='+start_time+'&end_time='+end_time+'&orgid='+orgid);
+			$(".table-box").load('office/officelearn.php?timeid='+documentlist_third_son_id+'&courseid='+documentlist_course_id+'&start_time='+start_time+'&end_time='+end_time+'&orgid='+orgid);
 		}
 		else if(documentlist_first_son_id==1&&documentlist_second_son_id==2){//单位单位》台账任务统计
 			$(".table-box").load('office/officemission.php?missionid='+documentlist_fourth_son_id+'&orgid='+orgid);
@@ -121,7 +150,8 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 		}
 		else if(documentlist_first_son_id==2&&documentlist_second_son_id==1){//单位个人》学习统计
 //			$(".table-box").load('office/personlearn.php?timeid='+documentlist_third_son_id+'&orgid='+orgid);
-			$(".table-box").load('office/personlearn.php?timeid='+documentlist_third_son_id+'&start_time='+start_time+'&end_time='+end_time+'&orgid='+orgid);
+//			$(".table-box").load('office/personlearn.php?timeid='+documentlist_third_son_id+'&start_time='+start_time+'&end_time='+end_time+'&orgid='+orgid);
+			$(".table-box").load('office/personlearn.php?timeid='+documentlist_third_son_id+'&courseid='+documentlist_course_id+'&start_time='+start_time+'&end_time='+end_time+'&orgid='+orgid);
 		}
 		else if(documentlist_first_son_id==2&&documentlist_second_son_id==2){//单位个人》台账任务统计
 			$(".table-box").load('office/personmission.php?missionid='+documentlist_fourth_son_id+'&orgid='+orgid);
@@ -156,7 +186,7 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 	.ui-timepicker-div td { font-size: 90%; }
 	.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 	.ui_tpicker_hour_label,.ui_tpicker_minute_label,.ui_tpicker_second_label,.ui_tpicker_millisec_label,.ui_tpicker_time_label{padding-left:20px}
-	.dropdownlist-box .dropdownlist1 {  float: left;  width: 210px;  height: 36px;  margin: 13px 10px;  }
+	.dropdownlist-box .dropdownlist1 {  float: left;  width: 210px;  height: 36px; }
 	.timetitle{float: left; font-size: 14px; margin-top: 5px}
 </style>
 <script type="text/javascript" >
@@ -179,7 +209,7 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 
 
 
-
+<div class="dropdownlist-cover">
 <div class="dropdownlist-box">
 			<!--文档_子类型下拉菜单 1-->
 	<div class="dropdownlist">
@@ -211,6 +241,34 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 		</div>
 	</div>
 	<!--文档_子类型下拉菜单 2end-->
+	<!--start 课程下拉菜单-->
+	<div class="dropdownlist" id="courseTest">
+		<div class="input-group">
+			<input type="text" class="form-control classkinds" value="全部课程" readOnly="true" style="background-color:#ffffff;">
+			<div class="input-group-btn">
+				<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+				<ul id="documentlist-course" class="dropdown-menu dropdown-menu-right">
+					<li value="1"><a>全部课程</a></li>
+					<?php
+					require_once("../lib/my_lib.php");
+					$orgid = $_GET['orgid'];
+					$courses = get_org_course($orgid);
+					$index = 1;
+					foreach($courses as $course){
+						if(mb_strlen($course->fullname,'UTF-8') > 10){
+							echo '<li id="documentlist-third-son-'.$index.'" value="'.$course->course_id.'"><a class="a_overflow" title="'.$course->fullname.'" >'.mb_substr($course->fullname,0,10,"UTF-8").'...</a></li>';
+						}else{
+							echo '<li id="documentlist-third-son-'.$index.'" value="'.$course->course_id.'"><a >'.$course->fullname.'</a></li>';
+						}
+						$index++;
+					}
+					?>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--end 课程下拉菜单-->
+
 <!--文档_子类型下拉菜单 3-->
 <!--	<div class="dropdownlist" id="mytime">-->
 <!--		<div class="input-group">-->
@@ -255,13 +313,13 @@ $output1 = '<input type="text" class="form-control classkinds" value="'.$firstmi
 	</div>
 </div>
 <!--End 添加时间日期控件 xwd-->
-	
 
 	<button class="btn btn-primary search">搜索</button>
-		</div>
-		
-		<!--<div class="dropdownlist-son-box"></div>-->
-		
-		<div class="table-box">
-			
-		</div>
+</div>
+</div>
+
+<!--<div class="dropdownlist-son-box"></div>-->
+
+<div class="table-box">
+
+</div>

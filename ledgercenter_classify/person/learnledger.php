@@ -3,20 +3,29 @@ require_once("../../config.php");
 //$timeid = optional_param('timeid', 1, PARAM_INT);//1周2月3总
 $courseid = optional_param('courseid', 1, PARAM_INT);//1全部，其他
 $personid = optional_param('personid', 0, PARAM_INT);
-$start_time = optional_param('start_time', 1, PARAM_TEXT);//开始时间
-$end_time = optional_param('end_time', 1, PARAM_TEXT);//结束时间
+$start_time = optional_param('start_time', 0, PARAM_TEXT);//开始时间
+$end_time = optional_param('end_time', 0, PARAM_TEXT);//结束时间
+
+if($start_time==0 || $end_time==0){//如果时间为空
+	$time = handle_time($start_time,$end_time);
+	$start_time = $time['start_time'];
+	$end_time = $time['end_time'];
+}
 
 if($courseid == 1){
-	$categories_date = "'课程笔记', '个人笔记', '评论', '收藏', '勋章', '登录'";
+	$categories_date = "'课程笔记', '个人笔记', '评论', '收藏', '证书', '登录数'";
 }else{
 //	$categories_date = "'课程笔记',  '课程评论'";
-	$categories_date = "'课程笔记',  '评论'";
+	$categories_date = "'课程笔记',  '评论',  '完成课时'";
 }
 
 global $DB;
 $user = $DB -> get_records_sql('select id,lastname,firstname from mdl_user where id='.$personid);
-echo $user[$personid]->lastname.$user[$personid]->firstname;
-echo '</br>学习统计';
+if($courseid==1){
+	echo '<div class="table_title_lg" >'.$user[$personid]->lastname.$user[$personid]->firstname.'：学习统计（全部课程） </div>';
+}else{
+	echo '<div class="table_title_lg" >'.$user[$personid]->lastname.$user[$personid]->firstname.'：学习统计 </div>';
+}
 //$mytime = 0;
 //if($timeid==1){
 //	$mytime= time()-3600*24*7;
@@ -35,6 +44,7 @@ $sql="and a.timecreated >= $start_time and  a.timecreated <= $end_time ";
 //Start 输出饼状图
 //$haspiechar = echo_piechar($personid,$sql);
 if($courseid == 1){//如果是搜索全部课程，则显示饼状图
+	echo '<div class="table_title" >课程学习比例：</div>';
 	$haspiechar = echo_piechar($personid,$sql);
 }else{//单个课程不需要输出饼状图
 	$haspiechar = 0;
@@ -54,12 +64,122 @@ $histogramcounts = echo_histogram3($personid,$start_time,$end_time,$courseid);//
 //	$Histogram_data = echo_week_learn2($personid,$courseid);
 //}
 if( ($end_time-$start_time) > 86400 ){//如果查询时间段大于一天，则显示折线图
-	$Histogram_data = echo_week_learn3($personid,$start_time,$end_time,$courseid);//按照时间段显示
+//	$Histogram_data = echo_week_learn3($personid,$start_time,$end_time,$courseid);//按照时间段显示
+	$Histogram_data = get_time_learn($start_time,$end_time,$personid,$courseid);//按照时间段显示
 }
 //End 输出折线图
 
 
 //////////////////////////////////////////////////////////////////////
+
+
+/**
+ * 查询时间判断
+ * @param $start_time
+ * @param $end_time
+ * @return array
+ */
+function handle_time($start_time,$end_time){
+
+	global $DB;
+	$minTime = $DB->get_record_sql("select MIN(l.timecreated) as mintime from mdl_logstore_standard_log l");
+	if($start_time==0 && $end_time==0){
+		$start_time = $minTime->mintime;
+		$end_time = time();
+	}elseif($start_time!=0){
+		$end_time = time();
+	}elseif($end_time!=0){
+		$start_time = $minTime->mintime;
+	}
+	return array('start_time'=>$start_time,'end_time'=>$end_time);
+}
+
+/**
+ * 获取时间段内的学习情况
+ * @param $start_time
+ * @param $end_time
+ * @return array
+ */
+//只提供
+//日折线：时间段在31天以内
+//月折线：时间段大于31天
+//从结束时间往前开始计算
+function get_time_learn($start_time,$end_time,$userStr,$courseid=1){
+	$day_onlinetime='';//存放每点的数据
+	$day_week = '""';//存放每点的日期
+	$timeslot = $end_time - $start_time;//查询的时间段
+	//时间段长度的划分
+	if($timeslot > 2678400){//如果( 时间段 > 一个月)，用月线显示
+		$endtime = $end_time;//结束时间
+		$starttime = strtotime(date('Y-m', $endtime).'-01'); // 结束时间当月1号的零点
+		$day_week = '"'.date('Y-m', $starttime).'"';//存放每点的日期
+		$day_onlinetime = get_coursecomplete_count($starttime,$endtime,$userStr,$courseid).','.$day_onlinetime;
+		$timeslot = $timeslot - ($endtime - $starttime);//重新计算时间段
+
+		while($timeslot > 0){
+			//计算月时间段长度
+			$monthend = $starttime-1;//下月初 - 1，即为上月末
+			$monthstart = strtotime(date('Y-m', $monthend).'-01');//上月初
+			$monthtimeslot = ($monthend - $monthstart) + 1;//月时间段，注意时间的精确性
+			//更新时间点
+			$endtime = $starttime;
+			if($timeslot > $monthtimeslot){//如果剩余时间大于月时间段
+				$starttime = $endtime-$monthtimeslot;
+			}else{
+				$starttime = $start_time;
+			}
+			//查询时间段内的数据
+			$day_onlinetime = get_coursecomplete_count($starttime,$endtime,$userStr,$courseid).','.$day_onlinetime;
+			$day_week = '"'.date('Y-m', $starttime).'",'.$day_week;
+			$timeslot = $timeslot - $monthtimeslot;//时间段减去月时间段。同时，这里是循环的出口
+		}
+
+	}elseif($timeslot >= 86400){//如果( 一天 < 时间段 < 一个月)，用日线显示
+
+		$endtime = $end_time;//结束时间
+		$starttime = strtotime(date('Y-m-d', $endtime)); // 结束时间当天的零点
+		$day_week = '"'.date('Y-m-d', $starttime).'"';//存放每点的日期
+		$day_onlinetime = get_coursecomplete_count($starttime,$endtime,$userStr,$courseid).','.$day_onlinetime;
+		$timeslot = $timeslot - ($endtime - $starttime);//重新计算时间段
+
+		while($timeslot > 0){
+			//更新时间点
+			$endtime = $starttime;
+			if($timeslot > 86400){//如果剩余时间大于一天
+				$starttime = $endtime-86400;
+			}else{
+				$starttime = $start_time;
+			}
+			//查询时间段内的数据
+			$day_onlinetime = get_coursecomplete_count($starttime,$endtime,$userStr,$courseid).','.$day_onlinetime;
+			$day_week = '"'.date('Y-m-d', $starttime).'",'.$day_week;
+			$timeslot = $timeslot - 86400;//时间段减去一天。同时，这里是循环的出口
+
+		}
+	}
+	return array($day_week,$day_onlinetime);
+
+}
+
+
+//获取用户在该时间段内完成的课时数（章节数）
+function get_coursecomplete_count($starttime,$endtime,$userStr = 0,$courseid = 1){
+	global $DB;
+	if($courseid==1) {//全部课程
+		$sql = "select cmc.userid,count(1) as count from mdl_course_modules_completion cmc
+			where cmc.userid in ($userStr)
+			and cmc.timemodified between $starttime and $endtime ";
+	}else{//单课程
+		$sql = "select cmc.userid,count(1) as count from mdl_course_modules_completion cmc
+			where cmc.userid in ($userStr)
+			and cmc.coursemoduleid in ( select cm.id from mdl_course_modules cm where cm.course = $courseid )
+			and cmc.timemodified between $starttime and $endtime ";
+	}
+	$records = $DB->get_record_sql($sql);
+	return $records->count;
+}
+
+
 //饼状图 根据用户id，时间，查询所有课程和在所有课程操作比例
 function echo_piechar($personid,$sql){
 	
@@ -91,8 +211,7 @@ function echo_piechar($personid,$sql){
 		<!--饼状图 第一个数字是总数-->
 		<div style="width: 100%; margin: 0 auto;">
 			<table id=\'piechart\'>
-				<caption>
-					课程学习比例</caption>
+				<caption></caption>
 				<thead>
 					<tr>
 						<th></th>';
@@ -262,6 +381,10 @@ function echo_histogram3($personid,$start_time,$end_time,$courseid){
 		$commentsql='select 1,count(1)as count from mdl_comment_course_my where commenttime>'.$start_time.' and commenttime < '.$end_time.' and userid='.$personid.' and courseid ='.$courseid;
 		$commentsql2="select 1,count(1)as count from mdl_comment_video_my v where commenttime>$start_time and commenttime< $end_time and userid=$personid and v.modid in (select m.id from mdl_course_modules m where m.course = $courseid)";
 		$commentsql3 = "select 1,count(1)as count from mdl_comment_article_my m where commenttime>$start_time and commenttime< $end_time and m.userid = $personid and m.articleid in (select m.id from mdl_course_modules m where m.course = $courseid )";
+		$completionCount = "select cmc.userid,count(1) as count from mdl_course_modules_completion cmc
+							where cmc.userid in ($personid)
+							and cmc.coursemoduleid in ( select cm.id from mdl_course_modules cm where cm.course = $courseid )
+							and cmc.timemodified between $start_time and $end_time";
 
 		global $DB;
 		$histogramcounts = '';
@@ -277,13 +400,20 @@ function echo_histogram3($personid,$start_time,$end_time,$courseid){
 		$comments = $DB -> get_records_sql($commentsql);//课程评论
 		$comments2 = $DB -> get_records_sql($commentsql2);//视屏评论
 		$comments3 = $DB -> get_records_sql($commentsql3);//文章评论
-		$histogramcounts .=  $comments[1]->count + $comments2[1]->count + $comments3[1]->count .' ';
+		$histogramcounts .=  $comments[1]->count + $comments2[1]->count + $comments3[1]->count .', ';
+
+		//完成课时
+		$completionCount = $DB->get_record_sql($completionCount);
+		$histogramcounts .=  $completionCount->count .'  ';
 
 		return $histogramcounts;
 
 	}else{//全部课程
 		$notesql='select notetype,count(1)as count from mdl_note_my where userid='.$personid.' and time >='.$start_time.' and time <='.$end_time.'  GROUP BY notetype';
-		$commentsql='select 1,count(1)as count from mdl_comment_course_my where commenttime>='.$start_time.' and commenttime<='.$end_time.' and userid='.$personid;
+//		$commentsql='select 1,count(1)as count from mdl_comment_course_my where commenttime>='.$start_time.' and commenttime<='.$end_time.' and userid='.$personid;
+		$commentsql='select 1,count(1)as count from mdl_comment_course_my where commenttime>'.$start_time.' and commenttime < '.$end_time.' and userid='.$personid;
+		$commentsql2="select 1,count(1)as count from mdl_comment_video_my v where commenttime>$start_time and commenttime< $end_time and userid=$personid";
+		$commentsql3 = "select 1,count(1)as count from mdl_comment_article_my m where commenttime>$start_time and commenttime< $end_time and m.userid = $personid";
 		$collectionsql='select 1,count(1)as count from mdl_collection_my where collectiontime>='.$start_time.' and collectiontime<='.$end_time.' and userid='.$personid;
 		$badgesql='select 1,count(1)as count from mdl_badge_issued where dateissued>='.$start_time.' and dateissued<='.$end_time.' and userid='.$personid;
 		$loginsql='select 1,count(1)as count from mdl_logstore_standard_log where timecreated>='.$start_time.' and timecreated<='.$end_time.' and action=\'loggedin\' and userid='.$personid;
@@ -304,7 +434,10 @@ function echo_histogram3($personid,$start_time,$end_time,$courseid){
 
 		//评论
 		$comments = $DB -> get_records_sql($commentsql);//1:课程笔记2：个人笔记
-		$histogramcounts .= $comments[1]->count.', ';
+		$comments2 = $DB -> get_records_sql($commentsql2);//1:课程笔记2：个人笔记
+		$comments3 = $DB -> get_records_sql($commentsql3);//1:课程笔记2：个人笔记
+		$commentscount = $comments[1]->count+$comments2[1]->count+$comments3[1]->count;
+		$histogramcounts .= $commentscount.', ';
 		//收藏
 		$collections = $DB -> get_records_sql($collectionsql);//1:课程笔记2：个人笔记
 		$histogramcounts .= $collections[1]->count.', ';
@@ -577,7 +710,7 @@ function echo_week_learn3($personid,$start_time,$end_time,$courseid){
 				type: 'bar'
 			},
 			title: {
-				text: '学习事件统计'
+				text: ''
 			},
 			subtitle: {
 				text: ''
@@ -692,6 +825,7 @@ function echo_week_learn3($personid,$start_time,$end_time,$courseid){
 
 
 <!--柱状图-->
+<div class="table_title" >学习事件：</div>
 <div id="Histogram" style="width: 100%; height: 400px; margin: 0 auto"></div>
 <!--柱状图 end-->
 
@@ -705,15 +839,17 @@ function echo_week_learn3($personid,$start_time,$end_time,$courseid){
 //		<!--折线图 end-->
 //</div>';
 if($end_time - $start_time > 2678400){
-	echo '<div class="learningsituation-box">
-			<h3>学习情况（月折线图）</h3><h5>单位：课时</h5>
+	echo '</br></br></br><div class="table_title" >学习情况（月）：</div></br></br>
+			<P>单位：课时</P>
+			<div class="learningsituation-box">
 			<!--折线图-->
 			<div id="Histogram2" style="width: 100%; height: 400px; margin: 0 auto"></div>
 			<!--折线图 end-->
 		</div>';
 }elseif($end_time - $start_time > 86400){
-	echo '<div class="learningsituation-box">
-			<h3>学习情况（日折线图）</h3><h5>单位：课时</h5>
+	echo '</br></br></br><div class="table_title" >学习情况（日）：</div></br></br>
+			<P>单位：课时</P>
+			<div class="learningsituation-box">
 			<!--折线图-->
 			<div id="Histogram2" style="width: 100%; height: 400px; margin: 0 auto"></div>
 			<!--折线图 end-->

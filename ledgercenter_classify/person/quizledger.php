@@ -10,7 +10,7 @@ $end_time = optional_param('end_time', 1, PARAM_TEXT);//结束时间
 
 global $DB;
 $user = $DB -> get_records_sql('select id,lastname,firstname from mdl_user where id='.$personid);
-echo '</br><div  align="center" style="margin-left: auto;margin-right: auto;">'.$user[$personid]->lastname.$user[$personid]->firstname.'：考试统计</div>';
+echo '<div class="table_title_lg">'.$user[$personid]->lastname.$user[$personid]->firstname.'：考试统计</div>';
 
 //$mytime = 0;
 //if($timeid==1){
@@ -44,6 +44,7 @@ function echo_quiztabel($personid,$start_time,$end_time){
 	');
 	
 	echo '
+	<div  class="table_text_center one_table ">
 	<table class="table table-striped table-bordered">
 	<thead>
 		<tr>
@@ -78,7 +79,8 @@ function echo_quiztabel($personid,$start_time,$end_time){
 	
 	echo '
 	</tbody>
-</table>';
+</table>
+</div>';
 }
 
 ?>

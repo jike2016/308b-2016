@@ -48,9 +48,11 @@ if (!defined('DOKU_INC')) die();
                         }
                         tpl_toolsevent('usertools', array(
                             tpl_action('admin', true, 'li', true),
-                            tpl_action('profile', true, 'li', true),
-                            tpl_action('register', true, 'li', true),
-                            tpl_action('login', true, 'li', true)
+                            /**Start cx 修改名称显示20160812*/
+//                            tpl_action('profile', true, 'li', true),
+//                            tpl_action('register', true, 'li', true),
+//                            tpl_action('login', true, 'li', true)
+                            /**END*/
                         ));
                     ?>
                 </ul>

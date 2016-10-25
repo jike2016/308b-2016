@@ -56,6 +56,8 @@ function load_autoload($name){
         'UnifiedDiffFormatter'  => DOKU_INC.'inc/DifferenceEngine.php',
         'TableDiffFormatter'    => DOKU_INC.'inc/DifferenceEngine.php',
         'cache'                 => DOKU_INC.'inc/cache.php',
+
+        'cachemy'                 => DOKU_INC.'inc/cache.php',
         'cache_parser'          => DOKU_INC.'inc/cache.php',
         'cache_instructions'    => DOKU_INC.'inc/cache.php',
         'cache_renderer'        => DOKU_INC.'inc/cache.php',

@@ -5,6 +5,7 @@
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Andreas Gohr <andi@splitbrain.org>
  */
+//require_once('../user/my_role_conf.class.php');//引入角色配置
 
 if(!defined('DOKU_INC')) die('meh.');
 
@@ -16,6 +17,7 @@ if(!defined('DOKU_INC')) die('meh.');
  * @triggers ACTION_HEADERS_SEND
  */
 function act_dispatch(){
+
     global $ACT;
     global $ID;
     global $INFO;
@@ -130,6 +132,7 @@ function act_dispatch(){
         if($ACT == 'save'){
             if(checkSecurityToken()){
                 $ACT = act_save($ACT);
+
             }else{
                 $ACT = 'preview';
             }
@@ -178,7 +181,6 @@ function act_dispatch(){
         http_status(403);
     }
     unset($evt);
-
     // when action 'show', the intial not 'show' and POST, do a redirect
     if($ACT == 'show' && $preact != 'show' && strtolower($INPUT->server->str('REQUEST_METHOD')) == 'post'){
         act_redirect($ID,$preact);
@@ -400,8 +402,33 @@ function act_save($act){
     if($DATE != 0 && $INFO['meta']['date']['modified'] > $DATE )
         return 'conflict';
 
-    //save it
-    saveWikiText($ID,con($PRE,$TEXT,$SUF,true),$SUM,$INPUT->bool('minor')); //use pretty mode for con
+    /**START cx 权限判断内容提交修改20160926*/
+//    global $USER;
+//    global $DB;
+//    if($USER->id==2){//判断是否是超级管理员
+//        saveWikiText($ID,con($PRE,$TEXT,$SUF,true),$SUM,$INPUT->bool('minor')); //use pretty mode for con
+//    }
+//    else{
+//        $role_conf = new my_role_conf();
+//        //判断是否是慕课管理员
+//        $result = $DB->record_exists('role_assignments', array('roleid' => $role_conf->get_courseadmin_role(),'userid' => $USER->id));
+//        if($result){
+//            saveWikiText($ID,con($PRE,$TEXT,$SUF,true),$SUM,$INPUT->bool('minor')); //use pretty mode for con
+//        }
+//        else {
+//            //普通用户，审核保存
+//            //save it
+//            saveWikiText_my($ID, con($PRE, $TEXT, $SUF, true), $SUM, $INPUT->bool('minor')); //use pretty mode for con
+//        }
+//    }
+    //用dokuwiki原方式判断权限20161006
+    if(auth_ismanager()){
+        saveWikiText($ID,con($PRE,$TEXT,$SUF,true),$SUM,$INPUT->bool('minor')); //use pretty mode for con
+    }else{
+        saveWikiText_my($ID, con($PRE, $TEXT, $SUF, true), $SUM, $INPUT->bool('minor')); //use pretty mode for con
+    }
+    /**END*/
+
     //unlock it
     unlock($ID);
 
@@ -548,6 +575,14 @@ function act_auth($act){
  * @return string action command
  */
 function act_edit($act){
+
+    /**START CX 如果用户未登录则跳到登录页面 20161006*/
+    global $USER;
+    if($USER->id == 0){
+        redirect(new moodle_url('/login'));
+    }
+    /**END*/
+
     global $ID;
     global $INFO;
 

@@ -7,6 +7,12 @@
  *
  * @global Input $INPUT
  */
+ 
+ /**START cx 20160811引入moodle api*/
+require_once("../config.php");
+
+/**END */
+
 
 // update message version - always use a string to avoid localized floats!
 $updateVersion = "47.1";
@@ -33,19 +39,43 @@ if(isset($_SERVER['HTTP_X_DOKUWIKI_DO'])) {
 // load and initialize the core system
 require_once(DOKU_INC.'inc/init.php');
 
+/**Start cx20160811 验证moodle登录,目前无法保留doku登录状态，只能每刷新一次页面都做一次登录操作，未找到更好解决办法*/
+global $USER;
+//超级管理员和慕课管理员统一用admin账号登录
+require_once('../user/my_role_conf.class.php');//引入角色配置
+
+if($USER->id!=0){
+    //已登录moodle，慕课管理员角色也用admin登录,登录doku,
+    $role_conf = new my_role_conf();
+    //判断是否是慕课管理员
+    $result = $DB->record_exists('role_assignments', array('roleid' => $role_conf->get_courseadmin_role(),'userid' => $USER->id));
+    if($USER->id == 2 || $result){//是超级管理员或者慕课管理员
+        $user='admin';
+        $pass='';
+        $sticky=false;
+        $INPUT->server->set('REMOTE_USER', $user);
+        $secret                 = auth_cookiesalt(!$sticky, true); //bind non-sticky to session
+        auth_setCookie($user, auth_encrypt($pass, $secret), $sticky);
+    }else{//其他用户
+        $user=$USER->username;
+        $pass='';
+        $sticky=false;
+        $INPUT->server->set('REMOTE_USER', $user);
+        $secret                 = auth_cookiesalt(!$sticky, true); //bind non-sticky to session
+        auth_setCookie($user, auth_encrypt($pass, $secret), $sticky);
+    }
+}else{
+    //未登录moodle,退出doku
+    auth_logoff();
+}
+/**End*/
+
 //import variables
 $INPUT->set('id', str_replace("\xC2\xAD", '', $INPUT->str('id'))); //soft-hyphen
 $QUERY          = trim($INPUT->str('id'));
 $ID             = getID();
 
 $REV   = $INPUT->int('rev');
-/** start 显示版本控制  xdw */
-if($ACT == 'show' && $REV == ''){
-//    $REV   = 1467616105;
-    $REV   = 1467617804;
-//    $REV   = 1467707910;
-}
-/** end */
 $DATE_AT = $INPUT->str('at');
 $IDX   = $INPUT->str('idx');
 $DATE  = $INPUT->int('date');
@@ -54,7 +84,7 @@ $HIGH  = $INPUT->param('s');
 if(empty($HIGH)) $HIGH = getGoogleQuery();
 
 if($INPUT->post->has('wikitext')) {
-    $TEXT = cleanText($INPUT->post->str('wikitext'));
+    $TEXT = cleanText($INPUT->post->str('wikitext'));//获取页面文字内容
 }
 $PRE = cleanText(substr($INPUT->post->str('prefix'), 0, -1));
 $SUF = cleanText($INPUT->post->str('suffix'));
@@ -134,3 +164,5 @@ $tmp = array(); // No event data
 trigger_event('DOKUWIKI_DONE', $tmp);
 
 //  xdebug_dump_function_profile(1);
+
+

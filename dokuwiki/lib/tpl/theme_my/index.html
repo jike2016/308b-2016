@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>港城百科</title>
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/wiki.css" rel="stylesheet">
+
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				//页面滚动改变导航条
+				$(function() {
+					var win = $(window); //得到窗口对象
+					var sc = $(document); //得到document文档对象。
+					win.scroll(function() {
+						if(sc.scrollTop() >= 145) {
+							$(".nav-wiki-roll").fadeIn(300);
+							$('.to-top').show();
+						} else {
+							$(".nav-wiki-roll").fadeOut(300);
+							$('.to-top').hide();
+						}
+						$('.functionbtn-box').css('top',sc.scrollTop());
+						
+					})
+				})
+				//页面滚动改变导航条 end
+				
+				//右侧功能键
+				$('.f-btn').mouseover(function(){
+					$(this).children('.tips-box').show();
+				})
+				$('.f-btn').mouseout(function(){
+					$(this).children('.tips-box').hide();
+				})
+				//右侧功能键 end
+			})
+		</script>
+	</head>
+	<body>
+		<!--导航条 滚动后-->
+		<div class="nav-wiki-roll">
+			<div class="center">
+				<img class="logo" src="img/Home_Logo1.png" />				
+				<a class="search-btn"><span class="glyphicon glyphicon-search"></span></a>
+				<input class="form-control" type="text" placeholder="请输入关键字..."/>
+				<a class="edit" href="#"><span class="glyphicon glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
+			</div>
+		</div>
+		<!--导航条 滚动后 end-->
+		
+		<!--导航条 滚动前-->
+		<div id="nav-wiki" class="nav-wiki">
+			<div class="center">
+				<p class="user-box">
+					<!--a class="user" href="#">超级管理员</a-->
+					<a class="manager" href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp;管理</a>
+				</p>
+				<div>
+					<img class="logo" src="img/Home_Logo1.png" />
+					<div class="input-box">
+						<input class="form-control" type="text" placeholder="请输入关键字..." />
+						<a class="search-btn">搜索词条</a>
+						<div class="admin-box">
+							<a href="#">网站地图</a>							
+							<a href="#">媒体管理器</a>
+							<a href="#">最近更改</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="nav-wiki-menu">
+			<div class="center">
+				<a href="#" class="nav-btn">首页</a>
+				<a href="#" class="nav-btn">微课</a>
+				<a href="#" class="nav-btn">微阅</a>
+				<a href="#" class="nav-btn">直播</a>
+				<a href="#" class="nav-btn right"><span class="glyphicon glyphicon-user"></span>&nbsp;个人中心</a>
+			</div>
+		</div>
+		<!--导航条 滚动前end-->
+		
+		<!--背景板-->
+		<div class="bg-banner"></div>
+		<!--背景板 end-->		
+		
+		<div class="main">
+			<div>
+			
+			</div>
+			<!--右侧功能键-->
+			<div class="functionbtn-box">
+				<!--编辑本页-->
+				<a href="#">
+				<div class="f-btn edit">
+					<img src="img/edit.png" />
+					<div class="tips-box">
+						<div class="tips-bg"></div>
+						<div class="tips-txt">编辑本页</div>
+					</div>					
+				</div>
+				</a>
+				
+				<!--修订记录-->
+				<a href="#">
+				<div class="f-btn record">
+					<img src="img/record.png" />
+					<div class="tips-box">
+						<div class="tips-bg"></div>
+						<div class="tips-txt">修订记录</div>
+					</div>
+				</div>
+				</a>
+				
+				<!--页面重命名-->
+				<a href="#">
+				<div class="f-btn rename">
+					<img src="img/rename.png" />
+					<div class="tips-box">
+						<div class="tips-bg"></div>
+						<div class="tips-txt">页面重命名</div>
+					</div>
+				</div>		
+				</a>
+				
+				<!--显示页面-->
+				<a href="#">
+				<div class="f-btn showpage">
+					<img src="img/showpage.png" />
+					<div class="tips-box">
+						<div class="tips-bg"></div>
+						<div class="tips-txt">显示页面</div>
+					</div>
+				</div>
+				</a>
+				
+				<!--创建该页面-->
+				<a href="#">
+				<div class="f-btn buildpage">
+					<img src="img/buildpage.png" />
+					<div class="tips-box">
+						<div class="tips-bg"></div>
+						<div class="tips-txt">创建该页面</div>
+					</div>
+				</div>
+				</a>
+				
+				<!--回到顶部-->
+				<a href="#nav-wiki">
+				<div class="f-btn to-top">
+					<img src="img/totop.png" />
+					<div class="tips-box">
+						<div class="tips-bg"></div>
+						<div class="tips-txt">回到顶部</div>
+					</div>
+				</div>
+				</a>
+			</div>
+			<!--右侧功能键 end-->
+		</div>
+			
+		
+	</body>
+</html>

@@ -204,7 +204,7 @@ function pageinfo() {
             $info['filepath'] = fullpath(wikiFN($ID, $REV));
             $info['exists']   = file_exists($info['filepath']);
         }
-}
+    }
     $info['rev'] = $REV;
     if($info['exists']) {
         $info['writable'] = (is_writable($info['filepath']) &&
@@ -1234,6 +1234,11 @@ function saveWikiText($id, $text, $summary, $minor = false) {
         // remove empty namespaces
         io_sweepNS($id, 'datadir');
         io_sweepNS($id, 'mediadir');
+        /**START cx 删除数据库相关记录 20161008*/
+        global $DB;
+        $DB->delete_records('dokuwiki_word_my', array("word_name" => $id));
+
+        /**END*/
     } else {
         // save file (namespace dir is created in io_writeWikiPage)
         io_writeWikiPage($file, $text, $id);
@@ -1264,6 +1269,228 @@ function saveWikiText($id, $text, $summary, $minor = false) {
     // update the purgefile (timestamp of the last time anything within the wiki was changed)
     io_saveFile($conf['cachedir'].'/purgefile', time());
 
+    // if useheading is enabled, purge the cache of all linking pages
+    if(useHeading('content')) {
+        $pages = ft_backlinks($id, true);
+        foreach($pages as $page) {
+            $cache = new cache_renderer($page, wikiFN($page), 'xhtml');
+            $cache->removeCache();
+        }
+    }
+
+    /**START cx 管理员新建词条，插入数据表dokuwiki_word_my20160928*/
+    if($wasCreated==true){
+        global $DB;
+        global $USER;
+        //插入基本词条表
+        $data=new stdClass();
+        $data->word_name=$id;
+        $data->categoryid=0;//0无分类
+        $data->create_userid=$USER->id;
+        $data->create_time=$newRev;
+        //$data->active=1;//默认激活
+        if(!$DB->record_exists('dokuwiki_word_my',array('word_name'=>$id))){
+            $DB->insert_record('dokuwiki_word_my', $data, true);
+        }
+    }
+    /**END*/
+}
+
+/**
+ * Saves a wikitext by calling io_writeWikiPage.
+ * Also directs changelog and attic updates.
+ *
+ * @author Andreas Gohr <andi@splitbrain.org>
+ * @author Ben Coburn <btcoburn@silicodon.net>
+ *
+ * @param string $id       page id
+ * @param string $text     wikitext being saved
+ * @param string $summary  summary of text update
+ * @param bool   $minor    mark this saved version as minor update
+ */
+function saveWikiText_my($id, $text, $summary, $minor = false) {
+    /* Note to developers:
+       This code is subtle and delicate. Test the behavior of
+       the attic and changelog with dokuwiki and external edits
+       after any changes. External edits change the wiki page
+       directly without using php or dokuwiki.
+     */
+    global $conf;
+    global $lang;
+    global $REV;
+    /* @var Input $INPUT */
+    global $INPUT;
+
+    // ignore if no changes were made
+    if($text == rawWiki($id, '')) {
+        return;
+    }
+    $file        = wikiFN($id);
+    $old         = @filemtime($file); // from page
+    $wasRemoved  = (trim($text) == ''); // check for empty or whitespace only
+    $wasCreated  = !file_exists($file);
+    $wasReverted = ($REV == true);
+    $pagelog     = new PageChangeLog($id, 1024);
+    $newRev      = false;
+    $oldRev      = $pagelog->getRevisions(-1, 1); // from changelog
+    $oldRev      = (int) (empty($oldRev) ? 0 : $oldRev[0]);
+
+    /**START cx 内容提交修改20160815*/
+//    $textForEdit_my = rawWiki($id,$oldRev);//当前版本的内容，供编辑后恢复。
+    $textForEdit_my = rawWiki($id);//当前版本的内容，供编辑后恢复。
+    $textForAdd_my = '词条内容正在审核当中，敬请期待！';//新词条待审核提示内容
+    /**END*/
+
+    if(!file_exists(wikiFN($id, $old)) && file_exists($file) && $old >= $oldRev) {
+        // add old revision to the attic if missing
+        saveOldRevision($id);
+        // add a changelog entry if this edit came from outside dokuwiki
+        if($old > $oldRev) {
+            addLogEntry($old, $id, DOKU_CHANGE_TYPE_EDIT, $lang['external_edit'], '', array('ExternalEdit'=> true));
+            // remove soon to be stale instructions
+            $cache = new cache_instructions($id, $file);
+            $cache->removeCache();
+        }
+    }
+
+    if($wasRemoved) {
+        //普通用户不允许删除词条
+        return;
+//        // Send "update" event with empty data, so plugins can react to page deletion
+//        $data = array(array($file, '', false), getNS($id), noNS($id), false);
+//        trigger_event('IO_WIKIPAGE_WRITE', $data);
+//        // pre-save deleted revision
+//        @touch($file);
+//        clearstatcache();
+//        $newRev = saveOldRevision($id);
+//        // remove empty file
+//        @unlink($file);
+//        // don't remove old meta info as it should be saved, plugins can use IO_WIKIPAGE_WRITE for removing their metadata...
+//        // purge non-persistant meta data
+//        p_purge_metadata($id);
+//        $del = true;
+//        // autoset summary on deletion
+//        if(empty($summary)) $summary = $lang['deleted'];
+//        // remove empty namespaces
+//        io_sweepNS($id, 'datadir');
+//        io_sweepNS($id, 'mediadir');
+    } else {
+        // save file (namespace dir is created in io_writeWikiPage)
+        io_writeWikiPage($file, $text, $id);//保存当前内容到data/pages
+        // pre-save the revision, to keep the attic in sync
+        $newRev = saveOldRevision($id);//把当前版本备份到历史版本（data/pages-》data/attic）
+        $del    = false;
+    }
+
+    // select changelog line type
+    $extra = '';
+    $type  = DOKU_CHANGE_TYPE_EDIT;
+    if($wasReverted) {
+        $type  = DOKU_CHANGE_TYPE_REVERT;
+        $extra = $REV;
+    } else if($wasCreated) {
+        $type = DOKU_CHANGE_TYPE_CREATE;
+    } else if($wasRemoved) {
+        $type = DOKU_CHANGE_TYPE_DELETE;
+    } else if($minor && $conf['useacl'] && $INPUT->server->str('REMOTE_USER')) {
+        $type = DOKU_CHANGE_TYPE_MINOR_EDIT;
+    } //minor edits only for logged in users
+
+    addLogEntry($newRev, $id, $type, $summary, $extra);
+    // send notify mails
+    notifymy($id, 'admin', $old, $summary, $minor);
+    notifymy($id, 'subscribers', $old, $summary, $minor);
+
+    // update the purgefile (timestamp of the last time anything within the wiki was changed)
+    io_saveFile($conf['cachedir'].'/purgefile', time());
+
+    // if useheading is enabled, purge the cache of all linking pages
+    if(useHeading('content')) {
+        $pages = ft_backlinks($id, true);
+        foreach($pages as $page) {
+            $cache = new cache_renderer($page, wikiFN($page), 'xhtml');
+            $cache->removeCache();
+        }
+    }
+
+    /**START cx 内容提交修改20160816*/
+    if($wasCreated==false&&$wasReverted==false){
+        //编辑内容保存后，将上一版本内容重新插入，插入数据库
+        saveWikiText_auto_my($id,false,'editaotorevision',$textForEdit_my);
+        saveWikiText_db_my($id,$newRev,1);
+    }
+    elseif($wasCreated==true){
+        //新建内容保存后，多插入一个待审核版本，插入数据库
+        saveWikiText_auto_my($id,false,'addaotosave',$textForAdd_my);
+        saveWikiText_db_my($id,$newRev,0);
+    }
+    /**END*/
+}
+
+/**
+ * 插入待审核数据表mdl_dokuwiki_review_my和新词条插入基本词条表mdl_dokuwiki_word_my
+ *
+ * @author cx 20160817
+ *
+ * @param string $id       page id
+ * @param bool   $newRev   日期，也是版本号
+ * @param string $type      0：新词条 1：修改词条
+ */
+function saveWikiText_db_my($id,$newRev,$type){
+    global $DB;
+    global $USER;
+    $data=new stdClass();
+    $data->entryid=$id;
+    $data->entryurl='moodle/dokuwiki/doku.php?id='.$id.'&rev='.$newRev;
+    $data->entrytype=$type;
+    $data->entrystate=0;//0：未审核1：已通过2：未通过
+    $data->userid=$USER->id;
+    $data->submittime=$newRev;
+    $DB->insert_record('dokuwiki_review_my', $data, true);
+    if($type==0) {
+        //插入基本词条表
+        $data=new stdClass();
+        $data->word_name=$id;
+        $data->categoryid=0;//0无分类
+        $data->create_userid=$USER->id;
+        $data->create_time=$newRev;
+        //$data->active=0;//默认未激活
+        if(!$DB->record_exists('dokuwiki_word_my',array('word_name'=>$id))){
+            $DB->insert_record('dokuwiki_word_my', $data, true);
+        }
+    }
+}
+/**
+ * 仿照saveWikiText函数，为编辑事件后重新插入上一版本的原来内容；为新建事件插入“待审核”内容
+ * @author cx 20160815
+ *
+ * @param string $id       page id
+ * @param bool   $minor    mark this saved version as minor update
+ * @param string $summary  简介标题
+ * @param string $text     词条内容
+ */
+function saveWikiText_auto_my($id,$minor = false,$summary,$text) {
+    /* Note to developers:
+       This code is subtle and delicate. Test the behavior of
+       the attic and changelog with dokuwiki and external edits
+       after any changes. External edits change the wiki page
+       directly without using php or dokuwiki.
+     */
+    global $conf;
+
+    $file        = wikiFN($id);
+    //等待一秒再插入，防止2次插入的时间点一样，版本一样。
+    sleep(1);
+    // save file (namespace dir is created in io_writeWikiPage)
+    io_writeWikiPage($file, $text, $id);//保存当前内容到data/pages
+    // pre-save the revision, to keep the attic in sync
+    $newRev = saveOldRevision($id);//把当前版本备份到历史版本（data/pages-》data/attic）
+    // select changelog line type
+    $extra = '';
+    $type  = DOKU_CHANGE_TYPE_EDIT;
+    addLogEntry($newRev, $id, $type, $summary, $extra);
+    // update the purgefile (timestamp of the last time anything within the wiki was changed)
+    io_saveFile($conf['cachedir'].'/purgefile', time());
     // if useheading is enabled, purge the cache of all linking pages
     if(useHeading('content')) {
         $pages = ft_backlinks($id, true);
@@ -1305,7 +1532,7 @@ function saveOldRevision($id) {
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function notify($id, $who, $rev = '', $summary = '', $minor = false, $replace = array()) {
+function notifymy($id, $who, $rev = '', $summary = '', $minor = false, $replace = array()) {
     global $conf;
     /* @var Input $INPUT */
     global $INPUT;
@@ -1641,7 +1868,11 @@ function userlink($username = null, $textonly = false) {
         if($textonly){
             $data['name'] = $INFO['userinfo']['name']. ' (' . $INPUT->server->str('REMOTE_USER') . ')';
         }else {
-            $data['name'] = '<bdi>' . hsc($INFO['userinfo']['name']) . '</bdi> (<bdi>' . hsc($INPUT->server->str('REMOTE_USER')) . '</bdi>)';
+            /**Start cx 修改名称显示20160812*/
+//            $data['name'] = '<bdi>' . hsc($INFO['userinfo']['name']) . '</bdi> (<bdi>' . hsc($INPUT->server->str('REMOTE_USER')) . '</bdi>)';
+            global $USER;
+            $data['name'] = '<bdi>' . fullname($USER, true) . '</bdi>';
+            /**END*/
         }
     }
 

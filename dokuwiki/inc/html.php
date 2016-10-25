@@ -473,6 +473,25 @@ function html_locked(){
  * @param bool|string $media_id id of media, or false for current page
  */
 function html_revisions($first=0, $media_id = false){
+    /**START cx moodle权限判断20160812*/
+//    global $USER;
+//    //如果不是超级管理员或慕课管理员，则不显示内容，
+//    if($USER->id!=2){
+//        require_once('../user/my_role_conf.class.php');//引入角色配置
+//        $role_conf = new my_role_conf();
+//        //判断是否是慕课管理员
+//        global $DB;
+//        $result = $DB->record_exists('role_assignments', array('roleid' => $role_conf->get_courseadmin_role(),'userid' => $USER->id));
+//        if(!$result){
+//            return false;
+//        }
+//    }
+    //
+    //用dokuwiki原方式判断权限20161006
+    if(!auth_ismanager()){
+        return false;
+    }
+    /**END*/
     global $ID;
     global $INFO;
     global $conf;
@@ -506,6 +525,7 @@ function html_revisions($first=0, $media_id = false){
     else $date = dformat(@filemtime(mediaFN($id)));
 
     if (!$media_id) print p_locale_xhtml('revisions');
+
 
     $params = array('id' => 'page__revisions', 'class' => 'changes');
     if ($media_id) $params['action'] = media_managerURL(array('image' => $media_id), '&');
@@ -1289,9 +1309,13 @@ function html_diff($text = '', $intro = true, $type = null) {
      */
     $l_nav = '';
     $r_nav = '';
-    if(!$text) {
-        list($l_nav, $r_nav) = html_diff_navigation($pagelog, $type, $l_rev, $r_rev);
-    }
+
+    /**START CX 20161008 不显示部分内容*/
+//    if(!$text) {
+//        list($l_nav, $r_nav) = html_diff_navigation($pagelog, $type, $l_rev, $r_rev);
+//    }
+    /**END*/
+
     /*
      * Create diff object and the formatter
      */
@@ -1310,39 +1334,40 @@ function html_diff($text = '', $intro = true, $type = null) {
     /*
      * Display type and exact reference
      */
-    if(!$text) {
-        ptln('<div class="diffoptions group">');
-
-
-        $form = new Doku_Form(array('action' => wl()));
-        $form->addHidden('id', $ID);
-        $form->addHidden('rev2[0]', $l_rev);
-        $form->addHidden('rev2[1]', $r_rev);
-        $form->addHidden('do', 'diff');
-        $form->addElement(
-             form_makeListboxField(
-                 'difftype',
-                 array(
-                     'sidebyside' => $lang['diff_side'],
-                     'inline' => $lang['diff_inline']
-                 ),
-                 $type,
-                 $lang['diff_type'],
-                 '', '',
-                 array('class' => 'quickselect')
-             )
-        );
-        $form->addElement(form_makeButton('submit', 'diff', 'Go'));
-        $form->printForm();
-
-        ptln('<p>');
-        // link to exactly this view FS#2835
-        echo html_diff_navigationlink($type, 'difflink', $l_rev, $r_rev ? $r_rev : $INFO['currentrev']);
-        ptln('</p>');
-
-        ptln('</div>'); // .diffoptions
-    }
-
+    /**START CX 20161008 不显示部分内容*/
+//    if(!$text) {
+//        ptln('<div class="diffoptions group">');
+//
+//
+//        $form = new Doku_Form(array('action' => wl()));
+//        $form->addHidden('id', $ID);
+//        $form->addHidden('rev2[0]', $l_rev);
+//        $form->addHidden('rev2[1]', $r_rev);
+//        $form->addHidden('do', 'diff');
+//        $form->addElement(
+//             form_makeListboxField(
+//                 'difftype',
+//                 array(
+//                     'sidebyside' => $lang['diff_side'],
+//                     'inline' => $lang['diff_inline']
+//                 ),
+//                 $type,
+//                 $lang['diff_type'],
+//                 '', '',
+//                 array('class' => 'quickselect')
+//             )
+//        );
+//        $form->addElement(form_makeButton('submit', 'diff', 'Go'));
+//        //$form->printForm();
+//
+//        ptln('<p>');
+//        // link to exactly this view FS#2835
+//        echo html_diff_navigationlink($type, 'difflink', $l_rev, $r_rev ? $r_rev : $INFO['currentrev']);
+//        ptln('</p>');
+//
+//        ptln('</div>'); // .diffoptions
+//    }
+    /**END*/
     /*
      * Display diff view table
      */
@@ -1759,6 +1784,14 @@ function html_updateprofile(){
  * @triggers HTML_EDITFORM_OUTPUT
  */
 function html_edit(){
+    /**START cx moodle权限判断20160812*/
+    global $USER;
+    //如果未登录，则不显示内容
+    if($USER->id==0){
+        return false;
+    }
+    /**END*/
+
     global $INPUT;
     global $ID;
     global $REV;

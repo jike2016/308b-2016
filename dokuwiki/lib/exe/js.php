@@ -37,7 +37,7 @@ function js_out(){
     if(!$tpl) $tpl = $conf['template'];
 
     // The generated script depends on some dynamic options
-    $cache = new cache('scripts'.$_SERVER['HTTP_HOST'].$_SERVER['SERVER_PORT'].DOKU_BASE.$tpl,'.js');
+    $cache = new cachemy('scripts'.$_SERVER['HTTP_HOST'].$_SERVER['SERVER_PORT'].DOKU_BASE.$tpl,'.js');
     $cache->_event = 'JS_CACHE_USE';
 
     // load minified version for some files

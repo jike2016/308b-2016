@@ -1,0 +1,14 @@
+.main h2.title {margin-top: 0px; margin-bottom: 20px;border-bottom: 1px dashed #C0C0C0;padding-bottom: 10px;}
+.clear-float {clear: both;}
+.first_classification {width: 100%; margin-bottom: 40px;border-bottom: 1px dashed #C0C0C0;}
+.table > tbody > tr > td {border-top: 0px; text-align: center; vertical-align: middle;}
+.table tbody tr td{	width: 20%;font-size: 16px;border-left: 1px dashed #C0C0C0;}
+.table tbody tr td:first-child {border-left: 0px;}
+.table tbody tr td a:hover {color: #FF6600;}
+.second_classification {width: 100%; margin-bottom: 40px;border-bottom: 1px dashed #C0C0C0;}
+.second_classification .title {font-size: 24px;color: #777777;}
+.second_classification .second_title {font-size: 18px; color: #FF6600;}
+
+/*.first_classification .table tbody tr td a {text-overflow: ellipsis;white-space: nowrap;overflow:hidden;padding: 0px 13px;width: 200px; background-color: #F0F0F0;display: block; height: 50px;margin: auto;line-height: 50px;color: #777777;}
+.first_classification .table tbody tr td a:hover {background-color: #459df5;color: #FFFFFF;}
+.first_classification .table tbody tr td {border-left: 0px;}

@@ -74,7 +74,7 @@ function tpl_basedir($tpl='') {
  * @param bool $prependTOC should the TOC be displayed here?
  * @return bool true if any output
  */
-function tpl_content($prependTOC = true) {//页面内容的输出
+function tpl_content($prependTOC = true) {
     global $ACT;
     global $INFO;
     $INFO['prependTOC'] = $prependTOC;
@@ -636,6 +636,28 @@ function tpl_get_action($type) {
     /** @var Input $INPUT */
     global $INPUT;
 
+    /**START cx 生成按钮加入moodle权限判断20160812*/
+    global $USER;
+    //如果未登录，则不显示所有按钮
+    if($USER->id==0){
+        return false;
+    }elseif(auth_ismanager()){
+        return false;
+    }
+//    elseif($USER->id!=2&&$type=='revisions'){
+//        //如果不是超级管理员或慕课管理员，则不显示修订按钮
+//        require_once('../user/my_role_conf.class.php');//引入角色配置
+//        $role_conf = new my_role_conf();
+//        //判断是否是慕课管理员
+//        global $DB;
+//        $result = $DB->record_exists('role_assignments', array('roleid' => $role_conf->get_courseadmin_role(),'userid' => $USER->id));
+//        if(!$result){
+//            return false;
+//        }
+//    }
+    /**END*/
+
+
     // check disabled actions and fix the badly named ones
     if($type == 'history') $type = 'revisions';
     if ($type == 'subscription') $type = 'subscribe';
@@ -963,7 +985,10 @@ function tpl_userinfo() {
     global $INPUT;
 
     if($INPUT->server->str('REMOTE_USER')) {
-        print $lang['loggedinas'].' '.userlink();
+        /**Start cx 修改名称显示20160812*/
+//        print $lang['loggedinas'].' '.userlink();
+        print userlink();
+        /**END*/
         return true;
     }
     return false;

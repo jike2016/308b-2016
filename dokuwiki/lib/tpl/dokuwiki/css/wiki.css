@@ -1,0 +1,79 @@
+html,body {font-family: "Microsoft YaHei",微软雅黑; background-color: #F3F3F3;font-size: 14px;}
+a:hover,a:focus {text-decoration: none;}
+#dokuwiki__content p {text-indent: 2em}
+
+/*导航条 滚动前*/
+.nav-wiki {width: 100%;background-color: #FFFFFF; box-sizing:border-box; clear: both;}
+.nav-wiki .center {width: 1200px; height: 100px; margin: auto; padding-top: 6px;}
+.nav-wiki .user-box {text-align: right; margin-bottom: 0px; }
+.nav-wiki .user-box .user {text-decoration: none; color: #777;}
+.nav-wiki .user-box .user:hover {color: #0066FF;}
+.nav-wiki .user-box .manager {color: #337ab7;text-decoration: none;margin-left: 30px;}
+.nav-wiki .user-box .manager .glyphicon {top: 2px;color: #ccc;}
+.nav-wiki .user-box .manager:hover {color: #0066FF;}
+.nav-wiki .user-box .manager:hover .glyphicon {color: #0066FF;}
+.nav-wiki .logo {height: 50px;}
+.nav-wiki .input-box {width: 75%; float: right; padding-top: 5px;}
+.nav-wiki .input-box input {width: 40%; float: left; height: 40px;border-radius: 0px;border-radius: 5px 0px 0px 5px;}
+.nav-wiki .input-box .search-btn {background-image: none;cursor: pointer;border-radius: 0px 5px 5px 0px;font-size:16px;display:block;width: 12%; float: left; height: 40px;padding: 9px 26px; background-color: #F0F0F0;border: 1px solid #ccc; border-left: 0px; color: #000;text-decoration: none;}
+.nav-wiki .input-box .search-btn:hover {background-color: #E5E5E5;background-image: none;}
+.admin-box {width: 100%;font-size: 12px;padding-top: 7px;clear: both;}
+.admin-box a {float: right;margin-left: 15px;}
+
+.nav-wiki-menu{width: 100%;height: 45px; background-color: #459df5; line-height: 45px;}
+.nav-wiki-menu .center {width: 1200px; margin: auto;}
+.nav-wiki-menu .menu a {color: #ffffff;font-size: 16px;}
+.nav-wiki-menu .menu a:hover {background-color: #2e80d2}
+.nav-wiki-menu .menu { padding: 0px 0px; list-style: none;position: relative;display: inline-table;}
+.nav-wiki-menu .menu li{float: left; }
+.nav-wiki-menu .menu .type_dropdown_menu{display: none;background-color: rgba(51,140,229,0.7);padding: 0;position: absolute; top: 100%;z-index: 10;list-style: none;}
+.nav-wiki-menu .menu .type:hover .type_dropdown_menu{display: block;}
+
+.nav-wiki-menu .menu li a {display: block; width: 110px;text-align: center;}
+.nav-wiki-menu .menu ul li {float: none;border-bottom: 1px dashed #fff; position: relative; text-align: center;width: 110px;}
+.nav-wiki-menu .menu ul li a {  color: #fff;width: 100%;font-size: 14px;    text-overflow: ellipsis; white-space: nowrap;overflow: hidden;padding: 0px 10px;}   
+.nav-wiki-menu .menu ul li a:hover { background-color: #2a78c5}
+
+/*.nav-wiki-bottom .nav-btn {background-color: #459df5;color: #FFFFFF;text-decoration: none;font-size: 16px; padding:12px 40px;display: block;float: left;}
+.nav-wiki-bottom .nav-btn:hover {background-color: #338ce5;}
+.nav-wiki-bottom .right {float: right; padding:0px 30px;}
+.nav-wiki-bottom .right .glyphicon {top: 2px;}
+导航条 滚动前@end*/
+
+/*导航条 滚动后*/
+.nav-wiki-roll {display:none;width: 100%;height:50px;background: #FFFFFF;border-bottom: 1px solid #CCCCCC;position: fixed;z-index: 10;box-shadow: 2px 2px 2px #888888}
+.nav-wiki-roll .center {width: 1200px; height: 100px;margin: auto; padding-top: 5px;}
+.nav-wiki-roll .logo {height: 40px;}
+.nav-wiki-roll .form-control {margin-top:3px;width: 300px;float: right;height: 35px;border-radius: 5px 0px 0px 5px;}
+.nav-wiki-roll .search-btn{background-image: none;margin-top:3px;cursor: pointer;border-radius: 0px 5px 5px 0px;font-size:16px;display:block;width: 35px; float: right; height: 35px;padding: 7px 10px; background-color: #F0F0F0;border: 1px solid #ccc; border-left: 0px; color: #0088DB;text-decoration: none;float: right;}
+.nav-wiki-roll .search-btn:hover {background-color: #E5E5E5;background-image: none;}
+.nav-wiki-roll .edit {float: right;display: block; margin-top: 10px;margin-right: 20px; color: #777777; text-decoration: none;}
+.nav-wiki-roll .edit:hover {color: #0088FF}
+/*导航条 滚动后@end*/
+
+.functionbtn-box {position: absolute;margin-left: 1200px;margin-top:-1px;z-index: 10; width: 50px; height: 300px;  border-bottom: 0px;top: 0px;}
+.functionbtn-box a {text-decoration: none;}
+.functionbtn-box .f-btn {width: 100%; height: 50px; border-bottom: 1px solid #C0C0C0;cursor: pointer;background-color: #CCCCCC;}
+.functionbtn-box .f-btn:hover {background-color: #4482c1;border-bottom: 1px solid #4482c1}
+
+/*图标按钮背景图片*/
+.functionbtn-box .f-btn img{position: absolute; width: 24px; height: 26px; margin-top: 12px; margin-left: 13px;}
+.functionbtn-box .f-btn.rename img{ width: 24px; height: 26px; margin-top: 12px; margin-left: 14px;}
+.functionbtn-box .f-btn.to-top img{ width: 20px; height: 24px; margin-top: 13px; margin-left:15px;}
+.functionbtn-box .to-top {display: none;}
+/*图标按钮背景图片 @end*/
+
+.functionbtn-box .tips-box {display: none;}
+.functionbtn-box .tips-bg { position: absolute;left: 50px;width: 100px;height: 50px;background-color:#459df5; background-color: rgba(69,157,245,0.7);}
+.functionbtn-box .tips-txt{font-size: 16px;position: relative;z-index: 1;color: #fff;left: 50px;width: 100px; line-height: 50px;text-align: center;}
+
+.bg-banner { position: relative;margin-bottom: -380px;height: 420px; background-image: url(../img/3.jpg);background-position: center top; background-repeat: no-repeat;background-size: 100% 100%;}
+/*.bg-banner:before {width: 100%;height:100px;background: -webkit-linear-gradient(top,rgba(0,0,0,.6),rgba(0,0,0,.575),transparent);}*/
+.main {width: 1200px; margin: auto;background-color: #FFFFFF; min-height: 800px;position: relative;border: solid 1px #E5E5E5;margin-bottom: 50px;padding: 20px;}
+
+.main h1.title {margin-bottom: 20px; margin-top: 0px;}
+.main h1.title .edit_btn {cursor: pointer;padding: 5px 12px;font-size: 12px; border-radius: 3px; border: 1px solid #CCCCCC;color: #777777; margin-left: 15px;}
+.main h1.title .edit_btn .glyphicon {color: #52a3f5}
+.main h1.title .edit_btn:hover {background-color:#52a3f5; color: #FFFFFF;border: 1px solid #52a3f5;}
+.main h1.title .edit_btn:hover .glyphicon{color: #FFFFFF;}	
+

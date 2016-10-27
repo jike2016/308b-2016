@@ -45,6 +45,7 @@ $tree = $org->show_node_tree($root_id);
 	<link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
     <link rel="stylesheet" href="css/bootstrap.css" />
 	<link rel="stylesheet" href="css/treepage.css" type="text/css">
+	<link rel="stylesheet" href="css/org_style.css" type="text/css">
 	
     <link rel="stylesheet" href="../theme/more/style/navstyle.css" /> <!--全局-->
 	<style>
@@ -69,31 +70,46 @@ $tree = $org->show_node_tree($root_id);
 <div class="lockpage">
 	<img src="pix/loading.jpg"/>
 </div>
-<!--导航条-->
-<?php //require_once("../theme/more/layout/includes/header.php"); ?>
-<nav class="navstyle navbar-fixed-top">
-	<div class="nav-main">
-		<img id="logo" src="<?php echo $CFG->wwwroot;?>/theme/more/pix/Home_Logo.png" onMouseOver="this.style.cursor='pointer'" onClick="document.location='<?php echo $CFG->wwwroot;?>';">
-		<ul class="nav-main-li">
-			<a href="<?php echo $CFG->wwwroot;?>">
-				<li class="li-normol">首页</li>
-			</a>
-			<a href="<?php echo $CFG->wwwroot;?>/mod/forum/view.php?id=1">
-				<li class="li-normol">微阅</li>
-			</a>
-			<a href="<?php echo $CFG->wwwroot;?>/course/index.php">
-				<li class="li-normol">微课</li>
-			</a>
-			<a href="<?php echo $CFG->wwwroot;?>/privatecenter/index.php?class=zhibo">
-				<li class="li-normol">直播</li>
-			</a>
-		</ul>
-		<div class="usermenu-box">
+<!--顶部导航条-->
+<div class="nav navbar navbar-fixed-top">
+	<div class="center">
+		<div class="l-box">
+			<img id="logo" src="<?php echo $CFG->wwwroot;?>/theme/more/pix/Home_Logo1.png" onMouseOver="this.style.cursor='pointer'" onClick="document.location='<?php echo $CFG->wwwroot;?>';">
 
+			<ul class="navRight">
+				<li><a href="<?php echo $CFG->wwwroot;?>">首页</a></li>
+				<li class="mod_course"><a href="<?php echo $CFG->wwwroot;?>/course/index.php">微课</a></li>
+				<li class="mod_microread"><a href="<?php echo $CFG->wwwroot;?>/microread/">微阅</a></li>
+				<li class="mod_zhibo"><a href="<?php echo $CFG->wwwroot;?>/privatecenter/index.php?class=zhibo">直播</a></li>
+				<!--			START CX 百科20161019-->
+				<li class="li-normol"><a href="<?php echo $CFG->wwwroot;?>/dokuwiki/">百科</a></li>
+				<!--			END-->
+				<li class="mod_privatecenter"><a href="#"></a></li>
+			</ul>
+		</div>
+		<div class="r-box">
+
+			<button class="btn btn-info searchbtn" id="search_btn" ><span class="glyphicon glyphicon-search"></span></button>
+			<input class="form-control search" id="search_param" placeholder="请输入关键词..." />
+
+			<!--下拉菜单-->
+			<div class="btn-group">
+				<button id="searchtypebtn" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">课程<span class="caret"></span></button>
+				<ul id="searchtype" class="dropdown-menu">
+					<li><a href="#">课程</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a href="#">文档</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a href="#">图片</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a href="#">书籍</a></li>
+				</ul>
+			</div>
+<!--下拉菜单 end-->
 		</div>
 	</div>
-</nav>
-<!--导航条 end-->
+</div>
+<!--顶部导航条 end-->
 
 
 <div class="main">
@@ -102,33 +118,36 @@ $tree = $org->show_node_tree($root_id);
 <!--    padding: 4px 10px;margin-left: 10px"/>-->
 		<ul id="treeDemo" class="ztree"></ul> <!--important 显示文件树的地方-->
 	</div>
-	<div class='right-top'>
-		
-<!--		<button id="check_all" class="btn btn-primary">查看所有人员</button>-->
-			<button id="check_assigned" class="btn btn-primary">查看所有已分配人员</button>
-			<button id="check_not_assigned" class="btn btn-primary">查看未分配人员</button>
-			<div style="float:right">
-			<input type="text" id="search_key" class="search_key" value="搜索名称/账号" onclick="this.value='';focus()"/>
-		<input type="submit" class="submit btn btn-primary" value="搜索">
-		</div>
-	</div>
-	<div class="right">
-		<div class="table-box">
-			<table class="table table-striped table-bordered">
-				<thead><tr><td>选择</td><td>用户名</td><td>名称</td><td>所在单位</td></tr></thead>
-				<tbody id = "log">
-				</tbody>
-			</table>
-		</div>
-		
-		<div class="btn-box">
 
-			<button id="addBtn" class="btn btn-primary">添加</button>
-			<button id="addBtn_confirm" class="btn btn-primary">确认添加</button>
-			<button id="deleteBtn" class="btn btn-primary">删除</button>
+	<div class="right_box">
+		<div class='right-top'>
 
+	<!--		<button id="check_all" class="btn btn-primary">查看所有人员</button>-->
+				<button id="check_assigned" class="btn btn-primary">查看所有已分配人员</button>
+				<button id="check_not_assigned" class="btn btn-primary">查看未分配人员</button>
+				<div style="float:right">
+				<input type="text" id="search_key" class="form-control search_key" value="搜索名称/账号" onclick="this.value='';focus()"/>
+			<input type="submit" class="submit btn btn-primary" value="搜索">
+			</div>
 		</div>
-	</div>	
+		<div class="right">
+			<div class="table-box">
+				<table class="table table-striped table-bordered">
+					<thead><tr><td>选择</td><td>用户名</td><td>名称</td><td>所在单位</td></tr></thead>
+					<tbody id = "log">
+					</tbody>
+				</table>
+			</div>
+
+			<div class="btn-box">
+
+				<button id="addBtn" class="btn btn-primary">添加</button>
+				<button id="addBtn_confirm" class="btn btn-primary">确认添加</button>
+				<button id="deleteBtn" class="btn btn-primary">删除</button>
+
+			</div>
+		</div>
+</div>
 </div>
 
 <!--<!--底部导航条-->

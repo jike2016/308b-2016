@@ -14,16 +14,16 @@ ul.list {margin-left: 17px;}
 .main { margin: auto;margin-top:50px;}
 
 .main div.left{float: left; width:24%; margin-top:30px;height:704px;background-color: #FFFFFF;border: 1px solid #CCCCCC;}
-/*.main div.right{border: 1px solid #CCCCCC;float: right; width:74%; margin-left: 2%; margin-top: 5px;  padding: 10px; height: 650px;background-color: #FFFFFF;}*/
-.main div.right-top{border: 1px solid #CCCCCC;}
+.main div.right{border: 1px solid #CCCCCC;float: right; width:74%; margin-left: 2%; margin-top: 5px;  padding: 10px; height: 650px;background-color: #FFFFFF;}
+.main div.right-top{border: 1px solid #CCCCCC;height:50px;width:74%;background-color: #FFFFFF; float: right;margin-top: 30px;padding: 10px 10px; }
 .right .table-box {width: 100%;overflow-y:scroll; height: 580px;}
-.right-top .btn { padding:4px 10px;  }
-.right .btn-box {    position: absolute;  width: 100%;  height: 60px;  border-top: 1px solid #F0F0F0;  background-color: #fff;  border-radius: 10px;  margin-bottom: 0px; margin-top: 10px;  padding: 0px 10px;}
+.right-top .btn {height:28px; padding:4px 10px;  }
+.right .btn-box {width:100%; height: 70px; border-top: 1px solid #F0F0F0;}
 .right .btn-box button {margin: 12px 0px 0px 0px;}
 
 div.zTreeDemoBackground {width:100%;height:362px;text-align:left;}
 
-ul.ztree {height:100%;margin-top: 10px;background: #FFFFFF;width:100%;overflow-y:scroll;overflow-x:auto; border-top: 1px solid #cccccc}
+ul.ztree {height:655px;margin-top: 10px;background: #FFFFFF;width:100%;overflow-y:scroll;overflow-x:auto; border-top: 1px solid #cccccc}
 .main .right table thead tr td{color: #737373;font-weight: 600; background-color: #F0F0F0; text-align: center;}
 .td1, .td3{text-align: center;}
 

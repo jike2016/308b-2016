@@ -42,7 +42,7 @@ echo_class($page,$CFG);//输出课程列表
 /** START  输出课程列表*/
 function echo_class($page,$CFG){
 
-	$offset = ($page-1)*2;//获取limit的第一个参数的值 offset ，假如第一页则为(1-1)*10=0,第二页为(2-1)*10=10。
+	$offset = ($page-1)*10;//获取limit的第一个参数的值 offset ，假如第一页则为(1-1)*10=0,第二页为(2-1)*10=10。
 
 	global $DB;
 	global $USER;

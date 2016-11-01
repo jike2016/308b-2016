@@ -199,12 +199,53 @@ function echo_single_course($orgid,$start_time,$end_time,$orgname,$remove_role,$
 	$noteTime_sql = handle_sql_time('time',$start_time,$end_time);
 	$commentTime_sql = handle_sql_time('commenttime',$start_time,$end_time);
 	$totalTime_sql =  handle_sql_time('timecreated',$start_time,$end_time);
-	$courseschedule_sql =  handle_sql_time('timemodified',$start_time,$end_time);
-	$courseschedule2_sql =  handle_sql_time('timecompleted',$start_time,$end_time);
+	$courseCriteriaCompletion_sql =  handle_sql_time('timecompleted',$start_time,$end_time);
+	$courseCompletion_sql =  handle_sql_time('timecompleted',$start_time,$end_time);
 	$courseschedulecount_sql =  handle_sql_time('timemodified',$start_time,$end_time);
-//	$totalTime_sql =  '';//课程总学时不应该按时间段来算
-//	$courseschedule_sql =  '';
-//	$courseschedule2_sql =  '';
+
+	$courseCriteria = get_course_module_criteria($courseid,1);//获取课程活动规则
+	$courseSchedule_sqlStr = "";
+	if(!$courseCriteria){//如果没设置任何活动规则
+		$courseSchedule_sqlStr = "left join -- 课程进度
+									(select '课程未设进度跟踪' as courseschedule,temp.user_id as userid
+										from
+										(select ol.user_id from mdl_org_link_user ol where ol.org_id in ( $orgIDStr ) ) as temp
+									) as d
+								on u.id = d.userid";
+	}else{
+		$countCriteria = count($courseCriteria);//规则的数量
+		$courseCriteriaStr = implode(',',$courseCriteria);
+		$aggr = get_course_criteria_aggregration($courseid);//规则的组合方式
+		if($aggr==1){//如果要完成全部
+			$criteria_sqlStr = " select (FORMAT(( a.count/ $countCriteria )*100,0)) as courseschedule,a.userid ";
+		}elseif($aggr==2){//如果只需完成其一
+			$criteria_sqlStr = " select (IF(a.count=0,0,100)) as courseschedule,a.userid ";
+		}
+		//课程进度
+		$courseSchedule_sqlStr = "left join -- 课程进度
+										(select MAX(temp.courseschedule) as courseschedule,temp.userid from
+											(
+												( $criteria_sqlStr
+													from
+													(SELECT c.userid,COUNT(1) as count FROM mdl_course_completion_crit_compl c
+													WHERE c.course = $courseid
+													AND c.criteriaid in ( $courseCriteriaStr )
+													AND c.userid in (select ol.user_id from mdl_org_link_user ol where ol.org_id in ( $orgIDStr ) )
+													$courseCriteriaCompletion_sql
+													GROUP BY c.userid ) as a
+												)
+												UNION ALL -- 已完成（可能是设定人工设为完成）
+												(select 100 as courseschedule,a.userid from mdl_course_completions a
+													where a.course = $courseid
+													and a.userid in (select ol.user_id from mdl_org_link_user ol where ol.org_id in ( $orgIDStr ) )
+													AND a.timecompleted != ''
+													$courseCompletion_sql
+												 )
+											) as temp
+											GROUP BY temp.userid
+										) as d
+									on u.id = d.userid";
+	}
 
 	$sql = "select u.id,u.username,u.firstname,u.lastname,a.notecount,b.commentcount,c.totaltime,d.courseschedule,e.orgname,f.courseschedulecount
 			from mdl_user as u
@@ -245,29 +286,8 @@ function echo_single_course($orgid,$start_time,$end_time,$orgname,$remove_role,$
 				$totalTime_sql
 				GROUP BY l.userid) as c
 			on u.id = c.userid
-			left join -- 课程进度
-				(select MAX(temp.courseschedule) as courseschedule,temp.userid from
-					(	 -- 正常进度统计
-						(select (FORMAT((a.count/b.count)*100,0)) as courseschedule,a.userid
-							from
-							(select  count(*) as count,cmc.userid from mdl_course_modules_completion cmc
-							where cmc.userid in (select ol.user_id from mdl_org_link_user ol where ol.org_id in ( $orgIDStr ) )
-							and cmc.coursemoduleid in (select cm.id from mdl_course_modules cm  where cm.course = $courseid and cm.`completion` in (1,2) )
-							$courseschedule_sql
-							and cmc.completionstate = 1
-							GROUP BY cmc.userid ) as a,
-							(select count(*) as count from mdl_course_modules cm  where cm.course = $courseid and cm.`completion` in (1,2) ) as b
-						)
-						UNION ALL -- 已完成（可能是设定人工设为完成）
-						(select 100 as courseschedule,a.userid from mdl_course_completion_crit_compl a
-							where a.course = $courseid
-							and a.userid in (select ol.user_id from mdl_org_link_user ol where ol.org_id in ( $orgIDStr ) )
-							$courseschedule2_sql
-						 )
-					) as temp
-					GROUP BY temp.userid
-				) as d
-			on u.id = d.userid
+			-- 课程进度
+			$courseSchedule_sqlStr
 			left join -- 所属单位名
 				(select o.`name` as orgname,ol.user_id as userid
 				from mdl_org_link_user ol
@@ -316,13 +336,18 @@ function echo_single_course($orgid,$start_time,$end_time,$orgname,$remove_role,$
 			<tbody>';
 	$n=1;
 	foreach($users as $user){
+		if(is_numeric(null_to_zero($user->courseschedule))){
+			$schedule = null_to_zero($user->courseschedule).'%';
+		}else{
+			$schedule = $user->courseschedule;
+		}
 		$output .=  '
 			<tr>
 				<td>'.$n.'</td>
 				<td>'.$user->lastname.$user->firstname.'</td>
 				<td>'.null_to_zero($user->notecount).'</td>
 				<td>'.null_to_zero($user->commentcount).'</td>
-				<td>'.null_to_zero($user->courseschedule).'%</td>
+				<td>'.$schedule.'</td>
 				<td>'.null_to_zero($user->totaltime).'</td>
 				<td>'.null_to_zero($user->courseschedulecount).'</td>
 				<td>'.$user->orgname.'</td>

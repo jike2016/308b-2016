@@ -3,6 +3,68 @@
  * 辅助文件 xdw
  */
 
+
+/**
+ * 获取课程进度规则中活动组合方式
+ * @param $courseid
+ * @return mixed  返回规则的组合方式 1:全部 2：任一
+ */
+function get_course_criteria_aggregration($courseid){
+    global $DB;
+    $sql = "SELECT c.id,c.method FROM mdl_course_completion_aggr_methd c
+            WHERE c.course = $courseid
+            AND c.criteriatype = 4";
+    $aggrMethod = $DB->get_record_sql($sql);
+    return $aggrMethod->method;
+}
+
+/**
+ * 获取课程的进度规则（课程活动规则）
+ * @param $courseid
+ * @param int $type 需求的返回类型
+ * @return mixed
+ */
+function get_course_module_criteria($courseid,$type=0){
+    global $DB;
+    $sql = "SELECT c.id,c.moduleinstance  FROM mdl_course_completion_criteria c
+			WHERE c.course = $courseid
+			AND c.criteriatype = 4";
+    $coursecriterias = $DB->get_records_sql($sql);
+    $result = array();
+    if($type==0){
+        foreach($coursecriterias as $coursecriteria ){
+            $result[] = $coursecriteria->id;
+        }
+        $result = implode(',',$result);
+    }elseif($type==1){
+        foreach($coursecriterias as $coursecriteria ){
+            $result[] = $coursecriteria->id;
+        }
+    }
+
+    return $result;
+}
+
+
+/**
+ * 获取学生课程完成的课程活动规则
+ * @param $userid
+ * @param $courseid
+ * @param $courseCriteria
+ * @return mixed
+ */
+function get_course_module_criteria_completion($userid,$courseid,$courseCriteria){
+    global $DB;
+    $sql = "SELECT * FROM mdl_course_completion_crit_compl c
+                WHERE c.course = $courseid
+                AND c.userid = $userid
+                AND c.criteria in ( $courseCriteria ) ";
+    $courseMC = $DB->get_record_sql($sql);
+
+    return $courseMC;
+}
+
+
 /**
  * 获取课程的章节模块
  * @param $courseid

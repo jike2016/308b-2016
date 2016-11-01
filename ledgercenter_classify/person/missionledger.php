@@ -131,8 +131,10 @@ function show_complete($missionDetail,$personid){
 	$requiredCoures = $DB->get_records_sql("select c.id,c.fullname from mdl_course c where c.id in ($requiredCouresID)");//必修课程
 	$optionalCoures = $DB->get_records_sql("select c.id,c.fullname from mdl_course c where c.id in ($optionalCouresID)");//选修课程
 
-	$html1 = echo_courseStateTable($requiredCoures,$personid,$missionEndTime);//必修课任务分析
-	$html2 = echo_courseStateTable($optionalCoures,$personid,$missionEndTime);//选修课任务分析
+//	$html1 = echo_courseStateTable($requiredCoures,$personid,$missionEndTime);//必修课任务分析
+	$html1 = echo_courseStateTable2($requiredCoures,$personid,$missionEndTime);//必修课任务分析
+//	$html2 = echo_courseStateTable($optionalCoures,$personid,$missionEndTime);//选修课任务分析
+	$html2 = echo_courseStateTable2($optionalCoures,$personid,$missionEndTime);//选修课任务分析
 	//判断是否满足选修课的最小要求
 	$optionalstate = true;
 	if($html2["flag3"] < $missionDetail->optional_choice_compeltions ){
@@ -171,6 +173,107 @@ function show_complete($missionDetail,$personid){
 
 
 /** START 表格输出
+ *
+ * @param  $courses  课程任务
+ * @param 	$personid  任务人员id
+ * @param 	$missionEndTime 任务截止时间
+ * @return  mixed	$html 数组，包含：$htmltable 表格数据html；$flag 完成状态: 0  待完成，1 完成 ；'flag3' 选修课的完成数量
+ */
+function echo_courseStateTable2($courses,$personid,$missionEndTime){
+
+	$flag = 1;//完成状态的返回值
+
+	$table = new html_table();//定义表格
+	$table->attributes['class'] = 'collection';
+	$table->attributes['class'] = 'table table-striped table-bordered';
+	$table->head = array(
+		'序号',
+		'课程名称',
+		'进度状态',
+		'完成时间'
+	);
+	$table->colclasses = array('no', 'courseName', 'state','completeTime');//定义列的绑定名
+
+	global $DB;
+
+	$no = 1;//序号
+	$flag3 = 0;//统计完成课程的数量
+	foreach($courses as $course){
+
+		$courseName = $course->fullname;
+		$state = '待完成';
+		$completeTime = '——';//完成时间
+		$flag2 = 0;//对每个课程完成状态的标记
+		$completeState = array();
+
+		require_once("../lib/my_lib.php");
+		$courseCriteria = get_course_module_criteria($course->id,1);//获取课程活动规则
+		if(!$courseCriteria){
+			$state = '课程未设进度跟踪！';//完成时间
+		}else{
+			$countCriteria = count($courseCriteria);//规则的数量
+			$courseCriteriaStr = implode(',',$courseCriteria);
+			$aggr = get_course_criteria_aggregration($course->id);//规则的组合方式
+			if($aggr==1){//如果要完成全部
+				$criteria_sqlStr = " select a.userid,(FORMAT(( a.count/ $countCriteria )*100,0)) as courseschedule,a.timecompleted ";
+			}elseif($aggr==2){//如果只需完成其一
+				$criteria_sqlStr = " select a.userid,(IF(a.count=0,0,100)) as courseschedule,a.timecompleted   ";
+			}
+
+			$sql = "select temp.userid,MAX(temp.courseschedule) as courseschedule,MIN(temp.timecompleted) as timecompleted from
+					(	 -- 正常进度统计
+						( $criteria_sqlStr
+							from
+							(SELECT c.userid,COUNT(1) as count,MAX(c.timecompleted) as timecompleted FROM mdl_course_completion_crit_compl c
+								WHERE c.course = $course->id
+								AND c.criteriaid in ( $courseCriteriaStr )
+								AND c.userid in ($personid)
+							) as a
+						)
+						UNION ALL -- 已完成（可能是设定人工设为完成）
+						(	select a.userid ,100 as courseschedule,a.timecompleted from mdl_course_completions a
+							where a.course = $course->id
+							and a.userid in ( $personid )
+							AND a.timecompleted != ''
+						 )
+					) as temp";
+			$completeState = $DB->get_record_sql($sql);
+
+		}
+
+		if($completeState){//如果有记录
+			if($completeState->courseschedule == 100) {//进度为100，即完成
+				$time = $completeState->timecompleted;
+				$completeTime = userdate($time, '%Y-%m-%d %H:%M');
+				$state = '超时完成';
+				if ($time < $missionEndTime) { //如果课程完成时间 < 任务截止时间
+					$state = '完成';
+					$flag2 = 1;//将完成状态赋值1
+					$flag3 = $flag3 + 1;//主要用于选修课完成情况的判断
+				}
+			}else{
+				$state = null_to_zero($completeState->courseschedule).'%';
+			}
+		}
+
+		//将各字段的数据填充到表格相应的位置中
+		$row = array($no,$courseName,$state,$completeTime);//绑定数据
+		$table->data[] = $row;
+
+		$flag = $flag * $flag2;//对所有课程的完成状态的统计，如果有一门课程是0，则表明该子任务没有将所有课程完成
+		$no++;//序号自增
+	}
+
+	$htmltable = html_writer::table($table);//表格数据html
+
+	$html = array('htmltable'=>$htmltable,'flag'=>$flag,'flag3'=>$flag3);
+
+	return $html;//完成状态的返回值
+}
+/** END 表格输出 */
+
+
+/** START 表格输出	（废弃，重新定义课程进度计算规则）
  *
  * @param  $courses  课程任务
  * @param 	$personid  任务人员id
@@ -252,7 +355,7 @@ function echo_courseStateTable($courses,$personid,$missionEndTime){
 
 	return $html;//完成状态的返回值
 }
-/** END 表格输出 */
+/** END 表格输出 （废弃） */
 
 
 /**

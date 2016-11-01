@@ -10,9 +10,9 @@ $('.lockpage').hide();
         $('.detialLink').on('click',function(){
             var userid = $(this).attr('userid');
             var missionid = $(this).attr('missionid');
-            console.log(userid);
-            console.log(missionid);
-//            $('.table-box').load('office/personmissiondetial.php?userid='+userid+'&missionid='+missionid);
+//            console.log(userid);
+//            console.log(missionid);
+////            $('.table-box').load('office/personmissiondetial.php?userid='+userid+'&missionid='+missionid);
 //            var detialHtml = '<div id="showdetial" style="width: 100%;height:100%;background: #fff;position: absolute;top:0;left:0;overflow-y: auto;" ></div>';
 //            $('.table-box').append(detialHtml);
 //            $('#showdetial').load('office/personmissiondetial.php?userid='+userid+'&missionid='+missionid);
@@ -56,8 +56,85 @@ echo_missions($orgid,$missionid,$sumusers,$orgname->name,$remove_role);//任务�
 //*******************************************************************
 
 
+
 /**
- * 获取人员课程完成情况
+ * 获取用户在某课程的进度
+ * @param $UserStr
+ * @param $courseid
+ * @return array {用户id，课程进度，课程是否完成标志 }
+ */
+function get_course_criteria_completion_schedule($UserStr,$courseid){
+    global $DB;
+    $result = array();
+    require_once("../lib/my_lib.php");
+    $courseCriteria = get_course_module_criteria($courseid,1);//获取课程活动规则
+    if(!$courseCriteria){//如果没设置任何活动规则
+        $sql = "select ol.user_id as userid,0 as courseschedule,0 as completionflag
+                                    from mdl_org_link_user ol
+                                    WHERE ol.user_id  in ( $UserStr )";
+    }else {
+        $countCriteria = count($courseCriteria);//规则的数量
+        $courseCriteriaStr = implode(',',$courseCriteria);
+        $aggr = get_course_criteria_aggregration($courseid);//规则的组合方式
+        if($aggr==1){//如果要完成全部
+            $criteria_sqlStr = " select a.userid,(FORMAT((a.count/$countCriteria),2)*100) as courseschedule,IF((FORMAT((a.count/$countCriteria),2)*100)=100,1,0) as completionflag ";
+        }elseif($aggr==2){//如果只需完成其一
+            $criteria_sqlStr = " select a.userid,(IF(a.count=0,0,100)) as courseschedule,IF((IF(a.count=0,0,100)=100),1,0) as completionflag ";
+        }
+        $sql = " select temp.userid,MAX(temp.courseschedule) as courseschedule,MAX(temp.completionflag) as completionflag  from
+                (
+                    (   $criteria_sqlStr
+                            from
+                            (select c.userid,COUNT(1) as count
+                                    from mdl_course_completion_crit_compl c
+                                    where c.course = $courseid
+                                    and c.criteriaid in ($courseCriteriaStr)
+                                    and c.userid in ( $UserStr )
+                                    GROUP BY c.userid ) as a
+                            GROUP BY a.userid
+                    )
+                    UNION ALL -- 已完成（可能是设定人工设为完成）
+                    (select a.userid,100 as courseschedule,1 as completionflag
+                        from mdl_course_completions a
+                        where a.course = $courseid
+                        and a.userid in ( $UserStr )
+                        and a.timecompleted != ''
+                        GROUP BY a.userid
+                     )
+                ) as temp
+                GROUP BY temp.userid";
+    }
+    $result = $DB->get_records_sql($sql);
+
+    return $result;
+}
+
+
+/**
+ * 获取人员任务课程完成情况
+ * @param $UserStr  人员ids
+ * @param $courseidStr  课程ids
+ * @return array {用户id，必修课（或选修课）课程进度之和，完成的课程数}
+ */
+function get_course_completion_data2($UserStr,$courseidStr){
+    $courseids = explode(',',$courseidStr);
+    $result = array();
+    foreach($courseids as $courseid){
+        $schedule = get_course_criteria_completion_schedule($UserStr,$courseid);//获取单课程的进度
+        //合并各课程进度
+        foreach($schedule as $key=>$value){
+            $result[$key]->userid = $value->userid;
+            $result[$key]->sumcourseschedule += $value->courseschedule;
+            $result[$key]->completioncount += $value->completionflag;
+        }
+    }
+
+    return $result;
+}
+
+
+/**
+ * 获取人员课程完成情况 (废弃)
  * @param $UserStr
  * @param $courseidStr
  * @return array
@@ -100,6 +177,7 @@ function get_course_completion_data($UserStr,$courseidStr){
     $result = $DB->get_records_sql($sql);
     return $result;
 }
+/** *end (废弃) */
 
 /**Start 台账任务排行榜 xdw */
 function echo_missions_rank_list($orgid,$orgname,$remove_role,$missionid){
@@ -132,14 +210,16 @@ function echo_missions_rank_list($orgid,$orgname,$remove_role,$missionid){
     $requiredcourses = array();
     if($mission->required_course_num){
         $requirsecourseidStr = $mission->required_course_id;
-        $requiredcourses = get_course_completion_data($UserStr,$requirsecourseidStr);
+//        $requiredcourses = get_course_completion_data($UserStr,$requirsecourseidStr);
+        $requiredcourses = get_course_completion_data2($UserStr,$requirsecourseidStr);
     }
 
     //获取选修课统计数据
     $opletioncourses = array();
     if($mission->optional_course_num){
         $optioncourseidStr = $mission->optional_course_id;
-        $opletioncourses = get_course_completion_data($UserStr,$optioncourseidStr);
+//        $opletioncourses = get_course_completion_data($UserStr,$optioncourseidStr);
+        $opletioncourses = get_course_completion_data2($UserStr,$optioncourseidStr);
     }
 
     //合并统计数据
